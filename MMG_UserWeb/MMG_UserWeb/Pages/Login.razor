@@ -1,0 +1,77 @@
+﻿@page "/login"
+@using MMG_UserWeb.Services
+@inject HttpClient Http
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+@inject AuthenticationStateProvider AuthProvider
+@inject TokenStorageService TokenStorage
+<h3>로그인</h3>
+
+<EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>Email</label>
+        <InputText @bind-Value="loginModel.Email" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Password</label>
+        <InputText @bind-Value="loginModel.Password" type="password" class="form-control" />
+    </div>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+
+    <button type="submit" class="btn btn-primary">로그인</button>
+</EditForm>
+
+@code {
+    private LoginDto loginModel = new();
+    private string errorMessage;
+
+    private async Task HandleLogin()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("https://localhost:7132/api/auth/login", loginModel);
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<TokenResponse>();
+
+                if (result != null)
+                {
+                    var token = result!.Token;
+                    await TokenStorage.SaveTokenAsync(token);
+                    // 상태 알림
+                    var customAuth = (CustomAuthStateProvider)AuthProvider;
+                    Console.WriteLine($"토큰 저장됨: {result.Token}");
+                    customAuth.NotifyUserAuthentication(result.Token);
+
+                    Navigation.NavigateTo("/");
+                }
+            }
+            else
+            {
+                errorMessage = "이메일 또는 비밀번호가 잘못되었습니다.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "로그인 중 오류 발생: " + ex.Message;
+        }
+    }
+
+    public class LoginDto
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+
+    public class TokenResponse
+    {
+        public string Token { get; set; }
+    }
+}

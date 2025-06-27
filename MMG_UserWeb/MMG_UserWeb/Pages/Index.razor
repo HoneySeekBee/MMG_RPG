@@ -1,0 +1,31 @@
+﻿@page "/"
+
+@inject MMG_UserWeb.Services.TokenStorageService TokenService
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+
+<h3>저장된 토큰:</h3>
+<p>@token</p>
+
+@code {
+    private string? token;
+    private bool initialized = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !initialized)
+        {
+            token = await TokenService.GetTokenAsync();
+            Console.WriteLine($"토큰 불러오기 {token}");
+            initialized = true;
+            StateHasChanged(); // 화면 강제 업데이트
+        }
+    }
+}
