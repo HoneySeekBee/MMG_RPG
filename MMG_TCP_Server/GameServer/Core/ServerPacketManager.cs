@@ -28,7 +28,7 @@ namespace GameServer.Core
         #region Register 구현 함수 
         private static void RegisterLogin()
         {
-            _onRecv.Add((ushort)PacketType.LoginRequest, MakePacket<LoginRequest>(PacketHandler.LoginRequestHandler));
+            _onRecv.Add((ushort)PacketType.C_LoginRequest, MakePacket<C_LoginRequest>(PacketHandler.C_LoginRequestHandler));
         }
         private static void RegisterGame()
         {

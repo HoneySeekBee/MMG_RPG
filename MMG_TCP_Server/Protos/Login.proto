@@ -15,3 +15,39 @@ message LoginResponse {
 message C_LeaveGame {
   string userId = 1;
 }
+
+message C_LoginRequest{
+  string userId = 1;
+  string password = 2;
+}
+
+message S_LoginResponse{
+  bool success = 1;
+  string message = 2;
+}
+
+
+message CharacterInfo
+{
+	int32 Id = 1;
+
+	int32 UserId = 2;
+	int32 SlotNumber = 3;
+	
+	string CharacterName = 4;
+	string Class = 5;
+	string AppearanceCode = 6;
+	
+	float CreatedAt = 7;
+	float LastPlayedAt = 8;
+	
+	bool isDeleted = 9;
+
+}
+message C_PlayerCharactersRequest{
+	int32 playerId = 1;
+}
+
+message S_PlayerCharactersResponse{
+	repeated CharacterInfo characterInfoList = 1;
+}

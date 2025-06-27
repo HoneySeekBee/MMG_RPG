@@ -25,7 +25,7 @@ namespace ConsoleClient
         #region Register 함수 
         private static void RegisterLogin()
         {
-            _onRecv.Add((ushort)PacketType.LoginResponse, MakePacket<LoginResponse>(PacketHandler.LoginResponseHandler));
+            _onRecv.Add((ushort)PacketType.S_LoginResponse, MakePacket<LoginResponse>(PacketHandler.LoginResponseHandler));
         }
         private static void RegisterGame()
         {

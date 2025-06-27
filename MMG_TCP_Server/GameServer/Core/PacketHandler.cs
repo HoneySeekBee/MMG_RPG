@@ -22,17 +22,21 @@ namespace GameServer.Core
     }
     public class PacketHandler
     {
-        public static void LoginRequestHandler(ServerSession session, LoginRequest packet)
+        // 로그인 로직 수정 
+        public static void C_LoginRequestHandler(ServerSession session, C_LoginRequest packet)
         {
+            // [1] 클라에서 로그인 요청이 왔습니다. 
+
+            // 이것도 암호처리를 해서 확인해야할듯 싶습니다. 
             Console.WriteLine($"[Login] {packet.UserId} / {packet.Password}");
 
-            var response = new LoginResponse();
-            // 1. 세션 내에서 중복 로그인 여부 확인 
+            // 서버는 클라가 보낸 로그인 정보를 체크합니다. 
+            var response = new S_LoginResponse();
             if (session.IsLoggedIn)
             {
                 response.Success = false;
-                response.Message = "이미 로그인된 세션입니다.";
-                session.Send(PacketType.LoginResponse, response);
+                response.Message = "이미 로그인 된 세션입니다. ";
+                session.Send(PacketType.S_LoginResponse, response);
                 return;
             }
 
@@ -41,7 +45,7 @@ namespace GameServer.Core
                 ServerPacketUtils.SendError(session, ErrorCode.AlreadyLoggedIn, $"{packet.UserId}는 이미 로그인된 유저입니다.");
                 return;
             }
-            // 제대로 아이디와 비밀번호를 입력했는지 확인해야해.
+
             (bool success, User thisUser) = EFUserDB.TryLogin(packet.UserId, packet.Password);
 
             response.Success = success;
@@ -59,12 +63,14 @@ namespace GameServer.Core
                 SessionManager.SetUserLoggedIn(packet.UserId, session);
             }
             // 전송 로직은 PacketUtils 등에서 만들어주면 좋음
-            session.Send(PacketType.LoginResponse, response);
+            session.Send(PacketType.S_LoginResponse, response);
         }
+
+      
         public static void WelcomeHandler(ServerSession session, LoginRequest req)
         {
             LoginResponse res = new LoginResponse() { Message = $"Welcome {req.UserId}" };
-            session.Send(PacketType.LoginResponse, res);
+            session.Send(PacketType.S_LoginResponse, res);
         }
         public static void C_LeaveGameHandler(ServerSession session, C_LeaveGame packet)
         {

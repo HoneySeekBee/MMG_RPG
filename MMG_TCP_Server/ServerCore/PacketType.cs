@@ -16,8 +16,8 @@ namespace ServerCore
     // 9000 ~ 9999 : 테스트용/디버그
     public enum PacketType : ushort
     {
-        LoginRequest = 1,
-        LoginResponse = 2,
+        C_LoginRequest = 1,
+        S_LoginResponse = 2,
 
         // 게임 관련
         C_EnterGame = 201,
@@ -54,5 +54,11 @@ namespace ServerCore
         AlreadyInRoom = 2002,
         Unknown = 9999,
     }
-
+    public enum ClassType
+    {
+        Warrior = 101,
+        Archer = 201,
+        Wizard = 301,
+        Preist = 401,
+    }
 }

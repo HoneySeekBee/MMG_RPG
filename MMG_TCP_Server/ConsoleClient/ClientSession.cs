@@ -26,7 +26,7 @@ namespace ConsoleClient
                 UserId = "a@email.com",
                 Password = "1234"
             };
-            Send(PacketType.LoginRequest, loginReq);
+            Send(PacketType.C_LoginRequest, loginReq);
 
         }
 

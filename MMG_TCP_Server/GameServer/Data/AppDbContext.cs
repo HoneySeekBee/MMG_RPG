@@ -13,6 +13,7 @@ namespace GameServer.Data
         public DbSet<User> User { get; set; }
         public DbSet<PlacedObjectDTO> PlacedObjects { get; set; }
         public DbSet<PlantedCropDto> PlantedCrop { get; set; }
+        public DbSet<CharacterDto> Characters { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // 실제 연결 문자열로 교체해줘
@@ -32,6 +33,9 @@ namespace GameServer.Data
                 .ToTable("PlantedCrop")
                 .HasKey(p => p.Id);
 
+            modelBuilder.Entity<CharacterDto>()
+                .ToTable("Character")
+                .HasKey(p => p.Id);
         }
     }
 }
