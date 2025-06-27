@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package Packet;
+
+// 클라 → 서버
+message C_Ping {
+    string message = 1;
+}
+
+// 서버 → 클라
+message S_Pong {
+    string message = 1;
+}

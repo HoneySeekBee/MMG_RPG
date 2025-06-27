@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package Packet;
+
+message S_Error {
+  int32 errorCode = 1;       // 예: 1001, 2002 등
+  string errorMessage = 2;   // 클라 출력용 메시지 (옵션)
+}
