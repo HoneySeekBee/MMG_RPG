@@ -1,0 +1,54 @@
+# --------------------------
+# Unity 관련 무시 항목
+# --------------------------
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+Assets/AssetStoreTools*
+Logs/
+UserSettings/
+MemoryCaptures/
+
+# Unity crash logs
+sysinfo.txt
+
+# Rider / VS / VSCode
+.idea/
+.vscode/
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.db
+*.opendb
+
+# Visual Studio Code settings
+.vscode/
+
+# Mac 관련
+.DS_Store
+
+# --------------------------
+# .NET & Blazor 관련 무시 항목
+# --------------------------
+bin/
+obj/
+*.db-shm
+*.db-wal
+*.db-journal
+
+# --------------------------
+# 기타 환경파일
+# --------------------------
+.env
+*.log
+*.lock.json
+*.pdb
+*.suo
+*.vs/
