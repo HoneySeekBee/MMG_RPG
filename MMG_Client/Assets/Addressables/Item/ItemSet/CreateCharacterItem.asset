@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a458cc6b51d7df48bcf59f5c9cd898f, type: 3}
+  m_Name: CreateCharacterItem
+  m_EditorClassIdentifier: 
+  Description: When user make new Character
+  defaultItems:
+  - {fileID: 11400000, guid: bbd86424010f83343ba15a7d9cd4c35f, type: 2}
+  - {fileID: 11400000, guid: 628d7d58f9d4ebb4d896aa5540fcdec8, type: 2}
+  - {fileID: 11400000, guid: 1a83660baccee1f439c5e085446afa86, type: 2}
+  - {fileID: 11400000, guid: bc6113d91acb61d4d90646b2665c4bf5, type: 2}
+  - {fileID: 11400000, guid: 8c23a42bc71d9444faecdf11f02a842a, type: 2}
+  - {fileID: 11400000, guid: 8f63526e468024c4791555f75ed928e5, type: 2}
+  - {fileID: 11400000, guid: 045a7bde33be4b846bec6ba5224191b8, type: 2}
+  - {fileID: 11400000, guid: a41ef0367274b6f4f93208d01711f8da, type: 2}
+  - {fileID: 11400000, guid: 67492acb8d7fa834198472505238b8d4, type: 2}
+  - {fileID: 11400000, guid: 983d0066016ac6b4f8384ea25e8c3313, type: 2}
+  - {fileID: 11400000, guid: aed0335af95b5e8419925afecbd07048, type: 2}
+  - {fileID: 11400000, guid: a3bb24756c1f5114790417d34ae7a4af, type: 2}
+  - {fileID: 11400000, guid: 9f2a0c9d1b2c50c4fbc703141d546eb5, type: 2}
+  - {fileID: 11400000, guid: bafbf7407fba6a04bb3d20ca3690349d, type: 2}

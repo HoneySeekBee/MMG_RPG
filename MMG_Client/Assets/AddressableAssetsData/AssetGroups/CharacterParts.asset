@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: CharacterParts
+  m_EditorClassIdentifier: 
+  m_GroupName: CharacterParts
+  m_Data:
+    m_SerializedData: []
+  m_GUID: ae4821215b32a3c47bb2c2c40f13fd1c
+  m_SerializeEntries:
+  - m_GUID: 045a7bde33be4b846bec6ba5224191b8
+    m_Address: Item_Shirts_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1a83660baccee1f439c5e085446afa86
+    m_Address: Item_Hair_Girl_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 628d7d58f9d4ebb4d896aa5540fcdec8
+    m_Address: Item_Face_Man_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 67492acb8d7fa834198472505238b8d4
+    m_Address: Item_Skin_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8c23a42bc71d9444faecdf11f02a842a
+    m_Address: Item_Pants_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8f63526e468024c4791555f75ed928e5
+    m_Address: Item_Pants_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 983d0066016ac6b4f8384ea25e8c3313
+    m_Address: Item_Skin_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f2a0c9d1b2c50c4fbc703141d546eb5
+    m_Address: Item_Face_Man_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3bb24756c1f5114790417d34ae7a4af
+    m_Address: Item_Hair_Girl_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a41ef0367274b6f4f93208d01711f8da
+    m_Address: Item_Shirts_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aed0335af95b5e8419925afecbd07048
+    m_Address: Item_Face_Gril_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bafbf7407fba6a04bb3d20ca3690349d
+    m_Address: Item_Hair_Man_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbd86424010f83343ba15a7d9cd4c35f
+    m_Address: Item_Face_Gril_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc6113d91acb61d4d90646b2665c4bf5
+    m_Address: Item_Hair_Man_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: b620f8e0e7e18264cb3f50a213998667, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: de615bf63ec855e42ac9936947a0baac, type: 2}
+    - {fileID: 11400000, guid: 34734c87b1881604eb55d5f3448d8de7, type: 2}
