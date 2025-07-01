@@ -5,24 +5,41 @@ using UnityEngine;
 
 public class PacketHandler : MonoBehaviour
 {
-    public static void S_LoginCheckResponseHandler(ClientSession session, S_LoginCheckResponse response)
+    public static void S_LoginTokenHandler(ClientSession session, S_LoginToken response)
     {
-        if (response.IsValid) // 유효한 토큰인지 체크 
+        if(response.Result == true)
         {
-            GameManager.Instance.SetUser(response.UserId, response.Email, response.Nickname);
+            Debug.Log("캐릭터 정보 보내기 ");
+
+            // 서버에 선택된 캐릭터 정보 알려주기
+            C_SelectedCharacter selectedCharacter = new C_SelectedCharacter()
+            {
+                CharacterInfo = GameManager.Instance.GetCharacterInfo()
+            };
+            NetworkManager.Instance.Send_CharacterInfo(selectedCharacter);
         }
         else
         {
-            // 로그인 실패 
-
-            // 1. 저장된 토큰 제거 (만료/무효 → 다시 로그인 필요)
-            GameManager.Instance.Logout();
-            Debug.LogWarning($"[로그인 실패] 이유: {response.Reason}");
+            Debug.LogError("[S_LoginTokenHandler] 토큰이 제대로 수신되지 않았습니다. ");
         }
-
-        // 이벤트 발생하게 하기
-        GameManager.Instance.OnLoginCheckComplete?.Invoke(response);
-
-        // SceneLoader.Instance.LoadScene("LoginScene"); // 로그인 씬으로 이동하기 
     }
+    public static void S_SelectedCharacterHandler(ClientSession session, S_SelectedCharacter response)
+    {
+        if(response.Result == true)
+        {
+            Debug.Log("게임에 입장하기  ");
+
+            // [3] 게임씬으로 이동하기 
+            MainThreadDispatcher.RunOnMainThread(() =>
+            {
+                Debug.Log("OnMainThread");
+                MapManager.Instance.EnterGameScene(GameManager.Instance.MapNumber);
+            });
+        }
+        else
+        {
+            Debug.LogError("[S_SelectedCharacterHandler] 토큰이 제대로 수신되지 않았습니다. ");
+        }
+    }
+
 }

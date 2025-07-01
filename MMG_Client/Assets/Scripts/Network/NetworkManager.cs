@@ -23,16 +23,16 @@ public class NetworkManager : MonoBehaviour
     {
         _session = mySession;
     }
-    public void Send_LoginCheck(C_LoginCheck packet)
+    public void Send_Login(C_LoginToken packet)
     {
-        _session.Send(ServerCore.PacketType.C_LoginCheck, packet);
+        _session.Send(ServerCore.PacketType.C_LoginToken, packet);
     }
-    public void Send_Login(C_LoginRequest packet)
+    public void Send_CharacterInfo(C_SelectedCharacter packet)
     {
-        _session.Send(ServerCore.PacketType.C_LoginRequest, packet);
+        _session.Send(ServerCore.PacketType.C_SelectCharacter, packet);
     }
-    public void Send_CharacterList(C_PlayerCharactersRequest packet)
+    public void Send_Move(C_Move packet)
     {
-        _session.Send(ServerCore.PacketType.C_UserCharacterListRequest, packet);
+        _session.Send(ServerCore.PacketType.C_Move, packet);
     }
 }

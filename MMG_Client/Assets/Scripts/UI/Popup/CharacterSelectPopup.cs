@@ -8,29 +8,27 @@ using UnityEngine;
 public class CharacterSelectPopup : PopupBase
 {
     [SerializeField] private CharacterSelectButton[] characterSelectButtons;
-    PreviewManager previewManager;
 
     public void Init()
     {
-        previewManager = PreviewManager.Instance;
+        var previewManager = PreviewManager.Instance;
         // 가지고 온 정보를 바탕으로 
         for (int i = 0; i < characterSelectButtons.Length; i++)
         {
-            int id = characterSelectButtons[i].Id;
+            var button = characterSelectButtons[i];
+            int id = button.Id;
 
-            bool hasPlayer = previewManager.HasPlayer(id);
-
-            if (hasPlayer)
+            if (previewManager.HasPlayer(id))
             {
-                CharacterData thisCharacter = previewManager.GetPlayerInfo(id);
-                Debug.Log($"Slot번호 {i} : 이름 {thisCharacter.characterName} : 직업 {thisCharacter.@class}");
-                characterSelectButtons[i].Set(hasPlayer,
-                    previewManager.GetPlayerInfo(id), previewManager.GetTexture(id));
+                var playerInfo = previewManager.GetPlayerInfo(id);
+                var texture = previewManager.GetTexture(id);
 
+                Debug.Log($"Slot {i}: {playerInfo.characterName} / {playerInfo.@class}");
+                button.Set(true, playerInfo, texture);
             }
             else
             {
-                characterSelectButtons[i].Set(hasPlayer);
+                button.Set(false);
             }
         }
     }

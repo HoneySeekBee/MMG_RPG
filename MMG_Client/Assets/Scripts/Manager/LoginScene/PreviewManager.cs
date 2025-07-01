@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PreviewManager : MonoBehaviour
+public class PreviewManager : SceneSingleton<PreviewManager>
 {
-    public static PreviewManager Instance { get; private set; }
 
     [SerializeField] private GameObject characterPrefab; // 임시 캐릭터 모델
 
@@ -22,16 +21,6 @@ public class PreviewManager : MonoBehaviour
     [SerializeField] private CharacterAppearance[] characterAppearances;
 
     const int MAX_CHARACTER = 4;
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject); // 중복 방지
-            return;
-        }
-
-        Instance = this;
-    }
     private void Start()
     {
         Set();

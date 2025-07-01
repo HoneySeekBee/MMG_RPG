@@ -49,7 +49,7 @@ public class CharacterSelectButton : MonoBehaviour
     private CharacterData ThisPlayerInfo;
 
     [SerializeField] private int buttonNumber;
-    public int Id { get { return buttonNumber; } }
+    public int Id => buttonNumber;
 
     [Header("캐릭터 없을때")]
     [SerializeField] private GameObject EmptyObj;
@@ -64,6 +64,9 @@ public class CharacterSelectButton : MonoBehaviour
     public void Set(bool hasCharacter, CharacterData player = null, RenderTexture renderTexture = null)
     {
         thisButton = this.GetComponent<Button>();
+        thisButton.onClick.RemoveListener(EnterGame);
+        thisButton.onClick.RemoveListener(CreateCharacter);
+
         if (hasCharacter)
         {
             if (player != null)

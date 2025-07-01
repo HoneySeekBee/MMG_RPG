@@ -16,44 +16,27 @@ namespace GameServer.Core
         private static Dictionary<ushort, Action<ServerSession, ArraySegment<byte>>> _onRecv =
             new Dictionary<ushort, Action<ServerSession, ArraySegment<byte>>>();
 
+        #region Register 구현 함수 
         public static void Register()
         {
+            Register_Set();
+            Register_GameRoom();
+            Register_Move();
+        }
+        private static void Register_Set()
+        {
 
-            RegisterLogin();
-            RegisterGame();
-            RegisterPing();
-            RegisterMove();
-            RegisterVillageDataSave();
-            RegisterVillageDataLoad();
+            _onRecv.Add((ushort)PacketType.C_LoginToken, MakePacket<C_LoginToken>(PacketHandler.C_LoginTokenHandler));
+            _onRecv.Add((ushort)PacketType.C_SelectCharacter, MakePacket<C_SelectedCharacter>(PacketHandler.C_SelectedCharacter));
+
         }
-        #region Register 구현 함수 
-        private static void RegisterLogin()
+        private static void Register_GameRoom()
         {
-            _onRecv.Add((ushort)PacketType.C_LoginRequest, MakePacket<C_LoginRequest>(PacketHandler.C_LoginRequestHandler));
-            _onRecv.Add((ushort)PacketType.C_LoginCheck, MakePacket<C_LoginCheck>(PacketHandler.C_LoginCheckHandler));
+            _onRecv.Add((ushort)PacketType.C_EnterGameRoom, MakePacket<C_EnterGameRoom>(PacketHandler.C_EnterGameRoom));
         }
-        private static void RegisterGame()
-        {
-            _onRecv.Add((ushort)PacketType.C_EnterGame, MakePacket<C_EnterGame>(PacketHandler.C_EnterGameHandler));
-            _onRecv.Add((ushort)PacketType.C_LeaveGame, MakePacket<C_LeaveGame>(PacketHandler.C_LeaveGameHandler));
-        }
-        private static void RegisterPing()
-        {
-            _onRecv.Add((ushort)PacketType.C_Ping, MakePacket<C_Ping>(PacketHandler.C_PingHandler));
-        }
-        private static void RegisterMove()
+        private static void Register_Move()
         {
             _onRecv.Add((ushort)PacketType.C_Move, MakePacket<C_Move>(PacketHandler.C_MoveHandler));
-        }
-        private static void RegisterVillageDataSave()
-        {
-            _onRecv.Add((ushort)PacketType.C_SaveVillageData, MakePacket<C_SaveVillageData>(PacketHandler.C_SaveVillageDataHandler));
-        }
-        private static void RegisterVillageDataLoad()
-        {
-            _onRecv.Add((ushort)PacketType.C_LoadVillageDataRequest, MakePacket<C_LoadVillageDataRequest>(PacketHandler.C_LoadVillageDataHandler));
-            _onRecv.Add((ushort)PacketType.C_DestroyPlantedCrop, MakePacket<C_DestroyPlantedCrop>(PacketHandler.C_DestroyPlantedCrop));
-            _onRecv.Add((ushort)PacketType.C_SavePlantedCrop, MakePacket<C_SavePlantedData>(PacketHandler.C_SavePlantedCropHandler));
         }
         #endregion
 

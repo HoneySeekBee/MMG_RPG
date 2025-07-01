@@ -4,28 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : GlobalSingleton<GameManager>
 {
-    public static GameManager Instance { get; private set; }
-
-    public Action<S_LoginCheckResponse> OnLoginCheckComplete;
     public int UserId { get; private set; }
     public string Email { get; private set; }
     public string Nickname { get; private set; }
     [SerializeField] private CharacterData ThisCharacterData; 
-
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
     public void SetUser(int userId, string email, string nickname)
     {
         UserId = userId;
@@ -49,6 +33,20 @@ public class GameManager : MonoBehaviour
     public void SelectCharacter(CharacterData character)
     {
         ThisCharacterData = character;
+    }
+    public Packet.CharacterInfo GetCharacterInfo()
+    {
+        Packet.CharacterInfo characterInfo = new Packet.CharacterInfo()
+        {
+            Id = ThisCharacterData.id,
+            UserId = ThisCharacterData.userId,
+            Gender = (int)ThisCharacterData.Gender,
+            CharacterName = ThisCharacterData.characterName,
+            Class = ThisCharacterData.@class,
+            AppearanceCode = ThisCharacterData.appearanceCode,
+        };
+
+        return characterInfo;
     }
     public int MapNumber{ get { return ThisCharacterData.LastMapId ?? 0; } }
 }

@@ -16,32 +16,13 @@ namespace ConsoleClient
 
         public static void Register()
         {
-            RegisterLogin();
-            RegisterGame();
-            RegisterPong();
             RegisterError();
-            RegisterPlayerEntered();
         }
         #region Register 함수 
-        private static void RegisterLogin()
-        {
-            _onRecv.Add((ushort)PacketType.S_LoginResponse, MakePacket<LoginResponse>(PacketHandler.LoginResponseHandler));
-        }
-        private static void RegisterGame()
-        {
-            _onRecv.Add((ushort)PacketType.S_EnterGame, MakePacket<S_EnterGame>(PacketHandler.S_EnterGameHandler));
-        }
-        private static void RegisterPong()
-        {
-            _onRecv.Add((ushort)PacketType.S_Pong, MakePacket<S_Pong>(PacketHandler.S_PongHandler));
-        }
+
         private static void RegisterError()
         {
             _onRecv.Add((ushort)PacketType.S_Error, MakePacket<S_Error>(PacketHandler.S_ErrorHandler));
-        }
-        private static void RegisterPlayerEntered()
-        {
-            _onRecv.Add((ushort)PacketType.S_PlayerEntered, MakePacket<S_PlayerEntered>(PacketHandler.S_PlayerEnteredHandler));
         }
         #endregion
         public static void OnRecvPacket(ClientSession session, ArraySegment<byte> buffer)

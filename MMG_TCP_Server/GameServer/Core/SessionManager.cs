@@ -29,7 +29,7 @@ namespace GameServer.Core
                 {
                     if (session.MyPlayer != null)
                     {
-                        _userSessions.Remove(session.MyPlayer.Name); // 중복 로그인 방지
+                        _userSessions.Remove(session.MyPlayer.CharacterInfo.CharacterName); // 중복 로그인 방지
                     }
 
                     _sessions.Remove(sessionId);

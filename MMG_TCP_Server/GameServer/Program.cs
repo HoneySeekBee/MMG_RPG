@@ -13,7 +13,7 @@ namespace GameServer
             {
                 while (true)
                 {
-                    GameRoom.Instance.Update();
+                    GameRoomManager.Instance.Update();
                     Thread.Sleep(50); // 프레임 간격
                 }
             });

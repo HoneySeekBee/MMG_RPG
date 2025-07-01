@@ -13,83 +13,61 @@ namespace GameServer.Domain
 {
     public class GameRoom : JobQueue
     {
-        public static GameRoom Instance { get; } = new GameRoom();
+        public int RoomId { get; private set; }
 
         private List<Player> _players = new List<Player>();
-
-        public void TestAction(ServerSession session)
+        public GameRoom(int roomId)
         {
-            Console.WriteLine($"[GameRoom] 세션 ID : {session.SessionId}");
+            this.RoomId = roomId;
         }
-        private PlayerInfo MakePlayerInfo(Player _player)
+        private PlayerInfo MakePlayerInfo(Player p)
         {
-            PlayerInfo _playerInfo = new PlayerInfo();
-            _playerInfo.Name = _player.Name;
-            _playerInfo.PlayerId = _player.PlayerId;
-            _playerInfo.PosX = _player.PosX;
-            _playerInfo.PosY = _player.PosY;
-            return _playerInfo;
+            return new PlayerInfo
+            {
+                Name = p.CharacterInfo.CharacterName,
+                PlayerId = p.UserId,
+            };
         }
-        public void Enter(ServerSession session, C_EnterGame packet)
+        public void Enter(ServerSession session, C_EnterGameRoom packet)
         {
             Player player = session.MyPlayer;
 
             if (_players.Contains(player))
             {
-                Console.WriteLine($"[GameRoom] 이미 입장된 유저입니다: {player.Name}");
+                Console.WriteLine($"[GameRoom:{RoomId}] 이미 입장된 유저: {player.CharacterInfo.CharacterName}");
                 return;
             }
+
             _players.Add(player);
-            Console.WriteLine($"[GameRoom] id {player.PlayerId} / Name : {player.Name} 입장 완료");
+            Console.WriteLine($"[GameRoom:{RoomId}] {player.CharacterInfo.CharacterName} 입장  -----> 같은 게임방의 유저들에게 입장 알려줘야함.");
 
-            List<PlayerInfo> playerList = new();
-
-            foreach (Player _player in _players)
-            {
-                PlayerInfo _playerInfo = MakePlayerInfo(_player);
-                playerList.Add(_playerInfo);
-            }
-            // 응답 패킷 전송
-            S_EnterGame response = new S_EnterGame()
-            {
-                Success = true,
-                WelcomeMessage = $"환영합니다, {player.Name}님!",
-                Name = player.Name,
-                PlayerId = player.PlayerId,
-            };
-            response.Players.AddRange(playerList);
-            session.Send(PacketType.S_EnterGame, response);
-
-            PlayerInfo myPlayerInfo = MakePlayerInfo(player);
-            // 다른 유저에게는 입장 알림
-
-            S_PlayerEntered broadcast = new S_PlayerEntered
-            {
-                Name = player.Name,
-                PlayerInfo = myPlayerInfo
-            };
-            Broadcast(PacketType.S_PlayerEntered, broadcast, exclude: player);
         }
-        public void BroadcastMove(S_Move message, Player exclude = null)
+        public bool HasPlayer(Player player)
         {
-            Broadcast(PacketType.S_Move, message, exclude);
+            return _players.Contains(player);
         }
         public void Update()
         {
             Flush(); // JobQueue에 쌓인 작업 처리
         }
+
         public void Leave(Player player)
         {
             if (_players.Remove(player))
-                Console.WriteLine($"[GameRoom] {player.Name} 퇴장 완료");
+                Console.WriteLine($"[GameRoom:{RoomId}] {player.CharacterInfo.CharacterName} 퇴장");
         }
         private void Broadcast(PacketType packetType, IMessage message, Player exclude = null)
         {
-            foreach (var p in _players)
+            foreach (var player in _players)
             {
-                if (p == exclude) continue;
-                p.Session.Send(packetType, message);
+                if (player == exclude) continue;
+                player.Session.Send(packetType, message);
             }
         }
+        public void BroadcastMove(S_Move message, Player exclude = null)
+        {
+            Broadcast(PacketType.S_Move, message, exclude);
+        }
+
     }
 }

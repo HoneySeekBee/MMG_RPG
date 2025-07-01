@@ -29,7 +29,6 @@ namespace GameServer.Core
             SessionManager.Add(SessionId, this);
             MyPlayer = new Player()
             {
-                Name = "player",
                 Session = this
             };
         }

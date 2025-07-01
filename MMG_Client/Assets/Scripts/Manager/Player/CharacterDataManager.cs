@@ -2,23 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterDataManager : MonoBehaviour
+public class CharacterDataManager : GlobalSingleton<CharacterDataManager>
 {
-    public static CharacterDataManager Instance { get; private set; }
 
     [SerializeField] private MMGItemDatabase MMGItemSet; 
     private Dictionary<string, CharacterPartItem> itemById = new();
 
-    private void Awake()
+    private void Start()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         Initialize();
     }

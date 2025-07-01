@@ -2,64 +2,9 @@
 
 package Packet;
 
-message LoginRequest {
-  string userId = 1;
-  string password = 2;
-}
-
-message LoginResponse {
-  bool success = 1;
-  string message = 2;
-}
-
-message C_LeaveGame {
-  string userId = 1;
-}
-
-message C_LoginRequest{
-  string userId = 1;
-  string password = 2;
-}
-
-message S_LoginResponse{
-  bool success = 1;
-  string message = 2;
-}
-
-
-message CharacterInfo
-{
-	int32 Id = 1;
-
-	int32 UserId = 2;
-	int32 SlotNumber = 3;
-	
-	string CharacterName = 4;
-	string Class = 5;
-	string AppearanceCode = 6;
-	
-	float CreatedAt = 7;
-	float LastPlayedAt = 8;
-	
-	bool isDeleted = 9;
-}
-
-message C_LoginCheck{
+message C_LoginToken{
   string jwt_token = 1; 
 }
-
-message S_LoginCheckResponse{
-  bool is_valid = 1;              // 유효한 토큰 여부
-  int32 user_id = 2;              // 유저 ID (로그인 성공시)
-  string email = 3;               // 유저 이메일 (필요시)
-  string nickname = 4;           // 유저 닉네임 (표시용)
-  string reason = 5;             // 실패 사유 (예: "expired", "invalid", "not_found" 등)
-}
-
-message C_PlayerCharactersRequest{
-  string jwt_token = 1; 
-}
-
-message S_PlayerCharactersResponse{
-	repeated CharacterInfo characterInfoList = 1;
+message S_LoginToken{
+	bool result = 1;
 }

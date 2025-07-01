@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Packet;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,19 +7,8 @@ using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
 
-public class ServerConnector : MonoBehaviour
+public class ServerConnector : SceneSingleton<ServerConnector>
 {
-    public static ServerConnector Instance { get; private set; }
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject); // 중복 방지
-            return;
-        }
-
-        Instance = this;
-    }
     private void Start()
     {
         PacketManager.Register();
@@ -53,7 +43,21 @@ public class ServerConnector : MonoBehaviour
         }
 
         Debug.Log("서버 연결 완료");
-        MapManager.Instance.EnterGameScene(GameManager.Instance.MapNumber);
+
+        // [1] 서버에 로그인 토큰 알려주기
+        string loginToken = PlayerPrefs.GetString("jwt_token");
+        if (loginToken != null)
+        {
+            C_LoginToken c_LoginToken = new C_LoginToken()
+            {
+                JwtToken = loginToken,
+            };
+            NetworkManager.Instance.Send_Login(c_LoginToken);
+        }
+        else
+        {
+            Debug.LogError("유저의 로그인 토큰이 없습니다. ");
+        }
     }
     public void Connect(Func<ClientSession> sessionFactory)
     {

@@ -2,20 +2,30 @@ syntax = "proto3";
 
 package Packet;
 
-message C_EnterGame {
-  string name = 1; // 유저 이름 (클라가 서버에 보냄)
+message C_SelectedCharacter{
+	CharacterInfo characterInfo = 1;
+}
+message S_SelectedCharacter{
+	bool result = 1;
+}
+message CharacterInfo{
+	int32 Id = 1;
+	int32 UserId = 2;
+	int32 Gender = 3;
+	string CharacterName =4;
+	string Class =5;
+	string AppearanceCode = 6;
 }
 
-message S_EnterGame {
-  bool success = 1;          // 추가
-  string name = 2;    // 유저 이름
-  int32 playerId = 3; // 서버가 부여한 고유 ID
-  float posX = 4;     // 초기 위치 X
-  float posY = 5;     // 초기 위치 Y
-
-  string welcomeMessage = 6; // 추가
-  repeated PlayerInfo players = 7;
+message C_EnterGameRoom{
+	int32 enterRoomId = 1;
 }
+
+message S_PlayerEntered {
+  string name = 1;
+  PlayerInfo playerInfo = 2;
+}
+
 
 message PlayerInfo {
   int32 playerId = 1;
@@ -24,10 +34,6 @@ message PlayerInfo {
   float posY = 4;
 }
 
-message S_PlayerEntered {
-  string name = 1;
-  PlayerInfo playerInfo = 2;
-}
 
 message C_Move
 {
@@ -57,6 +63,5 @@ message S_Move
 
   float speed = 8;
 
-  
   int64 timestamp = 9;
 }

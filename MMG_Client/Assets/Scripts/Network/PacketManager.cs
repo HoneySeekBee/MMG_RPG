@@ -19,7 +19,8 @@ public class PacketManager : MonoBehaviour
     #region
     private static void RegisterLogin()
     {
-        _onRecv.Add((ushort)PacketType.S_LoginCheckResponse, MakePacket<S_LoginCheckResponse>(PacketHandler.S_LoginCheckResponseHandler));
+        _onRecv.Add((ushort)PacketType.S_LoginToken, MakePacket<S_LoginToken>(PacketHandler.S_LoginTokenHandler));
+        _onRecv.Add((ushort)PacketType.S_SelectCharacter, MakePacket<S_SelectedCharacter>(PacketHandler.S_SelectedCharacterHandler));
     }
     #endregion
 
