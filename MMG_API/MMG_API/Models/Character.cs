@@ -15,7 +15,7 @@ namespace MMG_API.Models
         [Required]
         public int SlotNumber { get; set; }
         [Required]
-        public int Gender{ get; set; }
+        public int Gender { get; set; }
 
         [Required]
         [MaxLength(50)]
@@ -27,6 +27,8 @@ namespace MMG_API.Models
         [Required]
         public string AppearanceCode { get; set; } = string.Empty;
 
+        public int? LastMapId { get; set; }
+        public int? LastSpawnPointId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? LastPlayedAt { get; set; } = DateTime.UtcNow;
         public bool IsDeleted { get; set; } = false;

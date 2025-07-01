@@ -33,6 +33,8 @@ public class CharacterData
     public string appearanceCode;
     public string createdAt;
     public string lastPlayedAt;
+    public int? LastMapId;
+    public int? LastSpawnPointId;
     public bool isDeleted;
 }
 [System.Serializable]
@@ -64,7 +66,7 @@ public class CharacterSelectButton : MonoBehaviour
         thisButton = this.GetComponent<Button>();
         if (hasCharacter)
         {
-            if(player != null)
+            if (player != null)
             {
                 ThisPlayerInfo = player;
                 Init_Character(ThisPlayerInfo.characterName, ThisPlayerInfo.@class, 1);
@@ -94,17 +96,21 @@ public class CharacterSelectButton : MonoBehaviour
     public void CreateCharacter()
     {
         Debug.Log($"이제 캐릭터를 생성해야지 {buttonNumber}");
-        PopupManager.Instance.Show<CharacterCreatePopup>((popup)=>popup.Set(buttonNumber));
+        PopupManager.Instance.Show<CharacterCreatePopup>((popup) => popup.Set(buttonNumber));
         PopupManager.Instance.UnShow<CharacterSelectPopup>();
     }
     public void EnterGame()
     {
-        bool hasInfo = true;
-        if (hasInfo == false)
-            Debug.LogError("캐릭터 정보가 잘못됬어요");
-        // 여기서 캐릭터 정보가 제대로 불러와졌는지 체크하는 Bool 
-
         Debug.Log("이제 게임을 시작하자.");
+        // TCP 서버에 연결해야한다.
+        // 선택창을 안보이게 해야한다. 
+        GameManager.Instance.SelectCharacter(ThisPlayerInfo);
+        if (ServerConnector.Instance != null)
+        {
+            StartCoroutine(ServerConnector.Instance.ConnectToServer());
+            PopupManager.Instance.UnShow<CharacterSelectPopup>();
+        }
+
     }
     #endregion
 }

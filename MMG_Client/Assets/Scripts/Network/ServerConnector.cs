@@ -8,6 +8,17 @@ using UnityEngine;
 
 public class ServerConnector : MonoBehaviour
 {
+    public static ServerConnector Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // 중복 방지
+            return;
+        }
+
+        Instance = this;
+    }
     private void Start()
     {
         PacketManager.Register();
@@ -42,6 +53,7 @@ public class ServerConnector : MonoBehaviour
         }
 
         Debug.Log("서버 연결 완료");
+        MapManager.Instance.EnterGameScene(GameManager.Instance.MapNumber);
     }
     public void Connect(Func<ClientSession> sessionFactory)
     {

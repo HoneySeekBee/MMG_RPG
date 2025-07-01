@@ -120,7 +120,6 @@ public class PreviewManager : MonoBehaviour
     }
     public CharacterData GetPlayerInfo(int _id)
     {
-        Debug.Log("id üũ : " + _id);
         CharacterData player = slots[_id];
         return player;
     }

@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public int UserId { get; private set; }
     public string Email { get; private set; }
     public string Nickname { get; private set; }
+    [SerializeField] private CharacterData ThisCharacterData; 
 
     private void Awake()
     {
@@ -45,4 +46,9 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.DeleteKey("jwt_token");
         Debug.Log("[로그아웃] 완료");
     }
+    public void SelectCharacter(CharacterData character)
+    {
+        ThisCharacterData = character;
+    }
+    public int MapNumber{ get { return ThisCharacterData.LastMapId ?? 0; } }
 }
