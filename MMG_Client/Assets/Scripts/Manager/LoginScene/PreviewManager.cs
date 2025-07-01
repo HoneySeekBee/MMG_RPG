@@ -1,7 +1,6 @@
 using MMG.UI;
-using System.Collections;
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -9,7 +8,6 @@ public class PreviewManager : MonoBehaviour
 {
     public static PreviewManager Instance { get; private set; }
 
-    [SerializeField] private List<TempPlayer> testPlayers = new List<TempPlayer>(); // 임시 플레이어
     [SerializeField] private GameObject characterPrefab; // 임시 캐릭터 모델
 
     [SerializeField] private Camera renderCamera;
@@ -19,6 +17,9 @@ public class PreviewManager : MonoBehaviour
     private Dictionary<int, RenderTexture> renderTextures = new Dictionary<int, RenderTexture>();
 
     [SerializeField] private Camera[] previewCamera;
+    [SerializeField] private CharacterData[] slots;
+    [SerializeField] private CharacterData[] characters;
+    [SerializeField] private CharacterAppearance[] characterAppearances;
 
     const int MAX_CHARACTER = 4;
     private void Awake()
@@ -42,9 +43,47 @@ public class PreviewManager : MonoBehaviour
             previewCamera[i].Render();
         }
     }
+    public void Set_UserCharacter(string json)
+    {
+        slots = new CharacterData[MAX_CHARACTER];
+
+        if (string.IsNullOrEmpty(json) || json == "null" || json == "[]")
+        {
+            Debug.Log("[Set_UserCharacter] 캐릭터 JSON이 비어 있음");
+            return;
+        }
+
+        try
+        {
+            characters = JsonConvert.DeserializeObject<List<CharacterData>>(json).ToArray();
+
+            foreach (var character in characters)
+            {
+                if (character.slotNumber >= 0 && character.slotNumber < MAX_CHARACTER)
+                {
+                    slots[character.slotNumber] = character;
+                }
+                if (characterAppearances[character.slotNumber] != null)
+                {
+                    Debug.Log($"character {character.slotNumber} : {character.appearanceCode}");
+                    characterAppearances[character.slotNumber].MyCharacterGender = character.Gender;
+                    characterAppearances[character.slotNumber].LoadFromAppearanceCode(character.appearanceCode);
+                }
+                else
+                {
+                    Debug.LogWarning($"[Set_UserCharacter] characterAppearances[{character.slotNumber}] 가 null임 {characterAppearances.Length}");
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[Set_UserCharacter] JSON 파싱 오류: {ex.Message}");
+        }
+    }
     private void Set()
     {
         int cnt = 0;
+        characterAppearances = new CharacterAppearance[MAX_CHARACTER];
         for (int i = 0; i < MAX_CHARACTER; i++)
         {
             // 텍스쳐 생성 
@@ -53,10 +92,9 @@ public class PreviewManager : MonoBehaviour
             renderTextures[i] = newRT;
             previewCamera[i].targetTexture = renderTextures[i];
 
-
             GameObject go = Instantiate(characterPrefab, previewCamera[i].transform.parent);
             go.transform.localPosition = Vector3.zero;
-            go.transform.rotation = Quaternion.Euler(0, 180, 0);
+            characterAppearances[i] = go.GetComponent<CharacterAppearance>();
             SetLayerRecursively(go.transform, LayerMask.NameToLayer("Preview"));
         }
     }
@@ -71,7 +109,7 @@ public class PreviewManager : MonoBehaviour
 
     public bool HasPlayer(int _id)
     {
-        return testPlayers.Any(x => x.buttonNumber == _id);
+        return characters.Any(x => x.slotNumber == _id);
     }
     public RenderTexture GetTexture(int _id)
     {
@@ -80,9 +118,10 @@ public class PreviewManager : MonoBehaviour
         else
             return null;
     }
-    public TestPlayer GetPlayerInfo(int _id)
+    public CharacterData GetPlayerInfo(int _id)
     {
-        TestPlayer player = testPlayers.FirstOrDefault(x => x.buttonNumber == _id).testPlayer;
+        Debug.Log("id 체크 : " + _id);
+        CharacterData player = slots[_id];
         return player;
     }
 

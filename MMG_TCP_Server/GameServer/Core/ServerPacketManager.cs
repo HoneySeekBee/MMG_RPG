@@ -18,6 +18,7 @@ namespace GameServer.Core
 
         public static void Register()
         {
+
             RegisterLogin();
             RegisterGame();
             RegisterPing();
@@ -29,6 +30,7 @@ namespace GameServer.Core
         private static void RegisterLogin()
         {
             _onRecv.Add((ushort)PacketType.C_LoginRequest, MakePacket<C_LoginRequest>(PacketHandler.C_LoginRequestHandler));
+            _onRecv.Add((ushort)PacketType.C_LoginCheck, MakePacket<C_LoginCheck>(PacketHandler.C_LoginCheckHandler));
         }
         private static void RegisterGame()
         {

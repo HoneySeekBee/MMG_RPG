@@ -45,7 +45,7 @@ MonoBehaviour:
   properties: []
   previewPrefab: {fileID: 0}
   itemId: hair_man_01
-  Gender: 1
+  Gender: 0
   equipSlot: 2
   mesh: {fileID: -6294066499648681602, guid: 99d360e31427a0a408c86fd0bcbfbf8e, type: 3}
   material: {fileID: 2100000, guid: 6a4c0a5109ac9314e97b0138b1203c35, type: 2}

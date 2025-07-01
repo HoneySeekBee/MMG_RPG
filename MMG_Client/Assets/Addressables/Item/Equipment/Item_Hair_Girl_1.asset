@@ -45,7 +45,7 @@ MonoBehaviour:
   properties: []
   previewPrefab: {fileID: 0}
   itemId: hair_gril_01
-  Gender: 2
+  Gender: 1
   equipSlot: 2
   mesh: {fileID: -9099924787982362520, guid: f65cc4559620ed841a68822402ce76f9, type: 3}
   material: {fileID: 2100000, guid: 6a4c0a5109ac9314e97b0138b1203c35, type: 2}

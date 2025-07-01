@@ -154,6 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12e96f3cfede98640804730c22031475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID_InputField: {fileID: 1290350777143223049}
+  Password_InputField: {fileID: 1356781621188120438}
 --- !u!114 &226520696724815146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,12 +264,24 @@ PrefabInstance:
       value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 2136200260768305458, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136200260768305458, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
       propertyPath: m_ContentType
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136200260768305458, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
+      propertyPath: m_KeyboardType
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136200260768305458, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
+      propertyPath: m_CharacterLimit
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2136200260768305458, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
       propertyPath: m_CharacterValidation
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2448460770579805180, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
       propertyPath: m_Pivot.x
@@ -362,6 +376,10 @@ PrefabInstance:
       value: Username
       objectReference: {fileID: 0}
     - target: {fileID: 6856626796520286690, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6856626796520286690, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
       propertyPath: m_textAlignment
       value: 65535
       objectReference: {fileID: 0}
@@ -417,6 +435,17 @@ PrefabInstance:
       addedObject: {fileID: 1813947088524125019}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
+--- !u!114 &1290350777143223049 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2136200260768305458, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
+  m_PrefabInstance: {fileID: 886489909814391355}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &3294347914722607559 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2448460770579805180, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
@@ -465,6 +494,10 @@ PrefabInstance:
     - target: {fileID: 2136200260768305458, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
       propertyPath: m_ContentType
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136200260768305458, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
+      propertyPath: m_CharacterLimit
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2448460770579805180, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
       propertyPath: m_Pivot.x
@@ -626,6 +659,17 @@ PrefabInstance:
       addedObject: {fileID: 2798697988608413637}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
+--- !u!114 &1356781621188120438 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2136200260768305458, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
+  m_PrefabInstance: {fileID: 1112687503372148292}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &3353951895891750328 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2448460770579805180, guid: 51b10c5779fe14b46ac78c45304ec4e0, type: 3}
@@ -980,12 +1024,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5585583631189188578, guid: e3cc799eb64ca416dbc837b0036622ae, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 232734190335359000}
+    - target: {fileID: 5585583631189188578, guid: e3cc799eb64ca416dbc837b0036622ae, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5585583631189188578, guid: e3cc799eb64ca416dbc837b0036622ae, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: Close
+      value: TryLogin
+      objectReference: {fileID: 0}
+    - target: {fileID: 5585583631189188578, guid: e3cc799eb64ca416dbc837b0036622ae, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: LoginPopup, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5585583631189188578, guid: e3cc799eb64ca416dbc837b0036622ae, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName

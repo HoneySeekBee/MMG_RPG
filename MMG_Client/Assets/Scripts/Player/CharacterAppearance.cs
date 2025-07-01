@@ -1,3 +1,6 @@
+using DevionGames.InventorySystem;
+using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,6 +44,10 @@ public class CharacterAppearance : MonoBehaviour
 
         targetRenderer.sharedMesh = item.mesh;
         targetRenderer.material = item.material;
+
+        targetRenderer.bones = SkinRenderer.bones;
+        targetRenderer.rootBone = SkinRenderer.rootBone;
+
         targetRenderer.enabled = true;
 
         // 상태 저장
@@ -95,4 +102,66 @@ public class CharacterAppearance : MonoBehaviour
             CostumesRenderer.enabled = false;
         }
     }
+    public string ToAppearanceCode()
+    {
+        var list = new List<EquippedItemData>();
+
+        foreach (var pair in equippedParts)
+        {
+            if (pair.Value == null) continue;
+
+            list.Add(new EquippedItemData
+            {
+                Slot = pair.Key.ToString(),
+                ItemId = pair.Value.itemId
+            });
+        }
+
+        return JsonConvert.SerializeObject(list);
+    }
+    public void LoadFromAppearanceCode(string json)
+    {
+        if (string.IsNullOrEmpty(json)) return;
+
+        try
+        {
+            var list = JsonConvert.DeserializeObject<List<EquippedItemData>>(json);
+            equippedParts.Clear();
+
+            foreach (var data in list)
+            {
+                if (Enum.TryParse(data.Slot, out EquipSlot slot))
+                {
+                    if (CharacterDataManager.Instance.TryGetItemById(data.ItemId, out var item))
+                    {
+                        Equip(item); // 렌더러 처리 포함
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[LoadFromAppearanceCode] ID {data.ItemId}에 해당하는 아이템이 없음");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"[LoadFromAppearanceCode] {data.Slot}은 잘못된 EquipSlot");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[LoadFromAppearanceCode] JSON 파싱 중 오류 발생: {ex.Message}");
+        }
+    }
+    [System.Serializable]
+    private class EquippedItemListWrapper
+    {
+        public EquippedItemData[] items;
+    }
+
+}
+[System.Serializable]
+public class EquippedItemData
+{
+    public string Slot;
+    public string ItemId;
 }

@@ -18,12 +18,17 @@ namespace ServerCore
     {
         C_LoginRequest = 1,
         S_LoginResponse = 2,
+        C_LoginCheck = 3,
+        S_LoginCheckResponse = 4,
 
         // 게임 관련
         C_EnterGame = 201,
         S_EnterGame = 202,
         S_PlayerEntered = 203,
         C_LeaveGame = 204,
+
+        C_UserCharacterListRequest = 205,
+        S_UserCharacterListResponse = 206,
 
         C_LoadVillageDataRequest = 211,
         S_LoadVillageDataResponse = 212,

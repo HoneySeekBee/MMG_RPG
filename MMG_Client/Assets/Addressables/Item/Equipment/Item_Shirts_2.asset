@@ -45,7 +45,7 @@ MonoBehaviour:
   properties: []
   previewPrefab: {fileID: 0}
   itemId: shirts_basic_02
-  Gender: 0
+  Gender: 2
   equipSlot: 6
   mesh: {fileID: 6605694911051472808, guid: 2f95f3903c35d6743bcebc55b83e2b72, type: 3}
   material: {fileID: 2100000, guid: 6a4c0a5109ac9314e97b0138b1203c35, type: 2}

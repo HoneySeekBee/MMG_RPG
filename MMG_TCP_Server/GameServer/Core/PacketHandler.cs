@@ -1,13 +1,18 @@
 ﻿using GameServer.Data;
 using GameServer.Domain;
+using Microsoft.IdentityModel.Tokens;
 using Packet;
 using ServerCore;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Sockets;
+using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using static GameServer.Data.LoginDTO;
 
 namespace GameServer.Core
 {
@@ -23,6 +28,60 @@ namespace GameServer.Core
     public class PacketHandler
     {
         // 로그인 로직 수정 
+        public static async void C_LoginCheckHandler(ServerSession session, C_LoginCheck packet)
+        {
+            string token = packet.JwtToken;
+            Console.WriteLine($"[JWT 검사] 클라이언트에서 전송한 JWT: {token}");
+
+            try
+            {
+                using var client = new HttpClient();
+                var response = await client.GetAsync($"http://localhost:5070/api/auth/validate?token={token}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"[JWT 검사 실패] 상태코드: {response.StatusCode}");
+                    session.Send(PacketType.S_LoginCheckResponse, new S_LoginCheckResponse
+                    {
+                        IsValid = false,
+                        Reason = "invalid"
+                    });
+                    return;
+                }
+
+                var content = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<JwtValidationResult>(content);
+
+                if (result == null || !result.IsValid)
+                {
+                    session.Send(PacketType.S_LoginCheckResponse, new S_LoginCheckResponse
+                    {
+                        IsValid = false,
+                        Reason = result?.Reason ?? "invalid"
+                    });
+                    return;
+                }
+
+                Console.WriteLine($"[JWT 검사 성공] userId: {result.UserId}, email: {result.Email}");
+
+                session.Send(PacketType.S_LoginCheckResponse, new S_LoginCheckResponse
+                {
+                    IsValid = true,
+                    UserId = result.UserId,
+                    Email = result.Email,
+                    Nickname = result.Nickname
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[예외 발생] JWT 검사 중 오류: {ex.Message}");
+                session.Send(PacketType.S_LoginCheckResponse, new S_LoginCheckResponse
+                {
+                    IsValid = false,
+                    Reason = "exception"
+                });
+            }
+        }
         public static void C_LoginRequestHandler(ServerSession session, C_LoginRequest packet)
         {
             // [1] 클라에서 로그인 요청이 왔습니다. 
@@ -66,7 +125,7 @@ namespace GameServer.Core
             session.Send(PacketType.S_LoginResponse, response);
         }
 
-      
+
         public static void WelcomeHandler(ServerSession session, LoginRequest req)
         {
             LoginResponse res = new LoginResponse() { Message = $"Welcome {req.UserId}" };
@@ -209,73 +268,73 @@ namespace GameServer.Core
             }
         }
 
-    public static void C_SaveVillageDataHandler(ServerSession session, C_SaveVillageData packet)
-    {
-        int userId = session.MyPlayer.PlayerId;
-
-        // 1. 기존 백업 삭제
-        EFVillageDB.DeleteBackup(userId);
-
-        // 2. 최신을 백업으로
-        EFVillageDB.BackupCurrent(userId);
-
-        // 3. 새로 받은 오브젝트 저장
-        List<PlacedObjectDTO> dtoList = new();
-
-        foreach (var obj in packet.PlaceObjects)
+        public static void C_SaveVillageDataHandler(ServerSession session, C_SaveVillageData packet)
         {
-            dtoList.Add(new PlacedObjectDTO
+            int userId = session.MyPlayer.PlayerId;
+
+            // 1. 기존 백업 삭제
+            EFVillageDB.DeleteBackup(userId);
+
+            // 2. 최신을 백업으로
+            EFVillageDB.BackupCurrent(userId);
+
+            // 3. 새로 받은 오브젝트 저장
+            List<PlacedObjectDTO> dtoList = new();
+
+            foreach (var obj in packet.PlaceObjects)
             {
-                UserId = userId,
-                Version = 1,
-                ObjectType = obj.Type,
-                PosX = (int)obj.PosX,
-                PosY = (int)obj.PosY,
-                DirY = obj.DirY,
-                ObjectId = obj.ObjectId,
-                ObjLevel = 1, // or obj.Level
-                UpdatedAt = DateTime.Now
-            });
+                dtoList.Add(new PlacedObjectDTO
+                {
+                    UserId = userId,
+                    Version = 1,
+                    ObjectType = obj.Type,
+                    PosX = (int)obj.PosX,
+                    PosY = (int)obj.PosY,
+                    DirY = obj.DirY,
+                    ObjectId = obj.ObjectId,
+                    ObjLevel = 1, // or obj.Level
+                    UpdatedAt = DateTime.Now
+                });
+            }
+
+            EFVillageDB.SaveVillageData(session.MyPlayer.PlayerId, dtoList);
         }
-
-        EFVillageDB.SaveVillageData(session.MyPlayer.PlayerId, dtoList);
-    }
-    public static void C_SavePlantedCropHandler(ServerSession session, C_SavePlantedData packet)
-    {
-        // 클라에서 서버에 심어진 식물 저장 
-        int userId = session.MyPlayer.PlayerId;
-        PlantedCropDto plantedCropDto = new PlantedCropDto()
+        public static void C_SavePlantedCropHandler(ServerSession session, C_SavePlantedData packet)
         {
-            OwnerUserId = userId,
-            CropId = packet.PlantedData.CropId,
-            PosX = packet.PlantedData.PosX,
-            PosY = packet.PlantedData.PosY,
-            GrowthStage = packet.PlantedData.GrowthStage,
-            GrowthTimer = packet.PlantedData.GrowthTimer,
-            PlantedAt = DateTime.UnixEpoch.AddSeconds(packet.PlantedData.PlantedAt),
-            LastUpdateAt = DateTime.Now,
-        };
-
-        EFVillageDB.SavePlantedCrop(session.MyPlayer.PlayerId, plantedCropDto);
-    }
-    public static void C_DestroyPlantedCrop(ServerSession session, C_DestroyPlantedCrop packet)
-    {
-        int userId = session.MyPlayer.PlayerId;
-
-        // 여기서 온 id로 테이블에서 찾아 수정
-        if (EFVillageDB.CanUpdatePlantedCrop(userId, packet.Id))
-        {
+            // 클라에서 서버에 심어진 식물 저장 
+            int userId = session.MyPlayer.PlayerId;
             PlantedCropDto plantedCropDto = new PlantedCropDto()
             {
-                IsHarvest = packet.IsHarvest,
-                HarvestTime = DateTime.UnixEpoch.AddSeconds(packet.HarvestTime),
+                OwnerUserId = userId,
+                CropId = packet.PlantedData.CropId,
+                PosX = packet.PlantedData.PosX,
+                PosY = packet.PlantedData.PosY,
+                GrowthStage = packet.PlantedData.GrowthStage,
+                GrowthTimer = packet.PlantedData.GrowthTimer,
+                PlantedAt = DateTime.UnixEpoch.AddSeconds(packet.PlantedData.PlantedAt),
+                LastUpdateAt = DateTime.Now,
             };
-            EFVillageDB.UpdatePlantedCrop(packet.Id, plantedCropDto);
+
+            EFVillageDB.SavePlantedCrop(session.MyPlayer.PlayerId, plantedCropDto);
         }
-        else
+        public static void C_DestroyPlantedCrop(ServerSession session, C_DestroyPlantedCrop packet)
         {
-            Console.WriteLine("해당 위치의 수확물을 제거할 수 없습니다.");
+            int userId = session.MyPlayer.PlayerId;
+
+            // 여기서 온 id로 테이블에서 찾아 수정
+            if (EFVillageDB.CanUpdatePlantedCrop(userId, packet.Id))
+            {
+                PlantedCropDto plantedCropDto = new PlantedCropDto()
+                {
+                    IsHarvest = packet.IsHarvest,
+                    HarvestTime = DateTime.UnixEpoch.AddSeconds(packet.HarvestTime),
+                };
+                EFVillageDB.UpdatePlantedCrop(packet.Id, plantedCropDto);
+            }
+            else
+            {
+                Console.WriteLine("해당 위치의 수확물을 제거할 수 없습니다.");
+            }
         }
     }
-}
 }

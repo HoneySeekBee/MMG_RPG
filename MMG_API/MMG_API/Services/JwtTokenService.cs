@@ -38,5 +38,39 @@ namespace MMG_API.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+        public ClaimsPrincipal? ValidateToken(string token, out string reason)
+        {
+            reason = "invalid";
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]!);
+
+            try
+            {
+                var validationParams = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ClockSkew = TimeSpan.Zero
+                };
+
+                var principal = tokenHandler.ValidateToken(token, validationParams, out SecurityToken validatedToken);
+                reason = "valid";
+                return principal;
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                reason = "expired";
+            }
+            catch (Exception)
+            {
+                reason = "invalid";
+            }
+
+            return null;
+        }
     }
 }

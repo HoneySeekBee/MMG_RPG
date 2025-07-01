@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using MMG.UI;
 
 // 임시 
 [System.Serializable]
@@ -20,10 +21,30 @@ public class TempPlayer
     public int buttonNumber;
     public TestPlayer testPlayer;
 }
+[System.Serializable]
+public class CharacterData
+{
+    public int id;
+    public int userId;
+    public Gender Gender;
+    public int slotNumber;
+    public string characterName;
+    public string @class; // class는 예약어이기 때문에 이렇게!
+    public string appearanceCode;
+    public string createdAt;
+    public string lastPlayedAt;
+    public bool isDeleted;
+}
+[System.Serializable]
+public class CharacterDataListWrapper
+{
+    public List<CharacterData> characters;
+}
+
 public class CharacterSelectButton : MonoBehaviour
 {
     private Button thisButton;
-    private TestPlayer ThisPlayerInfo;
+    private CharacterData ThisPlayerInfo;
 
     [SerializeField] private int buttonNumber;
     public int Id { get { return buttonNumber; } }
@@ -38,7 +59,7 @@ public class CharacterSelectButton : MonoBehaviour
     [SerializeField] private TMP_Text LevelText;
     [SerializeField] private RawImage rawImage;
 
-    public void Set(bool hasCharacter, TestPlayer player = null, RenderTexture renderTexture = null)
+    public void Set(bool hasCharacter, CharacterData player = null, RenderTexture renderTexture = null)
     {
         thisButton = this.GetComponent<Button>();
         if (hasCharacter)
@@ -46,7 +67,7 @@ public class CharacterSelectButton : MonoBehaviour
             if(player != null)
             {
                 ThisPlayerInfo = player;
-                Init_Character(ThisPlayerInfo.NickName, ThisPlayerInfo.Class, ThisPlayerInfo.Leve);
+                Init_Character(ThisPlayerInfo.characterName, ThisPlayerInfo.@class, 1);
             }
             if (renderTexture != null)
                 rawImage.texture = renderTexture;
@@ -72,7 +93,9 @@ public class CharacterSelectButton : MonoBehaviour
     #region 버튼의 기능
     public void CreateCharacter()
     {
-        Debug.Log("이제 캐릭터를 생성해야지");
+        Debug.Log($"이제 캐릭터를 생성해야지 {buttonNumber}");
+        PopupManager.Instance.Show<CharacterCreatePopup>((popup)=>popup.Set(buttonNumber));
+        PopupManager.Instance.UnShow<CharacterSelectPopup>();
     }
     public void EnterGame()
     {

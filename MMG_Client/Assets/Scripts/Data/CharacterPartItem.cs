@@ -15,9 +15,9 @@ public class CharacterPartItem : EquippableItem
 }
 public enum Gender
 {
-    Both,
-    Man,
-    Girl
+    Both = 2,
+    Man = 0,
+    Girl = 1,
 }
 public enum EquipSlot
 {

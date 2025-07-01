@@ -45,7 +45,7 @@ MonoBehaviour:
   properties: []
   previewPrefab: {fileID: 0}
   itemId: face_girl_02
-  Gender: 2
+  Gender: 1
   equipSlot: 3
   mesh: {fileID: -756438820484449877, guid: c20f882c0cba12c4bae6bc5bda4bb9b7, type: 3}
   material: {fileID: 2100000, guid: 6a4c0a5109ac9314e97b0138b1203c35, type: 2}

@@ -9,7 +9,6 @@ public class CreateCharacterManager : MonoBehaviour
     public static CreateCharacterManager Instance { get; private set; }
     public CharacterAppearance createCharacter;
 
-    [SerializeField] private DefaultItemSet defaultItemSet;
     private Dictionary<EquipSlot, List<CharacterPartItem>> availableParts;
     private Dictionary<EquipSlot, List<CharacterPartItem>> filteredParts;
     private Dictionary<EquipSlot, int> currentIndexes;
@@ -30,7 +29,8 @@ public class CreateCharacterManager : MonoBehaviour
         filteredParts = new();
         currentIndexes = new();
 
-        foreach (var item in defaultItemSet.defaultItems)
+        List<CharacterPartItem> partsItemList = CharacterDataManager.Instance.GetDefaultItem();
+        foreach (var item in partsItemList)
         {
             if (!availableParts.ContainsKey(item.equipSlot))
                 availableParts[item.equipSlot] = new List<CharacterPartItem>();
@@ -53,7 +53,6 @@ public class CreateCharacterManager : MonoBehaviour
 
     public void SetGender(Gender gender)
     {
-        Debug.Log($"¼ºº°? {gender.ToString()}");
         currentGender = gender; 
         createCharacter.MyCharacterGender = gender;
         FilterPartsByGender();
@@ -86,6 +85,7 @@ public class CreateCharacterManager : MonoBehaviour
     }
     private void ApplyDefaultParts()
     {
+        FilterPartsByGender();
         foreach (var kvp in filteredParts)
         {
             if (kvp.Value.Count > 0)

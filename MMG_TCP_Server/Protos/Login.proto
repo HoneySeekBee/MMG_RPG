@@ -42,10 +42,22 @@ message CharacterInfo
 	float LastPlayedAt = 8;
 	
 	bool isDeleted = 9;
-
 }
+
+message C_LoginCheck{
+  string jwt_token = 1; 
+}
+
+message S_LoginCheckResponse{
+  bool is_valid = 1;              // 유효한 토큰 여부
+  int32 user_id = 2;              // 유저 ID (로그인 성공시)
+  string email = 3;               // 유저 이메일 (필요시)
+  string nickname = 4;           // 유저 닉네임 (표시용)
+  string reason = 5;             // 실패 사유 (예: "expired", "invalid", "not_found" 등)
+}
+
 message C_PlayerCharactersRequest{
-	int32 playerId = 1;
+  string jwt_token = 1; 
 }
 
 message S_PlayerCharactersResponse{

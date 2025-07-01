@@ -66,10 +66,15 @@ namespace MMG.UI
                 _activePopups.Remove(popupType);
             };
         }
-
-        public void ShowLoginButton()
+        public void UnShow<T>() where T : PopupBase
         {
-            PopupManager.Instance.Show<LoginPopup>();
+            Type popupType = typeof(T);
+
+            if (_activePopups.TryGetValue(popupType, out PopupBase popup))
+            {
+                popup.Close(); // ¶Ç´Â popup.gameObject.SetActive(false); µî
+                _activePopups.Remove(popupType);
+            }
         }
     }
 }
