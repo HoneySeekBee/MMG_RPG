@@ -17,12 +17,15 @@ namespace ServerCore
         S_LoginToken = 2,
 
         // 게임 관련 
-        C_EnterGameRoom = 101, 
-        S_EnterGameRoom = 102, 
-        C_Move = 103,
-        S_Move = 104,
+        C_EnterGameRequest = 101, 
+        S_EnterGameResponse = 102, 
         C_SelectCharacter = 105,
         S_SelectCharacter = 106,
+
+        // BroadCast 용
+        C_BroadcastMove = 111,
+        S_BroadcastMove = 112,
+        S_BroadcastEnter = 113,
 
         S_Error = 901,
     }

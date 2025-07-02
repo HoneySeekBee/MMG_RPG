@@ -31,8 +31,17 @@ public class NetworkManager : MonoBehaviour
     {
         _session.Send(ServerCore.PacketType.C_SelectCharacter, packet);
     }
-    public void Send_Move(C_Move packet)
+
+    // [1] 캐릭터 생성 요청
+    public void Send_EnterGame(C_EnterGameRequest packet)
     {
-        _session.Send(ServerCore.PacketType.C_Move, packet);
+        _session.Send(ServerCore.PacketType.C_EnterGameRequest, packet);
+    }
+
+    // [2] GameRoom 입장 요청
+
+    public void Send_Move(C_BroadcastMove packet)
+    {
+        _session.Send(ServerCore.PacketType.C_BroadcastMove, packet);
     }
 }

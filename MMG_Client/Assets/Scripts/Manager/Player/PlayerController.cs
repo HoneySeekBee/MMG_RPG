@@ -10,8 +10,6 @@ using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
-    public DevionGames.PlayerInfo PlayerInfo { get; private set; }
-
     private Animator _animator;
 
     public float speed = 5f;
@@ -35,7 +33,6 @@ public class PlayerController : MonoBehaviour
     private bool _networkDirty = false;
     void Start()
     {
-        Debug.Log($"생성되었습니다. {this.name}");
         _animator = GetComponentInChildren<Animator>();
         speed = walkSpeed;
         maxSpeed = runSpeed;
@@ -84,8 +81,8 @@ public class PlayerController : MonoBehaviour
 
         // 0~1 사이로 정규화 후 Animator에 전달
         float normalizedSpeed = Mathf.Clamp01(_smoothedSpeed / maxSpeed);
-
-        _animator.SetFloat("speed", normalizedSpeed, 0.1f, Time.deltaTime);
+        
+        // _animator.SetFloat("speed", normalizedSpeed, 0.1f, Time.deltaTime);
     }
     Vector3 _lastSentPos;
     Vector3 _lastSentDir;
@@ -135,14 +132,12 @@ public class PlayerController : MonoBehaviour
     }
 
     #region None-Local Player Characeter 관련
-    public void NoneLocalPlayer_Move(S_Move movePacket)
+    public void NoneLocalPlayer_Move(S_BroadcastMove movePacket)
     {
         _networkTargetPos.x = movePacket.PosX;
         _networkTargetPos.y = movePacket.PosY;
         _networkTargetPos.z = movePacket.PosZ;
-        _networkDirection.x = movePacket.DirX;
         _networkDirection.y = movePacket.DirY;
-        _networkDirection.z = movePacket.DirZ;
         _networkSpeed = movePacket.Speed;
 
         Debug.Log($"움직일게 {isLocalPlayer} : {_networkSpeed} : {_networkTargetPos.x} : {_networkTargetPos.y} : {_networkTargetPos.z}");

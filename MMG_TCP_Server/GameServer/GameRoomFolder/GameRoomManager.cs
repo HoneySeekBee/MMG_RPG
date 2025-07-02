@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.Domain
+namespace GameServer.GameRoomFolder
 {
     public class GameRoomManager
     {
@@ -44,6 +44,14 @@ namespace GameServer.Domain
             {
                 room.Update();
             }
+        }
+        public GameRoom GetOrCreateRoom(int mapId)
+        {
+            if (!_rooms.TryGetValue(mapId, out var room))
+            {
+                room = CreateRoom(mapId);
+            }
+            return room;
         }
     }
 }

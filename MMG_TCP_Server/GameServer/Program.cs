@@ -1,5 +1,5 @@
 ﻿using GameServer.Core;
-using GameServer.Domain;
+using GameServer.GameRoomFolder;
 using System.Net;
 using System.Net.Sockets;
 

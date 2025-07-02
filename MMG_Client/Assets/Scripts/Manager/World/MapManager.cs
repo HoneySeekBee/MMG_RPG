@@ -7,11 +7,13 @@ using UnityEngine;
 public class MapManager : SceneSingleton<MapManager>
 {
     [SerializeField] private MapDataSet _mapData;
-
+    public const int DEFAULT_MAP_NUMBER = 0;
+    public int MapNumber;
     public void EnterGameScene(int mapNumber = 0)
     {
         Debug.Log("EnterGame");
-        string sceneName = _mapData.mapDatas[mapNumber].SceneName;
+        MapNumber = mapNumber;
+        string sceneName = _mapData.mapDatas[MapNumber].SceneName;
         SceneLoader.Instance.LoadScene(sceneName);
     }
 }

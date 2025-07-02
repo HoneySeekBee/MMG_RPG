@@ -23,4 +23,8 @@ public class SpawnPointData
 {
     public int SpawnPointId;
     public string Description;
+
+    // AABB 영역 정보 (Plane 기반 추출)
+    public List<int> Min = new();
+    public List<int> Max = new();
 }

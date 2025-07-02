@@ -15,12 +15,23 @@ public class PacketManager : MonoBehaviour
     {
         Debug.Log("Pakcet Manager - Register");
         RegisterLogin();
+        RegisterEnterGame();
+        RegisterBroadcast();
     }
     #region
     private static void RegisterLogin()
     {
         _onRecv.Add((ushort)PacketType.S_LoginToken, MakePacket<S_LoginToken>(PacketHandler.S_LoginTokenHandler));
         _onRecv.Add((ushort)PacketType.S_SelectCharacter, MakePacket<S_SelectedCharacter>(PacketHandler.S_SelectedCharacterHandler));
+    }
+    private static void RegisterEnterGame()
+    {
+        _onRecv.Add((ushort)PacketType.S_EnterGameResponse, MakePacket<S_EnterGameResponse>(PacketHandler.S_EnterGameResponHandler));
+    }
+    private static void RegisterBroadcast()
+    {
+        _onRecv.Add((ushort)PacketType.S_BroadcastEnter, MakePacket<S_BroadcastEnter>(PacketHandler.S_BroadcastEnterHandler));
+
     }
     #endregion
 

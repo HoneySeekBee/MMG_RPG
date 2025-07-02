@@ -79,5 +79,19 @@ namespace MMG_API.Controllers
 
             return Ok(new { message = "캐릭터 생성 완료", characterId = character.Id });
         }
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCharacterById([FromRoute] int id)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var character = await _db.Characters.FirstOrDefaultAsync(c =>
+                c.Id == id && c.UserId == userId && !c.IsDeleted);
+
+            if (character == null)
+                return NotFound("해당 캐릭터를 찾을 수 없습니다.");
+
+            return Ok(character);
+        }
     }
 }

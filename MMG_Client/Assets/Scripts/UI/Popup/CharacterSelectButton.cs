@@ -107,7 +107,7 @@ public class CharacterSelectButton : MonoBehaviour
         Debug.Log("이제 게임을 시작하자.");
         // TCP 서버에 연결해야한다.
         // 선택창을 안보이게 해야한다. 
-        GameManager.Instance.SelectCharacter(ThisPlayerInfo);
+        PlayerData.Instance.InitializeFrom(ThisPlayerInfo);
         if (ServerConnector.Instance != null)
         {
             StartCoroutine(ServerConnector.Instance.ConnectToServer());

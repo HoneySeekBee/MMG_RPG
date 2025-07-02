@@ -5,8 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
-using UnityEditor.Build;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;

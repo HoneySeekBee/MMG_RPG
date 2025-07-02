@@ -19,4 +19,14 @@ MonoBehaviour:
     Description: 
     SpawnPoints:
     - SpawnPointId: 0
-      Description: InitPoint
+      Description: "\uAE30\uBCF8 \uC704\uCE58"
+      Min: e1ffffff00000000eeffffff
+      Max: ebffffff00000000f8ffffff
+    - SpawnPointId: 1
+      Description: "\uB3D9\uCABD \uC2A4\uD3F0"
+      Min: 0300000000000000f9ffffff
+      Max: 0d0000000000000003000000
+    - SpawnPointId: 2
+      Description: "\uC11C\uCABD \uC2A4\uD3F0"
+      Min: f8ffffff00000000c2ffffff
+      Max: 0200000000000000ccffffff

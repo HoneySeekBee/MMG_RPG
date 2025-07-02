@@ -2160,6 +2160,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6379151491542573879}
   - component: {fileID: 1058113065293563041}
+  - component: {fileID: 751719588233480726}
+  - component: {fileID: 1621501695153638957}
   m_Layer: 10
   m_Name: Character
   m_TagString: Untagged
@@ -2208,6 +2210,39 @@ MonoBehaviour:
   ShoesRenderer: {fileID: 4057480322046639172}
   FaceAccessoriesRenderer: {fileID: 8450690593983783906}
   GlassesRenderer: {fileID: 5164760646502129241}
+--- !u!114 &751719588233480726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5570972460073474076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 909841075eaa3f0438538a70565e5944, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localController: {fileID: 1621501695153638957}
+--- !u!114 &1621501695153638957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5570972460073474076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3685454cb5e172141b46fa92230ba196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  walkSpeed: 3
+  runSpeed: 5
+  smoothingFactor: 10
+  maxSpeed: 10
+  _rawSpeed: 0
+  _smoothedSpeed: 0
+  _isLocalPlayer: 0
 --- !u!1 &5972746370722117759
 GameObject:
   m_ObjectHideFlags: 0
@@ -3423,7 +3458,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8333051351186594708}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3445,7 +3480,7 @@ Transform:
   - {fileID: 7675796286585421760}
   - {fileID: 1348600338528544368}
   m_Father: {fileID: 6379151491542573879}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3318887348977883988
 Animator:
   serializedVersion: 5
@@ -3456,7 +3491,7 @@ Animator:
   m_GameObject: {fileID: 8333051351186594708}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 571adabd431d59248ab0524b96f6d52a, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ec115976744041a4ead8ba9cda3194a6, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1

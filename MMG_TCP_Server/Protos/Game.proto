@@ -16,14 +16,22 @@ message CharacterInfo{
 	string Class =5;
 	string AppearanceCode = 6;
 }
-
-message C_EnterGameRoom{
-	int32 enterRoomId = 1;
+message C_EnterGameRequest{
+	int32 CharacterId = 1;
+	int32 MapId = 2;
 }
 
-message S_PlayerEntered {
-  string name = 1;
-  PlayerInfo playerInfo = 2;
+message S_EnterGameResponse {
+  repeated CharacterList characterList = 1;
+}
+
+message CharacterList {
+  bool IsLocal = 1; // true: 본인, false: 다른 유저
+  CharacterInfo characterInfo = 2;
+  float PosX = 3;
+  float PosY = 4;
+  float PosZ = 5;
+  float DirY = 6;
 }
 
 
@@ -35,21 +43,19 @@ message PlayerInfo {
 }
 
 
-message C_Move
+message C_BroadcastMove
 {
   float posX = 1;
   float posY = 2;
   float posZ = 3;
 
-  float dirX = 4;
-  float dirY = 5;
-  float dirZ = 6;
+  float dirY = 4;
 
-  float speed = 7;
-  int64 timestamp = 8;
+  float speed = 5;
+  int64 timestamp = 6;
 }
 
-message S_Move
+message S_BroadcastMove
 { 
 	int32 playerId = 1;
 
@@ -57,11 +63,15 @@ message S_Move
   float posY = 3;
   float posZ = 4;
 
-  float dirX = 5;
-  float dirY = 6;
-  float dirZ = 7;
+  float dirY = 5;
 
-  float speed = 8;
+  float speed = 6;
 
-  int64 timestamp = 9;
+  int64 timestamp = 7;
 }
+
+
+message S_BroadcastEnter{
+	CharacterList enterCharacter = 1;
+}
+

@@ -5,23 +5,11 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public static InputManager Instance { get; private set; }
     public static event Action<Vector2> OnMoveInput;
     public static event Action OnAttackInput;
     public static event Action OnRuninputDown;
     public static event Action OnRuninputUp;
     public PlayerController localController;
-
-
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-    }
 
     void Update()
     {

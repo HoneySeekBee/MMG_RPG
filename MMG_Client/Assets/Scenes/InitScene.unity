@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 31285416}
   - component: {fileID: 31285417}
   - component: {fileID: 31285418}
+  - component: {fileID: 31285419}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -231,17 +232,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 092bb53c43163084c82678d61c3fb90d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ThisCharacterData:
-    id: 0
-    userId: 0
-    Gender: 0
-    slotNumber: 0
-    characterName: 
-    class: 
-    appearanceCode: 
-    createdAt: 
-    lastPlayedAt: 
-    isDeleted: 0
 --- !u!114 &31285415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,6 +281,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 074ecbabe2978af418ffcf36f882ea3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &31285419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31285411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 956337871904343489ae187380085c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MyCharaceterData:
+    id: 0
+    userId: 0
+    Gender: 0
+    slotNumber: 0
+    characterName: 
+    class: 
+    appearanceCode: 
+    createdAt: 
+    lastPlayedAt: 
+    isDeleted: 0
 --- !u!1001 &71102907
 PrefabInstance:
   m_ObjectHideFlags: 0

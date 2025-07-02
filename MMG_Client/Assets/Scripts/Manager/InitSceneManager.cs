@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class InitSceneManager : MonoBehaviour
 {
-    [SerializeField] private ServerConnector Connector;
     private void Start()
     {
         StartCoroutine(Process());
@@ -37,7 +36,12 @@ public class InitSceneManager : MonoBehaviour
         {
             var json = request.downloadHandler.text;
             var result = JsonConvert.DeserializeObject<LoginValidationResult>(json);
-            if (result.IsValid)
+
+            bool isVaild = result.IsValid;
+
+            isVaild = false; // ================= 자동 로그인은 다음에 한개의 PC에 프로그램 1개만 하게 처리되면 ㄱ
+
+            if (isVaild)
             {
                 Debug.Log("[Login] 유효한 토큰 → 자동 로그인 성공");
                 GameManager.Instance.SetUser(result.UserId, result.Email, result.Nickname);

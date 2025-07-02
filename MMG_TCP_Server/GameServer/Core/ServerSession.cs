@@ -16,6 +16,7 @@ namespace GameServer.Core
         public int SessionId { get; set; }
         public Player MyPlayer { get; set; }
         private SendQueue _sendQueue = new();
+        public string jwtToken { get; set; }
         public bool IsLoggedIn { get; private set; } = false;
 
         public override void Send(byte[] sendBuffer)

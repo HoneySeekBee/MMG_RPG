@@ -3,23 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public class SceneLoader : GlobalSingleton<SceneLoader>
 {
-    public static SceneLoader Instance { get; private set; }
 
     [SerializeField] private GameObject loadingScreen; // 로딩 UI 연동 가능
     [SerializeField] private float fakeLoadingTime = 1f;
-
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject); // 씬 이동에도 살아남도록
-    }
 
     public void LoadScene(string sceneName)
     {
