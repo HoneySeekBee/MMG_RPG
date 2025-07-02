@@ -22,7 +22,8 @@ message C_EnterGameRequest{
 }
 
 message S_EnterGameResponse {
-  repeated CharacterList characterList = 1;
+	int32 MapId = 1;
+  repeated CharacterList characterList = 2;
 }
 
 message CharacterList {
@@ -58,16 +59,17 @@ message C_BroadcastMove
 message S_BroadcastMove
 { 
 	int32 playerId = 1;
+	int32 CharacterId = 2;
 
-  float posX = 2;
-  float posY = 3;
-  float posZ = 4;
+  float posX = 3;
+  float posY = 4;
+  float posZ = 5;
 
-  float dirY = 5;
+  float dirY = 6;
 
-  float speed = 6;
+  float speed =7;
 
-  int64 timestamp = 7;
+  int64 timestamp = 8;
 }
 
 

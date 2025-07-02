@@ -40,7 +40,7 @@ namespace GameServer.Core
 
         private static void Register_Move()
         {
-            _syncHandlers.Add((ushort)PacketType.C_BroadcastMove, MakePacket<C_BroadcastMove>(PacketHandler.C_MoveHandler));
+            _syncHandlers.Add((ushort)PacketType.C_BroadcastMove, MakePacket<C_BroadcastMove>(PacketHandler.C_BroadcastMoveHandler));
         }
         #endregion
 

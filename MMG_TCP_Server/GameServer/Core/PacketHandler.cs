@@ -1,12 +1,9 @@
-﻿using GameServer.Data;
-using GameServer.Domain;
-using Microsoft.IdentityModel.Tokens;
+﻿using GameServer.Domain;
+using GameServer.GameRoomFolder;
+using Newtonsoft.Json;
 using Packet;
 using ServerCore;
-using GameServer.GameRoomFolder;
-using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
-using Newtonsoft.Json;
 namespace GameServer.Core
 {
     public static class IdGenerator
@@ -89,13 +86,10 @@ namespace GameServer.Core
             GameRoom room = GameRoomManager.Instance.GetOrCreateRoom(packet.MapId);
 
             room.Enter(session);
-
         }
         
-
-
         #region Game 입력 
-        public static void C_MoveHandler(ServerSession session, C_BroadcastMove packet)
+        public static void C_BroadcastMoveHandler(ServerSession session, C_BroadcastMove packet)
         {
             Player player = session.MyPlayer;
 
@@ -110,6 +104,7 @@ namespace GameServer.Core
             S_BroadcastMove s_Move = new S_BroadcastMove()
             {
                 PlayerId = session.SessionId,
+                CharacterId = session.MyPlayer.CharacterInfo.Id,
                 PosX = packet.PosX,
                 PosY = packet.PosY,
                 PosZ = packet.PosZ,
@@ -118,6 +113,7 @@ namespace GameServer.Core
                 Timestamp = packet.Timestamp,
             };
             // 브로드 캐스트 해주어야함
+
             SafeBroadcastMove(session, s_Move);
         }
         public static void SafeBroadcastMove(ServerSession session, S_BroadcastMove s_Move)

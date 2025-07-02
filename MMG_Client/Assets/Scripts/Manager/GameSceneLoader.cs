@@ -10,8 +10,8 @@ using UnityEngine.TextCore.Text;
 
 public class GameSceneLoader : SceneSingleton<GameSceneLoader>
 {
+
     [SerializeField] private string characterAddress = "Character"; // Addressable 이름
-    private GameObject CharacterPrefab;
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -26,12 +26,7 @@ public class GameSceneLoader : SceneSingleton<GameSceneLoader>
     {
         Debug.Log("[GameSceneLoader] 씬 로드 완료 → 서버에 맵 입장 요청 전송");
 
-        //var enterPacket = new C_EnterMap
-        //{
-        //    MapId = PlayerData.Instance.MapNumber
-        //};
-
-        //NetworkManager.Instance.Send(PacketType.C_EnterMap, enterPacket);
+        InputManager.Instance.Initialize();
         LoadCharacter();
     }
     public void SpawnRoomAllCharacter(List<CharacterList> characterList)
@@ -54,7 +49,8 @@ public class GameSceneLoader : SceneSingleton<GameSceneLoader>
     {
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            CharacterPrefab = handle.Result;
+            GameObject CharacterPrefab = handle.Result;
+            GameRoom.Instance.CharacterPrefab = CharacterPrefab;
 
             C_EnterGameRequest EnterGameRequest = new C_EnterGameRequest()
             {
@@ -70,23 +66,4 @@ public class GameSceneLoader : SceneSingleton<GameSceneLoader>
         }
     }
 
-    public void SpawnCharacters(List<CharacterList> characterList)
-    {
-        foreach (var character in characterList)
-        {
-            SpawnCharacter(character);
-        }
-    }
-    public void SpawnCharacter(CharacterList character)
-    {
-        Vector3 pos = new Vector3(character.PosX, character.PosY, character.PosZ);
-        Quaternion rotation = Quaternion.Euler(0f, character.DirY, 0f);
-        GameObject go = Instantiate(CharacterPrefab, pos, rotation, parent: this.transform);
-        PlayerController playerController = go.GetComponent<PlayerController>();
-        playerController.Initialize(character.IsLocal);
-        CharacterAppearance characterAppearance = go.GetComponent<CharacterAppearance>();
-        characterAppearance.MyCharacterGender = (Gender)(character.CharacterInfo.Gender);
-        characterAppearance.LoadFromAppearanceCode(character.CharacterInfo.AppearanceCode);
-
-    }
 }

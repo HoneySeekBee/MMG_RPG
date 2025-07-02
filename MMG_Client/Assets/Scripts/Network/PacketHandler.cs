@@ -50,7 +50,8 @@ public class PacketHandler : MonoBehaviour
 
         MainThreadDispatcher.RunOnMainThread(() =>
         {
-            GameSceneLoader.Instance.SpawnCharacters(response.CharacterList.ToList());
+            GameRoom.Instance.Init(response.MapId);
+            GameRoom.Instance.SpawnCharacters(response.CharacterList.ToList());
         });
     }
 
@@ -60,7 +61,15 @@ public class PacketHandler : MonoBehaviour
         MainThreadDispatcher.RunOnMainThread(() =>
         {
             Debug.Log($"{response.EnterCharacter.CharacterInfo.CharacterName}이 입장하였습니다. ");
-            GameSceneLoader.Instance.SpawnCharacter(response.EnterCharacter);
+            GameRoom.Instance.HandleBroadcastEnter(response);
+        });
+    }
+    public static void S_BroadcastMovehandler(ClientSession session, S_BroadcastMove response)
+    {
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            Debug.Log($"{response.CharacterId}가 움직입니다.");
+            GameRoom.Instance.HandleBroadcastMove(response);
         });
     }
     #endregion

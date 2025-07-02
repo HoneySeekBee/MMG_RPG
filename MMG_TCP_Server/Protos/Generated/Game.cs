@@ -30,20 +30,21 @@ namespace Packet {
             "cmFjdGVySW5mbxIKCgJJZBgBIAEoBRIOCgZVc2VySWQYAiABKAUSDgoGR2Vu",
             "ZGVyGAMgASgFEhUKDUNoYXJhY3Rlck5hbWUYBCABKAkSDQoFQ2xhc3MYBSAB",
             "KAkSFgoOQXBwZWFyYW5jZUNvZGUYBiABKAkiOAoSQ19FbnRlckdhbWVSZXF1",
-            "ZXN0EhMKC0NoYXJhY3RlcklkGAEgASgFEg0KBU1hcElkGAIgASgFIkMKE1Nf",
-            "RW50ZXJHYW1lUmVzcG9uc2USLAoNY2hhcmFjdGVyTGlzdBgBIAMoCzIVLlBh",
-            "Y2tldC5DaGFyYWN0ZXJMaXN0IoYBCg1DaGFyYWN0ZXJMaXN0Eg8KB0lzTG9j",
-            "YWwYASABKAgSLAoNY2hhcmFjdGVySW5mbxgCIAEoCzIVLlBhY2tldC5DaGFy",
-            "YWN0ZXJJbmZvEgwKBFBvc1gYAyABKAISDAoEUG9zWRgEIAEoAhIMCgRQb3Na",
-            "GAUgASgCEgwKBERpclkYBiABKAIiSAoKUGxheWVySW5mbxIQCghwbGF5ZXJJ",
-            "ZBgBIAEoBRIMCgRuYW1lGAIgASgJEgwKBHBvc1gYAyABKAISDAoEcG9zWRgE",
-            "IAEoAiJrCg9DX0Jyb2FkY2FzdE1vdmUSDAoEcG9zWBgBIAEoAhIMCgRwb3NZ",
-            "GAIgASgCEgwKBHBvc1oYAyABKAISDAoEZGlyWRgEIAEoAhINCgVzcGVlZBgF",
-            "IAEoAhIRCgl0aW1lc3RhbXAYBiABKAMifQoPU19Ccm9hZGNhc3RNb3ZlEhAK",
-            "CHBsYXllcklkGAEgASgFEgwKBHBvc1gYAiABKAISDAoEcG9zWRgDIAEoAhIM",
-            "CgRwb3NaGAQgASgCEgwKBGRpclkYBSABKAISDQoFc3BlZWQYBiABKAISEQoJ",
-            "dGltZXN0YW1wGAcgASgDIkEKEFNfQnJvYWRjYXN0RW50ZXISLQoOZW50ZXJD",
-            "aGFyYWN0ZXIYASABKAsyFS5QYWNrZXQuQ2hhcmFjdGVyTGlzdGIGcHJvdG8z"));
+            "ZXN0EhMKC0NoYXJhY3RlcklkGAEgASgFEg0KBU1hcElkGAIgASgFIlIKE1Nf",
+            "RW50ZXJHYW1lUmVzcG9uc2USDQoFTWFwSWQYASABKAUSLAoNY2hhcmFjdGVy",
+            "TGlzdBgCIAMoCzIVLlBhY2tldC5DaGFyYWN0ZXJMaXN0IoYBCg1DaGFyYWN0",
+            "ZXJMaXN0Eg8KB0lzTG9jYWwYASABKAgSLAoNY2hhcmFjdGVySW5mbxgCIAEo",
+            "CzIVLlBhY2tldC5DaGFyYWN0ZXJJbmZvEgwKBFBvc1gYAyABKAISDAoEUG9z",
+            "WRgEIAEoAhIMCgRQb3NaGAUgASgCEgwKBERpclkYBiABKAIiSAoKUGxheWVy",
+            "SW5mbxIQCghwbGF5ZXJJZBgBIAEoBRIMCgRuYW1lGAIgASgJEgwKBHBvc1gY",
+            "AyABKAISDAoEcG9zWRgEIAEoAiJrCg9DX0Jyb2FkY2FzdE1vdmUSDAoEcG9z",
+            "WBgBIAEoAhIMCgRwb3NZGAIgASgCEgwKBHBvc1oYAyABKAISDAoEZGlyWRgE",
+            "IAEoAhINCgVzcGVlZBgFIAEoAhIRCgl0aW1lc3RhbXAYBiABKAMikgEKD1Nf",
+            "QnJvYWRjYXN0TW92ZRIQCghwbGF5ZXJJZBgBIAEoBRITCgtDaGFyYWN0ZXJJ",
+            "ZBgCIAEoBRIMCgRwb3NYGAMgASgCEgwKBHBvc1kYBCABKAISDAoEcG9zWhgF",
+            "IAEoAhIMCgRkaXJZGAYgASgCEg0KBXNwZWVkGAcgASgCEhEKCXRpbWVzdGFt",
+            "cBgIIAEoAyJBChBTX0Jyb2FkY2FzdEVudGVyEi0KDmVudGVyQ2hhcmFjdGVy",
+            "GAEgASgLMhUuUGFja2V0LkNoYXJhY3Rlckxpc3RiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -51,11 +52,11 @@ namespace Packet {
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.S_SelectedCharacter), global::Packet.S_SelectedCharacter.Parser, new[]{ "Result" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.CharacterInfo), global::Packet.CharacterInfo.Parser, new[]{ "Id", "UserId", "Gender", "CharacterName", "Class", "AppearanceCode" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.C_EnterGameRequest), global::Packet.C_EnterGameRequest.Parser, new[]{ "CharacterId", "MapId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.S_EnterGameResponse), global::Packet.S_EnterGameResponse.Parser, new[]{ "CharacterList" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.S_EnterGameResponse), global::Packet.S_EnterGameResponse.Parser, new[]{ "MapId", "CharacterList" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.CharacterList), global::Packet.CharacterList.Parser, new[]{ "IsLocal", "CharacterInfo", "PosX", "PosY", "PosZ", "DirY" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.PlayerInfo), global::Packet.PlayerInfo.Parser, new[]{ "PlayerId", "Name", "PosX", "PosY" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.C_BroadcastMove), global::Packet.C_BroadcastMove.Parser, new[]{ "PosX", "PosY", "PosZ", "DirY", "Speed", "Timestamp" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.S_BroadcastMove), global::Packet.S_BroadcastMove.Parser, new[]{ "PlayerId", "PosX", "PosY", "PosZ", "DirY", "Speed", "Timestamp" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.S_BroadcastMove), global::Packet.S_BroadcastMove.Parser, new[]{ "PlayerId", "CharacterId", "PosX", "PosY", "PosZ", "DirY", "Speed", "Timestamp" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.S_BroadcastEnter), global::Packet.S_BroadcastEnter.Parser, new[]{ "EnterCharacter" }, null, null, null, null)
           }));
     }
@@ -1121,6 +1122,7 @@ namespace Packet {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public S_EnterGameResponse(S_EnterGameResponse other) : this() {
+      mapId_ = other.mapId_;
       characterList_ = other.characterList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -1131,10 +1133,22 @@ namespace Packet {
       return new S_EnterGameResponse(this);
     }
 
+    /// <summary>Field number for the "MapId" field.</summary>
+    public const int MapIdFieldNumber = 1;
+    private int mapId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int MapId {
+      get { return mapId_; }
+      set {
+        mapId_ = value;
+      }
+    }
+
     /// <summary>Field number for the "characterList" field.</summary>
-    public const int CharacterListFieldNumber = 1;
+    public const int CharacterListFieldNumber = 2;
     private static readonly pb::FieldCodec<global::Packet.CharacterList> _repeated_characterList_codec
-        = pb::FieldCodec.ForMessage(10, global::Packet.CharacterList.Parser);
+        = pb::FieldCodec.ForMessage(18, global::Packet.CharacterList.Parser);
     private readonly pbc::RepeatedField<global::Packet.CharacterList> characterList_ = new pbc::RepeatedField<global::Packet.CharacterList>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1157,6 +1171,7 @@ namespace Packet {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (MapId != other.MapId) return false;
       if(!characterList_.Equals(other.characterList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -1165,6 +1180,7 @@ namespace Packet {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (MapId != 0) hash ^= MapId.GetHashCode();
       hash ^= characterList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -1184,6 +1200,10 @@ namespace Packet {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
+      if (MapId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MapId);
+      }
       characterList_.WriteTo(output, _repeated_characterList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1195,6 +1215,10 @@ namespace Packet {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (MapId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MapId);
+      }
       characterList_.WriteTo(ref output, _repeated_characterList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1206,6 +1230,9 @@ namespace Packet {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (MapId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MapId);
+      }
       size += characterList_.CalculateSize(_repeated_characterList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1218,6 +1245,9 @@ namespace Packet {
     public void MergeFrom(S_EnterGameResponse other) {
       if (other == null) {
         return;
+      }
+      if (other.MapId != 0) {
+        MapId = other.MapId;
       }
       characterList_.Add(other.characterList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -1239,7 +1269,11 @@ namespace Packet {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 10: {
+          case 8: {
+            MapId = input.ReadInt32();
+            break;
+          }
+          case 18: {
             characterList_.AddEntriesFrom(input, _repeated_characterList_codec);
             break;
           }
@@ -1262,7 +1296,11 @@ namespace Packet {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 10: {
+          case 8: {
+            MapId = input.ReadInt32();
+            break;
+          }
+          case 18: {
             characterList_.AddEntriesFrom(ref input, _repeated_characterList_codec);
             break;
           }
@@ -2396,6 +2434,7 @@ namespace Packet {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public S_BroadcastMove(S_BroadcastMove other) : this() {
       playerId_ = other.playerId_;
+      characterId_ = other.characterId_;
       posX_ = other.posX_;
       posY_ = other.posY_;
       posZ_ = other.posZ_;
@@ -2423,8 +2462,20 @@ namespace Packet {
       }
     }
 
+    /// <summary>Field number for the "CharacterId" field.</summary>
+    public const int CharacterIdFieldNumber = 2;
+    private int characterId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CharacterId {
+      get { return characterId_; }
+      set {
+        characterId_ = value;
+      }
+    }
+
     /// <summary>Field number for the "posX" field.</summary>
-    public const int PosXFieldNumber = 2;
+    public const int PosXFieldNumber = 3;
     private float posX_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2436,7 +2487,7 @@ namespace Packet {
     }
 
     /// <summary>Field number for the "posY" field.</summary>
-    public const int PosYFieldNumber = 3;
+    public const int PosYFieldNumber = 4;
     private float posY_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2448,7 +2499,7 @@ namespace Packet {
     }
 
     /// <summary>Field number for the "posZ" field.</summary>
-    public const int PosZFieldNumber = 4;
+    public const int PosZFieldNumber = 5;
     private float posZ_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2460,7 +2511,7 @@ namespace Packet {
     }
 
     /// <summary>Field number for the "dirY" field.</summary>
-    public const int DirYFieldNumber = 5;
+    public const int DirYFieldNumber = 6;
     private float dirY_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2472,7 +2523,7 @@ namespace Packet {
     }
 
     /// <summary>Field number for the "speed" field.</summary>
-    public const int SpeedFieldNumber = 6;
+    public const int SpeedFieldNumber = 7;
     private float speed_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2484,7 +2535,7 @@ namespace Packet {
     }
 
     /// <summary>Field number for the "timestamp" field.</summary>
-    public const int TimestampFieldNumber = 7;
+    public const int TimestampFieldNumber = 8;
     private long timestamp_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -2511,6 +2562,7 @@ namespace Packet {
         return true;
       }
       if (PlayerId != other.PlayerId) return false;
+      if (CharacterId != other.CharacterId) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosX, other.PosX)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosY, other.PosY)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosZ, other.PosZ)) return false;
@@ -2525,6 +2577,7 @@ namespace Packet {
     public override int GetHashCode() {
       int hash = 1;
       if (PlayerId != 0) hash ^= PlayerId.GetHashCode();
+      if (CharacterId != 0) hash ^= CharacterId.GetHashCode();
       if (PosX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosX);
       if (PosY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosY);
       if (PosZ != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosZ);
@@ -2553,28 +2606,32 @@ namespace Packet {
         output.WriteRawTag(8);
         output.WriteInt32(PlayerId);
       }
+      if (CharacterId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(CharacterId);
+      }
       if (PosX != 0F) {
-        output.WriteRawTag(21);
+        output.WriteRawTag(29);
         output.WriteFloat(PosX);
       }
       if (PosY != 0F) {
-        output.WriteRawTag(29);
+        output.WriteRawTag(37);
         output.WriteFloat(PosY);
       }
       if (PosZ != 0F) {
-        output.WriteRawTag(37);
+        output.WriteRawTag(45);
         output.WriteFloat(PosZ);
       }
       if (DirY != 0F) {
-        output.WriteRawTag(45);
+        output.WriteRawTag(53);
         output.WriteFloat(DirY);
       }
       if (Speed != 0F) {
-        output.WriteRawTag(53);
+        output.WriteRawTag(61);
         output.WriteFloat(Speed);
       }
       if (Timestamp != 0L) {
-        output.WriteRawTag(56);
+        output.WriteRawTag(64);
         output.WriteInt64(Timestamp);
       }
       if (_unknownFields != null) {
@@ -2591,28 +2648,32 @@ namespace Packet {
         output.WriteRawTag(8);
         output.WriteInt32(PlayerId);
       }
+      if (CharacterId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(CharacterId);
+      }
       if (PosX != 0F) {
-        output.WriteRawTag(21);
+        output.WriteRawTag(29);
         output.WriteFloat(PosX);
       }
       if (PosY != 0F) {
-        output.WriteRawTag(29);
+        output.WriteRawTag(37);
         output.WriteFloat(PosY);
       }
       if (PosZ != 0F) {
-        output.WriteRawTag(37);
+        output.WriteRawTag(45);
         output.WriteFloat(PosZ);
       }
       if (DirY != 0F) {
-        output.WriteRawTag(45);
+        output.WriteRawTag(53);
         output.WriteFloat(DirY);
       }
       if (Speed != 0F) {
-        output.WriteRawTag(53);
+        output.WriteRawTag(61);
         output.WriteFloat(Speed);
       }
       if (Timestamp != 0L) {
-        output.WriteRawTag(56);
+        output.WriteRawTag(64);
         output.WriteInt64(Timestamp);
       }
       if (_unknownFields != null) {
@@ -2627,6 +2688,9 @@ namespace Packet {
       int size = 0;
       if (PlayerId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(PlayerId);
+      }
+      if (CharacterId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(CharacterId);
       }
       if (PosX != 0F) {
         size += 1 + 4;
@@ -2660,6 +2724,9 @@ namespace Packet {
       }
       if (other.PlayerId != 0) {
         PlayerId = other.PlayerId;
+      }
+      if (other.CharacterId != 0) {
+        CharacterId = other.CharacterId;
       }
       if (other.PosX != 0F) {
         PosX = other.PosX;
@@ -2702,27 +2769,31 @@ namespace Packet {
             PlayerId = input.ReadInt32();
             break;
           }
-          case 21: {
-            PosX = input.ReadFloat();
+          case 16: {
+            CharacterId = input.ReadInt32();
             break;
           }
           case 29: {
-            PosY = input.ReadFloat();
+            PosX = input.ReadFloat();
             break;
           }
           case 37: {
-            PosZ = input.ReadFloat();
+            PosY = input.ReadFloat();
             break;
           }
           case 45: {
-            DirY = input.ReadFloat();
+            PosZ = input.ReadFloat();
             break;
           }
           case 53: {
+            DirY = input.ReadFloat();
+            break;
+          }
+          case 61: {
             Speed = input.ReadFloat();
             break;
           }
-          case 56: {
+          case 64: {
             Timestamp = input.ReadInt64();
             break;
           }
@@ -2749,27 +2820,31 @@ namespace Packet {
             PlayerId = input.ReadInt32();
             break;
           }
-          case 21: {
-            PosX = input.ReadFloat();
+          case 16: {
+            CharacterId = input.ReadInt32();
             break;
           }
           case 29: {
-            PosY = input.ReadFloat();
+            PosX = input.ReadFloat();
             break;
           }
           case 37: {
-            PosZ = input.ReadFloat();
+            PosY = input.ReadFloat();
             break;
           }
           case 45: {
-            DirY = input.ReadFloat();
+            PosZ = input.ReadFloat();
             break;
           }
           case 53: {
+            DirY = input.ReadFloat();
+            break;
+          }
+          case 61: {
             Speed = input.ReadFloat();
             break;
           }
-          case 56: {
+          case 64: {
             Timestamp = input.ReadInt64();
             break;
           }

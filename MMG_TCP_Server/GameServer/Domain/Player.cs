@@ -20,6 +20,13 @@ namespace GameServer.Domain
         public float PosZ { get; set; }
         public float DirY { get; set; }
         public long LastMoveTimestamp { get; set; } = 0;
+        public void UpdateMove(float posX, float posY, float posZ, float dirY)
+        {
+            PosX = posX;
+            PosY = posY;
+            PosZ = posZ;
+            DirY = dirY;
+        }
         public void OnDisconnected()
         {
             //Console.WriteLine($"[Player] {Character.CharacterName} disconnected.");

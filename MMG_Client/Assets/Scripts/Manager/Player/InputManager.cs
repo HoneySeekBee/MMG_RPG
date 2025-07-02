@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class InputManager : GlobalSingleton<InputManager>
 {
     public static event Action<Vector2> OnMoveInput;
     public static event Action OnAttackInput;
@@ -29,5 +29,13 @@ public class InputManager : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
             OnRuninputUp?.Invoke();
+    }
+    public void Initialize()
+    {
+        OnMoveInput = null;
+        OnAttackInput = null;
+        OnRuninputDown = null;
+        OnRuninputUp = null;
+        localController = null;
     }
 }

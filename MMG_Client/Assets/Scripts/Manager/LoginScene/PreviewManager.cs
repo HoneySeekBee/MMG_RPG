@@ -81,7 +81,8 @@ public class PreviewManager : SceneSingleton<PreviewManager>
             previewCamera[i].targetTexture = renderTextures[i];
 
             GameObject go = Instantiate(characterPrefab, previewCamera[i].transform.parent);
-            go.transform.localPosition = new Vector3(0, 180, 0);
+            go.transform.localPosition = Vector3.zero;
+            go.transform.rotation = Quaternion.Euler(0, 180, 0);
             characterAppearances[i] = go.GetComponent<CharacterAppearance>();
             SetLayerRecursively(go.transform, LayerMask.NameToLayer("Preview"));
         }

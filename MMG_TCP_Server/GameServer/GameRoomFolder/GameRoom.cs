@@ -44,7 +44,12 @@ namespace GameServer.GameRoomFolder
 
             // 해당 유저에게는 응답을 보내주고 나머지 방에 사람들에게는 입장 알려줌
 
+            session.MyPlayer.CurrentRoomId = RoomId;
+
             var response = new S_EnterGameResponse();
+            response.MapId = RoomId;
+
+
             foreach (var p in _players)
             {
                 response.CharacterList.Add(CreateCharacterList(p, p == player));
@@ -97,6 +102,9 @@ namespace GameServer.GameRoomFolder
         }
         public void BroadcastMove(S_BroadcastMove message, Player exclude = null)
         {
+            if (exclude != null)
+                exclude.UpdateMove(message.PosX, message.PosY, message.PosZ, message.DirY);
+
             Broadcast(PacketType.S_BroadcastMove, message, exclude);
         }
 

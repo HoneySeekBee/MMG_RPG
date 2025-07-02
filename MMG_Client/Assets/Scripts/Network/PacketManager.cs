@@ -31,6 +31,7 @@ public class PacketManager : MonoBehaviour
     private static void RegisterBroadcast()
     {
         _onRecv.Add((ushort)PacketType.S_BroadcastEnter, MakePacket<S_BroadcastEnter>(PacketHandler.S_BroadcastEnterHandler));
+        _onRecv.Add((ushort)PacketType.S_BroadcastMove, MakePacket<S_BroadcastMove>(PacketHandler.S_BroadcastMovehandler));
 
     }
     #endregion

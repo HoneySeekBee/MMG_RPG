@@ -1,4 +1,5 @@
 using Packet;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -40,8 +41,26 @@ public class NetworkManager : MonoBehaviour
 
     // [2] GameRoom 입장 요청
 
-    public void Send_Move(C_BroadcastMove packet)
+    public void Send_Move(Vector3 pos, float dirY, float speed)
     {
+        Debug.Log($"[SendMove] Pos : {pos.x}, {pos.y} || dirY : {dirY}");
+        DateTime utcNow = DateTime.UtcNow;
+        DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        TimeSpan elapsed = utcNow - epoch;
+
+        long unixTimeSeconds = (long)elapsed.TotalSeconds;
+
+        C_BroadcastMove packet = new C_BroadcastMove()
+        {
+            PosX = pos.x,
+            PosY = pos.y,
+            PosZ = pos.z,
+
+            DirY = dirY,
+            Speed = speed,
+
+            Timestamp = unixTimeSeconds
+        };
         _session.Send(ServerCore.PacketType.C_BroadcastMove, packet);
     }
 }

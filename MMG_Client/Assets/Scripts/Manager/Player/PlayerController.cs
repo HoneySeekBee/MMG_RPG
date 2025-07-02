@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     public bool isLocalPlayer { get { return _isLocalPlayer; } }
 
     private Vector3 _networkTargetPos;
-    private Vector3 _networkDirection;
+    private float _networkDirY;
     private float _networkSpeed;
     private bool _networkDirty = false;
     void Start()
@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
             InputManager.OnRuninputUp += HandleRunStop;
 
             this.tag = "Player";
+            InputManager.Instance.localController = this;
         }
     }
     void OnDisable()
@@ -85,7 +86,7 @@ public class PlayerController : MonoBehaviour
         // _animator.SetFloat("speed", normalizedSpeed, 0.1f, Time.deltaTime);
     }
     Vector3 _lastSentPos;
-    Vector3 _lastSentDir;
+    private float _lastSentDirY;
     void HandleMove(Vector2 input)
     {
         float vertical = input.y;    // W/S
@@ -108,12 +109,14 @@ public class PlayerController : MonoBehaviour
             return;
         // 여기서 보내면 될듯 싶다. 
         Vector3 direction = transform.forward;
+        float dirY = transform.eulerAngles.y;
 
-        if (Vector3.Distance(transform.position, _lastSentPos) > 0.01f || Vector3.Distance(direction, _lastSentDir) > 0.01f)
+        if (Vector3.Distance(transform.position, _lastSentPos) > 0.01f ||
+            Mathf.Abs(dirY - _lastSentDirY) > 0.5f) // 0.5도 이상 회전하면 전송
         {
-            //NetworkManager.Instance.Send_Move(transform.position, direction, _rawSpeed);
+            NetworkManager.Instance.Send_Move(transform.position, dirY, _rawSpeed);
             _lastSentPos = transform.position;
-            _lastSentDir = direction;
+            _lastSentDirY = dirY; // float 값으로 저장
         }
     }
 
@@ -132,27 +135,22 @@ public class PlayerController : MonoBehaviour
     }
 
     #region None-Local Player Characeter 관련
-    public void NoneLocalPlayer_Move(S_BroadcastMove movePacket)
+    public void NoneLocalPlayer_Move(Vector3 targetPos, float dirY, float speed)
     {
-        _networkTargetPos.x = movePacket.PosX;
-        _networkTargetPos.y = movePacket.PosY;
-        _networkTargetPos.z = movePacket.PosZ;
-        _networkDirection.y = movePacket.DirY;
-        _networkSpeed = movePacket.Speed;
+        _networkTargetPos = targetPos;
+        _networkDirY = dirY;  // ← float 값 따로 저장
+        _networkSpeed = speed;
 
-        Debug.Log($"움직일게 {isLocalPlayer} : {_networkSpeed} : {_networkTargetPos.x} : {_networkTargetPos.y} : {_networkTargetPos.z}");
+        Debug.Log($"[NoneLocalPlayer_Move] 받은 회전값 Y : {dirY}");
     }
     private void NotLocalPlayerMove()
     {
         // 부드러운 이동 처리
         transform.position = Vector3.Lerp(transform.position, _networkTargetPos, Time.deltaTime * _networkSpeed);
 
-        // 회전 방향 적용 (optional)
-        if (_networkDirection != Vector3.zero)
-        {
-            Quaternion targetRot = Quaternion.LookRotation(_networkDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 10f);
-        }
+        // y 회전값만 반영해서 회전
+        Quaternion targetRot = Quaternion.Euler(0f, _networkDirY, 0f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 10f);
     }
     #endregion
     public void DebugInventory(int id)
