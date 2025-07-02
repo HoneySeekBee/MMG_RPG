@@ -43,7 +43,6 @@ public class NetworkManager : MonoBehaviour
 
     public void Send_Move(Vector3 pos, float dirY, float speed)
     {
-        Debug.Log($"[SendMove] Pos : {pos.x}, {pos.y} || dirY : {dirY}");
         DateTime utcNow = DateTime.UtcNow;
         DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         TimeSpan elapsed = utcNow - epoch;

@@ -7,10 +7,10 @@ using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.EventSystems.StandaloneInputModule;
 
 public class PlayerController : MonoBehaviour
 {
-    private Animator _animator;
 
     public float speed = 5f;
     [SerializeField] private float walkSpeed = 3;
@@ -31,9 +31,13 @@ public class PlayerController : MonoBehaviour
     private float _networkDirY;
     private float _networkSpeed;
     private bool _networkDirty = false;
+
+    private PlayerAnimator playerAnimator;
+    private Vector2 _inputMove;
+
     void Start()
     {
-        _animator = GetComponentInChildren<Animator>();
+        playerAnimator = GetComponent<PlayerAnimator>();
         speed = walkSpeed;
         maxSpeed = runSpeed;
     }
@@ -44,10 +48,12 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         UpdateSpeed();
+        UpdateAnimator();
         if (_isLocalPlayer == false)
         {
             NotLocalPlayerMove();
         }
+        
     }
     public void Initialize(bool isLocal)
     {
@@ -62,6 +68,32 @@ public class PlayerController : MonoBehaviour
             this.tag = "Player";
             InputManager.Instance.localController = this;
         }
+    }
+    public void UpdateAnimator()
+    {
+        float speed, dir;
+
+        if (isLocalPlayer)
+        {
+            // 1. 속도 정규화 (0~1)
+            speed = Mathf.Clamp01(_smoothedSpeed / maxSpeed);
+
+            // 2. 방향 계산: 전진이면 +1, 후진이면 -1
+            dir = Mathf.Sign(Vector3.Dot(transform.forward, _moveDir.normalized));
+        }
+        else
+        {
+            // Remote 플레이어는 서버에서 받은 속도로만 추정
+            speed = Mathf.Clamp01(_networkSpeed);
+
+            // 방향 계산
+            Vector3 forward = transform.forward;
+            Vector3 toTarget = (_networkTargetPos - transform.position).normalized;
+
+            dir = Mathf.Sign(Vector3.Dot(forward, toTarget));
+        }
+        Debug.Log($"speed {speed} || dir {dir} ");
+        playerAnimator.UpdateMoveAnimation(speed, dir);
     }
     void OnDisable()
     {
@@ -80,8 +112,6 @@ public class PlayerController : MonoBehaviour
         // 보간 처리 (부드러운 감속/가속)
         _smoothedSpeed = Mathf.Lerp(_smoothedSpeed, _rawSpeed, smoothingFactor * Time.deltaTime);
 
-        // 0~1 사이로 정규화 후 Animator에 전달
-        float normalizedSpeed = Mathf.Clamp01(_smoothedSpeed / maxSpeed);
         
         // _animator.SetFloat("speed", normalizedSpeed, 0.1f, Time.deltaTime);
     }
