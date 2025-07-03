@@ -26,7 +26,6 @@ public class GameSceneLoader : SceneSingleton<GameSceneLoader>
     {
         Debug.Log("[GameSceneLoader] 씬 로드 완료 → 서버에 맵 입장 요청 전송");
 
-        InputManager.Instance.Initialize();
         LoadCharacter();
     }
     public void SpawnRoomAllCharacter(List<CharacterList> characterList)
