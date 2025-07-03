@@ -23,6 +23,6 @@ public class RemotePlayer : MonoBehaviour
     }
     public void MoveTo(Vector3 targetPos, float dirY, float speed)
     {
-        _controller.NoneLocalPlayer_Move(targetPos, dirY, speed);
+        _controller.SetMove(targetPos, dirY, speed);
     }
 }

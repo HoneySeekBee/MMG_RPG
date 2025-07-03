@@ -1,191 +1,61 @@
-using DevionGames.InventorySystem;
-using Packet;
-using ServerCore;
-using System.Collections;
+using MMG;
+using Newtonsoft.Json.Bson;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.EventSystems.StandaloneInputModule;
 
+[System.Serializable]
+public class CharacterEvent
+{
+    public string eventName;
+    public PlayerActionType actionType;
+    public MonoBehaviour input;
+    public MonoBehaviour action;
+}
+public enum PlayerActionType
+{
+    move,
+    attack,
+
+}
 public class PlayerController : MonoBehaviour
 {
-
-    public float speed = 5f;
-    [SerializeField] private float walkSpeed = 3;
-    [SerializeField] private float runSpeed = 5;
-    private Vector3 _lastDirection;
-    private Vector3 _moveDir;
-
-    Vector3 _previousPosition;
-
-    [SerializeField] private float smoothingFactor = 10f; // 속도 보간 정도
-    [SerializeField] private float maxSpeed = 10f;
-    [SerializeField] private float _rawSpeed = 0f;
-    [SerializeField] private float _smoothedSpeed = 0f;
+    public List<CharacterEvent> characterEvents = new List<CharacterEvent>();
+    public Dictionary<PlayerActionType, CharacterEvent> eventDictionary = new Dictionary<PlayerActionType, CharacterEvent>();
     [SerializeField] private bool _isLocalPlayer = false;
     public bool isLocalPlayer { get { return _isLocalPlayer; } }
 
-    private Vector3 _networkTargetPos;
-    private float _networkDirY;
-    private float _networkSpeed;
-    private bool _networkDirty = false;
-
-    private PlayerAnimator playerAnimator;
-    private Vector2 _inputMove;
-
-    void Start()
+    private void Awake()
     {
-        playerAnimator = GetComponent<PlayerAnimator>();
-        speed = walkSpeed;
-        maxSpeed = runSpeed;
+        foreach (CharacterEvent characterEvent in characterEvents)
+        {
+            if (eventDictionary.ContainsKey(characterEvent.actionType) == false)
+                eventDictionary.Add(characterEvent.actionType, characterEvent);
+        }
     }
+
     private void OnDestroy()
     {
         Debug.Log($"파괴되었습니다.");
     }
-    private void Update()
-    {
-        UpdateSpeed();
-        UpdateAnimator();
-        if (_isLocalPlayer == false)
-        {
-            NotLocalPlayerMove();
-        }
-        
-    }
+
     public void Initialize(bool isLocal)
     {
         _isLocalPlayer = isLocal;
         if (_isLocalPlayer)
         {
-            InputManager.OnMoveInput += HandleMove;
-            InputManager.OnAttackInput += HandleAttack;
-            InputManager.OnRuninputDown += HandleRunStart;
-            InputManager.OnRuninputUp += HandleRunStop;
-
             this.tag = "Player";
-            InputManager.Instance.localController = this;
+            //InputManager.Instance.localController = this;
         }
-    }
-    public void UpdateAnimator()
-    {
-        float speed, dir;
-
-        if (isLocalPlayer)
+        foreach (var item in characterEvents)
         {
-            // 1. 속도 정규화 (0~1)
-            speed = Mathf.Clamp01(_smoothedSpeed / maxSpeed);
-
-            // 2. 방향 계산: 전진이면 +1, 후진이면 -1
-            dir = Mathf.Sign(Vector3.Dot(transform.forward, _moveDir.normalized));
-        }
-        else
-        {
-            // Remote 플레이어는 서버에서 받은 속도로만 추정
-            speed = Mathf.Clamp01(_networkSpeed);
-
-            // 방향 계산
-            Vector3 forward = transform.forward;
-            Vector3 toTarget = (_networkTargetPos - transform.position).normalized;
-
-            dir = Mathf.Sign(Vector3.Dot(forward, toTarget));
-        }
-        Debug.Log($"speed {speed} || dir {dir} ");
-        playerAnimator.UpdateMoveAnimation(speed, dir);
-    }
-    void OnDisable()
-    {
-        InputManager.OnMoveInput -= HandleMove;
-        InputManager.OnAttackInput -= HandleAttack;
-        InputManager.OnRuninputDown -= HandleRunStart;
-        InputManager.OnRuninputUp -= HandleRunStop;
-    }
-    private void UpdateSpeed()
-    {
-        Vector3 currentPosition = transform.position;
-        float distance = Vector3.Distance(currentPosition, _previousPosition);
-        _rawSpeed = distance / Time.deltaTime;  // 실제 속도 측정
-        _previousPosition = currentPosition;
-
-        // 보간 처리 (부드러운 감속/가속)
-        _smoothedSpeed = Mathf.Lerp(_smoothedSpeed, _rawSpeed, smoothingFactor * Time.deltaTime);
-
-        
-        // _animator.SetFloat("speed", normalizedSpeed, 0.1f, Time.deltaTime);
-    }
-    Vector3 _lastSentPos;
-    private float _lastSentDirY;
-    void HandleMove(Vector2 input)
-    {
-        float vertical = input.y;    // W/S
-        float horizontal = input.x;  // A/D
-
-        // 1. 회전 처리 (좌/우 회전)
-        float rotationSpeed = 180f; // 회전 속도 (도/초)
-        transform.Rotate(Vector3.up, horizontal * rotationSpeed * Time.deltaTime);
-
-        // 2. 이동 처리 (전/후진)
-        _moveDir = transform.forward * vertical;
-        if (Mathf.Abs(vertical) > 0.01f)
-        {
-            transform.position += _moveDir * speed * Time.deltaTime;
-        }
-
-        if (isLocalPlayer == false)
-            return;
-        if (NetworkManager.Instance == null)
-            return;
-        // 여기서 보내면 될듯 싶다. 
-        Vector3 direction = transform.forward;
-        float dirY = transform.eulerAngles.y;
-
-        if (Vector3.Distance(transform.position, _lastSentPos) > 0.01f ||
-            Mathf.Abs(dirY - _lastSentDirY) > 0.5f) // 0.5도 이상 회전하면 전송
-        {
-            NetworkManager.Instance.Send_Move(transform.position, dirY, _rawSpeed);
-            _lastSentPos = transform.position;
-            _lastSentDirY = dirY; // float 값으로 저장
+            var input = item.input as IInputBase;
+            var action = item.action as IActionBase;
+            action.Initialize(isLocal, input);
         }
     }
-
-    void HandleAttack()
+    public void SetMove(Vector3 goalPos, float dirY, float speed)
     {
-        Debug.Log("Attacked!");
-        // 애니메이션 or 서버 패킷 등
-    }
-    void HandleRunStart()
-    {
-        speed = runSpeed;
-    }
-    void HandleRunStop()
-    {
-        speed = walkSpeed;
-    }
-
-    #region None-Local Player Characeter 관련
-    public void NoneLocalPlayer_Move(Vector3 targetPos, float dirY, float speed)
-    {
-        _networkTargetPos = targetPos;
-        _networkDirY = dirY;  // ← float 값 따로 저장
-        _networkSpeed = speed;
-
-        Debug.Log($"[NoneLocalPlayer_Move] 받은 회전값 Y : {dirY}");
-    }
-    private void NotLocalPlayerMove()
-    {
-        // 부드러운 이동 처리
-        transform.position = Vector3.Lerp(transform.position, _networkTargetPos, Time.deltaTime * _networkSpeed);
-
-        // y 회전값만 반영해서 회전
-        Quaternion targetRot = Quaternion.Euler(0f, _networkDirY, 0f);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 10f);
-    }
-    #endregion
-    public void DebugInventory(int id)
-    {
-        Debug.Log("아이템 선택 " + id);
-
+        var action = eventDictionary[PlayerActionType.move].action as IActionBase;
+        action.SetMove(goalPos, dirY, speed);
     }
 }
