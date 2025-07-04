@@ -16,9 +16,10 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetBool("isMoving", speed > 0.05f);
     }
 
-    public void PlayAttack()
+    public void PlayAttack(bool isLeft)
     {
-        animator.SetTrigger("Attack");
+        string triggerName = isLeft ? "isNormalAttack" : "isCriticalAttack";
+        animator.SetTrigger(triggerName);
     }
 
 }

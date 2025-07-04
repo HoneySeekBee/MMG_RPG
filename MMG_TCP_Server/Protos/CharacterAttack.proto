@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package Packet;
+
+message C_AttackRequest
+{
+    int32 AttackerId = 1;
+    float PosX = 2;
+    float PosY = 3;
+    float PosZ = 4; 
+    float DirY = 5;
+    WeaponData WeaponData = 6; 
+    float TimeStamp = 7;
+}
+message S_DamageBroadcast{
+    int32 targetId = 1;
+    float Damage = 2;
+    int32 AttackerId = 3;
+}
+
+message WeaponData{
+    WeaponType type = 1;
+    AttackType attackType = 2;
+    float damage = 3;
+    float range = 4;
+    float cooldown = 5;
+}
+enum WeaponType {
+    noHaveWepon = 0; 
+
+    // 근접 무기
+    Sword = 1;
+    GreatSword = 2;
+    Spear = 3;
+    Axe = 4;
+    Hammer = 5;
+    Dagger = 6;
+    Fist = 7;
+
+    // 원거리 무기
+    Bow = 100;
+    Crossbow = 101;
+    Thrown = 102;
+    Gun = 103;
+
+    // 마법 무기
+    Staff = 200;
+    Wand = 201;
+    Orb = 202;
+
+    // 특수 무기
+    Instrument = 300;
+    Tome = 301;
+}
+
+enum AttackType {
+    NotAttack = 0;
+
+    // 근접 무기 (타격 방식별)
+    Melee_Slash = 100;
+    Melee_Stab = 101;
+    Melee_Cleave = 102;
+    Melee_Fist = 107;
+
+    // 원거리 무기
+    Ranged_Arrow = 200;
+    Ranged_Throw = 201;
+    Ranged_MagicBolt = 202;
+
+    // 범위 마법
+    Magic_Explosion = 300;
+    Magic_AOE = 301;
+    Magic_Buff = 302;
+
+    // 기타 특수
+    Skill_Dash = 400;
+    Skill_Grab = 401;
+}

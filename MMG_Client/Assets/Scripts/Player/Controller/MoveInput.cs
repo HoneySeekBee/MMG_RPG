@@ -21,16 +21,11 @@ namespace MMG
         protected override void Initialize()
         {
             MMG_KeyCodes = new List<MMG_KeyCode>();
-            MMG_KeyCode leftKey = new MMG_KeyCode() { KeyId = "left", KeyCode = KeyCode.A };
-            MMG_KeyCode rightkey = new MMG_KeyCode() { KeyId = "right", KeyCode = KeyCode.D };
-            MMG_KeyCode forwardKey = new MMG_KeyCode() { KeyId = "forward", KeyCode = KeyCode.W };
-            MMG_KeyCode backwardKey = new MMG_KeyCode() { KeyId = "backward", KeyCode = KeyCode.S };
-            MMG_KeyCode leftShiftKey = new MMG_KeyCode() { KeyId = "leftShift", KeyCode = KeyCode.LeftShift };
-            MMG_KeyCodes.Add(leftKey);
-            MMG_KeyCodes.Add(rightkey);
-            MMG_KeyCodes.Add(forwardKey);
-            MMG_KeyCodes.Add(backwardKey);
-            MMG_KeyCodes.Add(leftShiftKey);
+            AddKeycode("left", KeyCode.A);
+            AddKeycode("right", KeyCode.D);
+            AddKeycode("forward", KeyCode.W);
+            AddKeycode("backward", KeyCode.S);
+            AddKeycode("leftShift", KeyCode.LeftShift);
             base.Initialize();
         }
         protected override void CheckInput()

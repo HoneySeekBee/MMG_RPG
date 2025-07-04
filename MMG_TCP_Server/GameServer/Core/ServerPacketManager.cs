@@ -25,6 +25,7 @@ namespace GameServer.Core
             Register_Set();
             Register_Game();
             Register_Move();
+            Register_Attack();
         }
         private static void Register_Set()
         {
@@ -41,6 +42,10 @@ namespace GameServer.Core
         private static void Register_Move()
         {
             _syncHandlers.Add((ushort)PacketType.C_BroadcastMove, MakePacket<C_BroadcastMove>(PacketHandler.C_BroadcastMoveHandler));
+        }
+        private static void Register_Attack()
+        {
+            _syncHandlers.Add((ushort)PacketType.C_AttackRequest, MakePacket<C_AttackRequest>(PacketHandler.C_AttackHandler));
         }
         #endregion
 

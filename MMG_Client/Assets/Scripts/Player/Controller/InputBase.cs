@@ -18,6 +18,12 @@ namespace MMG
             // 여기서 기본값으로 호출하거나, 추상 오버라이드 가능
             InvokeAction(default(T));
         }
+        protected void AddKeycode(string keyId, KeyCode keyCode)
+        {
+            MMG_KeyCode key = new MMG_KeyCode() { KeyId = keyId, KeyCode = keyCode };
+
+            MMG_KeyCodes.Add(key);
+        }
         protected virtual void Initialize()
         {
             foreach (var key in MMG_KeyCodes)

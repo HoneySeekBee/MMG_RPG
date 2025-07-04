@@ -1,4 +1,5 @@
 ﻿using GameServer.Domain;
+using GameServer.GameRoomFolder;
 using ServerCore;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace GameServer.Core
         private SendQueue _sendQueue = new();
         public string jwtToken { get; set; }
         public bool IsLoggedIn { get; private set; } = false;
+        public GameRoom Room { get; set; }
+       
 
         public override void Send(byte[] sendBuffer)
         {

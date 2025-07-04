@@ -1,9 +1,12 @@
-﻿using GameServer.Domain;
+﻿using GameServer.Attack;
+using GameServer.Domain;
 using GameServer.GameRoomFolder;
+using GameServer.Intreface;
 using Newtonsoft.Json;
 using Packet;
 using ServerCore;
 using System.Net.Http.Headers;
+using System.Numerics;
 namespace GameServer.Core
 {
     public static class IdGenerator
@@ -161,6 +164,32 @@ namespace GameServer.Core
             }
         }
 
+        #region 공격 판정
+        public static void C_AttackHandler(ServerSession session, C_AttackRequest packet)
+        {
+            GameRoom room = session.Room;
+            if (room == null)
+                return;
+
+            // 1. 공격자 정보 가져오기
+            CharacterStatus attacker = room.FindPlayerById(packet.AttackerId).Status;
+            if (attacker == null)
+                return;
+
+            // 2. 위치/방향 재구성
+            Vector3 position = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
+            float dirY = packet.DirY;
+
+            // 3. 무기 정보 재구성
+            WeaponData weapon = packet.WeaponData;
+
+            // 4. 공격 타입에 따라 판정 로직 실행
+            IHitDetector detector = HitDetectorFactory.Get(weapon.AttackType);
+            
+            Vector3 pos = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
+            room.HandleAttack(attacker, pos, packet.DirY, packet.WeaponData);
+        }
+        #endregion
 
     }
 }

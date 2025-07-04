@@ -76,8 +76,28 @@ namespace MMG_API.Controllers
 
             _db.Characters.Add(character);
             await _db.SaveChangesAsync();
-
-            return Ok(new { message = "캐릭터 생성 완료", characterId = character.Id });
+            await AddStatus(character.Id, character.CreatedAt);
+            return Ok(new {
+                message = "캐릭터 생성 완료", 
+                characterId = character.Id 
+            });
+        }
+        private async Task AddStatus(int characterId, DateTime createTime)
+        {
+            CharacterStatus characterStatus = new CharacterStatus()
+            {
+                CharacterId = characterId,
+                CharacterLevel = 1,
+                Exp = 0,
+                Gold = 0,
+                HP = 10,
+                MP = 10,
+                NowHP = 10,
+                NowMP = 10,
+                LastUpdateAt = createTime
+            };
+            _db.CharacterStatuses.Add(characterStatus);
+            await _db.SaveChangesAsync();
         }
         [Authorize]
         [HttpGet("{id}")]
@@ -92,6 +112,53 @@ namespace MMG_API.Controllers
                 return NotFound("해당 캐릭터를 찾을 수 없습니다.");
 
             return Ok(character);
+        }
+
+        [HttpGet("status/{characterId}")]
+        public IActionResult GetCharacterStatus(int characterId)
+        {
+            var status = _db.CharacterStatuses
+                            .FirstOrDefault(s => s.CharacterId == characterId);
+
+            if (status == null)
+                return NotFound(new { message = "캐릭터 상태를 찾을 수 없습니다." });
+
+            return Ok(new
+            {
+                characterId = status.CharacterId,
+                level = status.CharacterLevel,
+                exp = status.Exp,
+                gold = status.Gold,
+                maxHp = status.HP,
+                nowHp = status.NowHP,
+                maxMp = status.MP,
+                nowMp = status.NowMP,
+                lastUpdated = status.LastUpdateAt
+            });
+        }
+
+        [HttpPost("status/update")]
+        public IActionResult UpdateCharacterStatus([FromBody] UpdateCharacterStatusRequest request)
+        {
+            var status = _db.CharacterStatuses
+                            .FirstOrDefault(s => s.CharacterId == request.CharacterId);
+
+            if (status == null)
+                return NotFound(new { message = "해당 캐릭터의 상태 정보를 찾을 수 없습니다." });
+
+            // 값이 들어온 항목만 업데이트
+            if (request.NowHP.HasValue) status.HP = request.HP.Value;
+            if (request.NowMP.HasValue) status.MP = request.MP.Value;
+            if (request.NowHP.HasValue) status.NowHP = request.NowHP.Value;
+            if (request.NowMP.HasValue) status.NowMP = request.NowMP.Value;
+            if (request.Exp.HasValue) status.Exp = request.Exp.Value;
+            if (request.Gold.HasValue) status.Gold = request.Gold.Value;
+
+            status.LastUpdateAt = DateTime.UtcNow;
+
+            _db.SaveChanges();
+
+            return Ok(new { message = "캐릭터 상태가 업데이트되었습니다." });
         }
     }
 }

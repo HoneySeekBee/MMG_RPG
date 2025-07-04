@@ -72,5 +72,9 @@ public class PacketHandler : MonoBehaviour
             GameRoom.Instance.HandleBroadcastMove(response);
         });
     }
+    public static void S_BroadcastDamageHandler(ClientSession session, S_DamageBroadcast response)
+    {
+        Debug.Log($"{response.AttackerId}가 {response.TargetId}를 공격. Damage {response.Damage}");
+    }
     #endregion
 }

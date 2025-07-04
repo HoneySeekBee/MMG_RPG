@@ -22,6 +22,9 @@ namespace ServerCore
         C_SelectCharacter = 105,
         S_SelectCharacter = 106,
 
+        C_AttackRequest = 107,
+        S_DamagekResponse = 108,
+
         // BroadCast 용
         C_BroadcastMove = 111,
         S_BroadcastMove = 112,

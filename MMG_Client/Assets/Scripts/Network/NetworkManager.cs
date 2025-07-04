@@ -62,4 +62,11 @@ public class NetworkManager : MonoBehaviour
         };
         _session.Send(ServerCore.PacketType.C_BroadcastMove, packet);
     }
+
+    // [3] 캐릭터 공격 
+    public void Send_Attack(C_AttackRequest packet)
+    {
+        _session.Send(ServerCore.PacketType.C_AttackRequest, packet);
+    } 
+
 }

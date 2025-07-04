@@ -14,7 +14,7 @@ public class CharacterEvent
 public enum PlayerActionType
 {
     move,
-    attack,
+    battle,
 
 }
 public class PlayerController : MonoBehaviour

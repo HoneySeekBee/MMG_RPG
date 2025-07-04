@@ -2164,6 +2164,8 @@ GameObject:
   - component: {fileID: 1092857865031443867}
   - component: {fileID: 8865204454719752688}
   - component: {fileID: 1058113065293563041}
+  - component: {fileID: 3866305355303886772}
+  - component: {fileID: 7403926092463684336}
   m_Layer: 10
   m_Name: Character
   m_TagString: Untagged
@@ -2201,8 +2203,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterEvents:
   - eventName: move
+    actionType: 0
     input: {fileID: 8865204454719752688}
     action: {fileID: 1092857865031443867}
+  - eventName: battle
+    actionType: 1
+    input: {fileID: 7403926092463684336}
+    action: {fileID: 3866305355303886772}
   _isLocalPlayer: 0
 --- !u!114 &-9129885877052902294
 MonoBehaviour:
@@ -2273,6 +2280,33 @@ MonoBehaviour:
   ShoesRenderer: {fileID: 4057480322046639172}
   FaceAccessoriesRenderer: {fileID: 8450690593983783906}
   GlassesRenderer: {fileID: 5164760646502129241}
+--- !u!114 &3866305355303886772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5570972460073474076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cc61d55d3c503f4aa6f2a1957116e6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMouse: 0
+  isLeft: 0
+--- !u!114 &7403926092463684336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5570972460073474076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46acae9b686978b4bb1f58a55786172d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MMG_KeyCodes: []
 --- !u!1 &5972746370722117759
 GameObject:
   m_ObjectHideFlags: 0
