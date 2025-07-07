@@ -28,7 +28,7 @@ namespace GameServer.Attack
             Vector3 move = Direction * Speed * deltaTime;
             Position += move;
             _traveled += move.Length();
-            Console.WriteLine($"원거리 Update {OwnerId}, {deltaTime}, {Speed}, {Direction.X}, {Direction.Y}, {Direction.Z}");
+
             foreach (var player in room._players.Values)
             {
                 if (player.Status.Id == OwnerId)
@@ -37,12 +37,10 @@ namespace GameServer.Attack
                 Vector3 toTarget = player.Position - Position;
 
                 float dist = toTarget.Length();
-                Console.WriteLine($"[투사체 체크] Target:{player.Status.Id}, Distance: {dist}, Threshold: {Radius}");
 
                 if (dist <= Radius)
                 {
                     //  명중
-                    Console.WriteLine($"[Projectile] {OwnerId} hit {player.Status.Id}");
                     room.OnPlayerHit(OwnerId, player.Status.Id, AttackData); // 데미지 처리 등
                     _traveled = MaxDistance; // 즉시 만료 처리
                     break;

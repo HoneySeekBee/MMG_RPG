@@ -1,3 +1,4 @@
+using Cinemachine;
 using Packet;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ public class GameRoom : SceneSingleton<GameRoom>
     public int RoomId { get; private set; }
     public Dictionary<int, RemotePlayer> Players = new();
     public GameObject CharacterPrefab;
+    [SerializeField] private CinemachineVirtualCamera VirtualCamera;
     public void Init(int roomId)
     {
         RoomId = roomId;
@@ -71,7 +73,13 @@ public class GameRoom : SceneSingleton<GameRoom>
     private void InitializeCharacter(GameObject go, CharacterList character)
     {
         PlayerController playerController = go.GetComponent<PlayerController>();
+
         playerController.Initialize(character.IsLocal);
+        if (character.IsLocal)
+        {
+            VirtualCamera.LookAt = playerController.transform;
+            VirtualCamera.Follow = playerController.transform;
+        }
 
         var appearance = go.GetComponent<CharacterAppearance>();
         appearance.MyCharacterGender = (Gender)character.CharacterInfo.Gender;

@@ -68,7 +68,6 @@ public class PacketHandler : MonoBehaviour
     {
         MainThreadDispatcher.RunOnMainThread(() =>
         {
-            Debug.Log($"{response.CharacterId}가 움직입니다.");
             GameRoom.Instance.HandleBroadcastMove(response);
         });
     }

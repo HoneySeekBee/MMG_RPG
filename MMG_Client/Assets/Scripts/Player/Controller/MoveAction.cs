@@ -9,7 +9,6 @@ namespace MMG
     {
         public float speed = 5f;
         private Vector3 _moveDir;
-        private Vector3 _lastDirection;
         Vector3 _lastSentPos;
         private float _lastSentDirY;
         [SerializeField] private float _rawSpeed = 0f;
@@ -27,6 +26,7 @@ namespace MMG
         [SerializeField] private float maxSpeed = 10f;
         private PlayerAnimator playerAnimator;
 
+        private Vector3 _lastPosition;
         public override void Initialize(bool isLocal, IInputBase input)
         {
             base.Initialize(isLocal, input);
@@ -65,13 +65,12 @@ namespace MMG
             }
             else
             {
-                // Remote 플레이어는 서버에서 받은 속도로만 추정
-                speed = Mathf.Clamp01(_networkSpeed);
+                float deltaDist = Vector3.Distance(transform.position, _lastPosition);
+                speed = Mathf.Clamp01(deltaDist / Time.deltaTime / maxSpeed); // 최대 속도 기준 정규화
 
                 // 방향 계산
                 Vector3 forward = transform.forward;
                 Vector3 toTarget = (_networkTargetPos - transform.position).normalized;
-
                 dir = Mathf.Sign(Vector3.Dot(forward, toTarget));
             }
             playerAnimator.UpdateMoveAnimation(speed, dir);
@@ -125,12 +124,18 @@ namespace MMG
         }
         private void NotLocalPlayerMove()
         {
-            // 부드러운 이동 처리
+            Vector3 currentPos = transform.position;
+
+            // 1. 이동 처리
             transform.position = Vector3.Lerp(transform.position, _networkTargetPos, Time.deltaTime * _networkSpeed);
 
-            // y 회전값만 반영해서 회전
+            // 2. 회전 처리
             Quaternion targetRot = Quaternion.Euler(0f, _networkDirY, 0f);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 10f);
+
+            // 3. 속도 계산용 (다음 프레임에서 사용됨)
+            _lastPosition = currentPos;
+
         }
         public override void SetMove(Vector3 goalPos, float dirY, float speed)
         {
