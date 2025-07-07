@@ -9,7 +9,7 @@ message C_AttackRequest
     float PosY = 3;
     float PosZ = 4; 
     float DirY = 5;
-    WeaponData WeaponData = 6; 
+    int32 AttackId = 6;
     float TimeStamp = 7;
 }
 message S_DamageBroadcast{
@@ -26,53 +26,30 @@ message WeaponData{
     float cooldown = 5;
 }
 enum WeaponType {
-    noHaveWepon = 0; 
-
-    // 근접 무기
+    Fist = 0;
+    
+    // 근접무기 
     Sword = 1;
-    GreatSword = 2;
-    Spear = 3;
-    Axe = 4;
-    Hammer = 5;
-    Dagger = 6;
-    Fist = 7;
 
     // 원거리 무기
     Bow = 100;
-    Crossbow = 101;
-    Thrown = 102;
-    Gun = 103;
 
-    // 마법 무기
+    // 마법
     Staff = 200;
-    Wand = 201;
-    Orb = 202;
-
-    // 특수 무기
-    Instrument = 300;
-    Tome = 301;
+    
 }
 
 enum AttackType {
-    NotAttack = 0;
+    punch = 0;
 
-    // 근접 무기 (타격 방식별)
-    Melee_Slash = 100;
-    Melee_Stab = 101;
-    Melee_Cleave = 102;
-    Melee_Fist = 107;
+    // 근접 
+    Slash = 100;
 
-    // 원거리 무기
-    Ranged_Arrow = 200;
-    Ranged_Throw = 201;
-    Ranged_MagicBolt = 202;
+    // 원거리
+    Arrow = 200;
+    Throw = 201;
 
-    // 범위 마법
-    Magic_Explosion = 300;
-    Magic_AOE = 301;
-    Magic_Buff = 302;
+    // 마법
+    Magic = 300;
 
-    // 기타 특수
-    Skill_Dash = 400;
-    Skill_Grab = 401;
 }

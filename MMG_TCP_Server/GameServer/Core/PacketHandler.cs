@@ -1,4 +1,5 @@
 ﻿using GameServer.Attack;
+using GameServer.Data;
 using GameServer.Domain;
 using GameServer.GameRoomFolder;
 using GameServer.Intreface;
@@ -173,6 +174,8 @@ namespace GameServer.Core
 
             // 1. 공격자 정보 가져오기
             CharacterStatus attacker = room.FindPlayerById(packet.AttackerId).Status;
+            Console.WriteLine($"[C_AttackHandler] {packet.AttackerId}, {attacker.Id}");
+
             if (attacker == null)
                 return;
 
@@ -181,13 +184,12 @@ namespace GameServer.Core
             float dirY = packet.DirY;
 
             // 3. 무기 정보 재구성
-            WeaponData weapon = packet.WeaponData;
+            AttackData attackData = AttackDataManager.Get(packet.AttackId);
+
 
             // 4. 공격 타입에 따라 판정 로직 실행
-            IHitDetector detector = HitDetectorFactory.Get(weapon.AttackType);
-            
             Vector3 pos = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
-            room.HandleAttack(attacker, pos, packet.DirY, packet.WeaponData);
+            room.HandleAttack(attacker, pos, packet.DirY, attackData);
         }
         #endregion
 

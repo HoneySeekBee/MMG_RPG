@@ -28,6 +28,7 @@ namespace GameServer.Domain
             PosZ = posZ;
             DirY = dirY;
         }
+        public Vector3 Position { get { return new Vector3(PosX, PosY, PosZ); } }
         public void OnDisconnected()
         {
             //Console.WriteLine($"[Player] {Character.CharacterName} disconnected.");

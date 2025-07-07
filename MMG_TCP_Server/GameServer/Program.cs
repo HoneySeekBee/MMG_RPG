@@ -1,5 +1,7 @@
-﻿using GameServer.Core;
+﻿using GameServer.Attack;
+using GameServer.Core;
 using GameServer.GameRoomFolder;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 
@@ -11,13 +13,23 @@ namespace GameServer
         {
             Task.Run(() =>
             {
+                var sw = Stopwatch.StartNew();
+                long last = sw.ElapsedMilliseconds;
+
                 while (true)
                 {
-                    GameRoomManager.Instance.Update();
-                    Thread.Sleep(50); // 프레임 간격
+                    long now = sw.ElapsedMilliseconds;
+                    float deltaTime = (now - last) / 1000f;
+                    last = now;
+
+                    GameRoomManager.Instance.Update(deltaTime); // 시간 기반 로직 처리
+                    GameRoomManager.Instance.Update();          // JobQueue 처리
+
+                    Thread.Sleep(50);
                 }
             });
             ServerPacketManager.Register();
+            AttackDataManager.LoadAttackData();
             Listener listener = new Listener();
             listener.Init(GetEndPoint(), () => new ServerSession());
 

@@ -1,4 +1,5 @@
-﻿using GameServer.GameRoomFolder;
+﻿using GameServer.Data;
+using GameServer.GameRoomFolder;
 using Packet;
 using System;
 using System.Collections.Generic;
@@ -45,11 +46,21 @@ namespace GameServer.Domain
             EquippedWeapon = new WeaponData()
             {
                 Type = WeaponType.Fist,
-                AttackType = AttackType.MeleeFist,
+                AttackType = AttackType.Punch,
                 Damage = 1,
                 Range = 2,
                 Cooldown = 0.2f,
             }; // 예: 기본 무기
+        }
+        public static CharacterStatus ConvertToRuntimeStatus(CharacterStatusDTO dto, string name, GameRoom room)
+        {
+            return new CharacterStatus(
+                dto.characterId,
+                name,
+                new Vector3(0, 0, 0),
+                Quaternion.Identity,
+                room
+            );
         }
     }
 }

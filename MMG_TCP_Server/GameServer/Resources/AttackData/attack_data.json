@@ -1,0 +1,102 @@
+{
+  "attackList": [
+    {
+      "AttackId": 201,
+      "AttackName": "Bow_Normal_Attack",
+      "WeaponType": 100,
+      "AttackType": 200,
+      "Range": 5.0,
+      "Angle": 0.0,
+      "Damage": 2.0,
+      "Cooldown": 0.0,
+      "DelayAfter": 0.25,
+      "CastTime": 0.25,
+      "name": "Bow_Normal_Attack",
+      "hideFlags": 0
+    },
+    {
+      "AttackId": 1,
+      "AttackName": "Fist Strong Attack",
+      "WeaponType": 7,
+      "AttackType": 107,
+      "Range": 0.75,
+      "Angle": 30.0,
+      "Damage": 2.0,
+      "Cooldown": 0.1,
+      "DelayAfter": 0.25,
+      "CastTime": 0.0,
+      "name": "Fist_Hard_Attack",
+      "hideFlags": 0
+    },
+    {
+      "AttackId": 0,
+      "AttackName": "Fist Normal Attack",
+      "WeaponType": 7,
+      "AttackType": 107,
+      "Range": 0.5,
+      "Angle": 40.0,
+      "Damage": 1.0,
+      "Cooldown": 0.0,
+      "DelayAfter": 0.2,
+      "CastTime": 0.0,
+      "name": "Fist_Normal_Attack",
+      "hideFlags": 0
+    },
+    {
+      "AttackId": 3,
+      "AttackName": "Fist Normal Attack",
+      "WeaponType": 7,
+      "AttackType": 201,
+      "Range": 5.0,
+      "Angle": 40.0,
+      "Damage": 3.0,
+      "Cooldown": 0.0,
+      "DelayAfter": 0.2,
+      "CastTime": 0.0,
+      "name": "Skill1",
+      "hideFlags": 0
+    },
+    {
+      "AttackId": 4,
+      "AttackName": "Fist Normal Attack",
+      "WeaponType": 7,
+      "AttackType": 107,
+      "Range": 2.0,
+      "Angle": 180.0,
+      "Damage": 2.0,
+      "Cooldown": 0.0,
+      "DelayAfter": 0.2,
+      "CastTime": 0.0,
+      "name": "Skill2",
+      "hideFlags": 0
+    },
+    {
+      "AttackId": 5,
+      "AttackName": "Fist Normal Attack",
+      "WeaponType": 7,
+      "AttackType": 201,
+      "Range": 10.0,
+      "Angle": 10.0,
+      "Damage": 1.5,
+      "Cooldown": 0.0,
+      "DelayAfter": 0.2,
+      "CastTime": 0.0,
+      "name": "Skill3",
+      "hideFlags": 0
+    },
+    {
+      "AttackId": 6,
+      "AttackName": "Fist Normal Attack",
+      "WeaponType": 7,
+      "AttackType": 107,
+      "Range": 2.0,
+      "Angle": 20.0,
+      "Damage": 2.0,
+      "Cooldown": 0.0,
+      "DelayAfter": 0.2,
+      "CastTime": 0.0,
+      "name": "Skill4",
+      "hideFlags": 0
+    }
+  ]
+}

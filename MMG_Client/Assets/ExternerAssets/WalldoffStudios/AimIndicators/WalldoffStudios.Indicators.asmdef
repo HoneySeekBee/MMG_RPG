@@ -1,0 +1,16 @@
+{
+    "name": "WalldoffStudios.Indicators",
+    "rootNamespace": "",
+    "references": [
+    "Controls"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

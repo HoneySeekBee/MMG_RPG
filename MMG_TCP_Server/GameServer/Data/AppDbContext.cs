@@ -11,8 +11,6 @@ namespace GameServer.Data
     public class AppDbContext: DbContext
     {
         public DbSet<User> User { get; set; }
-        public DbSet<PlacedObjectDTO> PlacedObjects { get; set; }
-        public DbSet<PlantedCropDto> PlantedCrop { get; set; }
         public DbSet<CharacterDto> Characters { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -21,17 +19,6 @@ namespace GameServer.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PlacedObjectDTO>()
-                .ToTable("PlacedObjects") // 테이블 이름 매핑
-                .HasKey(p => p.Id);
-
-            modelBuilder.Entity<PlacedObjectDTO>()
-                .Property(p => p.UpdatedAt)
-                .HasDefaultValueSql("GETDATE()");
-
-            modelBuilder.Entity<PlantedCropDto>()
-                .ToTable("PlantedCrop")
-                .HasKey(p => p.Id);
 
             modelBuilder.Entity<CharacterDto>()
                 .ToTable("Character")

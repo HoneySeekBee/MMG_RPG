@@ -24,30 +24,22 @@ namespace Packet {
     static CharacterAttackReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChVDaGFyYWN0ZXJBdHRhY2sucHJvdG8SBlBhY2tldCKYAQoPQ19BdHRhY2tS",
+            "ChVDaGFyYWN0ZXJBdHRhY2sucHJvdG8SBlBhY2tldCKCAQoPQ19BdHRhY2tS",
             "ZXF1ZXN0EhIKCkF0dGFja2VySWQYASABKAUSDAoEUG9zWBgCIAEoAhIMCgRQ",
-            "b3NZGAMgASgCEgwKBFBvc1oYBCABKAISDAoERGlyWRgFIAEoAhImCgpXZWFw",
-            "b25EYXRhGAYgASgLMhIuUGFja2V0LldlYXBvbkRhdGESEQoJVGltZVN0YW1w",
-            "GAcgASgCIkkKEVNfRGFtYWdlQnJvYWRjYXN0EhAKCHRhcmdldElkGAEgASgF",
-            "Eg4KBkRhbWFnZRgCIAEoAhISCgpBdHRhY2tlcklkGAMgASgFIocBCgpXZWFw",
-            "b25EYXRhEiAKBHR5cGUYASABKA4yEi5QYWNrZXQuV2VhcG9uVHlwZRImCgph",
-            "dHRhY2tUeXBlGAIgASgOMhIuUGFja2V0LkF0dGFja1R5cGUSDgoGZGFtYWdl",
-            "GAMgASgCEg0KBXJhbmdlGAQgASgCEhAKCGNvb2xkb3duGAUgASgCKtcBCgpX",
-            "ZWFwb25UeXBlEg8KC25vSGF2ZVdlcG9uEAASCQoFU3dvcmQQARIOCgpHcmVh",
-            "dFN3b3JkEAISCQoFU3BlYXIQAxIHCgNBeGUQBBIKCgZIYW1tZXIQBRIKCgZE",
-            "YWdnZXIQBhIICgRGaXN0EAcSBwoDQm93EGQSDAoIQ3Jvc3Nib3cQZRIKCgZU",
-            "aHJvd24QZhIHCgNHdW4QZxIKCgVTdGFmZhDIARIJCgRXYW5kEMkBEggKA09y",
-            "YhDKARIPCgpJbnN0cnVtZW50EKwCEgkKBFRvbWUQrQIq9AEKCkF0dGFja1R5",
-            "cGUSDQoJTm90QXR0YWNrEAASDwoLTWVsZWVfU2xhc2gQZBIOCgpNZWxlZV9T",
-            "dGFiEGUSEAoMTWVsZWVfQ2xlYXZlEGYSDgoKTWVsZWVfRmlzdBBrEhEKDFJh",
-            "bmdlZF9BcnJvdxDIARIRCgxSYW5nZWRfVGhyb3cQyQESFQoQUmFuZ2VkX01h",
-            "Z2ljQm9sdBDKARIUCg9NYWdpY19FeHBsb3Npb24QrAISDgoJTWFnaWNfQU9F",
-            "EK0CEg8KCk1hZ2ljX0J1ZmYQrgISDwoKU2tpbGxfRGFzaBCQAxIPCgpTa2ls",
-            "bF9HcmFiEJEDYgZwcm90bzM="));
+            "b3NZGAMgASgCEgwKBFBvc1oYBCABKAISDAoERGlyWRgFIAEoAhIQCghBdHRh",
+            "Y2tJZBgGIAEoBRIRCglUaW1lU3RhbXAYByABKAIiSQoRU19EYW1hZ2VCcm9h",
+            "ZGNhc3QSEAoIdGFyZ2V0SWQYASABKAUSDgoGRGFtYWdlGAIgASgCEhIKCkF0",
+            "dGFja2VySWQYAyABKAUihwEKCldlYXBvbkRhdGESIAoEdHlwZRgBIAEoDjIS",
+            "LlBhY2tldC5XZWFwb25UeXBlEiYKCmF0dGFja1R5cGUYAiABKA4yEi5QYWNr",
+            "ZXQuQXR0YWNrVHlwZRIOCgZkYW1hZ2UYAyABKAISDQoFcmFuZ2UYBCABKAIS",
+            "EAoIY29vbGRvd24YBSABKAIqNgoKV2VhcG9uVHlwZRIICgRGaXN0EAASCQoF",
+            "U3dvcmQQARIHCgNCb3cQZBIKCgVTdGFmZhDIASpGCgpBdHRhY2tUeXBlEgkK",
+            "BXB1bmNoEAASCQoFU2xhc2gQZBIKCgVBcnJvdxDIARIKCgVUaHJvdxDJARIK",
+            "CgVNYWdpYxCsAmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Packet.WeaponType), typeof(global::Packet.AttackType), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.C_AttackRequest), global::Packet.C_AttackRequest.Parser, new[]{ "AttackerId", "PosX", "PosY", "PosZ", "DirY", "WeaponData", "TimeStamp" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.C_AttackRequest), global::Packet.C_AttackRequest.Parser, new[]{ "AttackerId", "PosX", "PosY", "PosZ", "DirY", "AttackId", "TimeStamp" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.S_DamageBroadcast), global::Packet.S_DamageBroadcast.Parser, new[]{ "TargetId", "Damage", "AttackerId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Packet.WeaponData), global::Packet.WeaponData.Parser, new[]{ "Type", "AttackType", "Damage", "Range", "Cooldown" }, null, null, null, null)
           }));
@@ -57,63 +49,36 @@ namespace Packet {
   }
   #region Enums
   public enum WeaponType {
-    [pbr::OriginalName("noHaveWepon")] NoHaveWepon = 0,
+    [pbr::OriginalName("Fist")] Fist = 0,
     /// <summary>
-    /// 근접 무기
+    /// 근접무기 
     /// </summary>
     [pbr::OriginalName("Sword")] Sword = 1,
-    [pbr::OriginalName("GreatSword")] GreatSword = 2,
-    [pbr::OriginalName("Spear")] Spear = 3,
-    [pbr::OriginalName("Axe")] Axe = 4,
-    [pbr::OriginalName("Hammer")] Hammer = 5,
-    [pbr::OriginalName("Dagger")] Dagger = 6,
-    [pbr::OriginalName("Fist")] Fist = 7,
     /// <summary>
     /// 원거리 무기
     /// </summary>
     [pbr::OriginalName("Bow")] Bow = 100,
-    [pbr::OriginalName("Crossbow")] Crossbow = 101,
-    [pbr::OriginalName("Thrown")] Thrown = 102,
-    [pbr::OriginalName("Gun")] Gun = 103,
     /// <summary>
-    /// 마법 무기
+    /// 마법
     /// </summary>
     [pbr::OriginalName("Staff")] Staff = 200,
-    [pbr::OriginalName("Wand")] Wand = 201,
-    [pbr::OriginalName("Orb")] Orb = 202,
-    /// <summary>
-    /// 특수 무기
-    /// </summary>
-    [pbr::OriginalName("Instrument")] Instrument = 300,
-    [pbr::OriginalName("Tome")] Tome = 301,
   }
 
   public enum AttackType {
-    [pbr::OriginalName("NotAttack")] NotAttack = 0,
+    [pbr::OriginalName("punch")] Punch = 0,
     /// <summary>
-    /// 근접 무기 (타격 방식별)
+    /// 근접 
     /// </summary>
-    [pbr::OriginalName("Melee_Slash")] MeleeSlash = 100,
-    [pbr::OriginalName("Melee_Stab")] MeleeStab = 101,
-    [pbr::OriginalName("Melee_Cleave")] MeleeCleave = 102,
-    [pbr::OriginalName("Melee_Fist")] MeleeFist = 107,
+    [pbr::OriginalName("Slash")] Slash = 100,
     /// <summary>
-    /// 원거리 무기
+    /// 원거리
     /// </summary>
-    [pbr::OriginalName("Ranged_Arrow")] RangedArrow = 200,
-    [pbr::OriginalName("Ranged_Throw")] RangedThrow = 201,
-    [pbr::OriginalName("Ranged_MagicBolt")] RangedMagicBolt = 202,
+    [pbr::OriginalName("Arrow")] Arrow = 200,
+    [pbr::OriginalName("Throw")] Throw = 201,
     /// <summary>
-    /// 범위 마법
+    /// 마법
     /// </summary>
-    [pbr::OriginalName("Magic_Explosion")] MagicExplosion = 300,
-    [pbr::OriginalName("Magic_AOE")] MagicAoe = 301,
-    [pbr::OriginalName("Magic_Buff")] MagicBuff = 302,
-    /// <summary>
-    /// 기타 특수
-    /// </summary>
-    [pbr::OriginalName("Skill_Dash")] SkillDash = 400,
-    [pbr::OriginalName("Skill_Grab")] SkillGrab = 401,
+    [pbr::OriginalName("Magic")] Magic = 300,
   }
 
   #endregion
@@ -159,7 +124,7 @@ namespace Packet {
       posY_ = other.posY_;
       posZ_ = other.posZ_;
       dirY_ = other.dirY_;
-      weaponData_ = other.weaponData_ != null ? other.weaponData_.Clone() : null;
+      attackId_ = other.attackId_;
       timeStamp_ = other.timeStamp_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -230,15 +195,15 @@ namespace Packet {
       }
     }
 
-    /// <summary>Field number for the "WeaponData" field.</summary>
-    public const int WeaponDataFieldNumber = 6;
-    private global::Packet.WeaponData weaponData_;
+    /// <summary>Field number for the "AttackId" field.</summary>
+    public const int AttackIdFieldNumber = 6;
+    private int attackId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Packet.WeaponData WeaponData {
-      get { return weaponData_; }
+    public int AttackId {
+      get { return attackId_; }
       set {
-        weaponData_ = value;
+        attackId_ = value;
       }
     }
 
@@ -274,7 +239,7 @@ namespace Packet {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosY, other.PosY)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosZ, other.PosZ)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DirY, other.DirY)) return false;
-      if (!object.Equals(WeaponData, other.WeaponData)) return false;
+      if (AttackId != other.AttackId) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(TimeStamp, other.TimeStamp)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -288,7 +253,7 @@ namespace Packet {
       if (PosY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosY);
       if (PosZ != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosZ);
       if (DirY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DirY);
-      if (weaponData_ != null) hash ^= WeaponData.GetHashCode();
+      if (AttackId != 0) hash ^= AttackId.GetHashCode();
       if (TimeStamp != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(TimeStamp);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -328,9 +293,9 @@ namespace Packet {
         output.WriteRawTag(45);
         output.WriteFloat(DirY);
       }
-      if (weaponData_ != null) {
-        output.WriteRawTag(50);
-        output.WriteMessage(WeaponData);
+      if (AttackId != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(AttackId);
       }
       if (TimeStamp != 0F) {
         output.WriteRawTag(61);
@@ -366,9 +331,9 @@ namespace Packet {
         output.WriteRawTag(45);
         output.WriteFloat(DirY);
       }
-      if (weaponData_ != null) {
-        output.WriteRawTag(50);
-        output.WriteMessage(WeaponData);
+      if (AttackId != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(AttackId);
       }
       if (TimeStamp != 0F) {
         output.WriteRawTag(61);
@@ -399,8 +364,8 @@ namespace Packet {
       if (DirY != 0F) {
         size += 1 + 4;
       }
-      if (weaponData_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(WeaponData);
+      if (AttackId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(AttackId);
       }
       if (TimeStamp != 0F) {
         size += 1 + 4;
@@ -432,11 +397,8 @@ namespace Packet {
       if (other.DirY != 0F) {
         DirY = other.DirY;
       }
-      if (other.weaponData_ != null) {
-        if (weaponData_ == null) {
-          WeaponData = new global::Packet.WeaponData();
-        }
-        WeaponData.MergeFrom(other.WeaponData);
+      if (other.AttackId != 0) {
+        AttackId = other.AttackId;
       }
       if (other.TimeStamp != 0F) {
         TimeStamp = other.TimeStamp;
@@ -480,11 +442,8 @@ namespace Packet {
             DirY = input.ReadFloat();
             break;
           }
-          case 50: {
-            if (weaponData_ == null) {
-              WeaponData = new global::Packet.WeaponData();
-            }
-            input.ReadMessage(WeaponData);
+          case 48: {
+            AttackId = input.ReadInt32();
             break;
           }
           case 61: {
@@ -530,11 +489,8 @@ namespace Packet {
             DirY = input.ReadFloat();
             break;
           }
-          case 50: {
-            if (weaponData_ == null) {
-              WeaponData = new global::Packet.WeaponData();
-            }
-            input.ReadMessage(WeaponData);
+          case 48: {
+            AttackId = input.ReadInt32();
             break;
           }
           case 61: {
@@ -871,7 +827,7 @@ namespace Packet {
 
     /// <summary>Field number for the "type" field.</summary>
     public const int TypeFieldNumber = 1;
-    private global::Packet.WeaponType type_ = global::Packet.WeaponType.NoHaveWepon;
+    private global::Packet.WeaponType type_ = global::Packet.WeaponType.Fist;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::Packet.WeaponType Type {
@@ -883,7 +839,7 @@ namespace Packet {
 
     /// <summary>Field number for the "attackType" field.</summary>
     public const int AttackTypeFieldNumber = 2;
-    private global::Packet.AttackType attackType_ = global::Packet.AttackType.NotAttack;
+    private global::Packet.AttackType attackType_ = global::Packet.AttackType.Punch;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::Packet.AttackType AttackType {
@@ -956,8 +912,8 @@ namespace Packet {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Type != global::Packet.WeaponType.NoHaveWepon) hash ^= Type.GetHashCode();
-      if (AttackType != global::Packet.AttackType.NotAttack) hash ^= AttackType.GetHashCode();
+      if (Type != global::Packet.WeaponType.Fist) hash ^= Type.GetHashCode();
+      if (AttackType != global::Packet.AttackType.Punch) hash ^= AttackType.GetHashCode();
       if (Damage != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Damage);
       if (Range != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Range);
       if (Cooldown != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Cooldown);
@@ -979,11 +935,11 @@ namespace Packet {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Type != global::Packet.WeaponType.NoHaveWepon) {
+      if (Type != global::Packet.WeaponType.Fist) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
-      if (AttackType != global::Packet.AttackType.NotAttack) {
+      if (AttackType != global::Packet.AttackType.Punch) {
         output.WriteRawTag(16);
         output.WriteEnum((int) AttackType);
       }
@@ -1009,11 +965,11 @@ namespace Packet {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Type != global::Packet.WeaponType.NoHaveWepon) {
+      if (Type != global::Packet.WeaponType.Fist) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
-      if (AttackType != global::Packet.AttackType.NotAttack) {
+      if (AttackType != global::Packet.AttackType.Punch) {
         output.WriteRawTag(16);
         output.WriteEnum((int) AttackType);
       }
@@ -1039,10 +995,10 @@ namespace Packet {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Type != global::Packet.WeaponType.NoHaveWepon) {
+      if (Type != global::Packet.WeaponType.Fist) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
-      if (AttackType != global::Packet.AttackType.NotAttack) {
+      if (AttackType != global::Packet.AttackType.Punch) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) AttackType);
       }
       if (Damage != 0F) {
@@ -1066,10 +1022,10 @@ namespace Packet {
       if (other == null) {
         return;
       }
-      if (other.Type != global::Packet.WeaponType.NoHaveWepon) {
+      if (other.Type != global::Packet.WeaponType.Fist) {
         Type = other.Type;
       }
-      if (other.AttackType != global::Packet.AttackType.NotAttack) {
+      if (other.AttackType != global::Packet.AttackType.Punch) {
         AttackType = other.AttackType;
       }
       if (other.Damage != 0F) {

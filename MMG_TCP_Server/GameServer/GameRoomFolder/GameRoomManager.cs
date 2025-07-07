@@ -45,6 +45,14 @@ namespace GameServer.GameRoomFolder
                 room.Update();
             }
         }
+        public void Update(float deltaTime)
+        {
+            foreach (var room in _rooms.Values)
+            {
+                room.Update(deltaTime);
+            }
+        }
+
         public GameRoom GetOrCreateRoom(int mapId)
         {
             if (!_rooms.TryGetValue(mapId, out var room))
