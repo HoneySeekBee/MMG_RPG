@@ -17,6 +17,23 @@ message S_DamageBroadcast{
     float Damage = 2;
     int32 AttackerId = 3;
 }
+message MonsterStatus
+{  
+    int32 monsterId = 1;
+  string monsterName = 2;
+  float HP = 3;
+  float maxHP = 4;
+  float moveSpeed = 5;
+  float chaseRange = 6;
+  float attackRange = 7;
+  repeated MonsterAttack attacks = 8;
+	
+}
+message MonsterAttack {
+  int32 inputType = 1;
+  int32 frequency = 2;
+  int32 attackId = 3;
+}
 
 message WeaponData{
     WeaponType type = 1;

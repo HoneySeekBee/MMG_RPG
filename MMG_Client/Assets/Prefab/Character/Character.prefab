@@ -2201,12 +2201,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3685454cb5e172141b46fa92230ba196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterEvents:
-  - eventName: move
+  Events:
+  - eventName: Move
     actionType: 0
     input: {fileID: 8865204454719752688}
     action: {fileID: 1092857865031443867}
-  - eventName: battle
+  - eventName: Battle
     actionType: 1
     input: {fileID: 7403926092463684336}
     action: {fileID: 3866305355303886772}

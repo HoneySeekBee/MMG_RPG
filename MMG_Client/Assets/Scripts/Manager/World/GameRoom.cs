@@ -1,4 +1,5 @@
 using Cinemachine;
+using MMG;
 using Packet;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,6 +29,30 @@ public class GameRoom : SceneSingleton<GameRoom>
             Vector3 targetpos = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
 
             remotePlayer.MoveTo(targetpos, packet.DirY, packet.Speed);
+        }
+    }
+    public void HandlerBattle(S_DamageBroadcast packet)
+    {
+        if (Players.TryGetValue(packet.AttackerId, out var attackPlayer))
+        {
+            BattleData data = new BattleData()
+            {
+                targetType = TargetType.Attacker,
+                TargetId = packet.AttackerId,
+                attackTypeId = 0
+            };
+
+            attackPlayer.AttackHandle(data);
+        }
+        if (Players.TryGetValue(packet.TargetId, out var targetPlayer))
+        {
+            BattleData data = new BattleData()
+            {
+                targetType = TargetType.Damaged,
+                TargetId = packet.TargetId,
+                attackTypeId = 0
+            };
+            targetPlayer.AttackHandle(data);
         }
     }
     //public void HandleBroadcastLeave(S_BroadcastLeave packet)

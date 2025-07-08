@@ -27,7 +27,7 @@ namespace MMG
         private PlayerAnimator playerAnimator;
 
         private Vector3 _lastPosition;
-        public override void Initialize(bool isLocal, IInputBase input)
+        public override void Initialize(bool isLocal, IInputBase input = null)
         {
             base.Initialize(isLocal, input);
             playerAnimator = GetComponent<PlayerAnimator>();

@@ -6,10 +6,16 @@ namespace MMG
     public abstract class ActionBase<T> : MonoBehaviour, IActionBase
     {
         protected bool IsLocal;
-        public virtual void Initialize(bool isLocal, IInputBase input)
+
+        public virtual void DoAction(BattleData battleData)
+        {
+
+        }
+
+        public virtual void Initialize(bool isLocal, IInputBase input = null)
         {
             IsLocal = isLocal;
-            if (input is InputBase<T> typedInput && IsLocal)
+            if (input != null && input is InputBase<T> typedInput && IsLocal)
             {
                 typedInput.InputAction += Action;
             }
@@ -21,5 +27,6 @@ namespace MMG
         }
 
         protected abstract void Action(T value);
+
     }
 }

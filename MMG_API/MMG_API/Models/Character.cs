@@ -22,7 +22,7 @@ namespace MMG_API.Models
         public string CharacterName { get; set; } = string.Empty;
         [Required]
         [MaxLength(50)]
-        public string Class { get; set; } = string.Empty;
+        public int Class { get; set; } = 0;
 
         [Required]
         public string AppearanceCode { get; set; } = string.Empty;

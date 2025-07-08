@@ -1,0 +1,25 @@
+{
+  "monsterList": [
+    {
+      "monsterId": 1,
+      "monsterName": "Cactus",
+      "hp": 10.0,
+      "maxHP": 10.0,
+      "moveSpeed": 2.0,
+      "chaseRange": 10.0,
+      "attackRange": 2.0,
+      "attacks": [
+        {
+          "inputType": 0,
+          "frequency": 4,
+          "attackId": 201
+        },
+        {
+          "inputType": 1,
+          "frequency": 1,
+          "attackId": 202
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GameServer.Data.Monster
+{
+    public class MonsterStateMachine
+    {
+        private IMonsterState _currentState;
+
+        public void ChangeState(IMonsterState newState, Monster monster)
+        {
+            _currentState?.Exit(monster);
+            _currentState = newState;
+            _currentState?.Enter(monster);
+        }
+
+        public void Update(Monster monster, float deltaTime)
+        {
+            _currentState?.Update(monster, deltaTime);
+        }
+    }
+}

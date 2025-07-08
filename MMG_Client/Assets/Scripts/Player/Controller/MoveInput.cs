@@ -53,8 +53,7 @@ namespace MMG
             {
                 moveData.Direction = move.normalized;
                 moveData.IsRunning = isRunning;
-                if (isRunning)
-                    Debug.Log("달리는 중 ");
+
                 InvokeAction(moveData); // 정규화된 방향값 전달
             }
         }

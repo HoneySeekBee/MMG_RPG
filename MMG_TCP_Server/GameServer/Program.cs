@@ -1,5 +1,6 @@
 ﻿using GameServer.Attack;
 using GameServer.Core;
+using GameServer.Data.Monster;
 using GameServer.GameRoomFolder;
 using System.Diagnostics;
 using System.Net;
@@ -30,6 +31,7 @@ namespace GameServer
             });
             ServerPacketManager.Register();
             AttackDataManager.LoadAttackData();
+            MonsterDataManager.LoadData();
             Listener listener = new Listener();
             listener.Init(GetEndPoint(), () => new ServerSession());
 

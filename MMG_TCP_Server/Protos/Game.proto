@@ -13,7 +13,7 @@ message CharacterInfo{
 	int32 UserId = 2;
 	int32 Gender = 3;
 	string CharacterName =4;
-	string Class =5;
+	ClassType Class =5;
 	string AppearanceCode = 6;
 }
 message C_EnterGameRequest{
@@ -71,9 +71,32 @@ message S_BroadcastMove
 
   int64 timestamp = 8;
 }
+message MonsterMoveData{
+	int32 MonsterId = 1;
+	MoveData MoveData = 2;
+}
+message MoveData
+{
+	float posX = 1;
+  float posY = 2;
+  float posZ = 3;
+  float dirY = 4;
+  float speed =5;
+  int64 timestamp = 6;
 
+}
 
 message S_BroadcastEnter{
 	CharacterList enterCharacter = 1;
 }
 
+enum ClassType
+{
+	NoHave = 0;
+
+	Knight = 1;
+
+	Archer = 2;
+
+	Mage = 3;
+}

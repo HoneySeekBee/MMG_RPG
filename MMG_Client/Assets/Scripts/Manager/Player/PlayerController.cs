@@ -4,58 +4,46 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CharacterEvent
+public class CharacterEvent : ICharacterEvent<PlayerActionType>
 {
     public string eventName;
     public PlayerActionType actionType;
     public MonoBehaviour input;
     public MonoBehaviour action;
+
+    public string EventName => eventName;
+    public PlayerActionType ActionType => actionType;
+    public MonoBehaviour Input => input;
+    public MonoBehaviour Action => action;
 }
+
 public enum PlayerActionType
 {
     move,
     battle,
 
 }
-public class PlayerController : MonoBehaviour
+public class PlayerController : ControllerBase<PlayerActionType, CharacterEvent>
 {
-    public List<CharacterEvent> characterEvents = new List<CharacterEvent>();
-    public Dictionary<PlayerActionType, CharacterEvent> eventDictionary = new Dictionary<PlayerActionType, CharacterEvent>();
     [SerializeField] private bool _isLocalPlayer = false;
-    public bool isLocalPlayer { get { return _isLocalPlayer; } }
+    public bool isLocalPlayer => _isLocalPlayer;
 
     private void Awake()
     {
-        foreach (CharacterEvent characterEvent in characterEvents)
-        {
-            if (eventDictionary.ContainsKey(characterEvent.actionType) == false)
-                eventDictionary.Add(characterEvent.actionType, characterEvent);
-        }
+        // ÃÊ±âÈ­ (if needed)
     }
 
     private void OnDestroy()
     {
-        Debug.Log($"ÆÄ±«µÇ¾ú½À´Ï´Ù.");
+        Debug.Log($"PlayerController ÆÄ±«µÊ");
     }
 
-    public void Initialize(bool isLocal)
+    public override void Initialize(bool isLocal)
     {
         _isLocalPlayer = isLocal;
         if (_isLocalPlayer)
-        {
             this.tag = "Player";
-            //InputManager.Instance.localController = this;
-        }
-        foreach (var item in characterEvents)
-        {
-            var input = item.input as IInputBase;
-            var action = item.action as IActionBase;
-            action.Initialize(isLocal, input);
-        }
-    }
-    public void SetMove(Vector3 goalPos, float dirY, float speed)
-    {
-        var action = eventDictionary[PlayerActionType.move].action as IActionBase;
-        action.SetMove(goalPos, dirY, speed);
+
+        base.Initialize(isLocal);
     }
 }

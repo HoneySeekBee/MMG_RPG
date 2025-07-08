@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
+using Packet;
 
 
 public class CharacterCreatePopup : PopupBase
@@ -125,7 +126,7 @@ public class CharacterCreatePopup : PopupBase
             {
                 CharacterName = nickName,
                 SlotNumber = _slotNumber,
-                Class = "Beginner",
+                Class = (int)ClassType.NoHave,
                 Gender =(int)CreateCharacterManager.Instance.currentGender,
                 AppearanceCode = CreateCharacterManager.Instance.createCharacter.ToAppearanceCode(),
                 
@@ -183,7 +184,7 @@ public class CharacterCreatePopup : PopupBase
         public int SlotNumber { get; set; }
         public string CharacterName { get; set; } = string.Empty;
         public int Gender { get; set; }
-        public string Class { get; set; } = string.Empty;
+        public int Class { get; set; } = (int)ClassType.NoHave;
         public string AppearanceCode { get; set; } = string.Empty;
     }
 }

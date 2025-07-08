@@ -15,6 +15,14 @@ namespace MMG
     public enum BattleSkill { None, Skill_1, Skill_2, Skill_3, Skill_4 }
     public enum AttackInputType { Normal, Strong, Skill_1, Skill_2, Skill_3, Skill_4 }
 
+    public enum TargetType { Attacker, Damaged }
+    public struct BattleData
+    {
+        public TargetType targetType;
+        public int TargetId;
+        public int attackTypeId;
+    }
+
     public class BattleAction : ActionBase<BattleInputData>
     {
         private PlayerAnimator playerAnimator;
@@ -26,7 +34,7 @@ namespace MMG
         }
         [SerializeField] private List<SaveKeyWithAttackData> attackDatas;
         private Dictionary<AttackInputType, AttackData> attackDataDic = new Dictionary<AttackInputType, AttackData>();
-        public override void Initialize(bool isLocal, IInputBase input)
+        public override void Initialize(bool isLocal, IInputBase input = null)
         {
             base.Initialize(isLocal, input);
 
@@ -103,6 +111,14 @@ namespace MMG
             AttackData data = attackDataDic[AttackInputType.Normal];
             AttackGizmoPreview.Instance.Show(pos, dirY, data);
             #endregion
+            bool isProjectile = data.AttackType == AttackType.Arrow;
+            Debug.Log($"공격 타입 체크 {data.AttackType}");
+            if (isProjectile)
+            {
+                Debug.Log("화살 공격");
+                SpawnArrowProjectile(pos, dirY, data);
+            }
+
 
             NetworkManager.Instance.Send_Attack(attackRequest);
         }
@@ -113,7 +129,7 @@ namespace MMG
 
             Vector3 pos = transform.position;
             float dirY = transform.eulerAngles.y;
-            
+
             C_AttackRequest attackRequest = new C_AttackRequest()
             {
                 AttackerId = PlayerData.Instance.MyCharaceterData.id,
@@ -129,6 +145,14 @@ namespace MMG
             AttackData data = attackDataDic[AttackInputType.Strong];
             AttackGizmoPreview.Instance.Show(pos, dirY, data);
             #endregion
+            bool isProjectile = (data.AttackType == AttackType.Arrow);
+            Debug.Log($"공격 타입 체크 {data.AttackType} {isProjectile}");
+            if (isProjectile)
+            {
+                Debug.Log("화살 공격");
+                SpawnArrowProjectile(pos, dirY, data);
+            }
+
 
             NetworkManager.Instance.Send_Attack(attackRequest);
         }
@@ -154,8 +178,42 @@ namespace MMG
             AttackData data = attackDataDic[SkillType];
             AttackGizmoPreview.Instance.Show(pos, dirY, data);
             #endregion
+            bool isProjectile = data.AttackType == AttackType.Arrow;
+            Debug.Log($"공격 타입 체크 {data.AttackType}");
+            if (isProjectile)
+            {
+                Debug.Log("화살 공격");
+                SpawnArrowProjectile(pos, dirY, data);
+            }
 
             NetworkManager.Instance.Send_Attack(attackRequest);
+        }
+        public override void DoAction(BattleData battleData)
+        {
+            Debug.Log("Action 합시다. " + battleData.TargetId);
+            playerAnimator.PlayAttack(false);
+        }
+        private void SpawnArrowProjectile(Vector3 origin, float dirY, AttackData data)
+        {
+            float rad = dirY * Mathf.Deg2Rad;
+            Vector3 forward = new Vector3(Mathf.Sin(rad), 0, Mathf.Cos(rad));
+
+            GameObject arrowObj = ArrowPool.Instance.GetArrow();
+            arrowObj.transform.position = origin;
+            arrowObj.transform.rotation = Quaternion.LookRotation(forward);
+
+            ArrowController arrow = arrowObj.GetComponent<ArrowController>();
+            if (arrow != null)
+            {
+                arrow.Init(
+                    attackerId: PlayerData.Instance.MyCharaceterData.id,
+                    direction: forward,
+                    speed: 10f,              // or data.Speed
+                    maxDistance: data.Range,
+                    damage: data.Damage,
+                    onComplete: () => ArrowPool.Instance.ReturnArrow(arrowObj) // 사용 후 반환
+                );
+            }
         }
     }
 

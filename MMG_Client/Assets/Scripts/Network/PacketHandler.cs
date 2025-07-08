@@ -74,6 +74,12 @@ public class PacketHandler : MonoBehaviour
     public static void S_BroadcastDamageHandler(ClientSession session, S_DamageBroadcast response)
     {
         Debug.Log($"{response.AttackerId}가 {response.TargetId}를 공격. Damage {response.Damage}");
+        // AttackerId를 찾아서 공격 애니메이션
+        // TargetId를 찾아서 Damage 애니메이션 
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            GameRoom.Instance.HandlerBattle(response);
+        });
     }
     #endregion
 }

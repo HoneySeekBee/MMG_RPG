@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using MMG.UI;
+using Packet;
 
 // 임시 
 [System.Serializable]
@@ -29,7 +30,7 @@ public class CharacterData
     public Gender Gender;
     public int slotNumber;
     public string characterName;
-    public string @class; // class는 예약어이기 때문에 이렇게!
+    public ClassType @class; // class는 예약어이기 때문에 이렇게!
     public string appearanceCode;
     public string createdAt;
     public string lastPlayedAt;
@@ -88,10 +89,10 @@ public class CharacterSelectButton : MonoBehaviour
             thisButton.onClick.AddListener(CreateCharacter);
         }
     }
-    private void Init_Character(string NickName, string Class, int Level)
+    private void Init_Character(string NickName, ClassType Class, int Level)
     {
         NickNameText.text = NickName;
-        ClassText.text = Class;
+        ClassText.text = Class.ToString();
         LevelText.text = "Lv." + Level;
     }
 

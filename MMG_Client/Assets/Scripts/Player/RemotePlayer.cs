@@ -1,3 +1,4 @@
+using MMG;
 using Packet;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ public class RemotePlayer : MonoBehaviour
             userId = data.CharacterInfo.UserId,
             Gender = (Gender)data.CharacterInfo.Gender,
             characterName = data.CharacterInfo.CharacterName,
-            @class = data.CharacterInfo.Class,
+            @class = (ClassType)data.CharacterInfo.Class,
             appearanceCode = data.CharacterInfo.AppearanceCode,
         };
         _controller = controller;
@@ -24,5 +25,9 @@ public class RemotePlayer : MonoBehaviour
     public void MoveTo(Vector3 targetPos, float dirY, float speed)
     {
         _controller.SetMove(targetPos, dirY, speed);
+    }
+    public void AttackHandle(BattleData battleData)
+    {
+        _controller.SetAttack(battleData);
     }
 }
