@@ -105,7 +105,7 @@ public class CharacterSelectButton : MonoBehaviour
     }
     public void EnterGame()
     {
-        Debug.Log("이제 게임을 시작하자.");
+        Debug.Log($"이제 게임을 시작하자. {ThisPlayerInfo == null} / {ServerConnector.Instance == null}");
         // TCP 서버에 연결해야한다.
         // 선택창을 안보이게 해야한다. 
         PlayerData.Instance.InitializeFrom(ThisPlayerInfo);

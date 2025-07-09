@@ -25,6 +25,7 @@ namespace MMG
             {
                 var playerZoneList = new List<ExportSpawnZone>();
                 var monsterZoneList = new List<ExportMonsterSpawnZone>();
+                var blockZoneList = new List<ExportSpawnZone>();
 
                 // 플레이어 스폰
                 foreach (var sp in map.SpawnPoints)
@@ -67,11 +68,25 @@ namespace MMG
                         });
                     }
                 }
+                foreach (var sp in map.BlockPoints)
+                {
+                    if (sp.Min.Count == 3 && sp.Max.Count == 3)
+                    {
+                        blockZoneList.Add(new ExportSpawnZone
+                        {
+                            Id = sp.SpawnPointId,
+                            Description = sp.Description,
+                            Min = new Vec3(sp.Min[0], sp.Min[1], sp.Min[2]),
+                            Max = new Vec3(sp.Max[0], sp.Max[1], sp.Max[2])
+                        });
+                    }
+                }
                 var exportData = new ExportMapZone
                 {
                     MapId = map.MapId,
                     PlayerSpawnPoints = playerZoneList,
-                    MonsterSpawnPoints = monsterZoneList
+                    MonsterSpawnPoints = monsterZoneList,
+                    BlockPoints = blockZoneList,
                 };
 
                 string json = JsonConvert.SerializeObject(exportData, Formatting.Indented);
@@ -90,6 +105,7 @@ namespace MMG
         public int MapId;
         public List<ExportSpawnZone> PlayerSpawnPoints;
         public List<ExportMonsterSpawnZone> MonsterSpawnPoints;
+        public List<ExportSpawnZone> BlockPoints;
     }
 
     [System.Serializable]

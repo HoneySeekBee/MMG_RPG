@@ -34,7 +34,13 @@ namespace GameServer.GameRoomFolder
         public Vec3 Min;
         public Vec3 Max;
     }
-
+    public class BlockPointData
+    {
+        public int Id;
+        public string Description;
+        public Vec3 Min;
+        public Vec3 Max;
+    }
     public class PlayerSpawnZone
     {
         public int Id;
@@ -47,13 +53,14 @@ namespace GameServer.GameRoomFolder
         public int MapId;
         public List<MonsterSpawnZone> MonsterSpawnPoints;
         public List<PlayerSpawnZone> PlayerSpawnPoints; // 생략 가능
+        public List<BlockPointData> BlockPoints;
     }
 
     public class SpawnZoneManager
     {
         private List<PlayerSpawnZone> _playerSpawnZones = new();
         private List<MonsterSpawnZone> _monsterSpawnZones = new();
-
+        private List<BlockPointData> _blockPoints = new();
         public SpawnZoneManager(int mapId)
         {
             string projectRoot = Directory.GetParent(AppContext.BaseDirectory)!.Parent!.Parent!.Parent!.FullName;
@@ -70,8 +77,9 @@ namespace GameServer.GameRoomFolder
 
             _playerSpawnZones = data.PlayerSpawnPoints ?? new();
             _monsterSpawnZones = data.MonsterSpawnPoints ?? new();
+            _blockPoints = data.BlockPoints ?? new();  // 추가
 
-            Console.WriteLine($"[SpawnZoneManager] map({mapId}) 로드 완료 - Player: {_playerSpawnZones.Count}, Monster: {_monsterSpawnZones.Count}");
+            Console.WriteLine($"[SpawnZoneManager] map({mapId}) 로드 완료 - Player: {_playerSpawnZones.Count}, Monster: {_monsterSpawnZones.Count}, Block: {_blockPoints.Count}");
         }
         public Vector3 GetRandomPlayerSpawnPos(int spawnId)
         {
@@ -98,6 +106,10 @@ namespace GameServer.GameRoomFolder
         public float RandomFloat(float min, float max)
         {
             return (float)(new Random().NextDouble() * (max - min) + min);
+        }
+        public List<BlockPointData> GetAllBlockPoints()
+        {
+            return _blockPoints;
         }
     }
 }

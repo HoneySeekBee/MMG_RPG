@@ -103,6 +103,29 @@ namespace GameServer.Core
                 return; // 오래된 패킷 무시
             }
 
+            // [1] BlockArea 체크
+            Vector3 requestedPos = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
+            
+            if (!session.Room.IsWalkable(requestedPos))
+            {
+                Console.WriteLine($"[Move Reject] 이동 불가 영역입니다. 요청 위치: {requestedPos}");
+
+                // 클라이언트에 현재 위치를 다시 전송 (보정용)
+                session.Send(PacketType.S_BroadcastMove, new S_BroadcastMove()
+                {
+                    PlayerId = session.SessionId,
+                    CharacterId = session.MyPlayer.CharacterInfo.Id,
+                    PosX = player.PosX,
+                    PosY = player.PosY,
+                    PosZ = player.PosZ,
+                    DirY = player.DirY,
+                    Speed = packet.Speed,
+                    Timestamp = packet.Timestamp,
+                });
+
+                return;
+            }
+
             player.LastMoveTimestamp = packet.Timestamp;
 
             S_BroadcastMove s_Move = new S_BroadcastMove()

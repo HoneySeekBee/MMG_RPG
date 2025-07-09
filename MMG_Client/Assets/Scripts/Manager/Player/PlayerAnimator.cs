@@ -13,7 +13,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         animator.SetFloat("speed", speed);
         animator.SetFloat("dir", dir);
-        animator.SetBool("isMoving", speed > 0.05f);
+        animator.SetBool("isMoving", speed > 0.01f);
     }
 
     public void PlayAttack(bool isLeft)

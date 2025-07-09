@@ -68,6 +68,7 @@ public class PacketHandler : MonoBehaviour
     {
         MainThreadDispatcher.RunOnMainThread(() =>
         {
+            Debug.Log($"움직이기 {response.PosX}, {response.PosZ}");
             GameRoom.Instance.HandleBroadcastMove(response);
         });
     }

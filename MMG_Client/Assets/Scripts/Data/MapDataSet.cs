@@ -18,6 +18,7 @@ public class MapData
     public string Description;
     public List<SpawnPointData> SpawnPoints;
     public List<MonsterSpawnPointData> MonsterSpawnPoints;
+    public List<SpawnPointData> BlockPoints;
 }
 
 [System.Serializable]

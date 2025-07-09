@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace MMG
 {
-    public enum SpawnType
+    public enum AreaType
     {
         Player = 0,
-        Monster = 1, 
-
+        Monster = 1,
+        Block = 2,
     }
 
     [DisallowMultipleComponent]
@@ -16,7 +16,7 @@ namespace MMG
     {
         public int Id;
         public string Description;
-        public SpawnType spawnType;
+        public AreaType spawnType;
         [System.Serializable]
         public class SpawnMonster
         {

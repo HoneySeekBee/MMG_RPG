@@ -2237,11 +2237,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   _rawSpeed: 0
-  walkSpeed: 3
-  runSpeed: 5
+  walkSpeed: 20
+  runSpeed: 30
   _smoothedSpeed: 0
   smoothingFactor: 10
-  maxSpeed: 10
+  maxSpeed: 30
 --- !u!114 &8865204454719752688
 MonoBehaviour:
   m_ObjectHideFlags: 0

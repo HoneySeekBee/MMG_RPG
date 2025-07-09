@@ -8,6 +8,7 @@ using System.Numerics;
 using GameServer.Attack;
 using GameServer.Data.Monster;
 using System;
+using GameServer.GameRoomFolder.Map;
 
 namespace GameServer.GameRoomFolder
 {
@@ -21,6 +22,7 @@ namespace GameServer.GameRoomFolder
 
         public Dictionary<int, Player> _players = new();
         public Dictionary<int, Monster> _monsters = new();
+        private List<BlockArea> _blockAreas = new();
 
         private int _monsterIdCounter = 1;
 
@@ -31,6 +33,7 @@ namespace GameServer.GameRoomFolder
             _battleSystem = new BattleSystem(this);
             spawnZoneMgr = new SpawnZoneManager(roomId);
             MonsterData();
+            BlockData();
         }
         public async Task Enter(ServerSession session)
         {
@@ -253,7 +256,7 @@ namespace GameServer.GameRoomFolder
             if (exclude != null)
                 exclude.UpdateMove(message.PosX, message.PosY, message.PosZ, message.DirY);
 
-            Broadcast(PacketType.S_BroadcastMove, message, exclude);
+            Broadcast(PacketType.S_BroadcastMove, message);
         }
 
         public void BroadcastEnter(S_BroadcastEnter message, Player exclude = null)
@@ -265,5 +268,31 @@ namespace GameServer.GameRoomFolder
         {
             Broadcast(PacketType.S_DamagekResponse, message);
         }
+        private void BlockData()
+        {
+            foreach (var blockPoint in spawnZoneMgr.GetAllBlockPoints())
+            {
+                BlockArea area = new BlockArea
+                {
+                    Id = blockPoint.Id,
+                    Description = blockPoint.Description,
+                    Min = new Vector3(blockPoint.Min.x, blockPoint.Min.y, blockPoint.Min.z),
+                    Max = new Vector3(blockPoint.Max.x, blockPoint.Max.y, blockPoint.Max.z)
+                };
+
+                _blockAreas.Add(area);
+                Console.WriteLine($"[BlockData] ID: {area.Id}, Desc: {area.Description}, Min: {area.Min}, Max: {area.Max}");
+            }
+        }
+        public bool IsWalkable(Vector3 position)
+        {
+            foreach (var block in _blockAreas)
+            {
+                if (block.Contains(position))
+                    return false;
+            }
+            return true;
+        }
+
     }
 }

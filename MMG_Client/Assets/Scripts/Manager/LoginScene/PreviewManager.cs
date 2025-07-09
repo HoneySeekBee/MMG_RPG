@@ -1,3 +1,4 @@
+using MMG;
 using MMG.UI;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -85,6 +86,7 @@ public class PreviewManager : SceneSingleton<PreviewManager>
             go.transform.rotation = Quaternion.Euler(0, 0, 0);
             characterAppearances[i] = go.GetComponent<CharacterAppearance>();
             SetLayerRecursively(go.transform, LayerMask.NameToLayer("Preview"));
+            go.GetComponent<MoveAction>().enabled = false;
         }
     }
     private void SetLayerRecursively(Transform t, int layer)

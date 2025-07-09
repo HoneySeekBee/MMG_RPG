@@ -45,3 +45,20 @@ MonoBehaviour:
       MonsterList:
       - MonsterId: 1
         SpawnCount: 2
+    BlockPoints:
+    - SpawnPointId: 302
+      Description: Block Area 2
+      Min: f7ffffff0000000003000000
+      Max: feffffff0000000008000000
+    - SpawnPointId: 301
+      Description: Block Area 1
+      Min: f5ffffff00000000efffffff
+      Max: fdffffff00000000f8ffffff
+    - SpawnPointId: 304
+      Description: Block Area 4
+      Min: f8ffffff0000000013000000
+      Max: fdffffff0000000018000000
+    - SpawnPointId: 303
+      Description: Block Area 3
+      Min: f8ffffff000000000b000000
+      Max: feffffff0000000011000000

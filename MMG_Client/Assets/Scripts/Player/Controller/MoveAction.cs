@@ -1,6 +1,8 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using Unity.Collections;
 using UnityEngine;
 
 namespace MMG
@@ -11,22 +13,21 @@ namespace MMG
         private Vector3 _moveDir;
         Vector3 _lastSentPos;
         private float _lastSentDirY;
-        [SerializeField] private float _rawSpeed = 0f;
-        [SerializeField] private float walkSpeed = 3;
-        [SerializeField] private float runSpeed = 5;
-        Vector3 _previousPosition;
+        private float _rawSpeed = 0f;
+        private float walkSpeed = 30;
+        private float runSpeed = 50;
 
-        [SerializeField] private float _smoothedSpeed = 0f;
-        [SerializeField] private float smoothingFactor = 10f; // 속도 보간 정도
+        private float _smoothedSpeed = 0f;
+        private float smoothingFactor = 10f; // 속도 보간 정도
 
         private Vector3 _networkTargetPos;
         private float _networkDirY;
         private float _networkSpeed;
-
-        [SerializeField] private float maxSpeed = 10f;
+        private float maxSpeed = 30f;
         private PlayerAnimator playerAnimator;
 
-        private Vector3 _lastPosition;
+        private Vector3 _prevTargetPos;
+        private float _interpolationT = 1f;
         public override void Initialize(bool isLocal, IInputBase input = null)
         {
             base.Initialize(isLocal, input);
@@ -35,44 +36,28 @@ namespace MMG
             speed = walkSpeed;
         }
         #region Public
-        private void Update()
+        private void FixedUpdate()
         {
             Update_Move();
-            if (playerAnimator != null)
-            {
-                UpdateAnimator();
-            }
         }
         private void Update_Move()
         {
-            UpdateSpeed();
-            if (IsLocal == false)
-            {
-                NotLocalPlayerMove();
-            }
+
+            PlayerMove_FromServer();
+
         }
         public void UpdateAnimator()
         {
-            float speed, dir;
+            float dir;
 
-            if (IsLocal)
-            {
-                // 1. 속도 정규화 (0~1)
-                speed = Mathf.Clamp01(_smoothedSpeed / maxSpeed);
+            // 실제 위치가 목표에 거의 도달했으면 speed = 0 처리
+            float distToTarget = Vector3.Distance(transform.position, _networkTargetPos);
+            float speed = (distToTarget < 0.01f) ? 0f : _networkSpeed / maxSpeed;
 
-                // 2. 방향 계산: 전진이면 +1, 후진이면 -1
-                dir = Mathf.Sign(Vector3.Dot(transform.forward, _moveDir.normalized));
-            }
-            else
-            {
-                float deltaDist = Vector3.Distance(transform.position, _lastPosition);
-                speed = Mathf.Clamp01(deltaDist / Time.deltaTime / maxSpeed); // 최대 속도 기준 정규화
+            Vector3 forward = transform.forward;
+            Vector3 toTarget = (_networkTargetPos - transform.position).normalized;
+            dir = Mathf.Sign(Vector3.Dot(forward, toTarget));
 
-                // 방향 계산
-                Vector3 forward = transform.forward;
-                Vector3 toTarget = (_networkTargetPos - transform.position).normalized;
-                dir = Mathf.Sign(Vector3.Dot(forward, toTarget));
-            }
             playerAnimator.UpdateMoveAnimation(speed, dir);
         }
         #endregion
@@ -82,70 +67,63 @@ namespace MMG
             float horizontal = input.Direction.x;  // A/D
 
             // 1. 회전 처리 (좌/우 회전)
-            float rotationSpeed = 180f; // 회전 속도 (도/초)
-            transform.Rotate(Vector3.up, horizontal * rotationSpeed * Time.deltaTime);
+            float rotationSpeed = 30;
+            transform.Rotate(Vector3.up, horizontal * rotationSpeed * Time.fixedDeltaTime);
 
-            // 2. 이동 처리 (전/후진)
+            // 2. 이동 방향 및 속도 계산
             _moveDir = transform.forward * vertical;
             speed = input.IsRunning ? runSpeed : walkSpeed;
-            if (Mathf.Abs(vertical) > 0.01f)
-            {
-                transform.position += _moveDir * speed * Time.deltaTime;
-            }
 
-            if (IsLocal == false)
-                return;
-            if (NetworkManager.Instance == null)
-                return;
-            // 여기서 보내면 될듯 싶다. 
-            Vector3 direction = transform.forward;
+            // 3. 시뮬레이션 위치 계산
+            Vector3 simulatedPos = transform.position + transform.forward * vertical * speed * Time.fixedDeltaTime;
+
+            // 4. 회전값과 속도 계산
             float dirY = transform.eulerAngles.y;
+            _rawSpeed = speed;
 
-            if (Vector3.Distance(transform.position, _lastSentPos) > 0.01f ||
-                Mathf.Abs(dirY - _lastSentDirY) > 0.5f) // 0.5도 이상 회전하면 전송
+            // 5. 서버에 전송 (변화가 감지되었을 때만)
+            if (Vector3.Distance(simulatedPos, _lastSentPos) > 0.05f || Mathf.Abs(dirY - _lastSentDirY) > 0.5f)
             {
-                NetworkManager.Instance.Send_Move(transform.position, dirY, _rawSpeed);
-                _lastSentPos = transform.position;
-                _lastSentDirY = dirY; // float 값으로 저장
+                NetworkManager.Instance.Send_Move(simulatedPos, dirY, _rawSpeed);
+                _lastSentPos = simulatedPos;
+                _lastSentDirY = dirY;
             }
         }
-        private void UpdateSpeed()
-        {
-            Vector3 currentPosition = transform.position;
-            float distance = Vector3.Distance(currentPosition, _previousPosition);
-            _rawSpeed = distance / Time.deltaTime;  // 실제 속도 측정
-            _previousPosition = currentPosition;
+        private void PlayerMove_FromServer()
+        { // 목적지 보간 진행
+            _interpolationT += Time.fixedDeltaTime * smoothingFactor;
+            _interpolationT = Mathf.Clamp01(_interpolationT);
 
-            // 보간 처리 (부드러운 감속/가속)
-            _smoothedSpeed = Mathf.Lerp(_smoothedSpeed, _rawSpeed, smoothingFactor * Time.deltaTime);
+            Vector3 smoothedPos = Vector3.Lerp(_prevTargetPos, _networkTargetPos, _interpolationT);
+            transform.position = smoothedPos;
 
-
-            // _animator.SetFloat("speed", normalizedSpeed, 0.1f, Time.deltaTime);
-        }
-        private void NotLocalPlayerMove()
-        {
-            Vector3 currentPos = transform.position;
-
-            // 1. 이동 처리
-            transform.position = Vector3.Lerp(transform.position, _networkTargetPos, Time.deltaTime * _networkSpeed);
-
-            // 2. 회전 처리
+            // 회전 처리
             Quaternion targetRot = Quaternion.Euler(0f, _networkDirY, 0f);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 10f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.fixedDeltaTime * 10f);
 
-            // 3. 속도 계산용 (다음 프레임에서 사용됨)
-            _lastPosition = currentPos;
-
+            if (playerAnimator != null)
+                UpdateAnimator();
         }
         public override void SetMove(Vector3 goalPos, float dirY, float speed)
         {
-            NoneLocalPlayer_Move(goalPos, dirY, speed);
+            Debug.Log($"SetMove {goalPos}");
+            Move_FromServer(goalPos, dirY, speed);
         }
-        private void NoneLocalPlayer_Move(Vector3 targetPos, float dirY, float speed)
+        private void Move_FromServer(Vector3 targetPos, float dirY, float speed)
         {
+            if (Vector3.Distance(_networkTargetPos, targetPos) < 0.01f &&
+                Mathf.Abs(_networkDirY - dirY) < 0.5f &&
+                Mathf.Abs(_networkSpeed - speed) < 0.1f)
+            {
+                // 거의 동일하니 무시 (덜덜방지)
+                return;
+            }
+
+            _prevTargetPos = transform.position; // 현재 위치에서 시작 (더 부드러움)
             _networkTargetPos = targetPos;
             _networkDirY = dirY;
             _networkSpeed = speed;
+            _interpolationT = 0f;
         }
     }
 
