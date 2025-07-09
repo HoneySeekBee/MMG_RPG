@@ -20,6 +20,9 @@ message C_EnterGameRequest{
 	int32 CharacterId = 1;
 	int32 MapId = 2;
 }
+message S_BroadcastEnter{
+	CharacterList enterCharacter = 1;
+}
 
 message S_EnterGameResponse {
 	int32 MapId = 1;
@@ -71,24 +74,7 @@ message S_BroadcastMove
 
   int64 timestamp = 8;
 }
-message MonsterMoveData{
-	int32 MonsterId = 1;
-	MoveData MoveData = 2;
-}
-message MoveData
-{
-	float posX = 1;
-  float posY = 2;
-  float posZ = 3;
-  float dirY = 4;
-  float speed =5;
-  int64 timestamp = 6;
 
-}
-
-message S_BroadcastEnter{
-	CharacterList enterCharacter = 1;
-}
 
 enum ClassType
 {

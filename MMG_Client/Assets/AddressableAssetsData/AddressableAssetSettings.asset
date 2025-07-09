@@ -44,6 +44,7 @@ MonoBehaviour:
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
+  - {fileID: 11400000, guid: 723393420c36ff44c86d55cf8bd5779d, type: 2}
   - {fileID: 11400000, guid: 9d217231ace4305409bc194342bae573, type: 2}
   - {fileID: 11400000, guid: 353ffa3fefe8bc44a8eb1f868a7fc9b1, type: 2}
   - {fileID: 11400000, guid: 0ccab4281c92a6e4c922d09c08d94642, type: 2}
@@ -93,6 +94,7 @@ MonoBehaviour:
     m_LabelNames:
     - default
     - Popup
+    - Monster
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 8201716a56488e041b6c4aa1a1281182, type: 2}

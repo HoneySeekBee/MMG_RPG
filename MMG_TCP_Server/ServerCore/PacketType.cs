@@ -8,6 +8,7 @@ namespace ServerCore
 {
     // 1 ~ 99 : 로그인 / 인증
     // 100 ~ 199 : 게임 관련
+    // 200 ~ 299 : 몬스터 관련
 
     // 900 ~ 999 : 에러 관련
     // 9000 ~ 9999 : 테스트용/디버그
@@ -29,6 +30,10 @@ namespace ServerCore
         C_BroadcastMove = 111,
         S_BroadcastMove = 112,
         S_BroadcastEnter = 113,
+
+        // 몬스터 관련 
+        S_MonsterList = 200,
+
 
         S_Error = 901,
     }

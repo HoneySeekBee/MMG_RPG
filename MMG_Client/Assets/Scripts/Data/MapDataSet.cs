@@ -1,3 +1,4 @@
+using MMG;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class MapData
     public string SceneName;
     public string Description;
     public List<SpawnPointData> SpawnPoints;
+    public List<MonsterSpawnPointData> MonsterSpawnPoints;
 }
 
 [System.Serializable]
@@ -27,4 +29,19 @@ public class SpawnPointData
     // AABB 영역 정보 (Plane 기반 추출)
     public List<int> Min = new();
     public List<int> Max = new();
+}
+[System.Serializable]
+public class MonsterSpawnPointData
+{
+    public int SpawnPointId;
+    public string Description;
+    public List<int> Min = new();
+    public List<int> Max = new();
+    public List<MonsterSpawnInfo> MonsterList;
+}
+[System.Serializable]
+public class MonsterSpawnInfo
+{
+    public int MonsterId;
+    public int SpawnCount;
 }

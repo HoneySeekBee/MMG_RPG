@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package Packet;
+
+
+message MonsterStatus
+{  
+	int32 ID = 1;
+  int32 monsterId = 2;
+  string monsterName = 3;
+  float HP = 4;
+  float maxHP = 5;
+  float moveSpeed = 6;
+  float chaseRange = 7;
+  float attackRange = 8;
+  repeated MonsterAttack attacks = 9;
+ MonsterMoveData MoveData = 10;
+}
+message MonsterAttack {
+  int32 inputType = 1;
+  int32 frequency = 2;
+  int32 attackId = 3;
+}
+message MonsterMoveData{
+	int32 MonsterId = 1;
+	MoveData MonsterMove = 3;
+}
+message MoveData
+{
+	float posX = 1;
+  float posY = 2;
+  float posZ = 3;
+  float dirY = 4;
+  float speed =5;
+  int64 timestamp = 6;
+
+}
+
+message S_MonsterList
+{
+	repeated MonsterStatus MonsterDataList = 1;
+}

@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: MapData
   m_EditorClassIdentifier: 
   mapDatas:
-  - MapId: 0
+  - MapId: 1
     MapType: 0
     SceneName: TungCastleScene
     Description: 
     SpawnPoints:
+    - SpawnPointId: 2
+      Description: "\uC11C\uCABD \uC2A4\uD3F0"
+      Min: f8ffffff00000000c2ffffff
+      Max: 0200000000000000ccffffff
     - SpawnPointId: 0
       Description: "\uAE30\uBCF8 \uC704\uCE58"
       Min: e1ffffff00000000eeffffff
@@ -26,7 +30,18 @@ MonoBehaviour:
       Description: "\uB3D9\uCABD \uC2A4\uD3F0"
       Min: 0300000000000000f9ffffff
       Max: 0d0000000000000003000000
-    - SpawnPointId: 2
-      Description: "\uC11C\uCABD \uC2A4\uD3F0"
-      Min: f8ffffff00000000c2ffffff
-      Max: 0200000000000000ccffffff
+    MonsterSpawnPoints:
+    - SpawnPointId: 201
+      Description: MonsterSpawn
+      Min: 0500000000000000fbffffff
+      Max: 0f0000000000000005000000
+      MonsterList:
+      - MonsterId: 1
+        SpawnCount: 3
+    - SpawnPointId: 202
+      Description: MonsterSpawn
+      Min: 05000000000000000c000000
+      Max: 0f0000000000000016000000
+      MonsterList:
+      - MonsterId: 1
+        SpawnCount: 2

@@ -81,5 +81,15 @@ public class PacketHandler : MonoBehaviour
             GameRoom.Instance.HandlerBattle(response);
         });
     }
+
+    public static void S_MonsterListHandler(ClientSession session, S_MonsterList response)
+    {
+        Debug.Log($"[S_MonsterListHandler] Monster ¼ö {response.MonsterDataList.Count}");
+
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            GameRoom.Instance.SpwanMonsters(response);
+        });
+    }
     #endregion
 }

@@ -2,18 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[DisallowMultipleComponent]
-public class PlaneSpawnZone : MonoBehaviour
+namespace MMG
 {
-    public int Id;
-    public string Description;
-
-    public Bounds GetBounds()
+    public enum SpawnType
     {
-        var renderer = GetComponent<Renderer>();
-        if (renderer != null)
-            return renderer.bounds;
+        Player = 0,
+        Monster = 1, 
 
-        return new Bounds(transform.position, transform.localScale);
+    }
+
+    [DisallowMultipleComponent]
+    public class PlaneSpawnZone : MonoBehaviour
+    {
+        public int Id;
+        public string Description;
+        public SpawnType spawnType;
+        [System.Serializable]
+        public class SpawnMonster
+        {
+            public int SpawnCount;
+            public MonsterData monsterData;
+        }
+        public List<SpawnMonster> spawnMonsterData;
+        public Bounds GetBounds()
+        {
+            var renderer = GetComponent<Renderer>();
+            if (renderer != null)
+                return renderer.bounds;
+
+            return new Bounds(transform.position, transform.localScale);
+        }
     }
 }

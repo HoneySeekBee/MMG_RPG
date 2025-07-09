@@ -27,6 +27,7 @@ public class PacketManager : MonoBehaviour
     private static void RegisterEnterGame()
     {
         _onRecv.Add((ushort)PacketType.S_EnterGameResponse, MakePacket<S_EnterGameResponse>(PacketHandler.S_EnterGameResponHandler));
+        _onRecv.Add((ushort)PacketType.S_MonsterList, MakePacket<S_MonsterList>(PacketHandler.S_MonsterListHandler));
     }
     private static void RegisterBroadcast()
     {

@@ -53,7 +53,8 @@ namespace MMG
             {
                 return new MonsterStatus
                 {
-                    ID = MonsterId,
+                    MonsterId = MonsterId,
+                    MonsterName = MonsterName,
                     HP = _MaxHP,
                     MaxHP = _MaxHP,
                     MoveSpeed = _MoveSpeed,

@@ -4,13 +4,15 @@ using Packet;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class GameRoom : SceneSingleton<GameRoom>
 {
+    public GameObject CharacterPrefab;
     public int RoomId { get; private set; }
     public Dictionary<int, RemotePlayer> Players = new();
-    public GameObject CharacterPrefab;
-    [SerializeField] private CinemachineVirtualCamera VirtualCamera;
+    public Dictionary<int, RemoteMonster> Monsters = new();
+    public CinemachineVirtualCamera VirtualCamera;
     public void Init(int roomId)
     {
         RoomId = roomId;
@@ -86,7 +88,7 @@ public class GameRoom : SceneSingleton<GameRoom>
     public void SpawnCharacter(CharacterList character)
     {
         GameObject go = InstantiateCharacter(character);
-        InitializeCharacter(go, character); 
+        InitializeCharacter(go, character);
         RegisterCharacter(character, go);
     }
     private GameObject InstantiateCharacter(CharacterList character)
@@ -117,5 +119,37 @@ public class GameRoom : SceneSingleton<GameRoom>
     {
         var remotePlayer = go.GetComponent<RemotePlayer>();
         GameRoom.Instance.AddPlayer(character, remotePlayer);
+    }
+    public void SpwanMonsters(S_MonsterList packet)
+    {
+        foreach (var monster in packet.MonsterDataList)
+        {
+            SpawnMonster(monster);
+        }
+    }
+    public void SpawnMonster(MonsterStatus status)
+    {
+        SpawnCharacterManager SpawnManager = SpawnCharacterManager.Instance;
+        // [1] monsterId 기반으로 Prefab을 가지고 오자. 
+
+        Vector3 spawnpoint = new Vector3(status.MoveData.MonsterMove.PosX,
+            status.MoveData.MonsterMove.PosY,
+            status.MoveData.MonsterMove.PosZ);
+
+        GameObject Monster =
+            Instantiate(
+                SpawnManager.GetMonster(status.MonsterId),
+            spawnpoint,
+            Quaternion.Euler(0, status.MoveData.MonsterMove.DirY, 0),
+            this.transform
+            );
+
+        // [2] 초기화 해주기
+        var remoteMonster = Monster.AddComponent<RemoteMonster>();
+        remoteMonster.Init(status, Monster.GetComponent<MonsterController>());
+
+        // [3] 등록 해주기 
+        Debug.Log($"[SpwanMonster] ID : {status.ID}, Name : {status.MonsterName}");
+        Monsters.Add(status.ID, remoteMonster);
     }
 }

@@ -5,25 +5,32 @@ using Google.Protobuf;
 using Packet;
 using ServerCore;
 using System.Numerics;
-using System.Net.Http;
 using GameServer.Attack;
-using GameServer.Intreface;
+using GameServer.Data.Monster;
+using System;
 
 namespace GameServer.GameRoomFolder
 {
     public class GameRoom : JobQueue
     {
         public int RoomId { get; private set; }
+        SpawnZoneManager spawnZoneMgr;
 
         private BattleSystem _battleSystem;
         private ProjectileManager _projectileManager = new();
 
         public Dictionary<int, Player> _players = new();
+        public Dictionary<int, Monster> _monsters = new();
+
+        private int _monsterIdCounter = 1;
 
         public GameRoom(int roomId)
         {
+            Console.WriteLine($"GameRoom 초기화 {roomId}");
             RoomId = roomId;
             _battleSystem = new BattleSystem(this);
+            spawnZoneMgr = new SpawnZoneManager(roomId);
+            MonsterData();
         }
         public async Task Enter(ServerSession session)
         {
@@ -50,7 +57,7 @@ namespace GameServer.GameRoomFolder
             session.MyPlayer.Status = status;
 
             Player player = session.MyPlayer;
-            Vector3 spawnVec = SpawnZoneLoader.GetRandomSpawnPos(RoomId, 0);
+            Vector3 spawnVec = spawnZoneMgr.GetRandomPlayerSpawnPos(0);
             player.PosX = spawnVec.X;
             player.PosY = spawnVec.Y;
             player.PosZ = spawnVec.Z;
@@ -60,12 +67,10 @@ namespace GameServer.GameRoomFolder
             player.CurrentRoomId = RoomId;
 
             // 유저에게 현재 방 정보 전송
-            var response = new S_EnterGameResponse { MapId = RoomId };
-            foreach (var p in _players)
-                response.CharacterList.Add(CreateCharacterList(p.Value, p.Key == charId));
-            session.Send(PacketType.S_EnterGameResponse, response);
+            CharacterSpawn(session, charId);
 
-            Console.WriteLine($"[GameRoom:{RoomId}] {player.CharacterInfo.CharacterName} 입장");
+            MonsterSpawn(session);
+
 
             // 다른 유저에게 입장 브로드캐스트
             var broadcastEnter = new S_BroadcastEnter
@@ -74,6 +79,83 @@ namespace GameServer.GameRoomFolder
             };
             BroadcastEnter(broadcastEnter, player);
         }
+        private void CharacterSpawn(ServerSession session, int charId)
+        {
+            var response = new S_EnterGameResponse { MapId = RoomId };
+
+            foreach (var p in _players)
+                response.CharacterList.Add(CreateCharacterList(p.Value, p.Key == charId));
+
+            session.Send(PacketType.S_EnterGameResponse, response);
+        }
+        private void MonsterSpawn(ServerSession session)
+        {
+            var monsterListPacket = new S_MonsterList();
+
+            foreach (var monster in _monsters.Values)
+            {
+                var original = monster.Status;
+
+                var status = new MonsterStatus
+                {
+                    ID = monster.Id,
+                    MonsterId = original.MonsterId,
+                    MonsterName = original.MonsterName,
+                    HP = original.HP,
+                    MaxHP = original.MaxHP,
+                    MoveSpeed = original.MoveSpeed,
+                    ChaseRange = original.ChaseRange,
+                    AttackRange = original.AttackRange,
+                    MoveData = monster.MonsterMove, 
+
+                    // 나머지 필드도 복사 필요시 추가
+                };
+
+                monsterListPacket.MonsterDataList.Add(status);
+            }
+
+            session.Send(PacketType.S_MonsterList, monsterListPacket);
+        }
+        private void MonsterData()
+        {
+            foreach (var zone in spawnZoneMgr.GetAllMonsterZones())
+            {
+                foreach (var info in zone.Monsters)
+                {
+                    for (int i = 0; i < info.SpawnCount; i++)
+                    {
+                        Vector3 spawnPos = spawnZoneMgr.GetRandomPosition(zone.Min, zone.Max);
+
+                        MonsterStatus monsterStatus = MonsterDataManager.Get(info.MonsterId);
+
+                        int id = GetNextMonsterId();
+
+                        MonsterMoveData _moveData = new MonsterMoveData()
+                        {
+                            MonsterId = info.MonsterId,
+                            MonsterMove = new MoveData()
+                            {
+                                PosX = spawnPos.X,
+                                PosY = spawnPos.Y,
+                                PosZ = spawnPos.Z,
+                                DirY = 0,
+                                Speed = 0,
+                                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+                            }
+                        };
+                        Monster monster = new Monster(id, monsterStatus, _moveData, this);
+
+
+                        _monsters.Add(monster.Id, monster);
+                    }
+                }
+            }
+        }
+        public int GetNextMonsterId()
+        {
+            return _monsterIdCounter++;
+        }
+
         public void Leave(Player player)
         {
             if (_players.Remove(player.CharacterInfo.Id))

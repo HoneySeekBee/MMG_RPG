@@ -12,6 +12,10 @@ public class InitSceneManager : MonoBehaviour
     {
         StartCoroutine(Process());
     }
+    private IEnumerator GlobalCashing()
+    {
+        yield return SpawnCharacterManager.Instance.SpawnDataCashing();
+    }
     private IEnumerator Process()
     {
         string token = PlayerPrefs.GetString("jwt_token", string.Empty);
@@ -28,7 +32,6 @@ public class InitSceneManager : MonoBehaviour
         // 토큰이 있다면 → API로 검증 요청
         UnityWebRequest request = UnityWebRequest.Get(url);
         request.downloadHandler = new DownloadHandlerBuffer();
-
 
         yield return request.SendWebRequest();
 
@@ -56,6 +59,10 @@ public class InitSceneManager : MonoBehaviour
         {
             Debug.LogError($"[Login] 토큰 검사 실패: {request.error}");
         }
+
+        // Global 캐싱 처리 
+        yield return GlobalCashing();
+
         SceneLoader.Instance.LoadScene("LoginScene");
     }
     [System.Serializable]
