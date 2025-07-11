@@ -8,12 +8,12 @@ namespace GameServer.Data.Monster
 {
     public class ChaseState : IMonsterState
     {
-        public void Enter(Monster monster)
+        public void Enter(MonsterObject monster)
         {
-            Console.WriteLine($"{monster.Name} → Chase 상태 진입");
+            Console.WriteLine($"{monster.objectInfo.Name} → Chase 상태 진입");
         }
 
-        public void Update(Monster monster, float deltaTime)
+        public void Update(MonsterObject monster, float deltaTime)
         {
             if (monster.Target == null || monster.Target.IsDead)
             {
@@ -31,9 +31,9 @@ namespace GameServer.Data.Monster
             }
         }
 
-        public void Exit(Monster monster)
+        public void Exit(MonsterObject monster)
         {
-            Console.WriteLine($"{monster.Name} → Chase 상태 종료");
+            Console.WriteLine($"{monster.objectInfo.Name} → Chase 상태 종료");
         }
     }
 }

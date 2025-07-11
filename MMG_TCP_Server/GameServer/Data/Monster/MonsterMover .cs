@@ -9,9 +9,9 @@ namespace GameServer.Data.Monster
 {
     public class MonsterMover
     {
-        private readonly Monster _monster;
+        private readonly MonsterObject _monster;
 
-        public MonsterMover(Monster monster)
+        public MonsterMover(MonsterObject monster)
         {
             _monster = monster;
         }

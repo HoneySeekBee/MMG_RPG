@@ -10,13 +10,13 @@ namespace GameServer.Data.Monster
     {
         private float _timer;
 
-        public void Enter(Monster monster)
+        public void Enter(MonsterObject monster)
         {
             _timer = 2f; // 대기 시간
-            Console.WriteLine($"[FSM] {monster.Name} -> Idle");
+            Console.WriteLine($"[FSM] {monster.objectInfo.Name} -> Idle");
         }
 
-        public void Update(Monster monster, float deltaTime)
+        public void Update(MonsterObject monster, float deltaTime)
         {
             _timer -= deltaTime;
 
@@ -26,9 +26,9 @@ namespace GameServer.Data.Monster
             }
         }
 
-        public void Exit(Monster monster)
+        public void Exit(MonsterObject monster)
         {
-            Console.WriteLine($"[FSM] {monster.Name} exiting Idle");
+            Console.WriteLine($"[FSM] {monster.objectInfo.Name} exiting Idle");
         }
     }
 }

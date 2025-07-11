@@ -9,12 +9,12 @@ namespace GameServer.Data.Monster
 {
     public class PatrolState : IMonsterState
     {
-        public void Enter(Monster monster)
+        public void Enter(MonsterObject monster)
         {
-            Console.WriteLine($"{monster.Name} → Patrol 상태 진입");
+            Console.WriteLine($"{monster.objectInfo.Name} → Patrol 상태 진입");
         }
 
-        public void Update(Monster monster, float deltaTime)
+        public void Update(MonsterObject monster, float deltaTime)
         {
             // 1. 목표 지점까지 거리 확인
             Vector3 targetPos = monster.CurrentPatrolPoint;
@@ -39,9 +39,9 @@ namespace GameServer.Data.Monster
             }
         }
 
-        public void Exit(Monster monster)
+        public void Exit(MonsterObject monster)
         {
-            Console.WriteLine($"{monster.Name} → Patrol 상태 종료");
+            Console.WriteLine($"{monster.objectInfo.Name} → Patrol 상태 종료");
         }
     }
 }

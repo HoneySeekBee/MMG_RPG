@@ -10,14 +10,14 @@ namespace GameServer.Data.Monster
     {
         private IMonsterState _currentState;
 
-        public void ChangeState(IMonsterState newState, Monster monster)
+        public void ChangeState(IMonsterState newState, MonsterObject monster)
         {
             _currentState?.Exit(monster);
             _currentState = newState;
             _currentState?.Enter(monster);
         }
 
-        public void Update(Monster monster, float deltaTime)
+        public void Update(MonsterObject monster, float deltaTime)
         {
             _currentState?.Update(monster, deltaTime);
         }

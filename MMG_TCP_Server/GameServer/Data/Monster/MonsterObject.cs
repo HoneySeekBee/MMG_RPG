@@ -1,4 +1,5 @@
-﻿using GameServer.Game.Object;
+﻿using GamePacket;
+using GameServer.Game.Object;
 using GameServer.Game.Room;
 using MonsterPacket;
 using Packet;
@@ -11,63 +12,55 @@ using System.Threading.Tasks;
 
 namespace GameServer.Data.Monster
 {
-    public class Monster
+    public class MonsterObject : GameObject
     {
-        #region Monster Data
-        public int Id { get; } // 이거는 생성번호 
-        public string Name { get; }
-        public MonsterStatus Status { get; }
-
-        private Vector3 _position;
-        public Vector3 Position => _position;
-        #endregion
-
-        #region AI 및 구성요소
-        private MonsterMoveData _monsterMove;
-        public MonsterMoveData MonsterMove
-        {
-            get
-            {
-                if (_monsterMove == null)
-                    _monsterMove = new MonsterMoveData();
-
-                return _monsterMove;
-            }
-            private set
-            {
-                _monsterMove = value;
-            }
-        }
-
+        public MonsterStatus Status { get; private set; }
         public CharacterObject Target { get; private set; }
         public bool HasTarget => Target != null;
-        public bool IsDead => Status.HP <= 0;
 
         public MonsterStateMachine StateMachine { get; }
         public MonsterMover Mover { get; }
         public MonsterSensor Sensor { get; }
+        public MonsterMoveData MonsterSpawnpoint;
 
         private List<Vector3> _patrolPoints = new();
         private int _currentPatrolIndex = 0;
-        public Vector3 CurrentPatrolPoint => _patrolPoints.Count > 0 ? _patrolPoints[_currentPatrolIndex] : _position;
-        #endregion
+        public Vector3 CurrentPatrolPoint => _patrolPoints.Count > 0 ? _patrolPoints[_currentPatrolIndex] : Position;
 
-        public Monster(int id, MonsterStatus status, MonsterMoveData monsterMove, GameRoom room)
+        public MonsterObject(int id, MonsterStatus status, MonsterMoveData monsterMove, GameRoom room)
         {
-            Id = id;
-            Name = status.MonsterName;
+            // 부모 객체의 필드들 설정
+            Type = ObjectType.Monster;
+            ObjectId = id;
+            Room = room;
+
+            objectStatus = new Status
+            {
+                MaxHP = status.MaxHP,
+                NowHP = status.HP,
+                MaxMP = 0,
+                NowMP = 0,
+                Level = 2,
+                Gold = 0,
+                Exp = 0
+            };
+            MonsterSpawnpoint = monsterMove;
+            MoveData _moveData = monsterMove.MonsterMove;
+            objectInfo = new ObjectInfo
+            {
+                Id = id,
+                Name = status.MonsterName,
+                MoveInfo = _moveData,
+                StatInfo = objectStatus
+            };
+            moveData = _moveData;
+            Position = new Vector3(moveData.PosX, moveData.PosY, moveData.PosZ);
+
             Status = status;
-
-            status.ID = Id;
-
 
             Mover = new MonsterMover(this);
             Sensor = new MonsterSensor(this, room);
             StateMachine = new MonsterStateMachine();
-
-            MonsterMove = monsterMove;
-
-            _position = Vector3.Zero;
 
             StateMachine.ChangeState(new IdleState(), this);
         }
@@ -77,10 +70,8 @@ namespace GameServer.Data.Monster
             StateMachine.Update(this, deltaTime);
         }
 
-        #region 타겟 관련
         public void SetTarget(CharacterObject target) => Target = target;
         public void ClearTarget() => Target = null;
-        #endregion
 
         #region 공격 관련
         public bool IsInAttackRange()
@@ -99,7 +90,7 @@ namespace GameServer.Data.Monster
         #region 사망 처리
         public void OnDeath()
         {
-            Console.WriteLine($"[Monster] {Name} 사망");
+            Console.WriteLine($"[Monster] {objectInfo.Name} 사망");
             // TODO: Drop, Remove 등
         }
         #endregion
@@ -121,27 +112,27 @@ namespace GameServer.Data.Monster
         #region 위치 동기화
         public void AddPosition(Vector3 delta)
         {
-            _position += delta;
+            Position += delta;
 
-            MonsterMove.MonsterMove.PosX = _position.X;
-            MonsterMove.MonsterMove.PosY = _position.Y;
-            MonsterMove.MonsterMove.PosZ = _position.Z;
-            MonsterMove.MonsterMove.Speed = Status.MoveSpeed;
+            moveData.PosX = Position.X;
+            moveData.PosY = Position.Y;
+            moveData.PosZ = Position.Z;
+            moveData.Speed = Status.MoveSpeed;
         }
 
         public void SetPosition(Vector3 pos)
         {
-            _position = pos;
+            Position = pos;
 
-            MonsterMove.MonsterMove.PosX = pos.X;
-            MonsterMove.MonsterMove.PosY = pos.Y;
-            MonsterMove.MonsterMove.PosZ = pos.Z;
-            MonsterMove.MonsterMove.Speed = 0f;
+            moveData.PosX = pos.X;
+            moveData.PosY = pos.Y;
+            moveData.PosZ = pos.Z;
+            moveData.Speed = 0f;
         }
 
         public void SetDirectionY(float angleY)
         {
-            MonsterMove.MonsterMove.DirY = angleY;
+            moveData.DirY = angleY;
         }
         #endregion
     }

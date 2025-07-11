@@ -8,8 +8,8 @@ namespace GameServer.Data.Monster
 {
     public interface IMonsterState
     {
-        void Enter(Monster monster);
-        void Update(Monster monster, float deltaTime);
-        void Exit(Monster monster);
+        void Enter(MonsterObject monster);
+        void Update(MonsterObject monster, float deltaTime);
+        void Exit(MonsterObject monster);
     }
 }

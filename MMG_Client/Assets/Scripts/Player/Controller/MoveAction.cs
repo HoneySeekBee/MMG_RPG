@@ -42,9 +42,7 @@ namespace MMG
         }
         private void Update_Move()
         {
-
             PlayerMove_FromServer();
-
         }
         public void UpdateAnimator()
         {

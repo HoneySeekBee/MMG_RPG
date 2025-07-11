@@ -24,7 +24,7 @@ namespace GameServer.Game.Room
         private ProjectileManager _projectileManager = new();
 
         public Dictionary<int, CharacterObject> _players = new();
-        public Dictionary<int, Monster> _monsters = new();
+        public Dictionary<int, MonsterObject> _monsters = new();
         private List<BlockArea> _blockAreas = new();
 
         private int _monsterIdCounter = 1;
@@ -112,7 +112,7 @@ namespace GameServer.Game.Room
 
                 var status = new MonsterStatus
                 {
-                    ID = monster.Id,
+                    ID = monster.objectInfo.Id,
                     MonsterId = original.MonsterId,
                     MonsterName = original.MonsterName,
                     HP = original.HP,
@@ -120,7 +120,7 @@ namespace GameServer.Game.Room
                     MoveSpeed = original.MoveSpeed,
                     ChaseRange = original.ChaseRange,
                     AttackRange = original.AttackRange,
-                    MoveData = monster.MonsterMove,
+                    MoveData = monster.MonsterSpawnpoint,
 
                     // 나머지 필드도 복사 필요시 추가
                 };
@@ -157,10 +157,10 @@ namespace GameServer.Game.Room
                                 Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
                             }
                         };
-                        Monster monster = new Monster(id, monsterStatus, _moveData, this);
+                        MonsterObject monster = new MonsterObject(id, monsterStatus, _moveData, this);
 
 
-                        _monsters.Add(monster.Id, monster);
+                        _monsters.Add(monster.objectInfo.Id, monster);
                     }
                 }
             }
@@ -256,7 +256,7 @@ namespace GameServer.Game.Room
 
         private void Broadcast(PacketType packetType, IMessage message, CharacterObject exclude = null)
         {
-            Console.WriteLine($"[Broadcast] Player 수 {_players.Count}, ExcludePlayer {exclude == null}");
+
             foreach (var player in _players)
             {
                 if (exclude != null && player.Key == exclude.CharacterInfo.Id) continue;
