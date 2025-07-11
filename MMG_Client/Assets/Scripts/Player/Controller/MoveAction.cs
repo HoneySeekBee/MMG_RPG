@@ -20,7 +20,7 @@ namespace MMG
         private float _smoothedSpeed = 0f;
         private float smoothingFactor = 10f; // 속도 보간 정도
 
-        private Vector3 _networkTargetPos;
+        [SerializeField] private Vector3 _networkTargetPos;
         private float _networkDirY;
         private float _networkSpeed;
         private float maxSpeed = 30f;
@@ -33,7 +33,7 @@ namespace MMG
             base.Initialize(isLocal, input);
             playerAnimator = GetComponent<PlayerAnimator>();
             maxSpeed = runSpeed;
-            speed = walkSpeed;
+
         }
         #region Public
         private void FixedUpdate()
@@ -105,7 +105,13 @@ namespace MMG
         public override void SetMove(Vector3 goalPos, float dirY, float speed)
         {
             Debug.Log($"SetMove {goalPos}");
+            
             Move_FromServer(goalPos, dirY, speed);
+        }
+        public override void Init_Position(Vector3 pos, float dirY)
+        {
+            _networkTargetPos = pos;
+            _networkDirY = dirY;
         }
         private void Move_FromServer(Vector3 targetPos, float dirY, float speed)
         {

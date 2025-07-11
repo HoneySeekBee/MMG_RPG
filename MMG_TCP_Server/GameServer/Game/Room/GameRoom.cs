@@ -159,6 +159,8 @@ namespace GameServer.Game.Room
                         };
                         MonsterObject monster = new MonsterObject(id, monsterStatus, _moveData, this);
 
+                        List<Vector3> patrolRoute = spawnZoneMgr.GeneratePatrolPoints(spawnPos, zone.Min, zone.Max, 2f, 5);
+                        monster.SetPatrolRoute(patrolRoute);
 
                         _monsters.Add(monster.objectInfo.Id, monster);
                     }
@@ -235,6 +237,11 @@ namespace GameServer.Game.Room
         {
             _projectileManager.Update(deltaTime, this);
             // 이후: 플레이어 이동, AI 등도 여기서 처리 가능
+
+            foreach (MonsterObject monster in _monsters.Values)
+            {
+                monster.Update(deltaTime);
+            }
         }
 
         public void Update()
@@ -270,7 +277,10 @@ namespace GameServer.Game.Room
 
             Broadcast(PacketType.S_BroadcastMove, message);
         }
-
+        public void BroadcastMonsterMove(S_BroadcastMove message)
+        {
+            Broadcast(PacketType.S_BroadcastMonstermove, message);
+        }
         public void BroadcastEnter(S_BroadcastEnter message, CharacterObject exclude = null)
         {
             Console.WriteLine($"캐릭터[{message.EnterCharacter.CharacterInfo.CharacterName}] 입장 - ");

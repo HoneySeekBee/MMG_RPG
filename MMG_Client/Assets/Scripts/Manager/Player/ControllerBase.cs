@@ -25,6 +25,7 @@ public abstract class ControllerBase<TActionType, TEvent> : MonoBehaviour
         }
     }
 
+
     public void SetMove(Vector3 goalPos, float dirY, float speed)
     {
         if (EventDict.TryGetValue((TActionType)(object)System.Enum.Parse(typeof(TActionType), "move"), out var evt))

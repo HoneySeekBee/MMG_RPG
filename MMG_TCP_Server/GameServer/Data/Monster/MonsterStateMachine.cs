@@ -19,6 +19,9 @@ namespace GameServer.Data.Monster
 
         public void Update(MonsterObject monster, float deltaTime)
         {
+            if (monster.objectInfo == null)
+                return;
+
             _currentState?.Update(monster, deltaTime);
         }
     }

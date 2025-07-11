@@ -6,6 +6,7 @@ using UnityEngine;
 public interface IActionBase
 {
     void Initialize(bool isLocal, IInputBase input);
+    void Init_Position(Vector3 pos, float dirY);
     void SetMove(Vector3 goalPos, float dirY, float speed);
     void DoAction(BattleData battleData);
 }

@@ -21,6 +21,11 @@ namespace MMG
             }
         }
 
+        public virtual void Init_Position(Vector3 pos, float dirY)
+        {
+
+        }
+
         public virtual void SetMove(Vector3 goalPos, float dirY, float speed)
         {
 

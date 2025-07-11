@@ -36,8 +36,35 @@ namespace GameServer.Game.Object
             get { _dir.Y = moveData.DirY; return _dir; }
             set { _dir = value; moveData.DirY = _dir.Y; }
         }
-        public Vector3 Position { get; set; }  // Position
-        
+        private Vector3 _position;
+        public Vector3 Position
+        {
+            get => _position;
+            set => _position = value;
+        }
+        public void AddPosition(Vector3 delta)
+        {
+            Position += delta;
+
+            moveData.PosX = Position.X;
+            moveData.PosY = Position.Y;
+            moveData.PosZ = Position.Z;
+
+            objectInfo.MoveInfo = moveData;
+        }
+
+        public void SetPosition(Vector3 pos)
+        {
+            Position = pos;
+
+            moveData.PosX = pos.X;
+            moveData.PosY = pos.Y;
+            moveData.PosZ = pos.Z;
+            moveData.Speed = 0f;
+
+            objectInfo.MoveInfo = moveData;
+        }
+
         public void SetObjectId(int id)
         {
             ObjectId = id;

@@ -35,6 +35,16 @@ public class GameRoom : SceneSingleton<GameRoom>
             remotePlayer.MoveTo(targetpos, packet.BroadcastMove.DirY, packet.BroadcastMove.Speed);
         }
     }
+    public void HandlerBoradcastMove_Monster(S_BroadcastMove packet)
+    {
+        Debug.Log($"몬스터 이동 : {packet.CharacterId}");
+        if (Monsters.TryGetValue(packet.CharacterId, out var remotePlayer))
+        {
+            Vector3 targetpos = new Vector3(packet.BroadcastMove.PosX, packet.BroadcastMove.PosY, packet.BroadcastMove.PosZ);
+
+            remotePlayer.MoveTo(targetpos, packet.BroadcastMove.DirY, packet.BroadcastMove.Speed);
+        }
+    }
     public void HandlerBattle(S_DamageBroadcast packet)
     {
         if (Players.TryGetValue(packet.AttackerId, out var attackPlayer))
@@ -148,7 +158,10 @@ public class GameRoom : SceneSingleton<GameRoom>
 
         // [2] 초기화 해주기
         var remoteMonster = Monster.AddComponent<RemoteMonster>();
-        remoteMonster.Init(status, Monster.GetComponent<MonsterController>());
+        MonsterController monsterController = Monster.GetComponent<MonsterController>();
+        monsterController.Initialize();
+
+        remoteMonster.Init(status, monsterController);
 
         // [3] 등록 해주기 
         Debug.Log($"[SpwanMonster] ID : {status.ID}, Name : {status.MonsterName}");

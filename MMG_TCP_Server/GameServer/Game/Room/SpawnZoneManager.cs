@@ -103,6 +103,38 @@ namespace GameServer.Game.Room
             float z = RandomFloat(min.z, max.z);
             return new Vector3(x, y, z);
         }
+        public List<Vector3> GeneratePatrolPoints(Vector3 spawnPos, Vec3 zoneMin, Vec3 zoneMax, float expandSize, int pointCount)
+        {
+            List<Vector3> patrolPoints = new();
+
+
+            Vector3 extendedMin = new Vector3(zoneMin.x - expandSize, zoneMin.y, zoneMin.z - expandSize); 
+
+            Vector3 extendedMax = new Vector3(zoneMax.x + expandSize, zoneMax.y, zoneMax.z + expandSize);
+
+            Random rand = new();
+
+            for (int i = 0; i < pointCount; i++)
+            {
+                float offsetX = (float)(rand.NextDouble() * 4 - 2); // -2 ~ +2
+                float offsetZ = (float)(rand.NextDouble() * 4 - 2); // -2 ~ +2
+
+                Vector3 candidate = spawnPos + new Vector3(offsetX, 0, offsetZ);
+
+                // 확장된 zone 안에 있으면 채택
+                if (candidate.X >= extendedMin.X && candidate.X <= extendedMax.X &&
+                    candidate.Z >= extendedMin.Z && candidate.Z <= extendedMax.Z)
+                {
+                    patrolPoints.Add(candidate);
+                }
+            }
+
+            // 만약 너무 적게 뽑혔으면 스폰 위치라도 넣기
+            if (patrolPoints.Count == 0)
+                patrolPoints.Add(spawnPos);
+
+            return patrolPoints;
+        }
         public float RandomFloat(float min, float max)
         {
             return (float)(new Random().NextDouble() * (max - min) + min);

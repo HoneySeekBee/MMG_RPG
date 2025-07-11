@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GameServer.Data.Monster
@@ -52,7 +53,8 @@ namespace GameServer.Data.Monster
                 Name = status.MonsterName,
                 MoveInfo = _moveData,
                 StatInfo = objectStatus
-            };
+            }; 
+            Console.WriteLine($"해당 몬스터의 체력은? {objectInfo.StatInfo.NowHP}");
             moveData = _moveData;
             Position = new Vector3(moveData.PosX, moveData.PosY, moveData.PosZ);
 
@@ -110,26 +112,7 @@ namespace GameServer.Data.Monster
         #endregion
 
         #region 위치 동기화
-        public void AddPosition(Vector3 delta)
-        {
-            Position += delta;
-
-            moveData.PosX = Position.X;
-            moveData.PosY = Position.Y;
-            moveData.PosZ = Position.Z;
-            moveData.Speed = Status.MoveSpeed;
-        }
-
-        public void SetPosition(Vector3 pos)
-        {
-            Position = pos;
-
-            moveData.PosX = pos.X;
-            moveData.PosY = pos.Y;
-            moveData.PosZ = pos.Z;
-            moveData.Speed = 0f;
-        }
-
+       
         public void SetDirectionY(float angleY)
         {
             moveData.DirY = angleY;

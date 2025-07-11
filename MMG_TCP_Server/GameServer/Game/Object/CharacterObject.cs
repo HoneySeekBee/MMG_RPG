@@ -41,6 +41,8 @@ namespace GameServer.Game.Object
                 Id = _id,
             };
             objectStatus = _status;
+            objectInfo.StatInfo = objectStatus;
+            objectInfo.MoveInfo = moveData;
             Room = _room;
         }
         public static CharacterObject ConvertToRuntimeStatus(CharacterStatusDTO dto, string name, GameRoom room)
@@ -57,10 +59,7 @@ namespace GameServer.Game.Object
                 NowMP = dto.nowMp,
                 Timestamp = new DateTimeOffset(dto.lastUpdated).ToUnixTimeSeconds()
             };
-            Console.WriteLine($"[ConvertToRuntimeStatus] #1 : {status}");
-            Console.WriteLine($"[ConvertToRuntimeStatus] #2 : {name}");
-            Console.WriteLine($"[ConvertToRuntimeStatus] #3 : {room == null}");
-            Console.WriteLine($"[ConvertToRuntimeStatus] #4 : {dto.characterId}");
+
 
             return new CharacterObject(status, name, dto.characterId, room);
         }

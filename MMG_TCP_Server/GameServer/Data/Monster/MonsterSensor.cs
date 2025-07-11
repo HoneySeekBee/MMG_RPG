@@ -30,6 +30,7 @@ namespace GameServer.Data.Monster
                 if (player.ObjectId == _monster.objectInfo.Id)
                     continue;
 
+
                 // 2. 사망한 플레이어 무시
                 if (player.IsDead)
                     continue;

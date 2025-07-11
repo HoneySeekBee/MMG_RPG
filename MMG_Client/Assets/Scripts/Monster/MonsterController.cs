@@ -28,5 +28,12 @@ public class MonsterController : ControllerBase<MonsterActionType, MonsterEvent>
     public override void Initialize(bool isLocal = false)
     {
         base.Initialize(false); // 몬스터는 항상 Remote로
+
+    }
+    public void Init_Position(Vector3 position, float dirY)
+    {
+        var action = EventDict[MonsterActionType.move].action as IActionBase;
+        action.Init_Position(position, dirY);
+
     }
 }

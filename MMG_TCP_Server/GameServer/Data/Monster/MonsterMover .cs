@@ -10,7 +10,8 @@ namespace GameServer.Data.Monster
     public class MonsterMover
     {
         private readonly MonsterObject _monster;
-
+        private Vector3 _lastSentPos;
+        private float _sendThreshold = 0.1f;
         public MonsterMover(MonsterObject monster)
         {
             _monster = monster;
@@ -19,6 +20,7 @@ namespace GameServer.Data.Monster
         {
             Vector3 toTarget = destination - _monster.Position;
             float distance = toTarget.Length();
+
 
             if (distance < 0.001f)
                 return;
@@ -34,6 +36,27 @@ namespace GameServer.Data.Monster
 
             // 회전값 계산도 여기서 처리할 수 있음 (선택)
             _monster.SetDirectionY(MathF.Atan2(dir.X, dir.Z) * (180f / MathF.PI));
+
+            if (Vector3.Distance(_monster.Position, _lastSentPos) > _sendThreshold)
+            {
+                _lastSentPos = _monster.Position;
+
+                // 예시 패킷 전송
+                var movePacket = new GamePacket.S_BroadcastMove()
+                {
+                    CharacterId = _monster.ObjectId,
+                    BroadcastMove = new GamePacket.MoveData()
+                    {
+                        PosX = _monster.Position.X,
+                        PosY = _monster.Position.Y,
+                        PosZ = _monster.Position.Z,
+                        DirY = _monster.Dir.Y,
+                        Speed = _monster.Status.MoveSpeed
+                    }
+                };
+
+                _monster.Room.BroadcastMonsterMove(movePacket);
+            }
         }
 
 

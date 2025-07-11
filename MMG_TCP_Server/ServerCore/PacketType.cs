@@ -30,6 +30,7 @@ namespace ServerCore
         C_BroadcastMove = 111,
         S_BroadcastMove = 112,
         S_BroadcastEnter = 113,
+        S_BroadcastMonstermove = 120,
 
         // 몬스터 관련 
         S_MonsterList = 200,

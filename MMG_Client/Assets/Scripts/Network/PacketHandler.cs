@@ -74,6 +74,14 @@ public class PacketHandler : MonoBehaviour
             GameRoom.Instance.HandleBroadcastMove(response);
         });
     }
+    public static void S_BroadcastMonsterMovehandler(ClientSession session, S_BroadcastMove response)
+    {
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            Debug.Log($"몬스터 이동 {response.BroadcastMove.PosX}, {response.BroadcastMove.PosZ}");
+            GameRoom.Instance.HandlerBoradcastMove_Monster(response);
+        });
+    }
     public static void S_BroadcastDamageHandler(ClientSession session, S_DamageBroadcast response)
     {
         Debug.Log($"{response.AttackerId}가 {response.TargetId}를 공격. Damage {response.Damage}");
