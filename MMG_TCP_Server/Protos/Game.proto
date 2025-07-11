@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package Packet;
+package GamePacket;
 
 message C_SelectedCharacter{
 	CharacterInfo characterInfo = 1;
@@ -49,30 +49,14 @@ message PlayerInfo {
 
 message C_BroadcastMove
 {
-  float posX = 1;
-  float posY = 2;
-  float posZ = 3;
-
-  float dirY = 4;
-
-  float speed = 5;
-  int64 timestamp = 6;
+	MoveData BroadcastMove = 1;
 }
 
 message S_BroadcastMove
 { 
 	int32 playerId = 1;
 	int32 CharacterId = 2;
-
-  float posX = 3;
-  float posY = 4;
-  float posZ = 5;
-
-  float dirY = 6;
-
-  float speed =7;
-
-  int64 timestamp = 8;
+	MoveData BroadcastMove = 3;
 }
 
 
@@ -85,4 +69,31 @@ enum ClassType
 	Archer = 2;
 
 	Mage = 3;
+}
+message MoveData
+{
+	float posX = 1;
+  float posY = 2;
+  float posZ = 3;
+  float dirY = 4;
+  float speed =5;
+  int64 timestamp = 6;
+}
+
+message Status{
+    int32 Level = 1;
+    float Exp = 2;
+    int32 Gold = 3; 
+    float NowHP = 4;
+	float MaxHP = 5;
+	float NowMP = 6;
+	float MaxMP = 7; 
+    int64 timestamp = 8;
+}
+
+message ObjectInfo{
+	string Name = 1;
+	int32 Id = 2; 
+	MoveData MoveInfo = 3;
+	Status StatInfo = 4;
 }

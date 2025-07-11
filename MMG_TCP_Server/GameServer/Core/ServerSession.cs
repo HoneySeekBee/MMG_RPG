@@ -1,5 +1,5 @@
-﻿using GameServer.Domain;
-using GameServer.GameRoomFolder;
+﻿using GameServer.Game.Object;
+using GameServer.Game.Room;
 using ServerCore;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace GameServer.Core
     public class ServerSession : PacketSession
     {
         public int SessionId { get; set; }
-        public Player MyPlayer { get; set; }
+        public CharacterObject MyPlayer { get; set; }
         private SendQueue _sendQueue = new();
         public string jwtToken { get; set; }
         public bool IsLoggedIn { get; private set; } = false;
@@ -31,10 +31,6 @@ namespace GameServer.Core
         {
             Console.WriteLine($"[Connected] {endPoint}");
             SessionManager.Add(SessionId, this);
-            MyPlayer = new Player()
-            {
-                Session = this
-            };
         }
 
         public override void OnDisconnected(EndPoint endPoint)

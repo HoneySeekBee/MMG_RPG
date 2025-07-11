@@ -1,7 +1,7 @@
 ﻿using GameServer.Attack;
 using GameServer.Core;
 using GameServer.Data.Monster;
-using GameServer.GameRoomFolder;
+using GameServer.Game.Room;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;

@@ -1,6 +1,5 @@
 ﻿using GameServer.Core;
 using GameServer.Data;
-using GameServer.Domain;
 using Google.Protobuf;
 using Packet;
 using ServerCore;
@@ -8,9 +7,13 @@ using System.Numerics;
 using GameServer.Attack;
 using GameServer.Data.Monster;
 using System;
-using GameServer.GameRoomFolder.Map;
+using GameServer.Game.Room.Map;
+using GamePacket;
+using MonsterPacket;
+using GameServer.Game.Object;
+using System.Diagnostics;
 
-namespace GameServer.GameRoomFolder
+namespace GameServer.Game.Room
 {
     public class GameRoom : JobQueue
     {
@@ -20,7 +23,7 @@ namespace GameServer.GameRoomFolder
         private BattleSystem _battleSystem;
         private ProjectileManager _projectileManager = new();
 
-        public Dictionary<int, Player> _players = new();
+        public Dictionary<int, CharacterObject> _players = new();
         public Dictionary<int, Monster> _monsters = new();
         private List<BlockArea> _blockAreas = new();
 
@@ -35,39 +38,47 @@ namespace GameServer.GameRoomFolder
             MonsterData();
             BlockData();
         }
-        public async Task Enter(ServerSession session)
+        public async Task Enter(ServerSession session, CharacterInfo _characterInfo)
         {
-            int charId = session.MyPlayer.CharacterInfo.Id;
+            int charId = _characterInfo.Id;
 
             if (_players.ContainsKey(charId))
             {
-                Console.WriteLine($"[GameRoom:{RoomId}] 이미 입장된 유저: {session.MyPlayer.CharacterInfo.CharacterName}");
+                Console.WriteLine($"[GameRoom:{RoomId}] 이미 입장된 유저: ");
                 return;
             }
 
             var api = new API();
             session.Room = this;
 
-            CharacterStatus status = await api.GetCharacterStatus(charId, session.MyPlayer.CharacterInfo.CharacterName, session.Room);
-            if (status == null)
+            Console.WriteLine($"[Enter] {_characterInfo.CharacterName}");
+
+            CharacterObject characterObj = await api.GetCharacterStatus(charId, _characterInfo.CharacterName, session.Room);
+
+            if (characterObj == null)
             {
                 Console.WriteLine($"[Enter] status is NULL!!");
             }
             else
             {
-                Console.WriteLine($"[Enter] status = Id:{status.Id}, Name:{status.Name}, Pos:{status.Position}");
+                Console.WriteLine($"[Enter] status = Id:{characterObj.ObjectId}, Name:{characterObj.objectInfo.Name}, Pos:{characterObj.Position}");
             }
-            session.MyPlayer.Status = status;
 
-            Player player = session.MyPlayer;
             Vector3 spawnVec = spawnZoneMgr.GetRandomPlayerSpawnPos(0);
-            player.PosX = spawnVec.X;
-            player.PosY = spawnVec.Y;
-            player.PosZ = spawnVec.Z;
-            player.DirY = 0;
 
-            _players.Add(charId, player);
-            player.CurrentRoomId = RoomId;
+            MoveData moveData = new MoveData();
+
+            moveData.PosX = spawnVec.X;
+            moveData.PosY = spawnVec.Y;
+            moveData.PosZ = spawnVec.Z;
+            moveData.DirY = 0;
+            characterObj.moveData = moveData;
+            characterObj.CharacterInfo = _characterInfo;
+            characterObj.Session = session;
+            session.MyPlayer = characterObj;
+
+            _players.Add(charId, characterObj);
+            characterObj.CurrentRoomId = RoomId;
 
             // 유저에게 현재 방 정보 전송
             CharacterSpawn(session, charId);
@@ -78,9 +89,9 @@ namespace GameServer.GameRoomFolder
             // 다른 유저에게 입장 브로드캐스트
             var broadcastEnter = new S_BroadcastEnter
             {
-                EnterCharacter = CreateCharacterList(player, isLocal: false)
+                EnterCharacter = CreateCharacterList(characterObj, isLocal: false)
             };
-            BroadcastEnter(broadcastEnter, player);
+            BroadcastEnter(broadcastEnter, characterObj);
         }
         private void CharacterSpawn(ServerSession session, int charId)
         {
@@ -109,7 +120,7 @@ namespace GameServer.GameRoomFolder
                     MoveSpeed = original.MoveSpeed,
                     ChaseRange = original.ChaseRange,
                     AttackRange = original.AttackRange,
-                    MoveData = monster.MonsterMove, 
+                    MoveData = monster.MonsterMove,
 
                     // 나머지 필드도 복사 필요시 추가
                 };
@@ -159,19 +170,19 @@ namespace GameServer.GameRoomFolder
             return _monsterIdCounter++;
         }
 
-        public void Leave(Player player)
+        public void Leave(CharacterObject player)
         {
             if (_players.Remove(player.CharacterInfo.Id))
                 Console.WriteLine($"[GameRoom:{RoomId}] {player.CharacterInfo.CharacterName} 퇴장");
         }
-        public Player FindPlayerById(int characterId) => _players[characterId];
-        public List<CharacterStatus> FindPlayersInArea(Vector3 center, float radius)
+        public CharacterObject FindPlayerById(int characterId) => _players[characterId];
+        public List<CharacterObject> FindPlayersInArea(Vector3 center, float radius)
         {
-            List<CharacterStatus> result = new();
+            List<CharacterObject> result = new();
 
             foreach (var player in _players.Values)
             {
-                CharacterStatus status = player.Status;
+                CharacterObject status = player;
                 if (status == null) continue;
 
                 float distanceSq = Vector3.DistanceSquared(center, status.Position);
@@ -181,18 +192,18 @@ namespace GameServer.GameRoomFolder
 
             return result;
         }
-        public void HandleAttack(CharacterStatus attacker, Vector3 pos, float rotY, AttackData attackData)
+        public void HandleAttack(CharacterObject attacker, Vector3 pos, float rotY, AttackData attackData)
         {
             _battleSystem.HandleAttack(attacker, pos, rotY, attackData);
         }
-        public void LaunchProjectile(CharacterStatus attacker, Vector3 pos, float rotY, AttackData data)
+        public void LaunchProjectile(CharacterObject attacker, Vector3 pos, float rotY, AttackData data)
         {
             float rad = rotY * (float)Math.PI / 180f;
             Vector3 forward = new((float)Math.Sin(rad), 0, (float)Math.Cos(rad));
-            Console.WriteLine("[GameRoom] [LaunchProjectile]");
+
             Projectile p = new Projectile
             {
-                OwnerId = attacker.Id,
+                OwnerId = attacker.ObjectId,
                 Position = pos,
                 Direction = forward,
                 Speed = 10f,
@@ -204,19 +215,19 @@ namespace GameServer.GameRoomFolder
             _projectileManager.AddProjectile(p);
         }
 
-        private CharacterList CreateCharacterList(Player player, bool isLocal)
+        private CharacterList CreateCharacterList(CharacterObject player, bool isLocal)
         {
             return new CharacterList
             {
                 IsLocal = isLocal,
                 CharacterInfo = player.CharacterInfo,
-                PosX = player.PosX,
-                PosY = player.PosY,
-                PosZ = player.PosZ,
-                DirY = player.DirY
+                PosX = player.moveData.PosX,
+                PosY = player.moveData.PosY,
+                PosZ = player.moveData.PosZ,
+                DirY = player.moveData.DirY
             };
         }
-        public bool HasPlayer(Player player)
+        public bool HasPlayer(CharacterObject player)
         {
             return _players.ContainsKey(player.CharacterInfo.Id);
         }  // 게임 루프 Tick 처리
@@ -234,7 +245,7 @@ namespace GameServer.GameRoomFolder
         {
             Console.WriteLine($"[Hit] {targetId} hit by {attackerId} using {data.AttackType}");
 
-            FindPlayerById(targetId).Status.OnDamaged(FindPlayerById(attackerId).Status, data.Damage);
+            FindPlayerById(targetId).OnDamaged(FindPlayerById(attackerId), data.Damage);
             BroadcastDamage(new S_DamageBroadcast
             {
                 AttackerId = attackerId,
@@ -243,23 +254,24 @@ namespace GameServer.GameRoomFolder
             });
         }
 
-        private void Broadcast(PacketType packetType, IMessage message, Player exclude = null)
+        private void Broadcast(PacketType packetType, IMessage message, CharacterObject exclude = null)
         {
+            Console.WriteLine($"[Broadcast] Player 수 {_players.Count}, ExcludePlayer {exclude == null}");
             foreach (var player in _players)
             {
                 if (exclude != null && player.Key == exclude.CharacterInfo.Id) continue;
                 player.Value.Session.Send(packetType, message);
             }
         }
-        public void BroadcastMove(S_BroadcastMove message, Player exclude = null)
+        public void BroadcastMove(S_BroadcastMove message, CharacterObject exclude = null)
         {
             if (exclude != null)
-                exclude.UpdateMove(message.PosX, message.PosY, message.PosZ, message.DirY);
+                exclude.UpdateMove(message.BroadcastMove.PosX, message.BroadcastMove.PosY, message.BroadcastMove.PosZ, message.BroadcastMove.DirY);
 
             Broadcast(PacketType.S_BroadcastMove, message);
         }
 
-        public void BroadcastEnter(S_BroadcastEnter message, Player exclude = null)
+        public void BroadcastEnter(S_BroadcastEnter message, CharacterObject exclude = null)
         {
             Console.WriteLine($"캐릭터[{message.EnterCharacter.CharacterInfo.CharacterName}] 입장 - ");
             Broadcast(PacketType.S_BroadcastEnter, message, exclude);

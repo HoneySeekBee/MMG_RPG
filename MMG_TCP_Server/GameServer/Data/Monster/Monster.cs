@@ -1,5 +1,6 @@
-﻿using GameServer.Domain;
-using GameServer.GameRoomFolder;
+﻿using GameServer.Game.Object;
+using GameServer.Game.Room;
+using MonsterPacket;
 using Packet;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace GameServer.Data.Monster
             }
         }
 
-        public CharacterStatus Target { get; private set; }
+        public CharacterObject Target { get; private set; }
         public bool HasTarget => Target != null;
         public bool IsDead => Status.HP <= 0;
 
@@ -77,7 +78,7 @@ namespace GameServer.Data.Monster
         }
 
         #region 타겟 관련
-        public void SetTarget(CharacterStatus target) => Target = target;
+        public void SetTarget(CharacterObject target) => Target = target;
         public void ClearTarget() => Target = null;
         #endregion
 

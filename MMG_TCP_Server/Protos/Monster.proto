@@ -1,7 +1,8 @@
 syntax = "proto3";
 
-package Packet;
+package MonsterPacket;
 
+import "Game.proto";
 
 message MonsterStatus
 {  
@@ -23,19 +24,8 @@ message MonsterAttack {
 }
 message MonsterMoveData{
 	int32 MonsterId = 1;
-	MoveData MonsterMove = 3;
+	GamePacket.MoveData MonsterMove = 3;
 }
-message MoveData
-{
-	float posX = 1;
-  float posY = 2;
-  float posZ = 3;
-  float dirY = 4;
-  float speed =5;
-  int64 timestamp = 6;
-
-}
-
 message S_MonsterList
 {
 	repeated MonsterStatus MonsterDataList = 1;

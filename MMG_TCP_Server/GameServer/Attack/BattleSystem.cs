@@ -1,14 +1,9 @@
 ﻿using GameServer.Data;
-using GameServer.Domain;
-using GameServer.GameRoomFolder;
 using GameServer.Intreface;
 using Packet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using GameServer.Game.Room;
+using GameServer.Game.Object;
 
 namespace GameServer.Attack
 {
@@ -19,9 +14,9 @@ namespace GameServer.Attack
         {
             _room = room;
         }
-        public void HandleAttack(CharacterStatus attacker, Vector3 pos, float rotY, AttackData attackData)
+        public void HandleAttack(CharacterObject attacker, Vector3 pos, float rotY, AttackData attackData)
         {
-            Console.WriteLine($"[BattleSystem] AttackerId : {attacker.Id}");
+            Console.WriteLine($"[BattleSystem] AttackerId : {attacker.ObjectId}");
             bool isProjectile = attackData.AttackType == AttackType.Arrow; 
             if (isProjectile)
             {
@@ -38,9 +33,9 @@ namespace GameServer.Attack
                     target.OnDamaged(attacker, attackData.Damage);
                     _room.BroadcastDamage(new S_DamageBroadcast
                     {
-                        TargetId = target.Id,
+                        TargetId = target.ObjectId,
                         Damage = attackData.Damage,
-                        AttackerId = attacker.Id
+                        AttackerId = attacker.ObjectId
                     });
                 }
             }

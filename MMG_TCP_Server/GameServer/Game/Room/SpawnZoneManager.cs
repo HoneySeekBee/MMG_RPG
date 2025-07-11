@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.GameRoomFolder
+namespace GameServer.Game.Room
 {
     public class Vec3
     {

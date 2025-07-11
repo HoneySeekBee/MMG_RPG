@@ -1,5 +1,5 @@
 ﻿using GameServer.Data;
-using GameServer.GameRoomFolder;
+using GameServer.Game.Room;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +31,7 @@ namespace GameServer.Attack
 
             foreach (var player in room._players.Values)
             {
-                if (player.Status.Id == OwnerId)
+                if (player.ObjectId == OwnerId)
                     continue;
 
                 Vector3 toTarget = player.Position - Position;
@@ -41,7 +41,7 @@ namespace GameServer.Attack
                 if (dist <= Radius)
                 {
                     //  명중
-                    room.OnPlayerHit(OwnerId, player.Status.Id, AttackData); // 데미지 처리 등
+                    room.OnPlayerHit(OwnerId, player.ObjectId, AttackData); // 데미지 처리 등
                     _traveled = MaxDistance; // 즉시 만료 처리
                     break;
                 }

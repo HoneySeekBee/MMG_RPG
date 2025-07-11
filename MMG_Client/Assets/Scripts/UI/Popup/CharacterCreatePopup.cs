@@ -8,7 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
-using Packet;
+using GamePacket;
 
 
 public class CharacterCreatePopup : PopupBase

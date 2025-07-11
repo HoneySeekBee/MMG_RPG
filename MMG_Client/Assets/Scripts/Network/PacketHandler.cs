@@ -1,4 +1,6 @@
 using Packet;
+using GamePacket;
+using MonsterPacket;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,7 +70,7 @@ public class PacketHandler : MonoBehaviour
     {
         MainThreadDispatcher.RunOnMainThread(() =>
         {
-            Debug.Log($"움직이기 {response.PosX}, {response.PosZ}");
+            Debug.Log($"움직이기 {response.BroadcastMove.PosX}, {response.BroadcastMove.PosZ}");
             GameRoom.Instance.HandleBroadcastMove(response);
         });
     }

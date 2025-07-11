@@ -1,8 +1,8 @@
-﻿using GameServer.Domain;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Newtonsoft.Json;
-using GameServer.GameRoomFolder;
 using System.Numerics;
+using GameServer.Game.Room;
+using GameServer.Game.Object;
 
 namespace GameServer.Data
 {
@@ -15,7 +15,7 @@ namespace GameServer.Data
         {
             _httpClient = new HttpClient(); // 여기서 초기화
         }
-        public async Task<CharacterStatus> GetCharacterStatus(int characterId, string name, GameRoom room)
+        public async Task<CharacterObject> GetCharacterStatus(int characterId, string name, GameRoom room)
         {
             string url = API.MMG_API_URL + $"/api/character/status/{characterId}";
 
@@ -37,8 +37,8 @@ namespace GameServer.Data
                     return null;
                 }
 
-                var status = CharacterStatus.ConvertToRuntimeStatus(dto, name, room);
-                return status;
+                var _character = CharacterObject.ConvertToRuntimeStatus(dto, name, room);
+                return _character;
             }
             catch (Exception ex)
             {

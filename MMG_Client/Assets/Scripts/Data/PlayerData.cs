@@ -1,4 +1,4 @@
-using Packet;
+using GamePacket;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,9 +15,9 @@ public class PlayerData : GlobalSingleton<PlayerData>
     {
         MyCharaceterData = data;
     }
-    public Packet.CharacterInfo MyCharacterInfo()
+    public GamePacket.CharacterInfo MyCharacterInfo()
     {
-        Packet.CharacterInfo characterInfo = new Packet.CharacterInfo()
+        GamePacket.CharacterInfo characterInfo = new GamePacket.CharacterInfo()
         {
            Id  = MyCharaceterData.id,
             UserId= MyCharaceterData.userId,

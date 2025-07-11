@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.GameRoomFolder.Map
+namespace GameServer.Game.Room.Map
 {
     public class BlockArea
     {

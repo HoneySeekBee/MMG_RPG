@@ -1,4 +1,5 @@
 using Packet;
+using GamePacket;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,14 +52,17 @@ public class NetworkManager : MonoBehaviour
 
         C_BroadcastMove packet = new C_BroadcastMove()
         {
-            PosX = pos.x,
-            PosY = pos.y,
-            PosZ = pos.z,
+            BroadcastMove = new GamePacket.MoveData()
+            {
+                PosX = pos.x,
+                PosY = pos.y,
+                PosZ = pos.z,
 
-            DirY = dirY,
-            Speed = speed,
+                DirY = dirY,
+                Speed = speed,
 
-            Timestamp = unixTimeSeconds
+                Timestamp = unixTimeSeconds
+            }
         };
         _session.Send(ServerCore.PacketType.C_BroadcastMove, packet);
     }

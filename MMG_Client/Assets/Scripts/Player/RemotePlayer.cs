@@ -1,5 +1,5 @@
 using MMG;
-using Packet;
+using GamePacket;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +24,6 @@ public class RemotePlayer : MonoBehaviour
     }
     public void MoveTo(Vector3 targetPos, float dirY, float speed)
     {
-        Debug.Log($"움직입시다. {targetPos}");
         _controller.SetMove(targetPos, dirY, speed);
     }
     public void AttackHandle(BattleData battleData)

@@ -1,5 +1,7 @@
 using Google.Protobuf;
 using Packet;
+using GamePacket;
+using MonsterPacket;
 using ServerCore;
 using System;
 using System.Collections;

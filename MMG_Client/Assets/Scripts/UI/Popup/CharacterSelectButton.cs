@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using MMG.UI;
-using Packet;
+using GamePacket;
 
 // юс╫ц 
 [System.Serializable]

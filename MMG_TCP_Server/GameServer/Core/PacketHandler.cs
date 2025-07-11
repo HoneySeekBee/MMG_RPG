@@ -1,13 +1,14 @@
 ﻿using GameServer.Attack;
 using GameServer.Data;
-using GameServer.Domain;
-using GameServer.GameRoomFolder;
-using GameServer.Intreface;
 using Newtonsoft.Json;
 using Packet;
 using ServerCore;
 using System.Net.Http.Headers;
 using System.Numerics;
+using GameServer.Game.Room;
+using GamePacket;
+using GameServer.Game.Object;
+
 namespace GameServer.Core
 {
     public static class IdGenerator
@@ -73,38 +74,31 @@ namespace GameServer.Core
                 Console.WriteLine($"[EnterGameHandler] 캐릭터 조회 실패: {res.StatusCode}");
                 return;
             }
+
             var json = await res.Content.ReadAsStringAsync();
             CharacterInfo character = JsonConvert.DeserializeObject<CharacterInfo>(json);
 
+            Console.WriteLine($"CharacterInfo null인가요? {character == null}");
 
-            Console.WriteLine($"Myplayer가 null인가요? {session.MyPlayer == null}");
-            if(session.MyPlayer == null)
-            {
-                session.MyPlayer = new Player()
-                {
-                    Session = session,
-                };
-            }
-            session.MyPlayer.CharacterInfo = character;
             // 2. GameRoom 찾기 및 입장
             GameRoom room = GameRoomManager.Instance.GetOrCreateRoom(packet.MapId);
 
-            room.Enter(session);
+            room.Enter(session, character);
         }
         
         #region Game 입력 
         public static void C_BroadcastMoveHandler(ServerSession session, C_BroadcastMove packet)
         {
-            Player player = session.MyPlayer;
+            CharacterObject player = session.MyPlayer;
 
-            if (packet.Timestamp < player.LastMoveTimestamp)
+            if (packet.BroadcastMove.Timestamp < player.LastMoveTimestamp)
             {
-                Console.WriteLine($"[Move Reject] 이전보다 오래된 이동 요청입니다. Timestamp: {packet.Timestamp}");
+                Console.WriteLine($"[Move Reject] 이전보다 오래된 이동 요청입니다. Timestamp: {packet.BroadcastMove.Timestamp}");
                 return; // 오래된 패킷 무시
             }
 
             // [1] BlockArea 체크
-            Vector3 requestedPos = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
+            Vector3 requestedPos = new Vector3(packet.BroadcastMove.PosX, packet.BroadcastMove.PosY, packet.BroadcastMove.PosZ);
             
             if (!session.Room.IsWalkable(requestedPos))
             {
@@ -115,29 +109,35 @@ namespace GameServer.Core
                 {
                     PlayerId = session.SessionId,
                     CharacterId = session.MyPlayer.CharacterInfo.Id,
-                    PosX = player.PosX,
-                    PosY = player.PosY,
-                    PosZ = player.PosZ,
-                    DirY = player.DirY,
-                    Speed = packet.Speed,
-                    Timestamp = packet.Timestamp,
+                    BroadcastMove = new MoveData()
+                    {
+                        PosX = player.moveData.PosX,
+                        PosY = player.moveData.PosY,
+                        PosZ = player.moveData.PosZ,
+                        DirY = player.moveData.DirY,
+                        Speed = packet.BroadcastMove.Speed,
+                        Timestamp = packet.BroadcastMove.Timestamp,
+                    },
                 });
 
                 return;
             }
 
-            player.LastMoveTimestamp = packet.Timestamp;
+            player.LastMoveTimestamp = packet.BroadcastMove.Timestamp;
 
             S_BroadcastMove s_Move = new S_BroadcastMove()
             {
                 PlayerId = session.SessionId,
                 CharacterId = session.MyPlayer.CharacterInfo.Id,
-                PosX = packet.PosX,
-                PosY = packet.PosY,
-                PosZ = packet.PosZ,
-                DirY = packet.DirY,
-                Speed = packet.Speed,
-                Timestamp = packet.Timestamp,
+                BroadcastMove = new MoveData()
+                {
+                    PosX = packet.BroadcastMove.PosX,
+                    PosY = packet.BroadcastMove.PosY,
+                    PosZ = packet.BroadcastMove.PosZ,
+                    DirY = packet.BroadcastMove.DirY,
+                    Speed = packet.BroadcastMove.Speed,
+                    Timestamp = packet.BroadcastMove.Timestamp,
+                },
             };
             // 브로드 캐스트 해주어야함
 
@@ -150,7 +150,7 @@ namespace GameServer.Core
 
             if (roomId == null)
             {
-                Console.WriteLine($"[SafeBroadcastMove] 유저 {player.UserId}는 방에 속해 있지 않음");
+                Console.WriteLine($"[SafeBroadcastMove] 유저 {player.ObjectId}는 방에 속해 있지 않음");
                 return;
             }
 
@@ -167,7 +167,7 @@ namespace GameServer.Core
         #endregion
 
 
-        private static void ExitGameRoom(Player player)
+        private static void ExitGameRoom(CharacterObject player)
         {
             // [1] 이전 방에서 퇴장 처리
 
@@ -196,8 +196,8 @@ namespace GameServer.Core
                 return;
 
             // 1. 공격자 정보 가져오기
-            CharacterStatus attacker = room.FindPlayerById(packet.AttackerId).Status;
-            Console.WriteLine($"[C_AttackHandler] {packet.AttackerId}, {attacker.Id}");
+            CharacterObject attacker = room.FindPlayerById(packet.AttackerId);
+            Console.WriteLine($"[C_AttackHandler] {packet.AttackerId}, {attacker.ObjectId}");
 
             if (attacker == null)
                 return;

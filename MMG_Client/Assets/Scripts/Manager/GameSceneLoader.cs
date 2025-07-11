@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using ServerCore;
-using Packet;
-using UnityEngine.TextCore.Text;
+using GamePacket;
 
 public class GameSceneLoader : SceneSingleton<GameSceneLoader>
 {

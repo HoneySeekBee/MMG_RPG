@@ -1,6 +1,4 @@
 ﻿using GameServer.Data;
-using GameServer.Domain;
-using GameServer.GameRoomFolder;
 using GameServer.Intreface;
 using Packet;
 using System;
@@ -10,15 +8,17 @@ using System.Numerics;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using GameServer.Game.Room;
+using GameServer.Game.Object;
 
 namespace GameServer.Attack
 {
     internal class AreaHitDetector : IHitDetector
     {
-        public List<CharacterStatus> DetectTargets(GameRoom room, CharacterStatus attacker, Vector3 pos, float rotY, AttackData attackData)
+        public List<CharacterObject> DetectTargets(GameRoom room, CharacterObject attacker, Vector3 pos, float rotY, AttackData attackData)
         {
             Console.WriteLine("근거리 공격");
-            List<CharacterStatus> result = new List<CharacterStatus>();
+            List<CharacterObject> result = new List<CharacterObject>();
 
             // 공격 방향 벡터 (y축 회전 각도 → 라디안 → 벡터)
             float rad = rotY * (float)Math.PI / 180f;
@@ -33,7 +33,7 @@ namespace GameServer.Attack
 
             foreach (var player in room._players.Values)
             {
-                if (player.Status == attacker)
+                if (player.ObjectId == attacker.ObjectId)
                     continue;
 
                 float dx = player.Position.X - pos.X;
@@ -46,7 +46,7 @@ namespace GameServer.Attack
 
                 if (sqrDist <= innerRadiusSqr)
                 {
-                    result.Add(player.Status);
+                    result.Add(player);
                     continue;
                 }
 
@@ -59,7 +59,7 @@ namespace GameServer.Attack
                 float dot = forwardX * dirX + forwardZ * dirZ;
 
                 if (dot >= cosThreshold)
-                    result.Add(player.Status);
+                    result.Add(player);
             }
 
             return result;

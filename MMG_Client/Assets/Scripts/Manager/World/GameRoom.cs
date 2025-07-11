@@ -1,6 +1,8 @@
 using Cinemachine;
 using MMG;
 using Packet;
+using GamePacket;
+using MonsterPacket;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,9 +30,9 @@ public class GameRoom : SceneSingleton<GameRoom>
         Debug.Log($"캐릭터 이동 : {packet.CharacterId}");
         if (Players.TryGetValue(packet.CharacterId, out var remotePlayer))
         {
-            Vector3 targetpos = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
+            Vector3 targetpos = new Vector3(packet.BroadcastMove.PosX, packet.BroadcastMove.PosY, packet.BroadcastMove.PosZ);
 
-            remotePlayer.MoveTo(targetpos, packet.DirY, packet.Speed);
+            remotePlayer.MoveTo(targetpos, packet.BroadcastMove.DirY, packet.BroadcastMove.Speed);
         }
     }
     public void HandlerBattle(S_DamageBroadcast packet)
