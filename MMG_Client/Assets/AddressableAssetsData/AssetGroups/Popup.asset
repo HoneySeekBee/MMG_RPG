@@ -20,7 +20,14 @@ MonoBehaviour:
   - m_GUID: 2ad44a3bb56410548bcb44ed2af2ecf5
     m_Address: CharacterSelectPopup
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Popup
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44ebeda2809ad9f4195fe31cb4004c57
+    m_Address: CharacterStatusPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Popup
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 84e51c9a573c3a7409eddf47cd26f402
     m_Address: LoginPopup
@@ -31,7 +38,8 @@ MonoBehaviour:
   - m_GUID: bfe935ab88ae268419990f1a212eef10
     m_Address: CharacterCreatePopup
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Popup
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: b620f8e0e7e18264cb3f50a213998667, type: 2}

@@ -69,7 +69,7 @@ namespace GameServer.Game.Object
         {
             ObjectId = id;
         }
-        public void OnDamaged(CharacterObject attacker, float damage)
+        public void OnDamaged(GameObject attacker, float damage)
         {
             Console.WriteLine($"{objectInfo.Name}이 {attacker.objectInfo.Name}으로 부터 공격당함");
             objectInfo.StatInfo.NowHP -= damage;

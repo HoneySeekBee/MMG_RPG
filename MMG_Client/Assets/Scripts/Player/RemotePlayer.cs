@@ -7,6 +7,8 @@ using UnityEngine;
 public class RemotePlayer : MonoBehaviour
 {
     public CharacterData RemoteCharaceterData;
+    public Status StatInfo;
+
     private PlayerController _controller;
     public void Init(CharacterList data, PlayerController controller)
     {
@@ -19,7 +21,8 @@ public class RemotePlayer : MonoBehaviour
             appearanceCode = data.CharacterInfo.AppearanceCode,
         };
         _controller = controller;
-        transform.position = new Vector3(data.PosX, data.PosY, data.PosZ);
+        StatInfo = data.StatInfo;
+        transform.position = new Vector3(data.MoveInfo.PosX, data.MoveInfo.PosY, data.MoveInfo.PosZ);
         // 외형 구성 등등
     }
     public void MoveTo(Vector3 targetPos, float dirY, float speed)

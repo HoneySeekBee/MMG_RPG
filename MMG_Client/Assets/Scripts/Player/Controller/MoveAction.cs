@@ -24,14 +24,14 @@ namespace MMG
         private float _networkDirY;
         private float _networkSpeed;
         private float maxSpeed = 30f;
-        private PlayerAnimator playerAnimator;
+        private CharacterAnimator characterAnimator;
 
         private Vector3 _prevTargetPos;
         private float _interpolationT = 1f;
         public override void Initialize(bool isLocal, IInputBase input = null)
         {
             base.Initialize(isLocal, input);
-            playerAnimator = GetComponent<PlayerAnimator>();
+            characterAnimator = GetComponent<CharacterAnimator>();
             maxSpeed = runSpeed;
 
         }
@@ -56,7 +56,7 @@ namespace MMG
             Vector3 toTarget = (_networkTargetPos - transform.position).normalized;
             dir = Mathf.Sign(Vector3.Dot(forward, toTarget));
 
-            playerAnimator.UpdateMoveAnimation(speed, dir);
+            characterAnimator.UpdateMoveAnimation(speed, dir);
         }
         #endregion
         protected override void Action(MoveData input)
@@ -99,13 +99,11 @@ namespace MMG
             Quaternion targetRot = Quaternion.Euler(0f, _networkDirY, 0f);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.fixedDeltaTime * 10f);
 
-            if (playerAnimator != null)
+            if (characterAnimator != null)
                 UpdateAnimator();
         }
         public override void SetMove(Vector3 goalPos, float dirY, float speed)
         {
-            Debug.Log($"SetMove {goalPos}");
-            
             Move_FromServer(goalPos, dirY, speed);
         }
         public override void Init_Position(Vector3 pos, float dirY)

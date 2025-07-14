@@ -74,7 +74,10 @@ namespace GameServer.Data.Monster
 
         public void SetTarget(CharacterObject target) => Target = target;
         public void ClearTarget() => Target = null;
-
+        public bool IsInChaseRange()
+        {
+            return HasTarget && Vector3.Distance(Position, Target.Position) <= Status.ChaseRange;
+        }
         #region 공격 관련
         public bool IsInAttackRange()
         {
@@ -84,7 +87,7 @@ namespace GameServer.Data.Monster
         public void AttackTarget()
         {
             if (Target == null) return;
-            Target.OnDamaged(null, 2); // null = monster 공격자 미지정
+            Target.OnDamaged(this, 2); // null = monster 공격자 미지정
             Console.WriteLine("[Monster] AttackDamage는 나중에 ID로 찾아서 지정하기");
         }
         #endregion

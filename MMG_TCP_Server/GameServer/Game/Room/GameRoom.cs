@@ -12,6 +12,7 @@ using GamePacket;
 using MonsterPacket;
 using GameServer.Game.Object;
 using System.Diagnostics;
+using Google.Protobuf.WellKnownTypes;
 
 namespace GameServer.Game.Room
 {
@@ -48,59 +49,70 @@ namespace GameServer.Game.Room
                 return;
             }
 
-            var api = new API();
             session.Room = this;
 
             Console.WriteLine($"[Enter] {_characterInfo.CharacterName}");
 
-            CharacterObject characterObj = await api.GetCharacterStatus(charId, _characterInfo.CharacterName, session.Room);
-
-            if (characterObj == null)
-            {
-                Console.WriteLine($"[Enter] status is NULL!!");
-            }
-            else
-            {
-                Console.WriteLine($"[Enter] status = Id:{characterObj.ObjectId}, Name:{characterObj.objectInfo.Name}, Pos:{characterObj.Position}");
-            }
-
-            Vector3 spawnVec = spawnZoneMgr.GetRandomPlayerSpawnPos(0);
-
-            MoveData moveData = new MoveData();
-
-            moveData.PosX = spawnVec.X;
-            moveData.PosY = spawnVec.Y;
-            moveData.PosZ = spawnVec.Z;
-            moveData.DirY = 0;
-            characterObj.moveData = moveData;
-            characterObj.CharacterInfo = _characterInfo;
-            characterObj.Session = session;
-            session.MyPlayer = characterObj;
-
-            _players.Add(charId, characterObj);
-            characterObj.CurrentRoomId = RoomId;
-
             // 유저에게 현재 방 정보 전송
-            CharacterSpawn(session, charId);
+            CharacterSpawn(session, charId, _characterInfo);
 
             MonsterSpawn(session);
 
-
-            // 다른 유저에게 입장 브로드캐스트
-            var broadcastEnter = new S_BroadcastEnter
-            {
-                EnterCharacter = CreateCharacterList(characterObj, isLocal: false)
-            };
-            BroadcastEnter(broadcastEnter, characterObj);
         }
-        private void CharacterSpawn(ServerSession session, int charId)
+
+        private async void CharacterSpawn(ServerSession session, int charId, CharacterInfo _characterInfo)
         {
-            var response = new S_EnterGameResponse { MapId = RoomId };
+            var api = new API();
+            try
+            {
+                CharacterObject characterObj = await api.GetCharacterStatus(charId, _characterInfo.CharacterName, session.Room);
 
-            foreach (var p in _players)
-                response.CharacterList.Add(CreateCharacterList(p.Value, p.Key == charId));
+                if (characterObj == null)
+                {
+                    Console.WriteLine("[Enter] characterObj is null. 생성 실패");
+                    return;
+                }
 
-            session.Send(PacketType.S_EnterGameResponse, response);
+                Vector3 spawnVec = spawnZoneMgr.GetRandomPlayerSpawnPos(0);
+
+                MoveData moveData = new MoveData();
+
+                moveData.PosX = spawnVec.X;
+                moveData.PosY = spawnVec.Y;
+                moveData.PosZ = spawnVec.Z;
+                moveData.DirY = 0;
+
+                characterObj.moveData = moveData;
+                characterObj.CharacterInfo = _characterInfo;
+                characterObj.Session = session;
+                session.MyPlayer = characterObj;
+                if (_players.ContainsKey(charId))
+                {
+                    Console.WriteLine($"[Enter] 이미 존재하는 charId: {charId}");
+                    return;
+                }
+                _players.Add(charId, characterObj);
+                characterObj.CurrentRoomId = RoomId;
+
+                var response = new S_EnterGameResponse { MapId = RoomId };
+
+                foreach (var p in _players)
+                    response.CharacterList.Add(CreateCharacterList(p.Value, p.Key == charId));
+
+                session.Send(PacketType.S_EnterGameResponse, response);
+
+                // 다른 유저에게 입장 브로드캐스트
+                var broadcastEnter = new S_BroadcastEnter
+                {
+                    EnterCharacter = CreateCharacterList(characterObj, isLocal: false)
+                };
+                BroadcastEnter(broadcastEnter, characterObj);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Enter] 예외 발생! Message: {ex.Message}");
+                // 필요하다면 ex.StackTrace나 ex.InnerException도 출력 가능
+            }
         }
         private void MonsterSpawn(ServerSession session)
         {
@@ -223,10 +235,8 @@ namespace GameServer.Game.Room
             {
                 IsLocal = isLocal,
                 CharacterInfo = player.CharacterInfo,
-                PosX = player.moveData.PosX,
-                PosY = player.moveData.PosY,
-                PosZ = player.moveData.PosZ,
-                DirY = player.moveData.DirY
+                StatInfo = player.objectStatus,
+                MoveInfo = player.moveData,
             };
         }
         public bool HasPlayer(CharacterObject player)

@@ -9,7 +9,6 @@ public class MainThreadDispatcher : MonoBehaviour
 
     public static void RunOnMainThread(Action action)
     {
-        Debug.Log("OnMainThread");
         lock (_actions)
         {
             _actions.Enqueue(action);

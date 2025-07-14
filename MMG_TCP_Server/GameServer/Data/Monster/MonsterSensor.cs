@@ -13,12 +13,13 @@ namespace GameServer.Data.Monster
     {
         private readonly MonsterObject _monster;
         private readonly GameRoom _room;
-        private const float DetectRange = 5f;
+        private float DetectRange = 5f;
 
         public MonsterSensor(MonsterObject monster, GameRoom room)
         {
             _monster = monster;
             _room = room;
+            DetectRange = monster.Status.ChaseRange;
         }
 
 

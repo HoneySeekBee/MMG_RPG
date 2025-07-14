@@ -28,7 +28,6 @@ namespace MMG
         }
         protected override void CheckInput()
         {
-
             if (!GameContextManager.Is(GameContext.Battle))
                 return;
 

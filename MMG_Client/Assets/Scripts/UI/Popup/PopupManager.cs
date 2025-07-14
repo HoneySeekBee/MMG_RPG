@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
 
 namespace MMG.UI
 {
@@ -59,19 +60,19 @@ namespace MMG.UI
             _activePopups.Add(popupType, popup);
             popup.Open();
             onInit?.Invoke(popup);
-
             // 팝업이 닫히면 Dictionary에서 제거
             popupGO.GetComponent<PopupLifeCycle>().onClosed += () =>
             {
                 _activePopups.Remove(popupType);
             };
         }
-        public void UnShow<T>() where T : PopupBase
+        public void UnShow<T>(Action<PopupBase> onInit = null) where T : PopupBase
         {
             Type popupType = typeof(T);
 
             if (_activePopups.TryGetValue(popupType, out PopupBase popup))
             {
+                onInit?.Invoke(popup);
                 popup.Close(); // 또는 popup.gameObject.SetActive(false); 등
                 _activePopups.Remove(popupType);
             }

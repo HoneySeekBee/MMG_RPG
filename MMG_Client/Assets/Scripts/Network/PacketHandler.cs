@@ -70,7 +70,6 @@ public class PacketHandler : MonoBehaviour
     {
         MainThreadDispatcher.RunOnMainThread(() =>
         {
-            Debug.Log($"움직이기 {response.BroadcastMove.PosX}, {response.BroadcastMove.PosZ}");
             GameRoom.Instance.HandleBroadcastMove(response);
         });
     }
@@ -78,7 +77,6 @@ public class PacketHandler : MonoBehaviour
     {
         MainThreadDispatcher.RunOnMainThread(() =>
         {
-            Debug.Log($"몬스터 이동 {response.BroadcastMove.PosX}, {response.BroadcastMove.PosZ}");
             GameRoom.Instance.HandlerBoradcastMove_Monster(response);
         });
     }

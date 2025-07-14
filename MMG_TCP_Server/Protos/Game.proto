@@ -32,10 +32,8 @@ message S_EnterGameResponse {
 message CharacterList {
   bool IsLocal = 1; // true: 본인, false: 다른 유저
   CharacterInfo characterInfo = 2;
-  float PosX = 3;
-  float PosY = 4;
-  float PosZ = 5;
-  float DirY = 6;
+  Status statInfo= 3;
+  MoveData moveInfo = 4;
 }
 
 

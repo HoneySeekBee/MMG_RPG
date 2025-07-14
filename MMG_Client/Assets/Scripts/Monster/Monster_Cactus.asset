@@ -17,7 +17,7 @@ MonoBehaviour:
   _MaxHP: 10
   _MoveSpeed: 2
   _ChaseRange: 10
-  _AttackRange: 2
+  _AttackRange: 1.5
   _AttackData:
   - inputType: 0
     AttackAppearanceAmount: 4

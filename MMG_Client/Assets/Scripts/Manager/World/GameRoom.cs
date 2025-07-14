@@ -15,6 +15,8 @@ public class GameRoom : SceneSingleton<GameRoom>
     public Dictionary<int, RemotePlayer> Players = new();
     public Dictionary<int, RemoteMonster> Monsters = new();
     public CinemachineVirtualCamera VirtualCamera;
+
+    public RemotePlayer MyCharacter = new();
     public void Init(int roomId)
     {
         RoomId = roomId;
@@ -37,7 +39,6 @@ public class GameRoom : SceneSingleton<GameRoom>
     }
     public void HandlerBoradcastMove_Monster(S_BroadcastMove packet)
     {
-        Debug.Log($"몬스터 이동 : {packet.CharacterId}");
         if (Monsters.TryGetValue(packet.CharacterId, out var remotePlayer))
         {
             Vector3 targetpos = new Vector3(packet.BroadcastMove.PosX, packet.BroadcastMove.PosY, packet.BroadcastMove.PosZ);
@@ -105,8 +106,8 @@ public class GameRoom : SceneSingleton<GameRoom>
     }
     private GameObject InstantiateCharacter(CharacterList character)
     {
-        Vector3 pos = new Vector3(character.PosX, character.PosY, character.PosZ);
-        Quaternion rotation = Quaternion.Euler(0f, character.DirY, 0f);
+        Vector3 pos = new Vector3(character.MoveInfo.PosX, character.MoveInfo.PosY, character.MoveInfo.PosZ);
+        Quaternion rotation = Quaternion.Euler(0f, character.MoveInfo.DirY, 0f);
         return Instantiate(CharacterPrefab, pos, rotation, parent: this.transform);
     }
     private void InitializeCharacter(GameObject go, CharacterList character)
@@ -125,6 +126,10 @@ public class GameRoom : SceneSingleton<GameRoom>
         appearance.LoadFromAppearanceCode(character.CharacterInfo.AppearanceCode);
 
         var remotePlayer = go.AddComponent<RemotePlayer>();
+        if (character.IsLocal)
+        {
+            MyCharacter = remotePlayer;
+        }
         remotePlayer.Init(character, playerController);
     }
     private void RegisterCharacter(CharacterList character, GameObject go)

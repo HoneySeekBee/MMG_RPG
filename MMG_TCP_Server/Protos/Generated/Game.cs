@@ -35,24 +35,25 @@ namespace GamePacket {
             "chIxCg5lbnRlckNoYXJhY3RlchgBIAEoCzIZLkdhbWVQYWNrZXQuQ2hhcmFj",
             "dGVyTGlzdCJWChNTX0VudGVyR2FtZVJlc3BvbnNlEg0KBU1hcElkGAEgASgF",
             "EjAKDWNoYXJhY3Rlckxpc3QYAiADKAsyGS5HYW1lUGFja2V0LkNoYXJhY3Rl",
-            "ckxpc3QiigEKDUNoYXJhY3Rlckxpc3QSDwoHSXNMb2NhbBgBIAEoCBIwCg1j",
+            "ckxpc3QioAEKDUNoYXJhY3Rlckxpc3QSDwoHSXNMb2NhbBgBIAEoCBIwCg1j",
             "aGFyYWN0ZXJJbmZvGAIgASgLMhkuR2FtZVBhY2tldC5DaGFyYWN0ZXJJbmZv",
-            "EgwKBFBvc1gYAyABKAISDAoEUG9zWRgEIAEoAhIMCgRQb3NaGAUgASgCEgwK",
-            "BERpclkYBiABKAIiSAoKUGxheWVySW5mbxIQCghwbGF5ZXJJZBgBIAEoBRIM",
-            "CgRuYW1lGAIgASgJEgwKBHBvc1gYAyABKAISDAoEcG9zWRgEIAEoAiI+Cg9D",
-            "X0Jyb2FkY2FzdE1vdmUSKwoNQnJvYWRjYXN0TW92ZRgBIAEoCzIULkdhbWVQ",
-            "YWNrZXQuTW92ZURhdGEiZQoPU19Ccm9hZGNhc3RNb3ZlEhAKCHBsYXllcklk",
-            "GAEgASgFEhMKC0NoYXJhY3RlcklkGAIgASgFEisKDUJyb2FkY2FzdE1vdmUY",
-            "AyABKAsyFC5HYW1lUGFja2V0Lk1vdmVEYXRhImQKCE1vdmVEYXRhEgwKBHBv",
-            "c1gYASABKAISDAoEcG9zWRgCIAEoAhIMCgRwb3NaGAMgASgCEgwKBGRpclkY",
-            "BCABKAISDQoFc3BlZWQYBSABKAISEQoJdGltZXN0YW1wGAYgASgDIoEBCgZT",
-            "dGF0dXMSDQoFTGV2ZWwYASABKAUSCwoDRXhwGAIgASgCEgwKBEdvbGQYAyAB",
-            "KAUSDQoFTm93SFAYBCABKAISDQoFTWF4SFAYBSABKAISDQoFTm93TVAYBiAB",
-            "KAISDQoFTWF4TVAYByABKAISEQoJdGltZXN0YW1wGAggASgDInQKCk9iamVj",
-            "dEluZm8SDAoETmFtZRgBIAEoCRIKCgJJZBgCIAEoBRImCghNb3ZlSW5mbxgD",
-            "IAEoCzIULkdhbWVQYWNrZXQuTW92ZURhdGESJAoIU3RhdEluZm8YBCABKAsy",
-            "Ei5HYW1lUGFja2V0LlN0YXR1cyo5CglDbGFzc1R5cGUSCgoGTm9IYXZlEAAS",
-            "CgoGS25pZ2h0EAESCgoGQXJjaGVyEAISCAoETWFnZRADYgZwcm90bzM="));
+            "EiQKCHN0YXRJbmZvGAMgASgLMhIuR2FtZVBhY2tldC5TdGF0dXMSJgoIbW92",
+            "ZUluZm8YBCABKAsyFC5HYW1lUGFja2V0Lk1vdmVEYXRhIkgKClBsYXllcklu",
+            "Zm8SEAoIcGxheWVySWQYASABKAUSDAoEbmFtZRgCIAEoCRIMCgRwb3NYGAMg",
+            "ASgCEgwKBHBvc1kYBCABKAIiPgoPQ19Ccm9hZGNhc3RNb3ZlEisKDUJyb2Fk",
+            "Y2FzdE1vdmUYASABKAsyFC5HYW1lUGFja2V0Lk1vdmVEYXRhImUKD1NfQnJv",
+            "YWRjYXN0TW92ZRIQCghwbGF5ZXJJZBgBIAEoBRITCgtDaGFyYWN0ZXJJZBgC",
+            "IAEoBRIrCg1Ccm9hZGNhc3RNb3ZlGAMgASgLMhQuR2FtZVBhY2tldC5Nb3Zl",
+            "RGF0YSJkCghNb3ZlRGF0YRIMCgRwb3NYGAEgASgCEgwKBHBvc1kYAiABKAIS",
+            "DAoEcG9zWhgDIAEoAhIMCgRkaXJZGAQgASgCEg0KBXNwZWVkGAUgASgCEhEK",
+            "CXRpbWVzdGFtcBgGIAEoAyKBAQoGU3RhdHVzEg0KBUxldmVsGAEgASgFEgsK",
+            "A0V4cBgCIAEoAhIMCgRHb2xkGAMgASgFEg0KBU5vd0hQGAQgASgCEg0KBU1h",
+            "eEhQGAUgASgCEg0KBU5vd01QGAYgASgCEg0KBU1heE1QGAcgASgCEhEKCXRp",
+            "bWVzdGFtcBgIIAEoAyJ0CgpPYmplY3RJbmZvEgwKBE5hbWUYASABKAkSCgoC",
+            "SWQYAiABKAUSJgoITW92ZUluZm8YAyABKAsyFC5HYW1lUGFja2V0Lk1vdmVE",
+            "YXRhEiQKCFN0YXRJbmZvGAQgASgLMhIuR2FtZVBhY2tldC5TdGF0dXMqOQoJ",
+            "Q2xhc3NUeXBlEgoKBk5vSGF2ZRAAEgoKBktuaWdodBABEgoKBkFyY2hlchAC",
+            "EggKBE1hZ2UQA2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GamePacket.ClassType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -62,7 +63,7 @@ namespace GamePacket {
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.C_EnterGameRequest), global::GamePacket.C_EnterGameRequest.Parser, new[]{ "CharacterId", "MapId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.S_BroadcastEnter), global::GamePacket.S_BroadcastEnter.Parser, new[]{ "EnterCharacter" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.S_EnterGameResponse), global::GamePacket.S_EnterGameResponse.Parser, new[]{ "MapId", "CharacterList" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.CharacterList), global::GamePacket.CharacterList.Parser, new[]{ "IsLocal", "CharacterInfo", "PosX", "PosY", "PosZ", "DirY" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.CharacterList), global::GamePacket.CharacterList.Parser, new[]{ "IsLocal", "CharacterInfo", "StatInfo", "MoveInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.PlayerInfo), global::GamePacket.PlayerInfo.Parser, new[]{ "PlayerId", "Name", "PosX", "PosY" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.C_BroadcastMove), global::GamePacket.C_BroadcastMove.Parser, new[]{ "BroadcastMove" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.S_BroadcastMove), global::GamePacket.S_BroadcastMove.Parser, new[]{ "PlayerId", "CharacterId", "BroadcastMove" }, null, null, null, null),
@@ -1576,10 +1577,8 @@ namespace GamePacket {
     public CharacterList(CharacterList other) : this() {
       isLocal_ = other.isLocal_;
       characterInfo_ = other.characterInfo_ != null ? other.characterInfo_.Clone() : null;
-      posX_ = other.posX_;
-      posY_ = other.posY_;
-      posZ_ = other.posZ_;
-      dirY_ = other.dirY_;
+      statInfo_ = other.statInfo_ != null ? other.statInfo_.Clone() : null;
+      moveInfo_ = other.moveInfo_ != null ? other.moveInfo_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1616,51 +1615,27 @@ namespace GamePacket {
       }
     }
 
-    /// <summary>Field number for the "PosX" field.</summary>
-    public const int PosXFieldNumber = 3;
-    private float posX_;
+    /// <summary>Field number for the "statInfo" field.</summary>
+    public const int StatInfoFieldNumber = 3;
+    private global::GamePacket.Status statInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float PosX {
-      get { return posX_; }
+    public global::GamePacket.Status StatInfo {
+      get { return statInfo_; }
       set {
-        posX_ = value;
+        statInfo_ = value;
       }
     }
 
-    /// <summary>Field number for the "PosY" field.</summary>
-    public const int PosYFieldNumber = 4;
-    private float posY_;
+    /// <summary>Field number for the "moveInfo" field.</summary>
+    public const int MoveInfoFieldNumber = 4;
+    private global::GamePacket.MoveData moveInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float PosY {
-      get { return posY_; }
+    public global::GamePacket.MoveData MoveInfo {
+      get { return moveInfo_; }
       set {
-        posY_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "PosZ" field.</summary>
-    public const int PosZFieldNumber = 5;
-    private float posZ_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float PosZ {
-      get { return posZ_; }
-      set {
-        posZ_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "DirY" field.</summary>
-    public const int DirYFieldNumber = 6;
-    private float dirY_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float DirY {
-      get { return dirY_; }
-      set {
-        dirY_ = value;
+        moveInfo_ = value;
       }
     }
 
@@ -1681,10 +1656,8 @@ namespace GamePacket {
       }
       if (IsLocal != other.IsLocal) return false;
       if (!object.Equals(CharacterInfo, other.CharacterInfo)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosX, other.PosX)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosY, other.PosY)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosZ, other.PosZ)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DirY, other.DirY)) return false;
+      if (!object.Equals(StatInfo, other.StatInfo)) return false;
+      if (!object.Equals(MoveInfo, other.MoveInfo)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1694,10 +1667,8 @@ namespace GamePacket {
       int hash = 1;
       if (IsLocal != false) hash ^= IsLocal.GetHashCode();
       if (characterInfo_ != null) hash ^= CharacterInfo.GetHashCode();
-      if (PosX != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosX);
-      if (PosY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosY);
-      if (PosZ != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosZ);
-      if (DirY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DirY);
+      if (statInfo_ != null) hash ^= StatInfo.GetHashCode();
+      if (moveInfo_ != null) hash ^= MoveInfo.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1724,21 +1695,13 @@ namespace GamePacket {
         output.WriteRawTag(18);
         output.WriteMessage(CharacterInfo);
       }
-      if (PosX != 0F) {
-        output.WriteRawTag(29);
-        output.WriteFloat(PosX);
+      if (statInfo_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(StatInfo);
       }
-      if (PosY != 0F) {
-        output.WriteRawTag(37);
-        output.WriteFloat(PosY);
-      }
-      if (PosZ != 0F) {
-        output.WriteRawTag(45);
-        output.WriteFloat(PosZ);
-      }
-      if (DirY != 0F) {
-        output.WriteRawTag(53);
-        output.WriteFloat(DirY);
+      if (moveInfo_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(MoveInfo);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1758,21 +1721,13 @@ namespace GamePacket {
         output.WriteRawTag(18);
         output.WriteMessage(CharacterInfo);
       }
-      if (PosX != 0F) {
-        output.WriteRawTag(29);
-        output.WriteFloat(PosX);
+      if (statInfo_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(StatInfo);
       }
-      if (PosY != 0F) {
-        output.WriteRawTag(37);
-        output.WriteFloat(PosY);
-      }
-      if (PosZ != 0F) {
-        output.WriteRawTag(45);
-        output.WriteFloat(PosZ);
-      }
-      if (DirY != 0F) {
-        output.WriteRawTag(53);
-        output.WriteFloat(DirY);
+      if (moveInfo_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(MoveInfo);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -1790,17 +1745,11 @@ namespace GamePacket {
       if (characterInfo_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(CharacterInfo);
       }
-      if (PosX != 0F) {
-        size += 1 + 4;
+      if (statInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(StatInfo);
       }
-      if (PosY != 0F) {
-        size += 1 + 4;
-      }
-      if (PosZ != 0F) {
-        size += 1 + 4;
-      }
-      if (DirY != 0F) {
-        size += 1 + 4;
+      if (moveInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MoveInfo);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1823,17 +1772,17 @@ namespace GamePacket {
         }
         CharacterInfo.MergeFrom(other.CharacterInfo);
       }
-      if (other.PosX != 0F) {
-        PosX = other.PosX;
+      if (other.statInfo_ != null) {
+        if (statInfo_ == null) {
+          StatInfo = new global::GamePacket.Status();
+        }
+        StatInfo.MergeFrom(other.StatInfo);
       }
-      if (other.PosY != 0F) {
-        PosY = other.PosY;
-      }
-      if (other.PosZ != 0F) {
-        PosZ = other.PosZ;
-      }
-      if (other.DirY != 0F) {
-        DirY = other.DirY;
+      if (other.moveInfo_ != null) {
+        if (moveInfo_ == null) {
+          MoveInfo = new global::GamePacket.MoveData();
+        }
+        MoveInfo.MergeFrom(other.MoveInfo);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1865,20 +1814,18 @@ namespace GamePacket {
             input.ReadMessage(CharacterInfo);
             break;
           }
-          case 29: {
-            PosX = input.ReadFloat();
+          case 26: {
+            if (statInfo_ == null) {
+              StatInfo = new global::GamePacket.Status();
+            }
+            input.ReadMessage(StatInfo);
             break;
           }
-          case 37: {
-            PosY = input.ReadFloat();
-            break;
-          }
-          case 45: {
-            PosZ = input.ReadFloat();
-            break;
-          }
-          case 53: {
-            DirY = input.ReadFloat();
+          case 34: {
+            if (moveInfo_ == null) {
+              MoveInfo = new global::GamePacket.MoveData();
+            }
+            input.ReadMessage(MoveInfo);
             break;
           }
         }
@@ -1911,20 +1858,18 @@ namespace GamePacket {
             input.ReadMessage(CharacterInfo);
             break;
           }
-          case 29: {
-            PosX = input.ReadFloat();
+          case 26: {
+            if (statInfo_ == null) {
+              StatInfo = new global::GamePacket.Status();
+            }
+            input.ReadMessage(StatInfo);
             break;
           }
-          case 37: {
-            PosY = input.ReadFloat();
-            break;
-          }
-          case 45: {
-            PosZ = input.ReadFloat();
-            break;
-          }
-          case 53: {
-            DirY = input.ReadFloat();
+          case 34: {
+            if (moveInfo_ == null) {
+              MoveInfo = new global::GamePacket.MoveData();
+            }
+            input.ReadMessage(MoveInfo);
             break;
           }
         }
