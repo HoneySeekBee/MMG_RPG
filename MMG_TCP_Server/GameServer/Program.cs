@@ -1,5 +1,6 @@
 ﻿using GameServer.Attack;
 using GameServer.Core;
+using GameServer.Data;
 using GameServer.Data.Monster;
 using GameServer.Game.Room;
 using System.Diagnostics;
@@ -8,10 +9,14 @@ using System.Net.Sockets;
 
 namespace GameServer
 {
-    internal class Program
+    public class Program
     {
+        public static string URL = "https://localhost:7132";
         static void Main(string[] args)
         {
+            SkillDataManager.LoadAttackData();
+            MonsterDataManager.LoadData();
+
             Task.Run(() =>
             {
                 var sw = Stopwatch.StartNew();
@@ -30,8 +35,7 @@ namespace GameServer
                 }
             });
             ServerPacketManager.Register();
-            AttackDataManager.LoadAttackData();
-            MonsterDataManager.LoadData();
+
             Listener listener = new Listener();
             listener.Init(GetEndPoint(), () => new ServerSession());
 

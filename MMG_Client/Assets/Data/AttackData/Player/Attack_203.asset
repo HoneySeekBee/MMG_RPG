@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b7644becfd8ffb42bb1000c4d4c12af, type: 3}
-  m_Name: Fist_Normal_Attack
+  m_Name: Attack_203
   m_EditorClassIdentifier: 
-  AttackId: 0
-  AttackName: Fist Normal Attack
+  AttackId: 203
+  AttackName: New_Attack_203
+  OwnerType: 0
   WeaponType: 0
   AttackType: 0
-  Range: 0.5
-  Angle: 40
-  Damage: 1
-  Cooldown: 0
-  DelayAfter: 0.2
-  CastTime: 0
+  Range: 2
+  Angle: 1
+  Damage: 2
+  Cooldown: 1
+  DelayAfter: 1
+  CastTime: 1

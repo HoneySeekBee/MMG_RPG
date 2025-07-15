@@ -15,7 +15,7 @@ public class AttackGizmoPreview : SceneSingleton<AttackGizmoPreview>
 
     public void Show(Vector3 pos, float directionY, AttackData attackData)
     {
-        isProjectile = attackData.AttackType == Packet.AttackType.Arrow;
+        isProjectile = attackData.AttackType == AttackPacket.AttackType.Arrow;
 
         attackOrigin = pos;
         dirY = directionY;

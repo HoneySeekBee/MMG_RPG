@@ -26,7 +26,7 @@ namespace GameServer.Data.Monster
                 return;
 
             Vector3 dir = toTarget / distance;
-            Vector3 move = dir * _monster.Status.MoveSpeed * deltaTime;
+            Vector3 move = dir * _monster.Status.MonsterData.MoveSpeed * deltaTime;
 
             // 목적지 초과 이동 방지
             if (move.LengthSquared() > distance * distance)
@@ -51,7 +51,7 @@ namespace GameServer.Data.Monster
                         PosY = _monster.Position.Y,
                         PosZ = _monster.Position.Z,
                         DirY = _monster.Dir.Y,
-                        Speed = _monster.Status.MoveSpeed
+                        Speed = _monster.Status.MonsterData.MoveSpeed
                     }
                 };
 

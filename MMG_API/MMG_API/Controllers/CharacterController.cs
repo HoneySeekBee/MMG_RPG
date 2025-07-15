@@ -160,5 +160,7 @@ namespace MMG_API.Controllers
 
             return Ok(new { message = "캐릭터 상태가 업데이트되었습니다." });
         }
+
+
     }
 }

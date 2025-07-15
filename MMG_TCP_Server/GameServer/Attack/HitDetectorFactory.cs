@@ -1,4 +1,5 @@
-﻿using GameServer.Intreface;
+﻿using AttackPacket;
+using GameServer.Intreface;
 using Packet;
 using System;
 using System.Collections.Generic;

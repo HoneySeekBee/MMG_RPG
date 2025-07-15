@@ -13,6 +13,7 @@ using MonsterPacket;
 using GameServer.Game.Object;
 using System.Diagnostics;
 using Google.Protobuf.WellKnownTypes;
+using AttackPacket;
 
 namespace GameServer.Game.Room
 {
@@ -125,16 +126,9 @@ namespace GameServer.Game.Room
                 var status = new MonsterStatus
                 {
                     ID = monster.objectInfo.Id,
-                    MonsterId = original.MonsterId,
-                    MonsterName = original.MonsterName,
                     HP = original.HP,
-                    MaxHP = original.MaxHP,
-                    MoveSpeed = original.MoveSpeed,
-                    ChaseRange = original.ChaseRange,
-                    AttackRange = original.AttackRange,
+                    MonsterData = MonsterDataManager.Get(original.ID),
                     MoveData = monster.MonsterSpawnpoint,
-
-                    // 나머지 필드도 복사 필요시 추가
                 };
 
                 monsterListPacket.MonsterDataList.Add(status);
@@ -152,7 +146,13 @@ namespace GameServer.Game.Room
                     {
                         Vector3 spawnPos = spawnZoneMgr.GetRandomPosition(zone.Min, zone.Max);
 
-                        MonsterStatus monsterStatus = MonsterDataManager.Get(info.MonsterId);
+
+
+                        MonsterStatus monsterStatus = new MonsterStatus()
+                        {
+                            ID = info.MonsterId,
+                            MonsterData = MonsterDataManager.Get(info.MonsterId),
+                        };
 
                         int id = GetNextMonsterId();
 
@@ -169,6 +169,8 @@ namespace GameServer.Game.Room
                                 Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
                             }
                         };
+                        monsterStatus.MoveData = _moveData;
+
                         MonsterObject monster = new MonsterObject(id, monsterStatus, _moveData, this);
 
                         List<Vector3> patrolRoute = spawnZoneMgr.GeneratePatrolPoints(spawnPos, zone.Min, zone.Max, 2f, 5);
@@ -206,11 +208,11 @@ namespace GameServer.Game.Room
 
             return result;
         }
-        public void HandleAttack(CharacterObject attacker, Vector3 pos, float rotY, AttackData attackData)
+        public void HandleAttack(CharacterObject attacker, Vector3 pos, float rotY, Skill attackData)
         {
             _battleSystem.HandleAttack(attacker, pos, rotY, attackData);
         }
-        public void LaunchProjectile(CharacterObject attacker, Vector3 pos, float rotY, AttackData data)
+        public void LaunchProjectile(CharacterObject attacker, Vector3 pos, float rotY, Skill data)
         {
             float rad = rotY * (float)Math.PI / 180f;
             Vector3 forward = new((float)Math.Sin(rad), 0, (float)Math.Cos(rad));
@@ -258,7 +260,7 @@ namespace GameServer.Game.Room
         {
             Flush(); // JobQueue 처리
         }
-        public void OnPlayerHit(int attackerId, int targetId, AttackData data)
+        public void OnPlayerHit(int attackerId, int targetId, Skill data)
         {
             Console.WriteLine($"[Hit] {targetId} hit by {attackerId} using {data.AttackType}");
 
@@ -325,6 +327,5 @@ namespace GameServer.Game.Room
             }
             return true;
         }
-
     }
 }

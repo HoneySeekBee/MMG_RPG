@@ -37,8 +37,9 @@ namespace MMG.UI
         /* 荤侩 规过
          * PopupManager.Instance.Show<CharacterStatusPopup>((popup) => popup.Open());
          */
-        public void Open()
+        public override void Open()
         {
+            base.Open();
             isOpen = true;
             Set_CharacterData();
             StartCoroutine(Open_Status());
@@ -67,9 +68,10 @@ namespace MMG.UI
         /* 荤侩 规过
          * PopupManager.Instance.UnShow<CharacterStatusPopup>((popup) => popup.Close());
          */
-        public void Close()
+        public override void Close()
         {
             isOpen = false;
+            base.Close();
         }
         public void SetBarProgress(float hpRatio, float mpRatio, float expRatio)
         {

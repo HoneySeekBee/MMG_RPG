@@ -17,6 +17,8 @@ namespace GameServer.Game.Object
         public ServerSession Session { get; set; }
         public int? CurrentRoomId { get; set; }
         public CharacterInfo CharacterInfo { get; set; }
+        public CharacterSkillInfo SkillInfo = new CharacterSkillInfo();
+
         public long LastMoveTimestamp { get { return moveData.Timestamp; } set { moveData.Timestamp = value; } }
         public void UpdateMove(float posX, float posY, float posZ, float dirY)
         {

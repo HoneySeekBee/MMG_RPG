@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Packet {
+namespace AttackPacket {
 
   /// <summary>Holder for reflection information generated from CharacterAttack.proto</summary>
   public static partial class CharacterAttackReflection {
@@ -24,24 +24,24 @@ namespace Packet {
     static CharacterAttackReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChVDaGFyYWN0ZXJBdHRhY2sucHJvdG8SBlBhY2tldCKCAQoPQ19BdHRhY2tS",
-            "ZXF1ZXN0EhIKCkF0dGFja2VySWQYASABKAUSDAoEUG9zWBgCIAEoAhIMCgRQ",
-            "b3NZGAMgASgCEgwKBFBvc1oYBCABKAISDAoERGlyWRgFIAEoAhIQCghBdHRh",
-            "Y2tJZBgGIAEoBRIRCglUaW1lU3RhbXAYByABKAIiSQoRU19EYW1hZ2VCcm9h",
-            "ZGNhc3QSEAoIdGFyZ2V0SWQYASABKAUSDgoGRGFtYWdlGAIgASgCEhIKCkF0",
-            "dGFja2VySWQYAyABKAUihwEKCldlYXBvbkRhdGESIAoEdHlwZRgBIAEoDjIS",
-            "LlBhY2tldC5XZWFwb25UeXBlEiYKCmF0dGFja1R5cGUYAiABKA4yEi5QYWNr",
-            "ZXQuQXR0YWNrVHlwZRIOCgZkYW1hZ2UYAyABKAISDQoFcmFuZ2UYBCABKAIS",
-            "EAoIY29vbGRvd24YBSABKAIqNgoKV2VhcG9uVHlwZRIICgRGaXN0EAASCQoF",
-            "U3dvcmQQARIHCgNCb3cQZBIKCgVTdGFmZhDIASpGCgpBdHRhY2tUeXBlEgkK",
-            "BXB1bmNoEAASCQoFU2xhc2gQZBIKCgVBcnJvdxDIARIKCgVUaHJvdxDJARIK",
-            "CgVNYWdpYxCsAmIGcHJvdG8z"));
+            "ChVDaGFyYWN0ZXJBdHRhY2sucHJvdG8SDEF0dGFja1BhY2tldCKCAQoPQ19B",
+            "dHRhY2tSZXF1ZXN0EhIKCkF0dGFja2VySWQYASABKAUSDAoEUG9zWBgCIAEo",
+            "AhIMCgRQb3NZGAMgASgCEgwKBFBvc1oYBCABKAISDAoERGlyWRgFIAEoAhIQ",
+            "CghBdHRhY2tJZBgGIAEoBRIRCglUaW1lU3RhbXAYByABKAIiSQoRU19EYW1h",
+            "Z2VCcm9hZGNhc3QSEAoIdGFyZ2V0SWQYASABKAUSDgoGRGFtYWdlGAIgASgC",
+            "EhIKCkF0dGFja2VySWQYAyABKAUikwEKCldlYXBvbkRhdGESJgoEdHlwZRgB",
+            "IAEoDjIYLkF0dGFja1BhY2tldC5XZWFwb25UeXBlEiwKCmF0dGFja1R5cGUY",
+            "AiABKA4yGC5BdHRhY2tQYWNrZXQuQXR0YWNrVHlwZRIOCgZkYW1hZ2UYAyAB",
+            "KAISDQoFcmFuZ2UYBCABKAISEAoIY29vbGRvd24YBSABKAIqNgoKV2VhcG9u",
+            "VHlwZRIICgRGaXN0EAASCQoFU3dvcmQQARIHCgNCb3cQZBIKCgVTdGFmZhDI",
+            "ASpGCgpBdHRhY2tUeXBlEgkKBXB1bmNoEAASCQoFU2xhc2gQZBIKCgVBcnJv",
+            "dxDIARIKCgVUaHJvdxDJARIKCgVNYWdpYxCsAmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Packet.WeaponType), typeof(global::Packet.AttackType), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.C_AttackRequest), global::Packet.C_AttackRequest.Parser, new[]{ "AttackerId", "PosX", "PosY", "PosZ", "DirY", "AttackId", "TimeStamp" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.S_DamageBroadcast), global::Packet.S_DamageBroadcast.Parser, new[]{ "TargetId", "Damage", "AttackerId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Packet.WeaponData), global::Packet.WeaponData.Parser, new[]{ "Type", "AttackType", "Damage", "Range", "Cooldown" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AttackPacket.WeaponType), typeof(global::AttackPacket.AttackType), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.C_AttackRequest), global::AttackPacket.C_AttackRequest.Parser, new[]{ "AttackerId", "PosX", "PosY", "PosZ", "DirY", "AttackId", "TimeStamp" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.S_DamageBroadcast), global::AttackPacket.S_DamageBroadcast.Parser, new[]{ "TargetId", "Damage", "AttackerId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.WeaponData), global::AttackPacket.WeaponData.Parser, new[]{ "Type", "AttackType", "Damage", "Range", "Cooldown" }, null, null, null, null)
           }));
     }
     #endregion
@@ -99,7 +99,7 @@ namespace Packet {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Packet.CharacterAttackReflection.Descriptor.MessageTypes[0]; }
+      get { return global::AttackPacket.CharacterAttackReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -519,7 +519,7 @@ namespace Packet {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Packet.CharacterAttackReflection.Descriptor.MessageTypes[1]; }
+      get { return global::AttackPacket.CharacterAttackReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -791,7 +791,7 @@ namespace Packet {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Packet.CharacterAttackReflection.Descriptor.MessageTypes[2]; }
+      get { return global::AttackPacket.CharacterAttackReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -827,10 +827,10 @@ namespace Packet {
 
     /// <summary>Field number for the "type" field.</summary>
     public const int TypeFieldNumber = 1;
-    private global::Packet.WeaponType type_ = global::Packet.WeaponType.Fist;
+    private global::AttackPacket.WeaponType type_ = global::AttackPacket.WeaponType.Fist;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Packet.WeaponType Type {
+    public global::AttackPacket.WeaponType Type {
       get { return type_; }
       set {
         type_ = value;
@@ -839,10 +839,10 @@ namespace Packet {
 
     /// <summary>Field number for the "attackType" field.</summary>
     public const int AttackTypeFieldNumber = 2;
-    private global::Packet.AttackType attackType_ = global::Packet.AttackType.Punch;
+    private global::AttackPacket.AttackType attackType_ = global::AttackPacket.AttackType.Punch;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Packet.AttackType AttackType {
+    public global::AttackPacket.AttackType AttackType {
       get { return attackType_; }
       set {
         attackType_ = value;
@@ -912,8 +912,8 @@ namespace Packet {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Type != global::Packet.WeaponType.Fist) hash ^= Type.GetHashCode();
-      if (AttackType != global::Packet.AttackType.Punch) hash ^= AttackType.GetHashCode();
+      if (Type != global::AttackPacket.WeaponType.Fist) hash ^= Type.GetHashCode();
+      if (AttackType != global::AttackPacket.AttackType.Punch) hash ^= AttackType.GetHashCode();
       if (Damage != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Damage);
       if (Range != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Range);
       if (Cooldown != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Cooldown);
@@ -935,11 +935,11 @@ namespace Packet {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Type != global::Packet.WeaponType.Fist) {
+      if (Type != global::AttackPacket.WeaponType.Fist) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
-      if (AttackType != global::Packet.AttackType.Punch) {
+      if (AttackType != global::AttackPacket.AttackType.Punch) {
         output.WriteRawTag(16);
         output.WriteEnum((int) AttackType);
       }
@@ -965,11 +965,11 @@ namespace Packet {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Type != global::Packet.WeaponType.Fist) {
+      if (Type != global::AttackPacket.WeaponType.Fist) {
         output.WriteRawTag(8);
         output.WriteEnum((int) Type);
       }
-      if (AttackType != global::Packet.AttackType.Punch) {
+      if (AttackType != global::AttackPacket.AttackType.Punch) {
         output.WriteRawTag(16);
         output.WriteEnum((int) AttackType);
       }
@@ -995,10 +995,10 @@ namespace Packet {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Type != global::Packet.WeaponType.Fist) {
+      if (Type != global::AttackPacket.WeaponType.Fist) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
-      if (AttackType != global::Packet.AttackType.Punch) {
+      if (AttackType != global::AttackPacket.AttackType.Punch) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) AttackType);
       }
       if (Damage != 0F) {
@@ -1022,10 +1022,10 @@ namespace Packet {
       if (other == null) {
         return;
       }
-      if (other.Type != global::Packet.WeaponType.Fist) {
+      if (other.Type != global::AttackPacket.WeaponType.Fist) {
         Type = other.Type;
       }
-      if (other.AttackType != global::Packet.AttackType.Punch) {
+      if (other.AttackType != global::AttackPacket.AttackType.Punch) {
         AttackType = other.AttackType;
       }
       if (other.Damage != 0F) {
@@ -1057,11 +1057,11 @@ namespace Packet {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            Type = (global::Packet.WeaponType) input.ReadEnum();
+            Type = (global::AttackPacket.WeaponType) input.ReadEnum();
             break;
           }
           case 16: {
-            AttackType = (global::Packet.AttackType) input.ReadEnum();
+            AttackType = (global::AttackPacket.AttackType) input.ReadEnum();
             break;
           }
           case 29: {
@@ -1096,11 +1096,11 @@ namespace Packet {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            Type = (global::Packet.WeaponType) input.ReadEnum();
+            Type = (global::AttackPacket.WeaponType) input.ReadEnum();
             break;
           }
           case 16: {
-            AttackType = (global::Packet.AttackType) input.ReadEnum();
+            AttackType = (global::AttackPacket.AttackType) input.ReadEnum();
             break;
           }
           case 29: {

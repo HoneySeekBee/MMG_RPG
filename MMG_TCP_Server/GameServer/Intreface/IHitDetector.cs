@@ -1,4 +1,5 @@
-﻿using GameServer.Data;
+﻿using GamePacket;
+using GameServer.Data;
 using GameServer.Game.Object;
 using GameServer.Game.Room;
 using Packet;
@@ -13,6 +14,6 @@ namespace GameServer.Intreface
 {
     public interface IHitDetector
     {
-        List<CharacterObject> DetectTargets(GameRoom room, CharacterObject attacker, Vector3 pos, float rotY, AttackData attackData);
+        List<CharacterObject> DetectTargets(GameRoom room, CharacterObject attacker, Vector3 pos, float rotY, Skill attackData);
     }
 }

@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
+using AttackPacket;
 
 public class GameRoom : SceneSingleton<GameRoom>
 {
@@ -155,7 +156,7 @@ public class GameRoom : SceneSingleton<GameRoom>
 
         GameObject Monster =
             Instantiate(
-                SpawnManager.GetMonster(status.MonsterId),
+                SpawnManager.GetMonster(status.MonsterData.MonsterId),
             spawnpoint,
             Quaternion.Euler(0, status.MoveData.MonsterMove.DirY, 0),
             this.transform
@@ -169,7 +170,7 @@ public class GameRoom : SceneSingleton<GameRoom>
         remoteMonster.Init(status, monsterController);
 
         // [3] 등록 해주기 
-        Debug.Log($"[SpwanMonster] ID : {status.ID}, Name : {status.MonsterName}");
+        Debug.Log($"[SpwanMonster] ID : {status.ID}, Name : {status.MonsterData.MonsterName}");
         Monsters.Add(status.ID, remoteMonster);
     }
 }

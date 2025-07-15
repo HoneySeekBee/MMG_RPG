@@ -4,6 +4,8 @@ using Packet;
 using System.Numerics;
 using GameServer.Game.Room;
 using GameServer.Game.Object;
+using GamePacket;
+using AttackPacket;
 
 namespace GameServer.Attack
 {
@@ -14,7 +16,7 @@ namespace GameServer.Attack
         {
             _room = room;
         }
-        public void HandleAttack(CharacterObject attacker, Vector3 pos, float rotY, AttackData attackData)
+        public void HandleAttack(CharacterObject attacker, Vector3 pos, float rotY, Skill attackData)
         {
             Console.WriteLine($"[BattleSystem] AttackerId : {attacker.ObjectId}");
             bool isProjectile = attackData.AttackType == AttackType.Arrow; 

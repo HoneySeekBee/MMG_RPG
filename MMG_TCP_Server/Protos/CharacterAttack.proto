@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package Packet;
+package AttackPacket;
 
 message C_AttackRequest
 {

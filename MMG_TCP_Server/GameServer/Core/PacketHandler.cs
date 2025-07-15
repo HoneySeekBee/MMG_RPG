@@ -8,6 +8,7 @@ using System.Numerics;
 using GameServer.Game.Room;
 using GamePacket;
 using GameServer.Game.Object;
+using AttackPacket;
 
 namespace GameServer.Core
 {
@@ -80,7 +81,8 @@ namespace GameServer.Core
 
             Console.WriteLine($"CharacterInfo null인가요? {character == null}");
 
-            // 2. GameRoom 찾기 및 입장
+            
+            // 3. GameRoom 찾기 및 입장
             GameRoom room = GameRoomManager.Instance.GetOrCreateRoom(packet.MapId);
 
             room.Enter(session, character);
@@ -207,7 +209,7 @@ namespace GameServer.Core
             float dirY = packet.DirY;
 
             // 3. 무기 정보 재구성
-            AttackData attackData = AttackDataManager.Get(packet.AttackId);
+            Skill attackData = SkillDataManager.GetSkill(packet.AttackId);
 
 
             // 4. 공격 타입에 따라 판정 로직 실행

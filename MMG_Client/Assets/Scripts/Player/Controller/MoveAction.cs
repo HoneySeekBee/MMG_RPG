@@ -17,7 +17,7 @@ namespace MMG
         private float walkSpeed = 30;
         private float runSpeed = 50;
 
-        private float _smoothedSpeed = 0f;
+
         private float smoothingFactor = 10f; // 속도 보간 정도
 
         [SerializeField] private Vector3 _networkTargetPos;

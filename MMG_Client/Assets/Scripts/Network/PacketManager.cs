@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AttackPacket;
 
 public class PacketManager : MonoBehaviour
 {

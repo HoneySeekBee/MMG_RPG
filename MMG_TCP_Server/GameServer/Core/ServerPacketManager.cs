@@ -1,4 +1,5 @@
-﻿using GamePacket;
+﻿using AttackPacket;
+using GamePacket;
 using Google.Protobuf;
 using Packet;
 using ServerCore;

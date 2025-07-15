@@ -4,23 +4,18 @@ package MonsterPacket;
 
 import "Game.proto";
 
+
 message MonsterStatus
 {  
 	int32 ID = 1;
-  int32 monsterId = 2;
-  string monsterName = 3;
-  float HP = 4;
-  float maxHP = 5;
-  float moveSpeed = 6;
-  float chaseRange = 7;
-  float attackRange = 8;
-  repeated MonsterAttack attacks = 9;
- MonsterMoveData MoveData = 10;
+	float HP = 2;
+	MonsterData MonsterData = 3;
+	MonsterMoveData MoveData = 4;
 }
 message MonsterAttack {
-  int32 inputType = 1;
-  int32 frequency = 2;
-  int32 attackId = 3;
+	int32 skillId = 1;
+	int32 frequency = 2;
+	GamePacket.InputType InputType = 3;
 }
 message MonsterMoveData{
 	int32 MonsterId = 1;
@@ -29,4 +24,15 @@ message MonsterMoveData{
 message S_MonsterList
 {
 	repeated MonsterStatus MonsterDataList = 1;
+}
+
+message MonsterData
+{
+  int32 monsterId = 1;
+  string monsterName = 2;
+  float MaxHP = 3;
+  float moveSpeed = 4;
+  float chaseRange = 5;
+  float attackRange = 6;
+  repeated MonsterAttack attacks = 7;
 }

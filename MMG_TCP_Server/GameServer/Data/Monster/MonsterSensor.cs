@@ -19,7 +19,7 @@ namespace GameServer.Data.Monster
         {
             _monster = monster;
             _room = room;
-            DetectRange = monster.Status.ChaseRange;
+            DetectRange = monster.Status.MonsterData.ChaseRange;
         }
 
 

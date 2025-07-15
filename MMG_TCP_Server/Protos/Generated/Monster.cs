@@ -24,25 +24,28 @@ namespace MonsterPacket {
     static MonsterReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg1Nb25zdGVyLnByb3RvEg1Nb25zdGVyUGFja2V0GgpHYW1lLnByb3RvIvsB",
-            "Cg1Nb25zdGVyU3RhdHVzEgoKAklEGAEgASgFEhEKCW1vbnN0ZXJJZBgCIAEo",
-            "BRITCgttb25zdGVyTmFtZRgDIAEoCRIKCgJIUBgEIAEoAhINCgVtYXhIUBgF",
-            "IAEoAhIRCgltb3ZlU3BlZWQYBiABKAISEgoKY2hhc2VSYW5nZRgHIAEoAhIT",
-            "CgthdHRhY2tSYW5nZRgIIAEoAhItCgdhdHRhY2tzGAkgAygLMhwuTW9uc3Rl",
-            "clBhY2tldC5Nb25zdGVyQXR0YWNrEjAKCE1vdmVEYXRhGAogASgLMh4uTW9u",
-            "c3RlclBhY2tldC5Nb25zdGVyTW92ZURhdGEiRwoNTW9uc3RlckF0dGFjaxIR",
-            "CglpbnB1dFR5cGUYASABKAUSEQoJZnJlcXVlbmN5GAIgASgFEhAKCGF0dGFj",
-            "a0lkGAMgASgFIk8KD01vbnN0ZXJNb3ZlRGF0YRIRCglNb25zdGVySWQYASAB",
-            "KAUSKQoLTW9uc3Rlck1vdmUYAyABKAsyFC5HYW1lUGFja2V0Lk1vdmVEYXRh",
-            "IkYKDVNfTW9uc3Rlckxpc3QSNQoPTW9uc3RlckRhdGFMaXN0GAEgAygLMhwu",
-            "TW9uc3RlclBhY2tldC5Nb25zdGVyU3RhdHVzYgZwcm90bzM="));
+            "Cg1Nb25zdGVyLnByb3RvEg1Nb25zdGVyUGFja2V0GgpHYW1lLnByb3RvIooB",
+            "Cg1Nb25zdGVyU3RhdHVzEgoKAklEGAEgASgFEgoKAkhQGAIgASgCEi8KC01v",
+            "bnN0ZXJEYXRhGAMgASgLMhouTW9uc3RlclBhY2tldC5Nb25zdGVyRGF0YRIw",
+            "CghNb3ZlRGF0YRgEIAEoCzIeLk1vbnN0ZXJQYWNrZXQuTW9uc3Rlck1vdmVE",
+            "YXRhIl0KDU1vbnN0ZXJBdHRhY2sSDwoHc2tpbGxJZBgBIAEoBRIRCglmcmVx",
+            "dWVuY3kYAiABKAUSKAoJSW5wdXRUeXBlGAMgASgOMhUuR2FtZVBhY2tldC5J",
+            "bnB1dFR5cGUiTwoPTW9uc3Rlck1vdmVEYXRhEhEKCU1vbnN0ZXJJZBgBIAEo",
+            "BRIpCgtNb25zdGVyTW92ZRgDIAEoCzIULkdhbWVQYWNrZXQuTW92ZURhdGEi",
+            "RgoNU19Nb25zdGVyTGlzdBI1Cg9Nb25zdGVyRGF0YUxpc3QYASADKAsyHC5N",
+            "b25zdGVyUGFja2V0Lk1vbnN0ZXJTdGF0dXMirwEKC01vbnN0ZXJEYXRhEhEK",
+            "CW1vbnN0ZXJJZBgBIAEoBRITCgttb25zdGVyTmFtZRgCIAEoCRINCgVNYXhI",
+            "UBgDIAEoAhIRCgltb3ZlU3BlZWQYBCABKAISEgoKY2hhc2VSYW5nZRgFIAEo",
+            "AhITCgthdHRhY2tSYW5nZRgGIAEoAhItCgdhdHRhY2tzGAcgAygLMhwuTW9u",
+            "c3RlclBhY2tldC5Nb25zdGVyQXR0YWNrYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::GamePacket.GameReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterStatus), global::MonsterPacket.MonsterStatus.Parser, new[]{ "ID", "MonsterId", "MonsterName", "HP", "MaxHP", "MoveSpeed", "ChaseRange", "AttackRange", "Attacks", "MoveData" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterAttack), global::MonsterPacket.MonsterAttack.Parser, new[]{ "InputType", "Frequency", "AttackId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterStatus), global::MonsterPacket.MonsterStatus.Parser, new[]{ "ID", "HP", "MonsterData", "MoveData" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterAttack), global::MonsterPacket.MonsterAttack.Parser, new[]{ "SkillId", "Frequency", "InputType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterMoveData), global::MonsterPacket.MonsterMoveData.Parser, new[]{ "MonsterId", "MonsterMove" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.S_MonsterList), global::MonsterPacket.S_MonsterList.Parser, new[]{ "MonsterDataList" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.S_MonsterList), global::MonsterPacket.S_MonsterList.Parser, new[]{ "MonsterDataList" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterData), global::MonsterPacket.MonsterData.Parser, new[]{ "MonsterId", "MonsterName", "MaxHP", "MoveSpeed", "ChaseRange", "AttackRange", "Attacks" }, null, null, null, null)
           }));
     }
     #endregion
@@ -85,14 +88,8 @@ namespace MonsterPacket {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public MonsterStatus(MonsterStatus other) : this() {
       iD_ = other.iD_;
-      monsterId_ = other.monsterId_;
-      monsterName_ = other.monsterName_;
       hP_ = other.hP_;
-      maxHP_ = other.maxHP_;
-      moveSpeed_ = other.moveSpeed_;
-      chaseRange_ = other.chaseRange_;
-      attackRange_ = other.attackRange_;
-      attacks_ = other.attacks_.Clone();
+      monsterData_ = other.monsterData_ != null ? other.monsterData_.Clone() : null;
       moveData_ = other.moveData_ != null ? other.moveData_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -115,32 +112,8 @@ namespace MonsterPacket {
       }
     }
 
-    /// <summary>Field number for the "monsterId" field.</summary>
-    public const int MonsterIdFieldNumber = 2;
-    private int monsterId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int MonsterId {
-      get { return monsterId_; }
-      set {
-        monsterId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "monsterName" field.</summary>
-    public const int MonsterNameFieldNumber = 3;
-    private string monsterName_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string MonsterName {
-      get { return monsterName_; }
-      set {
-        monsterName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     /// <summary>Field number for the "HP" field.</summary>
-    public const int HPFieldNumber = 4;
+    public const int HPFieldNumber = 2;
     private float hP_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -151,67 +124,20 @@ namespace MonsterPacket {
       }
     }
 
-    /// <summary>Field number for the "maxHP" field.</summary>
-    public const int MaxHPFieldNumber = 5;
-    private float maxHP_;
+    /// <summary>Field number for the "MonsterData" field.</summary>
+    public const int MonsterDataFieldNumber = 3;
+    private global::MonsterPacket.MonsterData monsterData_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float MaxHP {
-      get { return maxHP_; }
+    public global::MonsterPacket.MonsterData MonsterData {
+      get { return monsterData_; }
       set {
-        maxHP_ = value;
+        monsterData_ = value;
       }
-    }
-
-    /// <summary>Field number for the "moveSpeed" field.</summary>
-    public const int MoveSpeedFieldNumber = 6;
-    private float moveSpeed_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float MoveSpeed {
-      get { return moveSpeed_; }
-      set {
-        moveSpeed_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "chaseRange" field.</summary>
-    public const int ChaseRangeFieldNumber = 7;
-    private float chaseRange_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float ChaseRange {
-      get { return chaseRange_; }
-      set {
-        chaseRange_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "attackRange" field.</summary>
-    public const int AttackRangeFieldNumber = 8;
-    private float attackRange_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public float AttackRange {
-      get { return attackRange_; }
-      set {
-        attackRange_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "attacks" field.</summary>
-    public const int AttacksFieldNumber = 9;
-    private static readonly pb::FieldCodec<global::MonsterPacket.MonsterAttack> _repeated_attacks_codec
-        = pb::FieldCodec.ForMessage(74, global::MonsterPacket.MonsterAttack.Parser);
-    private readonly pbc::RepeatedField<global::MonsterPacket.MonsterAttack> attacks_ = new pbc::RepeatedField<global::MonsterPacket.MonsterAttack>();
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::MonsterPacket.MonsterAttack> Attacks {
-      get { return attacks_; }
     }
 
     /// <summary>Field number for the "MoveData" field.</summary>
-    public const int MoveDataFieldNumber = 10;
+    public const int MoveDataFieldNumber = 4;
     private global::MonsterPacket.MonsterMoveData moveData_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -238,14 +164,8 @@ namespace MonsterPacket {
         return true;
       }
       if (ID != other.ID) return false;
-      if (MonsterId != other.MonsterId) return false;
-      if (MonsterName != other.MonsterName) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(HP, other.HP)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(MaxHP, other.MaxHP)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(MoveSpeed, other.MoveSpeed)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(ChaseRange, other.ChaseRange)) return false;
-      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(AttackRange, other.AttackRange)) return false;
-      if(!attacks_.Equals(other.attacks_)) return false;
+      if (!object.Equals(MonsterData, other.MonsterData)) return false;
       if (!object.Equals(MoveData, other.MoveData)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -255,14 +175,8 @@ namespace MonsterPacket {
     public override int GetHashCode() {
       int hash = 1;
       if (ID != 0) hash ^= ID.GetHashCode();
-      if (MonsterId != 0) hash ^= MonsterId.GetHashCode();
-      if (MonsterName.Length != 0) hash ^= MonsterName.GetHashCode();
       if (HP != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(HP);
-      if (MaxHP != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(MaxHP);
-      if (MoveSpeed != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(MoveSpeed);
-      if (ChaseRange != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(ChaseRange);
-      if (AttackRange != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(AttackRange);
-      hash ^= attacks_.GetHashCode();
+      if (monsterData_ != null) hash ^= MonsterData.GetHashCode();
       if (moveData_ != null) hash ^= MoveData.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -286,37 +200,16 @@ namespace MonsterPacket {
         output.WriteRawTag(8);
         output.WriteInt32(ID);
       }
-      if (MonsterId != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(MonsterId);
-      }
-      if (MonsterName.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(MonsterName);
-      }
       if (HP != 0F) {
-        output.WriteRawTag(37);
+        output.WriteRawTag(21);
         output.WriteFloat(HP);
       }
-      if (MaxHP != 0F) {
-        output.WriteRawTag(45);
-        output.WriteFloat(MaxHP);
+      if (monsterData_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(MonsterData);
       }
-      if (MoveSpeed != 0F) {
-        output.WriteRawTag(53);
-        output.WriteFloat(MoveSpeed);
-      }
-      if (ChaseRange != 0F) {
-        output.WriteRawTag(61);
-        output.WriteFloat(ChaseRange);
-      }
-      if (AttackRange != 0F) {
-        output.WriteRawTag(69);
-        output.WriteFloat(AttackRange);
-      }
-      attacks_.WriteTo(output, _repeated_attacks_codec);
       if (moveData_ != null) {
-        output.WriteRawTag(82);
+        output.WriteRawTag(34);
         output.WriteMessage(MoveData);
       }
       if (_unknownFields != null) {
@@ -333,37 +226,16 @@ namespace MonsterPacket {
         output.WriteRawTag(8);
         output.WriteInt32(ID);
       }
-      if (MonsterId != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(MonsterId);
-      }
-      if (MonsterName.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(MonsterName);
-      }
       if (HP != 0F) {
-        output.WriteRawTag(37);
+        output.WriteRawTag(21);
         output.WriteFloat(HP);
       }
-      if (MaxHP != 0F) {
-        output.WriteRawTag(45);
-        output.WriteFloat(MaxHP);
+      if (monsterData_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(MonsterData);
       }
-      if (MoveSpeed != 0F) {
-        output.WriteRawTag(53);
-        output.WriteFloat(MoveSpeed);
-      }
-      if (ChaseRange != 0F) {
-        output.WriteRawTag(61);
-        output.WriteFloat(ChaseRange);
-      }
-      if (AttackRange != 0F) {
-        output.WriteRawTag(69);
-        output.WriteFloat(AttackRange);
-      }
-      attacks_.WriteTo(ref output, _repeated_attacks_codec);
       if (moveData_ != null) {
-        output.WriteRawTag(82);
+        output.WriteRawTag(34);
         output.WriteMessage(MoveData);
       }
       if (_unknownFields != null) {
@@ -379,28 +251,12 @@ namespace MonsterPacket {
       if (ID != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(ID);
       }
-      if (MonsterId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MonsterId);
-      }
-      if (MonsterName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(MonsterName);
-      }
       if (HP != 0F) {
         size += 1 + 4;
       }
-      if (MaxHP != 0F) {
-        size += 1 + 4;
+      if (monsterData_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MonsterData);
       }
-      if (MoveSpeed != 0F) {
-        size += 1 + 4;
-      }
-      if (ChaseRange != 0F) {
-        size += 1 + 4;
-      }
-      if (AttackRange != 0F) {
-        size += 1 + 4;
-      }
-      size += attacks_.CalculateSize(_repeated_attacks_codec);
       if (moveData_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(MoveData);
       }
@@ -419,28 +275,15 @@ namespace MonsterPacket {
       if (other.ID != 0) {
         ID = other.ID;
       }
-      if (other.MonsterId != 0) {
-        MonsterId = other.MonsterId;
-      }
-      if (other.MonsterName.Length != 0) {
-        MonsterName = other.MonsterName;
-      }
       if (other.HP != 0F) {
         HP = other.HP;
       }
-      if (other.MaxHP != 0F) {
-        MaxHP = other.MaxHP;
+      if (other.monsterData_ != null) {
+        if (monsterData_ == null) {
+          MonsterData = new global::MonsterPacket.MonsterData();
+        }
+        MonsterData.MergeFrom(other.MonsterData);
       }
-      if (other.MoveSpeed != 0F) {
-        MoveSpeed = other.MoveSpeed;
-      }
-      if (other.ChaseRange != 0F) {
-        ChaseRange = other.ChaseRange;
-      }
-      if (other.AttackRange != 0F) {
-        AttackRange = other.AttackRange;
-      }
-      attacks_.Add(other.attacks_);
       if (other.moveData_ != null) {
         if (moveData_ == null) {
           MoveData = new global::MonsterPacket.MonsterMoveData();
@@ -470,39 +313,18 @@ namespace MonsterPacket {
             ID = input.ReadInt32();
             break;
           }
-          case 16: {
-            MonsterId = input.ReadInt32();
-            break;
-          }
-          case 26: {
-            MonsterName = input.ReadString();
-            break;
-          }
-          case 37: {
+          case 21: {
             HP = input.ReadFloat();
             break;
           }
-          case 45: {
-            MaxHP = input.ReadFloat();
+          case 26: {
+            if (monsterData_ == null) {
+              MonsterData = new global::MonsterPacket.MonsterData();
+            }
+            input.ReadMessage(MonsterData);
             break;
           }
-          case 53: {
-            MoveSpeed = input.ReadFloat();
-            break;
-          }
-          case 61: {
-            ChaseRange = input.ReadFloat();
-            break;
-          }
-          case 69: {
-            AttackRange = input.ReadFloat();
-            break;
-          }
-          case 74: {
-            attacks_.AddEntriesFrom(input, _repeated_attacks_codec);
-            break;
-          }
-          case 82: {
+          case 34: {
             if (moveData_ == null) {
               MoveData = new global::MonsterPacket.MonsterMoveData();
             }
@@ -532,39 +354,18 @@ namespace MonsterPacket {
             ID = input.ReadInt32();
             break;
           }
-          case 16: {
-            MonsterId = input.ReadInt32();
-            break;
-          }
-          case 26: {
-            MonsterName = input.ReadString();
-            break;
-          }
-          case 37: {
+          case 21: {
             HP = input.ReadFloat();
             break;
           }
-          case 45: {
-            MaxHP = input.ReadFloat();
+          case 26: {
+            if (monsterData_ == null) {
+              MonsterData = new global::MonsterPacket.MonsterData();
+            }
+            input.ReadMessage(MonsterData);
             break;
           }
-          case 53: {
-            MoveSpeed = input.ReadFloat();
-            break;
-          }
-          case 61: {
-            ChaseRange = input.ReadFloat();
-            break;
-          }
-          case 69: {
-            AttackRange = input.ReadFloat();
-            break;
-          }
-          case 74: {
-            attacks_.AddEntriesFrom(ref input, _repeated_attacks_codec);
-            break;
-          }
-          case 82: {
+          case 34: {
             if (moveData_ == null) {
               MoveData = new global::MonsterPacket.MonsterMoveData();
             }
@@ -613,9 +414,9 @@ namespace MonsterPacket {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public MonsterAttack(MonsterAttack other) : this() {
-      inputType_ = other.inputType_;
+      skillId_ = other.skillId_;
       frequency_ = other.frequency_;
-      attackId_ = other.attackId_;
+      inputType_ = other.inputType_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -625,15 +426,15 @@ namespace MonsterPacket {
       return new MonsterAttack(this);
     }
 
-    /// <summary>Field number for the "inputType" field.</summary>
-    public const int InputTypeFieldNumber = 1;
-    private int inputType_;
+    /// <summary>Field number for the "skillId" field.</summary>
+    public const int SkillIdFieldNumber = 1;
+    private int skillId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int InputType {
-      get { return inputType_; }
+    public int SkillId {
+      get { return skillId_; }
       set {
-        inputType_ = value;
+        skillId_ = value;
       }
     }
 
@@ -649,15 +450,15 @@ namespace MonsterPacket {
       }
     }
 
-    /// <summary>Field number for the "attackId" field.</summary>
-    public const int AttackIdFieldNumber = 3;
-    private int attackId_;
+    /// <summary>Field number for the "InputType" field.</summary>
+    public const int InputTypeFieldNumber = 3;
+    private global::GamePacket.InputType inputType_ = global::GamePacket.InputType.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int AttackId {
-      get { return attackId_; }
+    public global::GamePacket.InputType InputType {
+      get { return inputType_; }
       set {
-        attackId_ = value;
+        inputType_ = value;
       }
     }
 
@@ -676,9 +477,9 @@ namespace MonsterPacket {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (InputType != other.InputType) return false;
+      if (SkillId != other.SkillId) return false;
       if (Frequency != other.Frequency) return false;
-      if (AttackId != other.AttackId) return false;
+      if (InputType != other.InputType) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -686,9 +487,9 @@ namespace MonsterPacket {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (InputType != 0) hash ^= InputType.GetHashCode();
+      if (SkillId != 0) hash ^= SkillId.GetHashCode();
       if (Frequency != 0) hash ^= Frequency.GetHashCode();
-      if (AttackId != 0) hash ^= AttackId.GetHashCode();
+      if (InputType != global::GamePacket.InputType.None) hash ^= InputType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -707,17 +508,17 @@ namespace MonsterPacket {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (InputType != 0) {
+      if (SkillId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(InputType);
+        output.WriteInt32(SkillId);
       }
       if (Frequency != 0) {
         output.WriteRawTag(16);
         output.WriteInt32(Frequency);
       }
-      if (AttackId != 0) {
+      if (InputType != global::GamePacket.InputType.None) {
         output.WriteRawTag(24);
-        output.WriteInt32(AttackId);
+        output.WriteEnum((int) InputType);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -729,17 +530,17 @@ namespace MonsterPacket {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (InputType != 0) {
+      if (SkillId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(InputType);
+        output.WriteInt32(SkillId);
       }
       if (Frequency != 0) {
         output.WriteRawTag(16);
         output.WriteInt32(Frequency);
       }
-      if (AttackId != 0) {
+      if (InputType != global::GamePacket.InputType.None) {
         output.WriteRawTag(24);
-        output.WriteInt32(AttackId);
+        output.WriteEnum((int) InputType);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -751,14 +552,14 @@ namespace MonsterPacket {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (InputType != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(InputType);
+      if (SkillId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SkillId);
       }
       if (Frequency != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Frequency);
       }
-      if (AttackId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(AttackId);
+      if (InputType != global::GamePacket.InputType.None) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) InputType);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -772,14 +573,14 @@ namespace MonsterPacket {
       if (other == null) {
         return;
       }
-      if (other.InputType != 0) {
-        InputType = other.InputType;
+      if (other.SkillId != 0) {
+        SkillId = other.SkillId;
       }
       if (other.Frequency != 0) {
         Frequency = other.Frequency;
       }
-      if (other.AttackId != 0) {
-        AttackId = other.AttackId;
+      if (other.InputType != global::GamePacket.InputType.None) {
+        InputType = other.InputType;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -801,7 +602,7 @@ namespace MonsterPacket {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            InputType = input.ReadInt32();
+            SkillId = input.ReadInt32();
             break;
           }
           case 16: {
@@ -809,7 +610,7 @@ namespace MonsterPacket {
             break;
           }
           case 24: {
-            AttackId = input.ReadInt32();
+            InputType = (global::GamePacket.InputType) input.ReadEnum();
             break;
           }
         }
@@ -832,7 +633,7 @@ namespace MonsterPacket {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            InputType = input.ReadInt32();
+            SkillId = input.ReadInt32();
             break;
           }
           case 16: {
@@ -840,7 +641,7 @@ namespace MonsterPacket {
             break;
           }
           case 24: {
-            AttackId = input.ReadInt32();
+            InputType = (global::GamePacket.InputType) input.ReadEnum();
             break;
           }
         }
@@ -1272,6 +1073,415 @@ namespace MonsterPacket {
             break;
           case 10: {
             monsterDataList_.AddEntriesFrom(ref input, _repeated_monsterDataList_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class MonsterData : pb::IMessage<MonsterData>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<MonsterData> _parser = new pb::MessageParser<MonsterData>(() => new MonsterData());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<MonsterData> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::MonsterPacket.MonsterReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MonsterData() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MonsterData(MonsterData other) : this() {
+      monsterId_ = other.monsterId_;
+      monsterName_ = other.monsterName_;
+      maxHP_ = other.maxHP_;
+      moveSpeed_ = other.moveSpeed_;
+      chaseRange_ = other.chaseRange_;
+      attackRange_ = other.attackRange_;
+      attacks_ = other.attacks_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MonsterData Clone() {
+      return new MonsterData(this);
+    }
+
+    /// <summary>Field number for the "monsterId" field.</summary>
+    public const int MonsterIdFieldNumber = 1;
+    private int monsterId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int MonsterId {
+      get { return monsterId_; }
+      set {
+        monsterId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "monsterName" field.</summary>
+    public const int MonsterNameFieldNumber = 2;
+    private string monsterName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string MonsterName {
+      get { return monsterName_; }
+      set {
+        monsterName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "MaxHP" field.</summary>
+    public const int MaxHPFieldNumber = 3;
+    private float maxHP_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float MaxHP {
+      get { return maxHP_; }
+      set {
+        maxHP_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "moveSpeed" field.</summary>
+    public const int MoveSpeedFieldNumber = 4;
+    private float moveSpeed_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float MoveSpeed {
+      get { return moveSpeed_; }
+      set {
+        moveSpeed_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "chaseRange" field.</summary>
+    public const int ChaseRangeFieldNumber = 5;
+    private float chaseRange_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float ChaseRange {
+      get { return chaseRange_; }
+      set {
+        chaseRange_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "attackRange" field.</summary>
+    public const int AttackRangeFieldNumber = 6;
+    private float attackRange_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float AttackRange {
+      get { return attackRange_; }
+      set {
+        attackRange_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "attacks" field.</summary>
+    public const int AttacksFieldNumber = 7;
+    private static readonly pb::FieldCodec<global::MonsterPacket.MonsterAttack> _repeated_attacks_codec
+        = pb::FieldCodec.ForMessage(58, global::MonsterPacket.MonsterAttack.Parser);
+    private readonly pbc::RepeatedField<global::MonsterPacket.MonsterAttack> attacks_ = new pbc::RepeatedField<global::MonsterPacket.MonsterAttack>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::MonsterPacket.MonsterAttack> Attacks {
+      get { return attacks_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as MonsterData);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(MonsterData other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (MonsterId != other.MonsterId) return false;
+      if (MonsterName != other.MonsterName) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(MaxHP, other.MaxHP)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(MoveSpeed, other.MoveSpeed)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(ChaseRange, other.ChaseRange)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(AttackRange, other.AttackRange)) return false;
+      if(!attacks_.Equals(other.attacks_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (MonsterId != 0) hash ^= MonsterId.GetHashCode();
+      if (MonsterName.Length != 0) hash ^= MonsterName.GetHashCode();
+      if (MaxHP != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(MaxHP);
+      if (MoveSpeed != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(MoveSpeed);
+      if (ChaseRange != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(ChaseRange);
+      if (AttackRange != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(AttackRange);
+      hash ^= attacks_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (MonsterId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MonsterId);
+      }
+      if (MonsterName.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(MonsterName);
+      }
+      if (MaxHP != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(MaxHP);
+      }
+      if (MoveSpeed != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(MoveSpeed);
+      }
+      if (ChaseRange != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(ChaseRange);
+      }
+      if (AttackRange != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(AttackRange);
+      }
+      attacks_.WriteTo(output, _repeated_attacks_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (MonsterId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(MonsterId);
+      }
+      if (MonsterName.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(MonsterName);
+      }
+      if (MaxHP != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(MaxHP);
+      }
+      if (MoveSpeed != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(MoveSpeed);
+      }
+      if (ChaseRange != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(ChaseRange);
+      }
+      if (AttackRange != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(AttackRange);
+      }
+      attacks_.WriteTo(ref output, _repeated_attacks_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (MonsterId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MonsterId);
+      }
+      if (MonsterName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(MonsterName);
+      }
+      if (MaxHP != 0F) {
+        size += 1 + 4;
+      }
+      if (MoveSpeed != 0F) {
+        size += 1 + 4;
+      }
+      if (ChaseRange != 0F) {
+        size += 1 + 4;
+      }
+      if (AttackRange != 0F) {
+        size += 1 + 4;
+      }
+      size += attacks_.CalculateSize(_repeated_attacks_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(MonsterData other) {
+      if (other == null) {
+        return;
+      }
+      if (other.MonsterId != 0) {
+        MonsterId = other.MonsterId;
+      }
+      if (other.MonsterName.Length != 0) {
+        MonsterName = other.MonsterName;
+      }
+      if (other.MaxHP != 0F) {
+        MaxHP = other.MaxHP;
+      }
+      if (other.MoveSpeed != 0F) {
+        MoveSpeed = other.MoveSpeed;
+      }
+      if (other.ChaseRange != 0F) {
+        ChaseRange = other.ChaseRange;
+      }
+      if (other.AttackRange != 0F) {
+        AttackRange = other.AttackRange;
+      }
+      attacks_.Add(other.attacks_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            MonsterId = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            MonsterName = input.ReadString();
+            break;
+          }
+          case 29: {
+            MaxHP = input.ReadFloat();
+            break;
+          }
+          case 37: {
+            MoveSpeed = input.ReadFloat();
+            break;
+          }
+          case 45: {
+            ChaseRange = input.ReadFloat();
+            break;
+          }
+          case 53: {
+            AttackRange = input.ReadFloat();
+            break;
+          }
+          case 58: {
+            attacks_.AddEntriesFrom(input, _repeated_attacks_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            MonsterId = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            MonsterName = input.ReadString();
+            break;
+          }
+          case 29: {
+            MaxHP = input.ReadFloat();
+            break;
+          }
+          case 37: {
+            MoveSpeed = input.ReadFloat();
+            break;
+          }
+          case 45: {
+            ChaseRange = input.ReadFloat();
+            break;
+          }
+          case 53: {
+            AttackRange = input.ReadFloat();
+            break;
+          }
+          case 58: {
+            attacks_.AddEntriesFrom(ref input, _repeated_attacks_codec);
             break;
           }
         }

@@ -8,7 +8,7 @@ public class RemoteMonster : MonoBehaviour
 {
     public int Id;
     public float HP;
-    public MonsterData RemoteMonsterData;
+    public MMG.MonsterData RemoteMonsterData;
     private MonsterController _controller;
 
     public void Init(MonsterStatus data, MonsterController controller)
@@ -16,15 +16,15 @@ public class RemoteMonster : MonoBehaviour
         Id = data.ID;
         HP = data.HP;
 
-        RemoteMonsterData = new MonsterData()
+        RemoteMonsterData = new MMG.MonsterData()
         {
-            MonsterId = data.MonsterId,
-            MonsterName = data.MonsterName,
-            _MaxHP = data.MaxHP,
-            _MoveSpeed = data.MoveSpeed,
+            MonsterId = data.MonsterData.MonsterId,
+            MonsterName = data.MonsterData.MonsterName,
+            _MaxHP = data.MonsterData.MaxHP,
+            _MoveSpeed = data.MonsterData.MoveSpeed,
 
-            _ChaseRange = data.ChaseRange,
-            _AttackRange = data.AttackRange,
+            _ChaseRange = data.MonsterData.ChaseRange,
+            _AttackRange = data.MonsterData.AttackRange,
         };
 
         _controller = controller;

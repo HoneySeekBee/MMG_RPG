@@ -1,3 +1,4 @@
+using AttackPacket;
 using DevionGames.InventorySystem;
 using Packet;
 using System;
@@ -32,7 +33,8 @@ namespace MMG
             public AttackInputType InputType;
             public AttackData attackData;
         }
-        [SerializeField] private List<SaveKeyWithAttackData> attackDatas;
+        private List<SaveKeyWithAttackData> attackDatas; // DB -> Server -> Client로 받아와야함 
+
         private Dictionary<AttackInputType, AttackData> attackDataDic = new Dictionary<AttackInputType, AttackData>();
         public override void Initialize(bool isLocal, IInputBase input = null)
         {
@@ -47,6 +49,8 @@ namespace MMG
             {
                 attackDataDic.Add(attackData.InputType, attackData.attackData);
             }
+
+            // 여기서 스킬 데이터들도 받아오기 
         }
 
         protected override void Action(BattleInputData value)

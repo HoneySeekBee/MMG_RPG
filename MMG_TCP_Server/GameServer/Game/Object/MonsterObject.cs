@@ -37,8 +37,8 @@ namespace GameServer.Data.Monster
 
             objectStatus = new Status
             {
-                MaxHP = status.MaxHP,
-                NowHP = status.HP,
+                MaxHP = status.MonsterData.MaxHP,
+                NowHP = status.MonsterData.MaxHP,
                 MaxMP = 0,
                 NowMP = 0,
                 Level = 2,
@@ -50,7 +50,7 @@ namespace GameServer.Data.Monster
             objectInfo = new ObjectInfo
             {
                 Id = id,
-                Name = status.MonsterName,
+                Name = status.MonsterData.MonsterName,
                 MoveInfo = _moveData,
                 StatInfo = objectStatus
             }; 
@@ -76,12 +76,12 @@ namespace GameServer.Data.Monster
         public void ClearTarget() => Target = null;
         public bool IsInChaseRange()
         {
-            return HasTarget && Vector3.Distance(Position, Target.Position) <= Status.ChaseRange;
+            return HasTarget && Vector3.Distance(Position, Target.Position) <= Status.MonsterData.ChaseRange;
         }
         #region 공격 관련
         public bool IsInAttackRange()
         {
-            return HasTarget && Vector3.Distance(Position, Target.Position) <= Status.AttackRange;
+            return HasTarget && Vector3.Distance(Position, Target.Position) <= Status.MonsterData.ChaseRange;
         }
 
         public void AttackTarget()

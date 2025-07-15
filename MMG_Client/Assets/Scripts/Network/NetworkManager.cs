@@ -5,12 +5,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using AttackPacket;
 
 public class NetworkManager : MonoBehaviour
 {
     public static NetworkManager Instance { get; private set; }
     private ClientSession _session;
-    public const string MMG_API_URL = "http://localhost:5070";
+    public const string MMG_API_URL = "https://localhost:7132";
     private void Awake()
     {
         if (Instance != null)

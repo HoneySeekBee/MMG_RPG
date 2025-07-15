@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackId: 201
   AttackName: CactusPunch
+  OwnerType: 1
   WeaponType: 0
   AttackType: 0
   Range: 1.5

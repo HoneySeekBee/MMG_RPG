@@ -11,42 +11,73 @@ namespace GameServer.Data.Monster
 {
     public class MonsterDataManager
     {
-        private static Dictionary<int, MonsterStatus> _monsterDataDict = new();
+        private static Dictionary<int, MonsterData> _monsterDataDict = new();
 
-        public static MonsterStatus Get(int monsterId)
+
+        public static MonsterData Get(int monsterId)
         {
             return _monsterDataDict.TryGetValue(monsterId, out var data) ? data : null;
         }
-        public static void LoadData()
+
+        public static async void LoadData()
         {
-            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            string rootDir = Path.GetFullPath(Path.Combine(baseDir, @"..\..\..")); // GameServer 프로젝트 루트
             try
             {
-                string fullPath = Path.Combine(rootDir, "Resources", "MonsterData", "monster_data.json");
+                using var http = new HttpClient();
+                var response = await http.GetAsync($"{Program.URL}/api/monster/all-with-skills");
+                var json = await response.Content.ReadAsStringAsync();
 
-                if (!File.Exists(fullPath))
+                var monsters = JsonConvert.DeserializeObject<List<MonsterDto>>(json);
+
+                _monsterDataDict.Clear();
+
+                foreach (var dto in monsters)
                 {
-                    Console.WriteLine($"[MonsterDataLoader] 파일 없음: {fullPath}");
-                    return;
+                    var monsterData = new MonsterPacket.MonsterData
+                    {
+                        MonsterId = dto.Id,
+                        MonsterName = dto.Name ?? "",
+                        MaxHP = dto.HP,
+                        MoveSpeed = dto.Speed,
+                        ChaseRange = dto.ChaseRange,
+                        AttackRange = dto.AttackRange
+                    };
+
+                    foreach (var skill in dto.Skills)
+                    {
+                        monsterData.Attacks.Add(new MonsterPacket.MonsterAttack
+                        {
+                            SkillId = skill.SkillId,
+                            Frequency = skill.Frequency
+                        });
+                    }
+
+                    _monsterDataDict[dto.Id] = monsterData;
                 }
 
-                string json = File.ReadAllText(fullPath);
-                var wrapper = JsonConvert.DeserializeObject<MonsterDataListWrapper>(json);
-
-                if (wrapper == null || wrapper.monsterList == null)
-                {
-                    Console.WriteLine("[MonsterDataLoader] JSON 구조가 올바르지 않음");
-                    return;
-                }
-
-                _monsterDataDict = wrapper.monsterList.ToDictionary(x => x.MonsterId, x => x);
-                Console.WriteLine($"[MonsterDataLoader] {wrapper.monsterList.Count}개 로드 완료");
+                Console.WriteLine($"[MonsterDataManager] 몬스터 {monsters.Count}개 로드 완료");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[MonsterDataLoader] 예외 발생: {ex.Message}");
+                Console.WriteLine($"[MonsterDataManager] 예외 발생: {ex.Message}");
             }
+        }
+        public class MonsterDto
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public float HP { get; set; }
+            public float Speed { get; set; }
+            public float ChaseRange { get; set; }
+            public float AttackRange { get; set; }
+
+            public List<MonsterSkillDto> Skills { get; set; }
+        }
+
+        public class MonsterSkillDto
+        {
+            public int SkillId { get; set; }
+            public int Frequency { get; set; }
         }
     }
 }

@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package GamePacket;
 
+import "CharacterAttack.proto";
+
 message C_SelectedCharacter{
 	CharacterInfo characterInfo = 1;
 }
@@ -57,7 +59,10 @@ message S_BroadcastMove
 	MoveData BroadcastMove = 3;
 }
 
-
+enum OwnerType{
+	Player =0;
+	Monster = 1;
+}
 enum ClassType
 {
 	NoHave = 0;
@@ -67,6 +72,15 @@ enum ClassType
 	Archer = 2;
 
 	Mage = 3;
+}
+enum InputType{
+	None = 0;
+	 Normal = 1;
+	 Strong = 2;
+	 Skill_1 = 3; 
+	 Skill_2 = 4; 
+	 Skill_3 = 5; 
+	 Skill_4 = 6;
 }
 message MoveData
 {
@@ -94,4 +108,35 @@ message ObjectInfo{
 	int32 Id = 2; 
 	MoveData MoveInfo = 3;
 	Status StatInfo = 4;
+}
+
+message Skill
+{
+	  int32 AttackId = 1;
+      string AttackName = 2;
+      OwnerType OwnerType = 3;
+      AttackPacket.WeaponType WeaponType = 4;
+      AttackPacket.AttackType AttackType = 5;
+      float Range = 6;
+      float Angle = 7;
+      float Damage = 8;
+      float Cooldown = 9;
+      float DelayAfter = 10;
+      float CastTime = 11;
+}
+message CharacterSkill
+{
+	int32 CharacterId = 1;
+	int32 SkillId = 2;
+	InputType InputType =3;
+	int32 SkillLevel = 4;
+	int32 SlotIndex = 5;
+}
+message CharacterSkillInfo{
+	repeated CharaceterSkillWithSkillData SkillInfo = 1;
+}
+message CharaceterSkillWithSkillData
+{
+	CharacterSkill characterSkill = 1;
+	Skill skill = 2;
 }

@@ -10,12 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 using GameServer.Game.Room;
 using GameServer.Game.Object;
+using GamePacket;
 
 namespace GameServer.Attack
 {
     internal class AreaHitDetector : IHitDetector
     {
-        public List<CharacterObject> DetectTargets(GameRoom room, CharacterObject attacker, Vector3 pos, float rotY, AttackData attackData)
+        public List<CharacterObject> DetectTargets(GameRoom room, CharacterObject attacker, Vector3 pos, float rotY, Skill attackData)
         {
             Console.WriteLine("근거리 공격");
             List<CharacterObject> result = new List<CharacterObject>();

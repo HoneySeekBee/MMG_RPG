@@ -1,4 +1,5 @@
-﻿using GameServer.Data;
+﻿using GamePacket;
+using GameServer.Data;
 using GameServer.Game.Room;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace GameServer.Attack
         public float Speed;
         public float Radius;
         public float MaxDistance;
-        public AttackData AttackData;
+        public Skill AttackData;
 
         private float _traveled = 0f;
 

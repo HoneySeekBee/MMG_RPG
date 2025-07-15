@@ -26,7 +26,6 @@ namespace GameServer.Game.Object
         public ObjectInfo objectInfo = new ObjectInfo();  // ObjectInfo
         public MoveData moveData = new MoveData(); // PositionInfo
         public Status objectStatus = new Status(); // Statinfo
-
         public Quaternion Rotation; // Dir
 
         private Vector3 _dir;

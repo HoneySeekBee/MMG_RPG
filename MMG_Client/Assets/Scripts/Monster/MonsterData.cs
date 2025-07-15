@@ -7,8 +7,6 @@ using UnityEngine;
 
 namespace MMG
 {
-
-    [CreateAssetMenu(menuName = "MMG/_MonsterData")]
     public class MonsterData : ScriptableObject
     {
         public int MonsterId;
@@ -26,41 +24,79 @@ namespace MMG
             public AttackInputType inputType;
             public int AttackAppearanceAmount;
             public AttackData attackData;
-        }
-        public List<MonsterAttackData> _AttackData = new List<MonsterAttackData>();
-        public Dictionary<int, (int, int)> monsterAttackDictionary = new Dictionary<int, (int, int)>();
 
-        public void Save()
-        {
-            monsterAttackDictionary = new Dictionary<int, (int, int)>();
-            foreach (MonsterAttackData data in _AttackData)
-            {
-                monsterAttackDictionary.Add((int)data.inputType, (data.AttackAppearanceAmount, (int)data.attackData.AttackId));
-            }
+            public int InputTypeInt => (int)inputType;
         }
-        public List<(int, (int, int))> AttackDataList
+
+        public List<MonsterAttackData> _AttackData = new List<MonsterAttackData>();
+
+        // Monster 기본 정보 DTO로 변환
+        public MonsterDto ToMonsterDto()
         {
-            get
+            return new MonsterDto
             {
-                return monsterAttackDictionary
-                    .Select(kv => (kv.Key, kv.Value))
-                    .ToList();
-            }
+                Id = MonsterId,
+                Name = MonsterName,
+                Speed = _MoveSpeed,
+                ChaseRange = _ChaseRange,
+                AttackRange = _AttackRange
+            };
         }
+
+        // MonsterSkill 목록 DTO로 변환
+        public List<MonsterSkillDto> ToMonsterSkillDtos()
+        {
+            List<MonsterSkillDto> list = new List<MonsterSkillDto>();
+            foreach (var a in _AttackData)
+            {
+                list.Add(new MonsterSkillDto
+                {
+                    MonsterId = this.MonsterId,
+                    SkillId = a.attackData.AttackId,
+                    Frequency = a.AttackAppearanceAmount,
+                    InputType = a.InputTypeInt
+                });
+            }
+            return list;
+        }
+
         public MonsterStatus Status
         {
             get
             {
-                return new MonsterStatus
+                MonsterPacket.MonsterData monsterData = new MonsterPacket.MonsterData()
                 {
                     MonsterId = MonsterId,
                     MonsterName = MonsterName,
-                    HP = _MaxHP,
                     MaxHP = _MaxHP,
                     MoveSpeed = _MoveSpeed,
+                };
+                return new MonsterStatus
+                {
+                    HP = _MaxHP,
+                    MonsterData = monsterData,
                 };
             }
         }
     }
 
+    // DTO 정의
+    [System.Serializable]
+    public class MonsterDto
+    {
+        public int Id;
+        public string Name;
+        public float Speed;
+        public float ChaseRange;
+        public float AttackRange;
+    }
+
+    [System.Serializable]
+    public class MonsterSkillDto
+    {
+        public int MonsterId;
+        public int SkillId;
+        public int Frequency;
+        public int InputType;
+    }
 }

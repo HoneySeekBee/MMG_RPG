@@ -2288,19 +2288,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc61d55d3c503f4aa6f2a1957116e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDatas:
-  - InputType: 0
-    attackData: {fileID: 11400000, guid: ef8bdf47f45d8d441bd79a022ecc6051, type: 2}
-  - InputType: 1
-    attackData: {fileID: 11400000, guid: 4363480febc8ca54eaf3026a474a5ea1, type: 2}
-  - InputType: 2
-    attackData: {fileID: 11400000, guid: 07cbe0a80d6434c44b2ab258a88bace6, type: 2}
-  - InputType: 3
-    attackData: {fileID: 11400000, guid: d9cbb07bf50071b4a8eebb5c2cf7f81c, type: 2}
-  - InputType: 4
-    attackData: {fileID: 11400000, guid: b648a837433b19f4cb8decbb4a53edf7, type: 2}
-  - InputType: 5
-    attackData: {fileID: 11400000, guid: 245a01b2d3b74c6409bca60170ba0a09, type: 2}
 --- !u!114 &7403926092463684336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2326,7 +2313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcef7bec26e63a741884de04854a0618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MMG_KeyCodes: []
 --- !u!1 &5972746370722117759
 GameObject:
   m_ObjectHideFlags: 0
