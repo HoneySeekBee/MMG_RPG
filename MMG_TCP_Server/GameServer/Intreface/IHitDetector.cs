@@ -14,6 +14,6 @@ namespace GameServer.Intreface
 {
     public interface IHitDetector
     {
-        List<CharacterObject> DetectTargets(GameRoom room, CharacterObject attacker, Vector3 pos, float rotY, Skill attackData);
+        List<GameObject> DetectTargets(GameRoom room, GameObject attacker, Vector3 pos, float rotY, Skill attackData);
     }
 }

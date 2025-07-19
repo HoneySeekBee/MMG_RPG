@@ -14,8 +14,7 @@ namespace GameServer
         public static string URL = "https://localhost:7132";
         static void Main(string[] args)
         {
-            SkillDataManager.LoadAttackData();
-            MonsterDataManager.LoadData();
+            Init();
 
             Task.Run(() =>
             {
@@ -44,6 +43,11 @@ namespace GameServer
             {
                 Thread.Sleep(1000);
             }
+        }
+        public static async Task Init()
+        {
+            await SkillDataManager.LoadAttackData();
+            await MonsterDataManager.LoadData();
         }
         static IPEndPoint GetEndPoint()
         {

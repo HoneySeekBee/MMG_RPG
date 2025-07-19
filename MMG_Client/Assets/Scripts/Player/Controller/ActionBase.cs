@@ -26,6 +26,8 @@ namespace MMG
 
         }
 
+        public abstract void SetAttackData(List<SaveKeyWithAttackData> attackData);
+
         public virtual void SetMove(Vector3 goalPos, float dirY, float speed)
         {
 

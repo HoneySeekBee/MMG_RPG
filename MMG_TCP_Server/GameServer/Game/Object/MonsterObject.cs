@@ -1,4 +1,5 @@
-﻿using GamePacket;
+﻿using AttackPacket;
+using GamePacket;
 using GameServer.Game.Object;
 using GameServer.Game.Room;
 using MonsterPacket;
@@ -27,6 +28,7 @@ namespace GameServer.Data.Monster
         private List<Vector3> _patrolPoints = new();
         private int _currentPatrolIndex = 0;
         public Vector3 CurrentPatrolPoint => _patrolPoints.Count > 0 ? _patrolPoints[_currentPatrolIndex] : Position;
+        public List<MonsterSkill> monsterSkills = new();
 
         public MonsterObject(int id, MonsterStatus status, MonsterMoveData monsterMove, GameRoom room)
         {
@@ -53,12 +55,21 @@ namespace GameServer.Data.Monster
                 Name = status.MonsterData.MonsterName,
                 MoveInfo = _moveData,
                 StatInfo = objectStatus
-            }; 
+            };
             Console.WriteLine($"해당 몬스터의 체력은? {objectInfo.StatInfo.NowHP}");
             moveData = _moveData;
             Position = new Vector3(moveData.PosX, moveData.PosY, moveData.PosZ);
 
             Status = status;
+
+            MonsterSkillInfo monsterSkillInfo = Status.MonsterData.SkillInfo;
+            monsterSkills = monsterSkillInfo.SkillInfo
+   .Select(skill => new MonsterSkill
+   {
+       MonsterAttack = skill.MonsterAttack,
+       Skill = skill.Skill
+   })
+   .ToList();
 
             Mover = new MonsterMover(this);
             Sensor = new MonsterSensor(this, room);
@@ -79,16 +90,35 @@ namespace GameServer.Data.Monster
             return HasTarget && Vector3.Distance(Position, Target.Position) <= Status.MonsterData.ChaseRange;
         }
         #region 공격 관련
-        public bool IsInAttackRange()
+        public bool IsInAttackRange(float range = -1)
         {
-            return HasTarget && Vector3.Distance(Position, Target.Position) <= Status.MonsterData.ChaseRange;
-        }
+            if (Target == null)
+                return false;
+            if (range == -1)
+                range = Status.MonsterData.AttackRange;
 
-        public void AttackTarget()
+            if (Target.objectStatus.NowHP <= 0)
+            {
+                ClearTarget();
+                return false;
+            }
+            return HasTarget && Vector3.Distance(Position, Target.Position) <= range;
+        }
+        public void Attack(Skill skill)
         {
-            if (Target == null) return;
-            Target.OnDamaged(this, 2); // null = monster 공격자 미지정
-            Console.WriteLine("[Monster] AttackDamage는 나중에 ID로 찾아서 지정하기");
+            Room.HandleAttack(this, this.Position, this.Rotation.Y, skill);
+        }
+        public void AttackCast(bool isMonster, int CasterId, int Attackid, float CastTime)
+        {
+            // 캐스트 패킷 보내기 
+            S_CastAttack CastAttack = new S_CastAttack()
+            {
+                IsMonster = isMonster,
+                CasterId = CasterId,
+                AttackId = Attackid,
+                CastTime = CastTime
+            };
+            Room.BroadcastAttackCast(CastAttack);
         }
         #endregion
 
@@ -114,8 +144,29 @@ namespace GameServer.Data.Monster
         }
         #endregion
 
+        public MonsterSkill SelectAttack()
+        {
+            int total = monsterSkills.Sum(a => a.MonsterAttack.Frequency);
+            Random rand = new Random();
+            int choice = rand.Next(0, total);
+
+            int cumulative = 0;
+            for (int i = 0; i < monsterSkills.Count; i++)
+            {
+                cumulative += monsterSkills[i].MonsterAttack.Frequency;
+                if (choice < cumulative)
+                {
+                    // 이 인덱스가 선택된 것
+                    return monsterSkills[i];
+                }
+            }
+
+            Console.WriteLine("[MonsterObject] SelectAttack 오류 ");
+            return null;
+        }
+
         #region 위치 동기화
-       
+
         public void SetDirectionY(float angleY)
         {
             moveData.DirY = angleY;

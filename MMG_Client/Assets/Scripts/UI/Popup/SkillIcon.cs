@@ -12,11 +12,31 @@ namespace MMG.UI
         [SerializeField] private Image SkillIcon_Image;
         private float coolTime;
         [SerializeField] private Image CoolTimeImage;
-        public SkillIcon(string InputKey, Sprite skillIcon, float _coolTime)
+        public void init(AttackInputType inputType, Sprite skillIcon, float _coolTime)
         {
-            InputKey_Text.text = InputKey;
+            InputKey_Text.text = KeyCode(inputType);
             SkillIcon_Image.sprite = skillIcon;
             coolTime = _coolTime;
+        }
+        private string KeyCode(AttackInputType inputType)
+        {
+            switch (inputType)
+            {
+                case AttackInputType.Normal:
+                    return "LC";
+                case AttackInputType.Strong:
+                    return "RC";
+                case AttackInputType.Skill_1:
+                    return "1";
+                case AttackInputType.Skill_2:
+                    return "2";
+                case AttackInputType.Skill_3:
+                    return "3";
+                case AttackInputType.Skill_4:
+                    return "4";
+                default:
+                    return "";
+            }
         }
         public void StartCoolTime()
         {

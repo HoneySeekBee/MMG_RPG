@@ -29,6 +29,11 @@ namespace GameServer.Data.Monster
             {
                 monster.StateMachine.ChangeState(new AttackState(), monster);
             }
+            if(monster.IsInChaseRange() == false)
+            {
+                monster.ClearTarget();
+                monster.StateMachine.ChangeState(new PatrolState(), monster);
+            }
         }
 
         public void Exit(MonsterObject monster)

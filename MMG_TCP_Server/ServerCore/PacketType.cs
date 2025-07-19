@@ -23,14 +23,21 @@ namespace ServerCore
         C_SelectCharacter = 105,
         S_SelectCharacter = 106,
 
-        C_AttackRequest = 107,
-        S_DamagekResponse = 108,
-
         // BroadCast 용
         C_BroadcastMove = 111,
         S_BroadcastMove = 112,
         S_BroadcastEnter = 113,
         S_BroadcastMonstermove = 120,
+
+        // 전투 관련
+        C_AttackData = 131,
+        S_BroadcastAttack = 132, 
+
+        C_CastAttack = 133, 
+        S_BroadcastCastAttack = 134,
+
+        S_BroadcastDamage = 132,
+        
 
         // 몬스터 관련 
         S_MonsterList = 200,

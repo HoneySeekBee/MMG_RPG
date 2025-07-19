@@ -6,6 +6,7 @@ using GameServer.Game.Room;
 using GameServer.Game.Object;
 using GamePacket;
 using AttackPacket;
+using System.Diagnostics;
 
 namespace GameServer.Attack
 {
@@ -16,9 +17,9 @@ namespace GameServer.Attack
         {
             _room = room;
         }
-        public void HandleAttack(CharacterObject attacker, Vector3 pos, float rotY, Skill attackData)
+        public void HandleAttack(GameObject attacker, Vector3 pos, float rotY, Skill attackData)
         {
-            Console.WriteLine($"[BattleSystem] AttackerId : {attacker.ObjectId}");
+            Console.WriteLine($"[BattleSystem] AttackerId : {attacker.objectInfo.Id}");
             bool isProjectile = attackData.AttackType == AttackType.Arrow; 
             if (isProjectile)
             {
@@ -29,16 +30,19 @@ namespace GameServer.Attack
             {
                 IHitDetector detector = HitDetectorFactory.Get(attackData.AttackType);
                 var targets = detector.DetectTargets(_room, attacker, pos, rotY, attackData);
-
+                Console.WriteLine("[BattleSystem]  [HandleAttack] " + attacker.Type);
                 foreach (var target in targets)
                 {
                     target.OnDamaged(attacker, attackData.Damage);
-                    _room.BroadcastDamage(new S_DamageBroadcast
+                    S_DamageBroadcast DamageBroadcast = new S_DamageBroadcast();
+                    DamageBroadcast.Damage = new DamageInfo()
                     {
-                        TargetId = target.ObjectId,
+                        TargetId = target.objectInfo.Id,
                         Damage = attackData.Damage,
-                        AttackerId = attacker.ObjectId
-                    });
+                        AttackerId = attacker.ObjectId,
+                        IsMonster = attacker.Type == ObjectType.Monster? true :false,
+                    };
+                    _room.BroadcastDamage(DamageBroadcast);
                 }
             }
         }

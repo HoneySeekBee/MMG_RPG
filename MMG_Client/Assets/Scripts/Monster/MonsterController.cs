@@ -36,4 +36,10 @@ public class MonsterController : ControllerBase<MonsterActionType, MonsterEvent>
         action.Init_Position(position, dirY);
 
     }
+
+    public void Init_AttackData(List<SaveKeyWithAttackData> attackData)
+    {
+        var action = EventDict[MonsterActionType.battle].action as IActionBase;
+        action.SetAttackData(attackData);
+    }
 }

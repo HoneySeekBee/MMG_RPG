@@ -2,22 +2,61 @@ syntax = "proto3";
 
 package AttackPacket;
 
-message C_AttackRequest
+message C_Attack
 {
+    // int32 AttackerId = 1; 
+    float PosX = 2;
+    float PosY = 3;
+    float PosZ = 4; 
+    float DirY = 5;
+    int32 AttackId = 6;
+    int64 TimeStamp = 7;
+}
+message C_AttackData
+{
+    float PosX = 1;
+    float PosY = 2;
+    float PosZ = 3; 
+    float DirY = 4;
+    int32 AttackId = 5;
+    int64 TimeStamp = 6;
+}
+message S_Attack{
     int32 AttackerId = 1;
     float PosX = 2;
     float PosY = 3;
     float PosZ = 4; 
     float DirY = 5;
     int32 AttackId = 6;
-    float TimeStamp = 7;
 }
-message S_DamageBroadcast{
-    int32 targetId = 1;
-    float Damage = 2;
-    int32 AttackerId = 3;
+message C_CastAttack
+{
+    int32 AttackId = 1;
+    int64 StartTimeStamp = 2;
+}
+message S_CastAttack
+{
+    bool IsMonster = 1;
+    int32 CasterId = 2; 
+    int32 AttackId = 3;
+    float CastTime = 4;
 }
 
+message S_DamageBroadcast{
+    DamageInfo damage = 1;
+}
+message S_MultiDamageBroadcast {
+    repeated DamageInfo damages = 1;
+}
+
+message DamageInfo {
+    int32 targetId = 1;
+    float damage = 2;
+    int32 attackerId = 3;
+    int32 attackId = 4;
+    bool isCritical = 5;
+    bool IsMonster = 6;
+}
 message WeaponData{
     WeaponType type = 1;
     AttackType attackType = 2;

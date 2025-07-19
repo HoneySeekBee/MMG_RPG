@@ -2288,6 +2288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc61d55d3c503f4aa6f2a1957116e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackDatas: []
 --- !u!114 &7403926092463684336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2300,7 +2301,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46acae9b686978b4bb1f58a55786172d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MMG_KeyCodes: []
+  MMG_KeyCodes:
+  - KeyId: 
+    KeyCode: 0
 --- !u!114 &1898371749277970850
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -46,6 +46,7 @@ namespace ServerCore
 
             // 직렬화
             byte[] body;
+
             using (var ms = new MemoryStream())
             {
                 message.WriteTo(ms);

@@ -30,7 +30,6 @@ public class GameRoom : SceneSingleton<GameRoom>
     }
     public void HandleBroadcastMove(S_BroadcastMove packet)
     {
-        Debug.Log($"캐릭터 이동 : {packet.CharacterId}");
         if (Players.TryGetValue(packet.CharacterId, out var remotePlayer))
         {
             Vector3 targetpos = new Vector3(packet.BroadcastMove.PosX, packet.BroadcastMove.PosY, packet.BroadcastMove.PosZ);
@@ -49,24 +48,42 @@ public class GameRoom : SceneSingleton<GameRoom>
     }
     public void HandlerBattle(S_DamageBroadcast packet)
     {
-        if (Players.TryGetValue(packet.AttackerId, out var attackPlayer))
+        if (packet.Damage.IsMonster) // 공격자가 몬스터? 
+        {
+            Debug.Log($"[HandlerBattle] User Damage~ {packet.Damage.TargetId} : {GameRoom.Instance.MyCharacter.RemoteCharaceterData.id} : {GameRoom.Instance.MyCharacter.StatInfo.NowHP}");
+            if (Players.TryGetValue(packet.Damage.TargetId, out var remotePlayer))
+            {
+                remotePlayer.GetDamage(packet.Damage.Damage);
+            }
+        }
+        else
+        {
+            if (Monsters.TryGetValue(packet.Damage.TargetId, out var remotePlayer))
+            {
+                remotePlayer.GetDamage(packet.Damage.Damage);
+            }
+        }
+
+
+        if (Players.TryGetValue(packet.Damage.AttackerId, out var attackPlayer))
         {
             BattleData data = new BattleData()
             {
                 targetType = TargetType.Attacker,
-                TargetId = packet.AttackerId,
-                attackTypeId = 0
+                TargetId = packet.Damage.AttackerId,
+                attackTypeId = packet.Damage.AttackId,
             };
 
             attackPlayer.AttackHandle(data);
         }
-        if (Players.TryGetValue(packet.TargetId, out var targetPlayer))
+
+        if (Players.TryGetValue(packet.Damage.TargetId, out var targetPlayer))
         {
             BattleData data = new BattleData()
             {
                 targetType = TargetType.Damaged,
-                TargetId = packet.TargetId,
-                attackTypeId = 0
+                TargetId = packet.Damage.TargetId,
+                attackTypeId = 0,
             };
             targetPlayer.AttackHandle(data);
         }
@@ -102,6 +119,7 @@ public class GameRoom : SceneSingleton<GameRoom>
     public void SpawnCharacter(CharacterList character)
     {
         GameObject go = InstantiateCharacter(character);
+        Debug.Log("[GameRoom] SpawnCharacter 1");
         InitializeCharacter(go, character);
         RegisterCharacter(character, go);
     }
@@ -122,17 +140,21 @@ public class GameRoom : SceneSingleton<GameRoom>
             VirtualCamera.Follow = playerController.transform;
         }
 
+
         var appearance = go.GetComponent<CharacterAppearance>();
         appearance.MyCharacterGender = (Gender)character.CharacterInfo.Gender;
         appearance.LoadFromAppearanceCode(character.CharacterInfo.AppearanceCode);
 
         var remotePlayer = go.AddComponent<RemotePlayer>();
+
         if (character.IsLocal)
         {
             MyCharacter = remotePlayer;
         }
         remotePlayer.Init(character, playerController);
+
     }
+
     private void RegisterCharacter(CharacterList character, GameObject go)
     {
         var remotePlayer = go.GetComponent<RemotePlayer>();

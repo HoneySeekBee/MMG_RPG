@@ -20,6 +20,7 @@ namespace GameServer.Data.Monster
             Vector3 targetPos = monster.CurrentPatrolPoint;
             float distance = Vector3.Distance(monster.Position, targetPos);
             // 2. 목표 지점에 거의 도달했으면 다음 웨이포인트로
+
             if (distance < 0.1f)
             {
                 monster.MoveToNextPatrolPoint();
@@ -27,12 +28,14 @@ namespace GameServer.Data.Monster
             }
 
             // 3. 이동 명령
+
             monster.Mover.MoveTo(targetPos, deltaTime);
 
 
             // 4. 시야 내 플레이어 감지
             var visiblePlayer = monster.Sensor.FindVisiblePlayer();
-            if (visiblePlayer != null)
+
+            if (visiblePlayer != null && visiblePlayer.objectStatus.NowHP > 0)
             {
                 monster.SetTarget(visiblePlayer);
                 monster.StateMachine.ChangeState(new ChaseState(), monster);

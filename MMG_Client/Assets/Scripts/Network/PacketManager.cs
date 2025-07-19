@@ -37,7 +37,7 @@ public class PacketManager : MonoBehaviour
         _onRecv.Add((ushort)PacketType.S_BroadcastEnter, MakePacket<S_BroadcastEnter>(PacketHandler.S_BroadcastEnterHandler));
         _onRecv.Add((ushort)PacketType.S_BroadcastMove, MakePacket<S_BroadcastMove>(PacketHandler.S_BroadcastMovehandler));
         _onRecv.Add((ushort)PacketType.S_BroadcastMonstermove, MakePacket<S_BroadcastMove>(PacketHandler.S_BroadcastMonsterMovehandler));
-        _onRecv.Add((ushort)PacketType.S_DamagekResponse, MakePacket<S_DamageBroadcast>(PacketHandler.S_BroadcastDamageHandler));
+        _onRecv.Add((ushort)PacketType.S_BroadcastDamage, MakePacket<S_DamageBroadcast>(PacketHandler.S_BroadcastDamageHandler));
 
     }
     #endregion

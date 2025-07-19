@@ -16,10 +16,9 @@ namespace GameServer.Attack
 {
     internal class AreaHitDetector : IHitDetector
     {
-        public List<CharacterObject> DetectTargets(GameRoom room, CharacterObject attacker, Vector3 pos, float rotY, Skill attackData)
+        public List<GameObject> DetectTargets(GameRoom room, GameObject attacker, Vector3 pos, float rotY, Skill attackData)
         {
-            Console.WriteLine("근거리 공격");
-            List<CharacterObject> result = new List<CharacterObject>();
+            List<GameObject> result = new List<GameObject>();
 
             // 공격 방향 벡터 (y축 회전 각도 → 라디안 → 벡터)
             float rad = rotY * (float)Math.PI / 180f;
@@ -32,9 +31,27 @@ namespace GameServer.Attack
             float innerRadius = 0.3f; // 가까이 붙은 적 허용 반경 (튜닝 가능)
             float innerRadiusSqr = innerRadius * innerRadius;
 
-            foreach (var player in room._players.Values)
+            List<GameObject> targets = new List<GameObject>();
+
+            if(attacker.Type == ObjectType.Monster) // 몬스터의 공격은 플레이어가 맞는다. 
             {
-                if (player.ObjectId == attacker.ObjectId)
+                foreach (GameObject target in room._players.Values)
+                {
+                    targets.Add(target);
+                }
+            }
+            else // 플레이어의 공격은 몬스터가 맞는다. 
+            {
+                foreach (GameObject target in room._monsters.Values)
+                {
+                    targets.Add(target);
+                }
+            }
+
+            foreach (var player in targets)
+            {
+
+                if ((player.ObjectId == attacker.ObjectId) && (player.Type == attacker.Type))
                     continue;
 
                 float dx = player.Position.X - pos.X;
@@ -42,8 +59,10 @@ namespace GameServer.Attack
                 float dy = player.Position.Y - pos.Y;
 
                 float sqrDist = dx * dx + dy * dy + dz * dz;
+
                 if (sqrDist > radiusSqr)
                     continue;
+
 
                 if (sqrDist <= innerRadiusSqr)
                 {
@@ -58,6 +77,8 @@ namespace GameServer.Attack
 
                 // dot(forward, toTarget)
                 float dot = forwardX * dirX + forwardZ * dirZ;
+
+
 
                 if (dot >= cosThreshold)
                     result.Add(player);

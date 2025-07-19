@@ -160,8 +160,8 @@ public class MonsterDataManageWindow : EditorWindow
     {
         MonsterId = data.MonsterId,
         SkillId = (int)x.attackData.AttackId,
-        Frequency = x.AttackAppearanceAmount,
-        InputType = (int)x.inputType
+        Frequency = x.attackData.Appearance,
+        InputType = (int)x.InputType
     }).ToList();
 
         Debug.Log($"스킬 체크 {skillList[0].SkillId} || {data._AttackData[0].attackData.AttackId}");

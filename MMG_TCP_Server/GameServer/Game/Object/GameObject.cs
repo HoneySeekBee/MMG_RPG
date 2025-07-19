@@ -38,24 +38,29 @@ namespace GameServer.Game.Object
         private Vector3 _position;
         public Vector3 Position
         {
-            get => _position;
-            set => _position = value;
+            get
+            {
+                _position.X = moveData.PosX; 
+                _position.Y = moveData.PosY;
+                _position.Z = moveData.PosZ;
+                return _position;
+                    }
+            set
+            {
+                _position = value;
+            }
         }
         public void AddPosition(Vector3 delta)
         {
-            Position += delta;
-
-            moveData.PosX = Position.X;
-            moveData.PosY = Position.Y;
-            moveData.PosZ = Position.Z;
+            moveData.PosX += delta.X;
+            moveData.PosY += delta.Y;
+            moveData.PosZ += delta.Z;
 
             objectInfo.MoveInfo = moveData;
         }
 
         public void SetPosition(Vector3 pos)
         {
-            Position = pos;
-
             moveData.PosX = pos.X;
             moveData.PosY = pos.Y;
             moveData.PosZ = pos.Z;

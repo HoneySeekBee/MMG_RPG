@@ -23,11 +23,33 @@ namespace MMG.UI
         [Header("캐릭터 스킬")]
         [SerializeField] private RectTransform SkillAreaRect;
         [SerializeField] private GameObject SkillIconPrefab;
-        private Dictionary<KeyCode, SkillIcon> SkillDictionary = new Dictionary<KeyCode, SkillIcon>();
+        private Dictionary<AttackInputType, SkillIcon> SkillDictionary = new Dictionary<AttackInputType, SkillIcon>();
 
-        public void SetSkill()
+        [Header("몬스터 HP")]
+        [SerializeField] private GameObject MonsterHPObject;
+        [SerializeField] private TMP_Text Monster_Text;
+        [SerializeField] private Animator Monster_Animator;
+        [SerializeField] private RemoteMonster CurrentMonster;
+        private float cnt;
+        private const float SHOW_TIME = 3;
+        private Coroutine CoMonsterHPTimer;
+
+        public void Set(List<SaveKeyWithAttackData> attackDatas)
         {
+            SetSkill(attackDatas);
+            UnShowMonsterHP();
+            StartCoroutine(Open_Status());
+        }
 
+        private void SetSkill(List<SaveKeyWithAttackData> attackDatas)
+        {
+            foreach (var skill in attackDatas)
+            {
+                GameObject skillIconObject = Instantiate(SkillIconPrefab, SkillAreaRect);
+                SkillIcon skillIcon = skillIconObject.GetComponent<SkillIcon>();
+                skillIcon.init(skill.InputType, null, skill.attackData.Cooldown);
+                SkillDictionary.Add(skill.InputType, skillIcon);
+            }
         }
 
         private IEnumerator Open_Status()
@@ -49,11 +71,52 @@ namespace MMG.UI
         }
         public void SetBarProgress(float hpRatio, float mpRatio, float expRatio)
         {
+            //Debug.Log($"HP {hpRatio} / MP {mpRatio} / EXP {expRatio}");
             HP_BarAnimator.SetFloat("BarFill", Mathf.Clamp01(hpRatio));
             MP_BarAnimator.SetFloat("BarFill", Mathf.Clamp01(mpRatio));
             EXP_Animator.SetFloat("BarFill", Mathf.Clamp01(expRatio));
         }
+        public void ShowMonsterHP(RemoteMonster NowMonster)
+        {
+            if (CoMonsterHPTimer == null)
+            {
+                CurrentMonster = NowMonster;
+                cnt = 0;
+                CoMonsterHPTimer = StartCoroutine(MonsterHPTimer());
+            }
+            else
+            {
+                cnt = 0;
+                if (CurrentMonster != NowMonster)
+                {
+                    StopCoroutine(CoMonsterHPTimer);
+                    UnShowMonsterHP();
+                    CoMonsterHPTimer = StartCoroutine(MonsterHPTimer());
+                }
+            }
+        }
+        private void ShowMonsterHP()
+        {
+            MonsterHPObject.SetActive(true);
+        }
+        private void UnShowMonsterHP()
+        {
+            MonsterHPObject.SetActive(false);
+        }
+        private IEnumerator MonsterHPTimer()
+        {
+            ShowMonsterHP(); // SetActiveTrue
+            var waitSec = new WaitForSeconds(0.1f);
+
+            while (cnt < 3)
+            {
+                cnt += 0.1f;
+                Monster_Text.text = $"[{CurrentMonster.name} {CurrentMonster.HP}/{CurrentMonster.RemoteMonsterData._MaxHP}]";
+                yield return waitSec;
+            }
+            UnShowMonsterHP();
+            CoMonsterHPTimer = null;
+        }
 
     }
-
 }

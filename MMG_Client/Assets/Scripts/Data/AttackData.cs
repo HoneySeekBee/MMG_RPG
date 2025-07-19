@@ -13,6 +13,11 @@ public class AttackData : ScriptableObject
     public WeaponType WeaponType;
     public AttackType AttackType;
 
+    public int SkillLevel;
+    public int SlotIndex;
+
+    public int Appearance; // 몬스터용
+
     public float Range;
     public float Angle;
     public float Damage;

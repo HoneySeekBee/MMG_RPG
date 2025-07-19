@@ -37,6 +37,7 @@ namespace GameServer.Game.Object
         }
         public CharacterObject(Status _status, string _name, int _id, GameRoom _room)
         {
+            Type = ObjectType.Character;
             objectInfo = new ObjectInfo
             {
                 Name = _name,

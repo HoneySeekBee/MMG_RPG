@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using AttackPacket;
+using ServerCore;
 
 public class NetworkManager : MonoBehaviour
 {
@@ -69,9 +70,12 @@ public class NetworkManager : MonoBehaviour
     }
 
     // [3] 캐릭터 공격 
-    public void Send_Attack(C_AttackRequest packet)
+    public void Send_Attack(C_AttackData packet)
     {
-        _session.Send(ServerCore.PacketType.C_AttackRequest, packet);
+        Debug.Log($"Send AttackData: {packet.ToString()}");
+
+        Debug.Log((ushort)PacketType.C_AttackData);
+        _session.Send(ServerCore.PacketType.C_AttackData, packet);
     } 
 
 }

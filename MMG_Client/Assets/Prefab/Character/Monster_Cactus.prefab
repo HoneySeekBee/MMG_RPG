@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e92ab211353836c4a995ba8c1da4048f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 39395d3caa31cd441bd46248bb8baabe, type: 2}
+  data: {fileID: 11400000, guid: f283453c135ce3e4dbac2a5db2916151, type: 2}
 --- !u!114 &6120492443302001107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,7 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc61d55d3c503f4aa6f2a1957116e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDatas: []
 --- !u!114 &-2827104630156487986
 MonoBehaviour:
   m_ObjectHideFlags: 0

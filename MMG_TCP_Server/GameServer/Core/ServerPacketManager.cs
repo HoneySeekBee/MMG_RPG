@@ -4,6 +4,7 @@ using Google.Protobuf;
 using Packet;
 using ServerCore;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -47,7 +48,9 @@ namespace GameServer.Core
         }
         private static void Register_Attack()
         {
-            _syncHandlers.Add((ushort)PacketType.C_AttackRequest, MakePacket<C_AttackRequest>(PacketHandler.C_AttackHandler));
+            Console.WriteLine("[ServerPacketManager] Register_Attack : " + (ushort)PacketType.C_AttackData);
+
+            _syncHandlers.Add((ushort)PacketType.C_AttackData, MakePacket<C_AttackData>(PacketHandler.C_AttackHandler));
         }
         #endregion
 
@@ -90,15 +93,17 @@ namespace GameServer.Core
             }
 
         }
-        private static Action<ServerSession, ArraySegment<byte>> MakePacket<T>(Action<ServerSession, T> handler)
-    where T : IMessage<T>, new()
+            private static Action<ServerSession, ArraySegment<byte>> MakePacket<T>(Action<ServerSession, T> handler)
+        where T : IMessage<T>, new()
         {
             return (session, buffer) =>
             {
                 try
                 {
                     T pkt = new T();
+
                     pkt.MergeFrom(buffer);
+
                     handler.Invoke(session, pkt);
                 }
                 catch (Exception ex)

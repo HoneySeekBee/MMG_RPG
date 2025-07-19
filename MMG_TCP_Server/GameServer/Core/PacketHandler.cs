@@ -191,26 +191,32 @@ namespace GameServer.Core
         }
 
         #region 공격 판정
-        public static void C_AttackHandler(ServerSession session, C_AttackRequest packet)
+        public static void C_AttackHandler(ServerSession session, C_AttackData packet)
         {
             GameRoom room = session.Room;
             if (room == null)
                 return;
 
             // 1. 공격자 정보 가져오기
-            CharacterObject attacker = room.FindPlayerById(packet.AttackerId);
-            Console.WriteLine($"[C_AttackHandler] {packet.AttackerId}, {attacker.ObjectId}");
+            CharacterObject attacker = room.FindPlayerById(session.MyPlayer.CharacterInfo.Id);
 
             if (attacker == null)
-                return;
+            {
+                Console.WriteLine($"[C_AttackHandler] (4)");
+                Console.WriteLine($"[C_AttackHandler] attacker는 null {session.MyPlayer.CharacterInfo.Id}");
 
+                return;
+            }
             // 2. 위치/방향 재구성
             Vector3 position = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
             float dirY = packet.DirY;
 
             // 3. 무기 정보 재구성
             Skill attackData = SkillDataManager.GetSkill(packet.AttackId);
-
+            if (attackData == null)
+            {
+                return;
+            }
 
             // 4. 공격 타입에 따라 판정 로직 실행
             Vector3 pos = new Vector3(packet.PosX, packet.PosY, packet.PosZ);

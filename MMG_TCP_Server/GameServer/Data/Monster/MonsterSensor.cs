@@ -28,8 +28,8 @@ namespace GameServer.Data.Monster
             foreach (var player in _room._players.Values)
             {
                 // 1. 본인과 동일 ID는 제외
-                if (player.ObjectId == _monster.objectInfo.Id)
-                    continue;
+                //if (player.ObjectId == _monster.objectInfo.Id)
+                //    continue;
 
 
                 // 2. 사망한 플레이어 무시

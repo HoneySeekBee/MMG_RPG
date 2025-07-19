@@ -18,17 +18,8 @@ namespace MMG
         public float _ChaseRange;
         public float _AttackRange;
 
-        [System.Serializable]
-        public class MonsterAttackData
-        {
-            public AttackInputType inputType;
-            public int AttackAppearanceAmount;
-            public AttackData attackData;
-
-            public int InputTypeInt => (int)inputType;
-        }
-
-        public List<MonsterAttackData> _AttackData = new List<MonsterAttackData>();
+    
+        public List<SaveKeyWithAttackData> _AttackData = new List<SaveKeyWithAttackData>();
 
         // Monster 기본 정보 DTO로 변환
         public MonsterDto ToMonsterDto()
@@ -53,7 +44,7 @@ namespace MMG
                 {
                     MonsterId = this.MonsterId,
                     SkillId = a.attackData.AttackId,
-                    Frequency = a.AttackAppearanceAmount,
+                    Frequency = a.attackData.Appearance,
                     InputType = a.InputTypeInt
                 });
             }

@@ -44,6 +44,12 @@ public class PlayerController : ControllerBase<PlayerActionType, CharacterEvent>
         if (_isLocalPlayer)
             this.tag = "Player";
 
+        Debug.Log($"[PlayerController] {GameRoom.Instance.MyCharacter == null}");
         base.Initialize(isLocal);
+    }
+    public void Init_AttackData(List<SaveKeyWithAttackData> attackData)
+    {
+        var action = EventDict[PlayerActionType.battle].action as IActionBase;
+        action.SetAttackData(attackData);
     }
 }

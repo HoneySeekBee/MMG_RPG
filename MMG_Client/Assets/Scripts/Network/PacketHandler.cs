@@ -83,8 +83,8 @@ public class PacketHandler : MonoBehaviour
     }
     public static void S_BroadcastDamageHandler(ClientSession session, S_DamageBroadcast response)
     {
-        Debug.Log($"{response.AttackerId}가 {response.TargetId}를 공격. Damage {response.Damage}");
-        // AttackerId를 찾아서 공격 애니메이션
+        Debug.Log($"[S_BroadcastDamageHandler] {response.Damage.AttackerId}가 {response.Damage.TargetId}를 공격. Damage {response.Damage}");
+
         // TargetId를 찾아서 Damage 애니메이션 
         MainThreadDispatcher.RunOnMainThread(() =>
         {

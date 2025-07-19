@@ -43,4 +43,5 @@ public abstract class ControllerBase<TActionType, TEvent> : MonoBehaviour
             action.DoAction(battleData);
         }
     }
+
 }

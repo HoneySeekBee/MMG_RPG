@@ -16,15 +16,16 @@ namespace GameServer.Data.Monster
 
         public static MonsterData Get(int monsterId)
         {
+            Console.WriteLine($"[MonsterDataManager] {monsterId} : {_monsterDataDict.ContainsKey(monsterId)}");
             return _monsterDataDict.TryGetValue(monsterId, out var data) ? data : null;
         }
 
-        public static async void LoadData()
+        public static async Task LoadData()
         {
             try
             {
                 using var http = new HttpClient();
-                var response = await http.GetAsync($"{Program.URL}/api/monster/all-with-skills");
+                var response = await http.GetAsync($"{Program.URL}/api/monster/all");
                 var json = await response.Content.ReadAsStringAsync();
 
                 var monsters = JsonConvert.DeserializeObject<List<MonsterDto>>(json);
@@ -35,7 +36,7 @@ namespace GameServer.Data.Monster
                 {
                     var monsterData = new MonsterPacket.MonsterData
                     {
-                        MonsterId = dto.Id,
+                        MonsterId = dto.MonsterId,
                         MonsterName = dto.Name ?? "",
                         MaxHP = dto.HP,
                         MoveSpeed = dto.Speed,
@@ -43,16 +44,10 @@ namespace GameServer.Data.Monster
                         AttackRange = dto.AttackRange
                     };
 
-                    foreach (var skill in dto.Skills)
-                    {
-                        monsterData.Attacks.Add(new MonsterPacket.MonsterAttack
-                        {
-                            SkillId = skill.SkillId,
-                            Frequency = skill.Frequency
-                        });
-                    }
+                    monsterData.SkillInfo = await SkillDataManager.GetMonsterSkill(dto.MonsterId);
 
-                    _monsterDataDict[dto.Id] = monsterData;
+                    Console.WriteLine($"[MonsterDataManager] LoadData {dto.MonsterId} ");
+                    _monsterDataDict[dto.MonsterId] = monsterData;
                 }
 
                 Console.WriteLine($"[MonsterDataManager] 몬스터 {monsters.Count}개 로드 완료");
@@ -64,7 +59,7 @@ namespace GameServer.Data.Monster
         }
         public class MonsterDto
         {
-            public int Id { get; set; }
+            public int MonsterId { get; set; }
             public string Name { get; set; }
             public float HP { get; set; }
             public float Speed { get; set; }

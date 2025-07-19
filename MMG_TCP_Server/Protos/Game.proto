@@ -28,7 +28,7 @@ message S_BroadcastEnter{
 
 message S_EnterGameResponse {
 	int32 MapId = 1;
-  repeated CharacterList characterList = 2;
+	repeated CharacterList characterList = 2;
 }
 
 message CharacterList {
@@ -36,6 +36,7 @@ message CharacterList {
   CharacterInfo characterInfo = 2;
   Status statInfo= 3;
   MoveData moveInfo = 4;
+  CharacterSkillInfo SkillInfo = 5;
 }
 
 

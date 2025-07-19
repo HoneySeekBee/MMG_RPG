@@ -14,7 +14,7 @@ namespace MMG
         public BattleSkill skillType;       // 사용 중인 스킬 번호 (예: 1번 스킬, 2번 스킬)
     }
     public enum BattleSkill { None, Skill_1, Skill_2, Skill_3, Skill_4 }
-    public enum AttackInputType { Normal, Strong, Skill_1, Skill_2, Skill_3, Skill_4 }
+    public enum AttackInputType { None, Normal, Strong, Skill_1, Skill_2, Skill_3, Skill_4 }
 
     public enum TargetType { Attacker, Damaged }
     public struct BattleData
@@ -23,17 +23,19 @@ namespace MMG
         public int TargetId;
         public int attackTypeId;
     }
+    [System.Serializable]
+    public class SaveKeyWithAttackData
+    {
+        public AttackInputType InputType;
+        public AttackData attackData;
+        public int InputTypeInt => (int)InputType;
+    }
 
     public class BattleAction : ActionBase<BattleInputData>
     {
         private PlayerAnimator playerAnimator;
-        [System.Serializable]
-        public class SaveKeyWithAttackData
-        {
-            public AttackInputType InputType;
-            public AttackData attackData;
-        }
-        private List<SaveKeyWithAttackData> attackDatas; // DB -> Server -> Client로 받아와야함 
+       
+        [SerializeField] private List<SaveKeyWithAttackData> attackDatas; // DB -> Server -> Client로 받아와야함 
 
         private Dictionary<AttackInputType, AttackData> attackDataDic = new Dictionary<AttackInputType, AttackData>();
         public override void Initialize(bool isLocal, IInputBase input = null)
@@ -45,12 +47,21 @@ namespace MMG
 
             playerAnimator = GetComponent<PlayerAnimator>();
 
-            foreach (var attackData in attackDatas)
+        }
+        public override void SetAttackData(List<SaveKeyWithAttackData> attackData)
+        {
+            Debug.Log($"[BattleAction] SetAttackData {attackData.Count} ");
+            attackDatas = attackData;
+
+            if (attackDatas != null && attackDatas.Count > 0)
             {
-                attackDataDic.Add(attackData.InputType, attackData.attackData);
+
+                foreach (var _attackData in attackDatas)
+                {
+                    attackDataDic.Add(_attackData.InputType, _attackData.attackData);
+                }
             }
 
-            // 여기서 스킬 데이터들도 받아오기 
         }
 
         protected override void Action(BattleInputData value)
@@ -100,9 +111,8 @@ namespace MMG
             Vector3 pos = transform.position;
             float dirY = transform.eulerAngles.y;
 
-            C_AttackRequest attackRequest = new C_AttackRequest()
+            C_AttackData attackRequest = new C_AttackData()
             {
-                AttackerId = PlayerData.Instance.MyCharaceterData.id,
                 PosX = pos.x,
                 PosY = pos.y,
                 PosZ = pos.z,
@@ -116,13 +126,16 @@ namespace MMG
             AttackGizmoPreview.Instance.Show(pos, dirY, data);
             #endregion
             bool isProjectile = data.AttackType == AttackType.Arrow;
-            Debug.Log($"공격 타입 체크 {data.AttackType}");
+            Debug.Log($"공격 타입 체크 {data.AttackType} {attackRequest.PosY}");
+            Debug.Log($"[attackRequest] {attackRequest.PosX}, {attackRequest.PosY}, {attackRequest.PosZ}");
+
+            Debug.Log($"[attackRequest] {pos.x}, {pos.y}, {pos.z}");
+
             if (isProjectile)
             {
                 Debug.Log("화살 공격");
                 SpawnArrowProjectile(pos, dirY, data);
             }
-
 
             NetworkManager.Instance.Send_Attack(attackRequest);
         }
@@ -134,9 +147,8 @@ namespace MMG
             Vector3 pos = transform.position;
             float dirY = transform.eulerAngles.y;
 
-            C_AttackRequest attackRequest = new C_AttackRequest()
+            C_AttackData attackRequest = new C_AttackData()
             {
-                AttackerId = PlayerData.Instance.MyCharaceterData.id,
                 PosX = pos.x,
                 PosY = pos.y,
                 PosZ = pos.z,
@@ -167,9 +179,8 @@ namespace MMG
             Vector3 pos = transform.position;
             float dirY = transform.eulerAngles.y;
 
-            C_AttackRequest attackRequest = new C_AttackRequest()
+            C_AttackData attackRequest = new C_AttackData()
             {
-                AttackerId = PlayerData.Instance.MyCharaceterData.id,
                 PosX = pos.x,
                 PosY = pos.y,
                 PosZ = pos.z,
@@ -183,7 +194,7 @@ namespace MMG
             AttackGizmoPreview.Instance.Show(pos, dirY, data);
             #endregion
             bool isProjectile = data.AttackType == AttackType.Arrow;
-            Debug.Log($"공격 타입 체크 {data.AttackType}");
+            Debug.Log($"공격 타입 체크 {data.AttackType} || {attackRequest.PosX}");
             if (isProjectile)
             {
                 Debug.Log("화살 공격");
@@ -194,7 +205,14 @@ namespace MMG
         }
         public override void DoAction(BattleData battleData)
         {
-            Debug.Log("Action 합시다. " + battleData.TargetId);
+            if(battleData.targetType == TargetType.Damaged)
+            {
+                Debug.Log($"[BattleAction] DoAction : 데미지입은 애니메이션 하기 ");
+            }
+            else
+            {
+                Debug.Log($"[BattleAction] DoAction : 공격하는 애니메이션 하기 ");
+            }
             playerAnimator.PlayAttack(false);
         }
         private void SpawnArrowProjectile(Vector3 origin, float dirY, AttackData data)

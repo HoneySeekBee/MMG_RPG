@@ -51,8 +51,22 @@ namespace MMG_API.Controllers
                     return StatusCode(500, $"서버 오류: {ex.Message}");
                 }
             }
+        }
+        [HttpGet("{monsterId}")]
+        public async Task<ActionResult<List<MonsterSkillDto>>> GetMonsterSkills(int monsterId)
+        {
+            var skills = await _db.MonsterSkills
+                .Where(cs => cs.MonsterId == monsterId)
+                .Select(cs => new MonsterSkillDto
+                {
+                    MonsterId = cs.MonsterId,
+                    SkillId = cs.SkillId,
+                    Frequency = cs.Frequency,
+                    InputType = cs.InputType,
+                })
+                .ToListAsync();
 
-
+            return Ok(skills);
         }
     }
 }

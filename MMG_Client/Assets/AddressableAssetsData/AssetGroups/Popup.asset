@@ -35,6 +35,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - Popup
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e8666f927bd6a0488a4975f45ec55d1
+    m_Address: InGamePopup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bfe935ab88ae268419990f1a212eef10
     m_Address: CharacterCreatePopup
     m_ReadOnly: 0

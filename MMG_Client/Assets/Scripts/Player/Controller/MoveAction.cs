@@ -127,6 +127,11 @@ namespace MMG
             _networkSpeed = speed;
             _interpolationT = 0f;
         }
+
+        public override void SetAttackData(List<SaveKeyWithAttackData> attackData)
+        {
+            Debug.LogError("³ª¿À¸é ¾ÈµÊ..");
+        }
     }
 
 

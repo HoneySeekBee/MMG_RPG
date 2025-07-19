@@ -17,6 +17,13 @@ message MonsterAttack {
 	int32 frequency = 2;
 	GamePacket.InputType InputType = 3;
 }
+message MonsterSkillInfo{
+	repeated MonsterSkill SkillInfo = 1;
+}
+message MonsterSkill{
+	MonsterAttack monsterAttack = 1;
+	GamePacket.Skill Skill = 2; 
+}
 message MonsterMoveData{
 	int32 MonsterId = 1;
 	GamePacket.MoveData MonsterMove = 3;
@@ -34,5 +41,6 @@ message MonsterData
   float moveSpeed = 4;
   float chaseRange = 5;
   float attackRange = 6;
-  repeated MonsterAttack attacks = 7;
+  MonsterSkillInfo skillInfo = 7;
 }
+

@@ -30,22 +30,28 @@ namespace MonsterPacket {
             "CghNb3ZlRGF0YRgEIAEoCzIeLk1vbnN0ZXJQYWNrZXQuTW9uc3Rlck1vdmVE",
             "YXRhIl0KDU1vbnN0ZXJBdHRhY2sSDwoHc2tpbGxJZBgBIAEoBRIRCglmcmVx",
             "dWVuY3kYAiABKAUSKAoJSW5wdXRUeXBlGAMgASgOMhUuR2FtZVBhY2tldC5J",
-            "bnB1dFR5cGUiTwoPTW9uc3Rlck1vdmVEYXRhEhEKCU1vbnN0ZXJJZBgBIAEo",
-            "BRIpCgtNb25zdGVyTW92ZRgDIAEoCzIULkdhbWVQYWNrZXQuTW92ZURhdGEi",
-            "RgoNU19Nb25zdGVyTGlzdBI1Cg9Nb25zdGVyRGF0YUxpc3QYASADKAsyHC5N",
-            "b25zdGVyUGFja2V0Lk1vbnN0ZXJTdGF0dXMirwEKC01vbnN0ZXJEYXRhEhEK",
-            "CW1vbnN0ZXJJZBgBIAEoBRITCgttb25zdGVyTmFtZRgCIAEoCRINCgVNYXhI",
-            "UBgDIAEoAhIRCgltb3ZlU3BlZWQYBCABKAISEgoKY2hhc2VSYW5nZRgFIAEo",
-            "AhITCgthdHRhY2tSYW5nZRgGIAEoAhItCgdhdHRhY2tzGAcgAygLMhwuTW9u",
-            "c3RlclBhY2tldC5Nb25zdGVyQXR0YWNrYgZwcm90bzM="));
+            "bnB1dFR5cGUiQgoQTW9uc3RlclNraWxsSW5mbxIuCglTa2lsbEluZm8YASAD",
+            "KAsyGy5Nb25zdGVyUGFja2V0Lk1vbnN0ZXJTa2lsbCJlCgxNb25zdGVyU2tp",
+            "bGwSMwoNbW9uc3RlckF0dGFjaxgBIAEoCzIcLk1vbnN0ZXJQYWNrZXQuTW9u",
+            "c3RlckF0dGFjaxIgCgVTa2lsbBgCIAEoCzIRLkdhbWVQYWNrZXQuU2tpbGwi",
+            "TwoPTW9uc3Rlck1vdmVEYXRhEhEKCU1vbnN0ZXJJZBgBIAEoBRIpCgtNb25z",
+            "dGVyTW92ZRgDIAEoCzIULkdhbWVQYWNrZXQuTW92ZURhdGEiRgoNU19Nb25z",
+            "dGVyTGlzdBI1Cg9Nb25zdGVyRGF0YUxpc3QYASADKAsyHC5Nb25zdGVyUGFj",
+            "a2V0Lk1vbnN0ZXJTdGF0dXMitAEKC01vbnN0ZXJEYXRhEhEKCW1vbnN0ZXJJ",
+            "ZBgBIAEoBRITCgttb25zdGVyTmFtZRgCIAEoCRINCgVNYXhIUBgDIAEoAhIR",
+            "Cgltb3ZlU3BlZWQYBCABKAISEgoKY2hhc2VSYW5nZRgFIAEoAhITCgthdHRh",
+            "Y2tSYW5nZRgGIAEoAhIyCglza2lsbEluZm8YByABKAsyHy5Nb25zdGVyUGFj",
+            "a2V0Lk1vbnN0ZXJTa2lsbEluZm9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::GamePacket.GameReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterStatus), global::MonsterPacket.MonsterStatus.Parser, new[]{ "ID", "HP", "MonsterData", "MoveData" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterAttack), global::MonsterPacket.MonsterAttack.Parser, new[]{ "SkillId", "Frequency", "InputType" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterSkillInfo), global::MonsterPacket.MonsterSkillInfo.Parser, new[]{ "SkillInfo" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterSkill), global::MonsterPacket.MonsterSkill.Parser, new[]{ "MonsterAttack", "Skill" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterMoveData), global::MonsterPacket.MonsterMoveData.Parser, new[]{ "MonsterId", "MonsterMove" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.S_MonsterList), global::MonsterPacket.S_MonsterList.Parser, new[]{ "MonsterDataList" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterData), global::MonsterPacket.MonsterData.Parser, new[]{ "MonsterId", "MonsterName", "MaxHP", "MoveSpeed", "ChaseRange", "AttackRange", "Attacks" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterData), global::MonsterPacket.MonsterData.Parser, new[]{ "MonsterId", "MonsterName", "MaxHP", "MoveSpeed", "ChaseRange", "AttackRange", "SkillInfo" }, null, null, null, null)
           }));
     }
     #endregion
@@ -652,6 +658,446 @@ namespace MonsterPacket {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class MonsterSkillInfo : pb::IMessage<MonsterSkillInfo>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<MonsterSkillInfo> _parser = new pb::MessageParser<MonsterSkillInfo>(() => new MonsterSkillInfo());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<MonsterSkillInfo> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::MonsterPacket.MonsterReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MonsterSkillInfo() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MonsterSkillInfo(MonsterSkillInfo other) : this() {
+      skillInfo_ = other.skillInfo_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MonsterSkillInfo Clone() {
+      return new MonsterSkillInfo(this);
+    }
+
+    /// <summary>Field number for the "SkillInfo" field.</summary>
+    public const int SkillInfoFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::MonsterPacket.MonsterSkill> _repeated_skillInfo_codec
+        = pb::FieldCodec.ForMessage(10, global::MonsterPacket.MonsterSkill.Parser);
+    private readonly pbc::RepeatedField<global::MonsterPacket.MonsterSkill> skillInfo_ = new pbc::RepeatedField<global::MonsterPacket.MonsterSkill>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<global::MonsterPacket.MonsterSkill> SkillInfo {
+      get { return skillInfo_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as MonsterSkillInfo);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(MonsterSkillInfo other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!skillInfo_.Equals(other.skillInfo_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= skillInfo_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      skillInfo_.WriteTo(output, _repeated_skillInfo_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      skillInfo_.WriteTo(ref output, _repeated_skillInfo_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      size += skillInfo_.CalculateSize(_repeated_skillInfo_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(MonsterSkillInfo other) {
+      if (other == null) {
+        return;
+      }
+      skillInfo_.Add(other.skillInfo_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            skillInfo_.AddEntriesFrom(input, _repeated_skillInfo_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            skillInfo_.AddEntriesFrom(ref input, _repeated_skillInfo_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class MonsterSkill : pb::IMessage<MonsterSkill>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<MonsterSkill> _parser = new pb::MessageParser<MonsterSkill>(() => new MonsterSkill());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<MonsterSkill> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::MonsterPacket.MonsterReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MonsterSkill() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MonsterSkill(MonsterSkill other) : this() {
+      monsterAttack_ = other.monsterAttack_ != null ? other.monsterAttack_.Clone() : null;
+      skill_ = other.skill_ != null ? other.skill_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public MonsterSkill Clone() {
+      return new MonsterSkill(this);
+    }
+
+    /// <summary>Field number for the "monsterAttack" field.</summary>
+    public const int MonsterAttackFieldNumber = 1;
+    private global::MonsterPacket.MonsterAttack monsterAttack_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::MonsterPacket.MonsterAttack MonsterAttack {
+      get { return monsterAttack_; }
+      set {
+        monsterAttack_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "Skill" field.</summary>
+    public const int SkillFieldNumber = 2;
+    private global::GamePacket.Skill skill_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::GamePacket.Skill Skill {
+      get { return skill_; }
+      set {
+        skill_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as MonsterSkill);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(MonsterSkill other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(MonsterAttack, other.MonsterAttack)) return false;
+      if (!object.Equals(Skill, other.Skill)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (monsterAttack_ != null) hash ^= MonsterAttack.GetHashCode();
+      if (skill_ != null) hash ^= Skill.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (monsterAttack_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(MonsterAttack);
+      }
+      if (skill_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Skill);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (monsterAttack_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(MonsterAttack);
+      }
+      if (skill_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Skill);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (monsterAttack_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(MonsterAttack);
+      }
+      if (skill_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Skill);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(MonsterSkill other) {
+      if (other == null) {
+        return;
+      }
+      if (other.monsterAttack_ != null) {
+        if (monsterAttack_ == null) {
+          MonsterAttack = new global::MonsterPacket.MonsterAttack();
+        }
+        MonsterAttack.MergeFrom(other.MonsterAttack);
+      }
+      if (other.skill_ != null) {
+        if (skill_ == null) {
+          Skill = new global::GamePacket.Skill();
+        }
+        Skill.MergeFrom(other.Skill);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            if (monsterAttack_ == null) {
+              MonsterAttack = new global::MonsterPacket.MonsterAttack();
+            }
+            input.ReadMessage(MonsterAttack);
+            break;
+          }
+          case 18: {
+            if (skill_ == null) {
+              Skill = new global::GamePacket.Skill();
+            }
+            input.ReadMessage(Skill);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            if (monsterAttack_ == null) {
+              MonsterAttack = new global::MonsterPacket.MonsterAttack();
+            }
+            input.ReadMessage(MonsterAttack);
+            break;
+          }
+          case 18: {
+            if (skill_ == null) {
+              Skill = new global::GamePacket.Skill();
+            }
+            input.ReadMessage(Skill);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
   public sealed partial class MonsterMoveData : pb::IMessage<MonsterMoveData>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
@@ -666,7 +1112,7 @@ namespace MonsterPacket {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MonsterPacket.MonsterReflection.Descriptor.MessageTypes[2]; }
+      get { return global::MonsterPacket.MonsterReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -910,7 +1356,7 @@ namespace MonsterPacket {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MonsterPacket.MonsterReflection.Descriptor.MessageTypes[3]; }
+      get { return global::MonsterPacket.MonsterReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1097,7 +1543,7 @@ namespace MonsterPacket {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::MonsterPacket.MonsterReflection.Descriptor.MessageTypes[4]; }
+      get { return global::MonsterPacket.MonsterReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1123,7 +1569,7 @@ namespace MonsterPacket {
       moveSpeed_ = other.moveSpeed_;
       chaseRange_ = other.chaseRange_;
       attackRange_ = other.attackRange_;
-      attacks_ = other.attacks_.Clone();
+      skillInfo_ = other.skillInfo_ != null ? other.skillInfo_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1205,15 +1651,16 @@ namespace MonsterPacket {
       }
     }
 
-    /// <summary>Field number for the "attacks" field.</summary>
-    public const int AttacksFieldNumber = 7;
-    private static readonly pb::FieldCodec<global::MonsterPacket.MonsterAttack> _repeated_attacks_codec
-        = pb::FieldCodec.ForMessage(58, global::MonsterPacket.MonsterAttack.Parser);
-    private readonly pbc::RepeatedField<global::MonsterPacket.MonsterAttack> attacks_ = new pbc::RepeatedField<global::MonsterPacket.MonsterAttack>();
+    /// <summary>Field number for the "skillInfo" field.</summary>
+    public const int SkillInfoFieldNumber = 7;
+    private global::MonsterPacket.MonsterSkillInfo skillInfo_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::MonsterPacket.MonsterAttack> Attacks {
-      get { return attacks_; }
+    public global::MonsterPacket.MonsterSkillInfo SkillInfo {
+      get { return skillInfo_; }
+      set {
+        skillInfo_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1237,7 +1684,7 @@ namespace MonsterPacket {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(MoveSpeed, other.MoveSpeed)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(ChaseRange, other.ChaseRange)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(AttackRange, other.AttackRange)) return false;
-      if(!attacks_.Equals(other.attacks_)) return false;
+      if (!object.Equals(SkillInfo, other.SkillInfo)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1251,7 +1698,7 @@ namespace MonsterPacket {
       if (MoveSpeed != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(MoveSpeed);
       if (ChaseRange != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(ChaseRange);
       if (AttackRange != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(AttackRange);
-      hash ^= attacks_.GetHashCode();
+      if (skillInfo_ != null) hash ^= SkillInfo.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1294,7 +1741,10 @@ namespace MonsterPacket {
         output.WriteRawTag(53);
         output.WriteFloat(AttackRange);
       }
-      attacks_.WriteTo(output, _repeated_attacks_codec);
+      if (skillInfo_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(SkillInfo);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1329,7 +1779,10 @@ namespace MonsterPacket {
         output.WriteRawTag(53);
         output.WriteFloat(AttackRange);
       }
-      attacks_.WriteTo(ref output, _repeated_attacks_codec);
+      if (skillInfo_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(SkillInfo);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1358,7 +1811,9 @@ namespace MonsterPacket {
       if (AttackRange != 0F) {
         size += 1 + 4;
       }
-      size += attacks_.CalculateSize(_repeated_attacks_codec);
+      if (skillInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SkillInfo);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1389,7 +1844,12 @@ namespace MonsterPacket {
       if (other.AttackRange != 0F) {
         AttackRange = other.AttackRange;
       }
-      attacks_.Add(other.attacks_);
+      if (other.skillInfo_ != null) {
+        if (skillInfo_ == null) {
+          SkillInfo = new global::MonsterPacket.MonsterSkillInfo();
+        }
+        SkillInfo.MergeFrom(other.SkillInfo);
+      }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1434,7 +1894,10 @@ namespace MonsterPacket {
             break;
           }
           case 58: {
-            attacks_.AddEntriesFrom(input, _repeated_attacks_codec);
+            if (skillInfo_ == null) {
+              SkillInfo = new global::MonsterPacket.MonsterSkillInfo();
+            }
+            input.ReadMessage(SkillInfo);
             break;
           }
         }
@@ -1481,7 +1944,10 @@ namespace MonsterPacket {
             break;
           }
           case 58: {
-            attacks_.AddEntriesFrom(ref input, _repeated_attacks_codec);
+            if (skillInfo_ == null) {
+              SkillInfo = new global::MonsterPacket.MonsterSkillInfo();
+            }
+            input.ReadMessage(SkillInfo);
             break;
           }
         }

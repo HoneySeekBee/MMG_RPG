@@ -35,42 +35,43 @@ namespace GamePacket {
             "IAEoBSJFChBTX0Jyb2FkY2FzdEVudGVyEjEKDmVudGVyQ2hhcmFjdGVyGAEg",
             "ASgLMhkuR2FtZVBhY2tldC5DaGFyYWN0ZXJMaXN0IlYKE1NfRW50ZXJHYW1l",
             "UmVzcG9uc2USDQoFTWFwSWQYASABKAUSMAoNY2hhcmFjdGVyTGlzdBgCIAMo",
-            "CzIZLkdhbWVQYWNrZXQuQ2hhcmFjdGVyTGlzdCKgAQoNQ2hhcmFjdGVyTGlz",
+            "CzIZLkdhbWVQYWNrZXQuQ2hhcmFjdGVyTGlzdCLTAQoNQ2hhcmFjdGVyTGlz",
             "dBIPCgdJc0xvY2FsGAEgASgIEjAKDWNoYXJhY3RlckluZm8YAiABKAsyGS5H",
             "YW1lUGFja2V0LkNoYXJhY3RlckluZm8SJAoIc3RhdEluZm8YAyABKAsyEi5H",
             "YW1lUGFja2V0LlN0YXR1cxImCghtb3ZlSW5mbxgEIAEoCzIULkdhbWVQYWNr",
-            "ZXQuTW92ZURhdGEiSAoKUGxheWVySW5mbxIQCghwbGF5ZXJJZBgBIAEoBRIM",
-            "CgRuYW1lGAIgASgJEgwKBHBvc1gYAyABKAISDAoEcG9zWRgEIAEoAiI+Cg9D",
-            "X0Jyb2FkY2FzdE1vdmUSKwoNQnJvYWRjYXN0TW92ZRgBIAEoCzIULkdhbWVQ",
-            "YWNrZXQuTW92ZURhdGEiZQoPU19Ccm9hZGNhc3RNb3ZlEhAKCHBsYXllcklk",
-            "GAEgASgFEhMKC0NoYXJhY3RlcklkGAIgASgFEisKDUJyb2FkY2FzdE1vdmUY",
-            "AyABKAsyFC5HYW1lUGFja2V0Lk1vdmVEYXRhImQKCE1vdmVEYXRhEgwKBHBv",
-            "c1gYASABKAISDAoEcG9zWRgCIAEoAhIMCgRwb3NaGAMgASgCEgwKBGRpclkY",
-            "BCABKAISDQoFc3BlZWQYBSABKAISEQoJdGltZXN0YW1wGAYgASgDIoEBCgZT",
-            "dGF0dXMSDQoFTGV2ZWwYASABKAUSCwoDRXhwGAIgASgCEgwKBEdvbGQYAyAB",
-            "KAUSDQoFTm93SFAYBCABKAISDQoFTWF4SFAYBSABKAISDQoFTm93TVAYBiAB",
-            "KAISDQoFTWF4TVAYByABKAISEQoJdGltZXN0YW1wGAggASgDInQKCk9iamVj",
-            "dEluZm8SDAoETmFtZRgBIAEoCRIKCgJJZBgCIAEoBRImCghNb3ZlSW5mbxgD",
-            "IAEoCzIULkdhbWVQYWNrZXQuTW92ZURhdGESJAoIU3RhdEluZm8YBCABKAsy",
-            "Ei5HYW1lUGFja2V0LlN0YXR1cyKZAgoFU2tpbGwSEAoIQXR0YWNrSWQYASAB",
-            "KAUSEgoKQXR0YWNrTmFtZRgCIAEoCRIoCglPd25lclR5cGUYAyABKA4yFS5H",
-            "YW1lUGFja2V0Lk93bmVyVHlwZRIsCgpXZWFwb25UeXBlGAQgASgOMhguQXR0",
-            "YWNrUGFja2V0LldlYXBvblR5cGUSLAoKQXR0YWNrVHlwZRgFIAEoDjIYLkF0",
-            "dGFja1BhY2tldC5BdHRhY2tUeXBlEg0KBVJhbmdlGAYgASgCEg0KBUFuZ2xl",
-            "GAcgASgCEg4KBkRhbWFnZRgIIAEoAhIQCghDb29sZG93bhgJIAEoAhISCgpE",
-            "ZWxheUFmdGVyGAogASgCEhAKCENhc3RUaW1lGAsgASgCIocBCg5DaGFyYWN0",
-            "ZXJTa2lsbBITCgtDaGFyYWN0ZXJJZBgBIAEoBRIPCgdTa2lsbElkGAIgASgF",
-            "EigKCUlucHV0VHlwZRgDIAEoDjIVLkdhbWVQYWNrZXQuSW5wdXRUeXBlEhIK",
-            "ClNraWxsTGV2ZWwYBCABKAUSEQoJU2xvdEluZGV4GAUgASgFIlEKEkNoYXJh",
-            "Y3RlclNraWxsSW5mbxI7CglTa2lsbEluZm8YASADKAsyKC5HYW1lUGFja2V0",
-            "LkNoYXJhY2V0ZXJTa2lsbFdpdGhTa2lsbERhdGEidAocQ2hhcmFjZXRlclNr",
-            "aWxsV2l0aFNraWxsRGF0YRIyCg5jaGFyYWN0ZXJTa2lsbBgBIAEoCzIaLkdh",
-            "bWVQYWNrZXQuQ2hhcmFjdGVyU2tpbGwSIAoFc2tpbGwYAiABKAsyES5HYW1l",
-            "UGFja2V0LlNraWxsKiQKCU93bmVyVHlwZRIKCgZQbGF5ZXIQABILCgdNb25z",
-            "dGVyEAEqOQoJQ2xhc3NUeXBlEgoKBk5vSGF2ZRAAEgoKBktuaWdodBABEgoK",
-            "BkFyY2hlchACEggKBE1hZ2UQAyphCglJbnB1dFR5cGUSCAoETm9uZRAAEgoK",
-            "Bk5vcm1hbBABEgoKBlN0cm9uZxACEgsKB1NraWxsXzEQAxILCgdTa2lsbF8y",
-            "EAQSCwoHU2tpbGxfMxAFEgsKB1NraWxsXzQQBmIGcHJvdG8z"));
+            "ZXQuTW92ZURhdGESMQoJU2tpbGxJbmZvGAUgASgLMh4uR2FtZVBhY2tldC5D",
+            "aGFyYWN0ZXJTa2lsbEluZm8iSAoKUGxheWVySW5mbxIQCghwbGF5ZXJJZBgB",
+            "IAEoBRIMCgRuYW1lGAIgASgJEgwKBHBvc1gYAyABKAISDAoEcG9zWRgEIAEo",
+            "AiI+Cg9DX0Jyb2FkY2FzdE1vdmUSKwoNQnJvYWRjYXN0TW92ZRgBIAEoCzIU",
+            "LkdhbWVQYWNrZXQuTW92ZURhdGEiZQoPU19Ccm9hZGNhc3RNb3ZlEhAKCHBs",
+            "YXllcklkGAEgASgFEhMKC0NoYXJhY3RlcklkGAIgASgFEisKDUJyb2FkY2Fz",
+            "dE1vdmUYAyABKAsyFC5HYW1lUGFja2V0Lk1vdmVEYXRhImQKCE1vdmVEYXRh",
+            "EgwKBHBvc1gYASABKAISDAoEcG9zWRgCIAEoAhIMCgRwb3NaGAMgASgCEgwK",
+            "BGRpclkYBCABKAISDQoFc3BlZWQYBSABKAISEQoJdGltZXN0YW1wGAYgASgD",
+            "IoEBCgZTdGF0dXMSDQoFTGV2ZWwYASABKAUSCwoDRXhwGAIgASgCEgwKBEdv",
+            "bGQYAyABKAUSDQoFTm93SFAYBCABKAISDQoFTWF4SFAYBSABKAISDQoFTm93",
+            "TVAYBiABKAISDQoFTWF4TVAYByABKAISEQoJdGltZXN0YW1wGAggASgDInQK",
+            "Ck9iamVjdEluZm8SDAoETmFtZRgBIAEoCRIKCgJJZBgCIAEoBRImCghNb3Zl",
+            "SW5mbxgDIAEoCzIULkdhbWVQYWNrZXQuTW92ZURhdGESJAoIU3RhdEluZm8Y",
+            "BCABKAsyEi5HYW1lUGFja2V0LlN0YXR1cyKZAgoFU2tpbGwSEAoIQXR0YWNr",
+            "SWQYASABKAUSEgoKQXR0YWNrTmFtZRgCIAEoCRIoCglPd25lclR5cGUYAyAB",
+            "KA4yFS5HYW1lUGFja2V0Lk93bmVyVHlwZRIsCgpXZWFwb25UeXBlGAQgASgO",
+            "MhguQXR0YWNrUGFja2V0LldlYXBvblR5cGUSLAoKQXR0YWNrVHlwZRgFIAEo",
+            "DjIYLkF0dGFja1BhY2tldC5BdHRhY2tUeXBlEg0KBVJhbmdlGAYgASgCEg0K",
+            "BUFuZ2xlGAcgASgCEg4KBkRhbWFnZRgIIAEoAhIQCghDb29sZG93bhgJIAEo",
+            "AhISCgpEZWxheUFmdGVyGAogASgCEhAKCENhc3RUaW1lGAsgASgCIocBCg5D",
+            "aGFyYWN0ZXJTa2lsbBITCgtDaGFyYWN0ZXJJZBgBIAEoBRIPCgdTa2lsbElk",
+            "GAIgASgFEigKCUlucHV0VHlwZRgDIAEoDjIVLkdhbWVQYWNrZXQuSW5wdXRU",
+            "eXBlEhIKClNraWxsTGV2ZWwYBCABKAUSEQoJU2xvdEluZGV4GAUgASgFIlEK",
+            "EkNoYXJhY3RlclNraWxsSW5mbxI7CglTa2lsbEluZm8YASADKAsyKC5HYW1l",
+            "UGFja2V0LkNoYXJhY2V0ZXJTa2lsbFdpdGhTa2lsbERhdGEidAocQ2hhcmFj",
+            "ZXRlclNraWxsV2l0aFNraWxsRGF0YRIyCg5jaGFyYWN0ZXJTa2lsbBgBIAEo",
+            "CzIaLkdhbWVQYWNrZXQuQ2hhcmFjdGVyU2tpbGwSIAoFc2tpbGwYAiABKAsy",
+            "ES5HYW1lUGFja2V0LlNraWxsKiQKCU93bmVyVHlwZRIKCgZQbGF5ZXIQABIL",
+            "CgdNb25zdGVyEAEqOQoJQ2xhc3NUeXBlEgoKBk5vSGF2ZRAAEgoKBktuaWdo",
+            "dBABEgoKBkFyY2hlchACEggKBE1hZ2UQAyphCglJbnB1dFR5cGUSCAoETm9u",
+            "ZRAAEgoKBk5vcm1hbBABEgoKBlN0cm9uZxACEgsKB1NraWxsXzEQAxILCgdT",
+            "a2lsbF8yEAQSCwoHU2tpbGxfMxAFEgsKB1NraWxsXzQQBmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AttackPacket.CharacterAttackReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GamePacket.OwnerType), typeof(global::GamePacket.ClassType), typeof(global::GamePacket.InputType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -80,7 +81,7 @@ namespace GamePacket {
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.C_EnterGameRequest), global::GamePacket.C_EnterGameRequest.Parser, new[]{ "CharacterId", "MapId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.S_BroadcastEnter), global::GamePacket.S_BroadcastEnter.Parser, new[]{ "EnterCharacter" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.S_EnterGameResponse), global::GamePacket.S_EnterGameResponse.Parser, new[]{ "MapId", "CharacterList" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.CharacterList), global::GamePacket.CharacterList.Parser, new[]{ "IsLocal", "CharacterInfo", "StatInfo", "MoveInfo" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.CharacterList), global::GamePacket.CharacterList.Parser, new[]{ "IsLocal", "CharacterInfo", "StatInfo", "MoveInfo", "SkillInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.PlayerInfo), global::GamePacket.PlayerInfo.Parser, new[]{ "PlayerId", "Name", "PosX", "PosY" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.C_BroadcastMove), global::GamePacket.C_BroadcastMove.Parser, new[]{ "BroadcastMove" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.S_BroadcastMove), global::GamePacket.S_BroadcastMove.Parser, new[]{ "PlayerId", "CharacterId", "BroadcastMove" }, null, null, null, null),
@@ -1615,6 +1616,7 @@ namespace GamePacket {
       characterInfo_ = other.characterInfo_ != null ? other.characterInfo_.Clone() : null;
       statInfo_ = other.statInfo_ != null ? other.statInfo_.Clone() : null;
       moveInfo_ = other.moveInfo_ != null ? other.moveInfo_.Clone() : null;
+      skillInfo_ = other.skillInfo_ != null ? other.skillInfo_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1675,6 +1677,18 @@ namespace GamePacket {
       }
     }
 
+    /// <summary>Field number for the "SkillInfo" field.</summary>
+    public const int SkillInfoFieldNumber = 5;
+    private global::GamePacket.CharacterSkillInfo skillInfo_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::GamePacket.CharacterSkillInfo SkillInfo {
+      get { return skillInfo_; }
+      set {
+        skillInfo_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -1694,6 +1708,7 @@ namespace GamePacket {
       if (!object.Equals(CharacterInfo, other.CharacterInfo)) return false;
       if (!object.Equals(StatInfo, other.StatInfo)) return false;
       if (!object.Equals(MoveInfo, other.MoveInfo)) return false;
+      if (!object.Equals(SkillInfo, other.SkillInfo)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1705,6 +1720,7 @@ namespace GamePacket {
       if (characterInfo_ != null) hash ^= CharacterInfo.GetHashCode();
       if (statInfo_ != null) hash ^= StatInfo.GetHashCode();
       if (moveInfo_ != null) hash ^= MoveInfo.GetHashCode();
+      if (skillInfo_ != null) hash ^= SkillInfo.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1739,6 +1755,10 @@ namespace GamePacket {
         output.WriteRawTag(34);
         output.WriteMessage(MoveInfo);
       }
+      if (skillInfo_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(SkillInfo);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1765,6 +1785,10 @@ namespace GamePacket {
         output.WriteRawTag(34);
         output.WriteMessage(MoveInfo);
       }
+      if (skillInfo_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(SkillInfo);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1786,6 +1810,9 @@ namespace GamePacket {
       }
       if (moveInfo_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(MoveInfo);
+      }
+      if (skillInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SkillInfo);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1819,6 +1846,12 @@ namespace GamePacket {
           MoveInfo = new global::GamePacket.MoveData();
         }
         MoveInfo.MergeFrom(other.MoveInfo);
+      }
+      if (other.skillInfo_ != null) {
+        if (skillInfo_ == null) {
+          SkillInfo = new global::GamePacket.CharacterSkillInfo();
+        }
+        SkillInfo.MergeFrom(other.SkillInfo);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1864,6 +1897,13 @@ namespace GamePacket {
             input.ReadMessage(MoveInfo);
             break;
           }
+          case 42: {
+            if (skillInfo_ == null) {
+              SkillInfo = new global::GamePacket.CharacterSkillInfo();
+            }
+            input.ReadMessage(SkillInfo);
+            break;
+          }
         }
       }
     #endif
@@ -1906,6 +1946,13 @@ namespace GamePacket {
               MoveInfo = new global::GamePacket.MoveData();
             }
             input.ReadMessage(MoveInfo);
+            break;
+          }
+          case 42: {
+            if (skillInfo_ == null) {
+              SkillInfo = new global::GamePacket.CharacterSkillInfo();
+            }
+            input.ReadMessage(SkillInfo);
             break;
           }
         }
