@@ -54,14 +54,36 @@ public class GameRoom : SceneSingleton<GameRoom>
             if (Players.TryGetValue(packet.Damage.TargetId, out var remotePlayer))
             {
                 remotePlayer.GetDamage(packet.Damage.Damage);
+                BattleData data = new BattleData()
+                {
+                    targetType = TargetType.Damaged,
+                    TargetId = packet.Damage.TargetId,
+                    attackTypeId = 0,
+                };
+                remotePlayer.AttackHandle(data);
             }
         }
         else
         {
-            if (Monsters.TryGetValue(packet.Damage.TargetId, out var remotePlayer))
+            if (Monsters.TryGetValue(packet.Damage.TargetId, out var remoteMonster))
             {
-                remotePlayer.GetDamage(packet.Damage.Damage);
+                remoteMonster.GetDamage(packet.Damage.Damage);
+                BattleData data = new BattleData()
+                {
+                    targetType = TargetType.Damaged,
+                    TargetId = packet.Damage.TargetId,
+                    attackTypeId = 0,
+                };
+                remoteMonster.AttackHandle(data);
+                if (GameRoom.Instance.MyCharacter.RemoteCharaceterData.id == packet.Damage.AttackerId)
+                {
+                    if (Players.TryGetValue(packet.Damage.AttackerId, out var remotePlayer))
+                    {
+                        remotePlayer.InGameUI.ShowMonsterHP(remoteMonster);
+                    }
+                }
             }
+
         }
 
 
@@ -77,16 +99,6 @@ public class GameRoom : SceneSingleton<GameRoom>
             attackPlayer.AttackHandle(data);
         }
 
-        if (Players.TryGetValue(packet.Damage.TargetId, out var targetPlayer))
-        {
-            BattleData data = new BattleData()
-            {
-                targetType = TargetType.Damaged,
-                TargetId = packet.Damage.TargetId,
-                attackTypeId = 0,
-            };
-            targetPlayer.AttackHandle(data);
-        }
     }
     //public void HandleBroadcastLeave(S_BroadcastLeave packet)
     //{

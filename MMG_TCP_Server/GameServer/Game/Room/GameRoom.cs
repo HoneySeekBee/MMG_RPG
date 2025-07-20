@@ -180,12 +180,13 @@ namespace GameServer.Game.Room
                     {
                         Vector3 spawnPos = spawnZoneMgr.GetRandomPosition(zone.Min, zone.Max);
 
-
+                        MonsterData monsterData = MonsterDataManager.Get(info.MonsterId);
 
                         MonsterStatus monsterStatus = new MonsterStatus()
                         {
                             ID = info.MonsterId,
-                            MonsterData = MonsterDataManager.Get(info.MonsterId),
+                            MonsterData = monsterData,
+                            HP = monsterData.MaxHP,
                         };
 
                         int id = GetNextMonsterId();

@@ -50,19 +50,18 @@ namespace GameServer.Attack
 
             foreach (var player in targets)
             {
-
-                if ((player.ObjectId == attacker.ObjectId) && (player.Type == attacker.Type))
-                    continue;
-
                 float dx = player.Position.X - pos.X;
                 float dz = player.Position.Z - pos.Z;
                 float dy = player.Position.Y - pos.Y;
 
                 float sqrDist = dx * dx + dy * dy + dz * dz;
 
+                Console.WriteLine($"[AreaHitDetector] (1) {sqrDist} {radiusSqr}");
+
                 if (sqrDist > radiusSqr)
                     continue;
 
+                Console.WriteLine($"[AreaHitDetector] (2) {sqrDist} {innerRadiusSqr}");
 
                 if (sqrDist <= innerRadiusSqr)
                 {
@@ -79,6 +78,7 @@ namespace GameServer.Attack
                 float dot = forwardX * dirX + forwardZ * dirZ;
 
 
+                Console.WriteLine($"[AreaHitDetector] (3) {dot} {cosThreshold}");
 
                 if (dot >= cosThreshold)
                     result.Add(player);

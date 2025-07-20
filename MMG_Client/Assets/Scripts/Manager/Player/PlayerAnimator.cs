@@ -16,5 +16,5 @@ public class PlayerAnimator : CharacterAnimator
         string triggerName = isLeft ? "isNormalAttack" : "isCriticalAttack";
         animator.SetTrigger(triggerName);
     }
-
+    
 }

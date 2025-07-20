@@ -87,10 +87,11 @@ namespace MMG.UI
             else
             {
                 cnt = 0;
-                if (CurrentMonster != NowMonster)
+                if (CurrentMonster.Id != NowMonster.Id)
                 {
                     StopCoroutine(CoMonsterHPTimer);
                     UnShowMonsterHP();
+                    CurrentMonster = NowMonster;
                     CoMonsterHPTimer = StartCoroutine(MonsterHPTimer());
                 }
             }
@@ -112,6 +113,7 @@ namespace MMG.UI
             {
                 cnt += 0.1f;
                 Monster_Text.text = $"[{CurrentMonster.name} {CurrentMonster.HP}/{CurrentMonster.RemoteMonsterData._MaxHP}]";
+                Monster_Animator.SetFloat("BarFill", Mathf.Clamp01(CurrentMonster.HP/ CurrentMonster.RemoteMonsterData._MaxHP));
                 yield return waitSec;
             }
             UnShowMonsterHP();

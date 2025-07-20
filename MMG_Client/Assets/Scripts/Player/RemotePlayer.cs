@@ -11,11 +11,14 @@ public class RemotePlayer : MonoBehaviour
     public CharacterData RemoteCharaceterData;
     public Status StatInfo;
     public CharacterSkillInfo SkillInfo;
-    private PlayerController _controller; 
+    private PlayerController _controller;
     public List<SaveKeyWithAttackData> attackDatas = new List<SaveKeyWithAttackData>();
+    public InGamePopup InGameUI;
+
     public void Init(CharacterList data, PlayerController controller)
     {
-        RemoteCharaceterData = new CharacterData(){
+        RemoteCharaceterData = new CharacterData()
+        {
             id = data.CharacterInfo.Id,
             userId = data.CharacterInfo.UserId,
             Gender = (Gender)data.CharacterInfo.Gender,
@@ -28,9 +31,9 @@ public class RemotePlayer : MonoBehaviour
         transform.position = new Vector3(data.MoveInfo.PosX, data.MoveInfo.PosY, data.MoveInfo.PosZ);
         // 외형 구성 등등
         SkillInfo = data.SkillInfo;
-    //        public AttackInputType InputType;
-    //public AttackData attackData;
-        foreach(var skill in SkillInfo.SkillInfo)
+        //        public AttackInputType InputType;
+        //public AttackData attackData;
+        foreach (var skill in SkillInfo.SkillInfo)
         {
             attackDatas.Add(new SaveKeyWithAttackData()
             {
@@ -61,7 +64,11 @@ public class RemotePlayer : MonoBehaviour
         // 팝업 열기 
         if (_controller.isLocalPlayer)
         {
-            PopupManager.Instance.Show<InGamePopup>((popup) => popup.Set(attackDatas));
+            PopupManager.Instance.Show<InGamePopup>((popup) =>
+            {
+                popup.Set(attackDatas);
+                InGameUI = popup;
+            });
         }
     }
     public void MoveTo(Vector3 targetPos, float dirY, float speed)

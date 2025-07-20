@@ -72,6 +72,10 @@ public class RemoteMonster : MonoBehaviour
     {
         _controller.SetMove(targetPos, dirY, speed);
     }
+    public void AttackHandle(BattleData battleData)
+    {
+        _controller.SetAttack(battleData);
+    }
     public void GetDamage(float damage)
     {
         HP -= damage;

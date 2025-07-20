@@ -1,3 +1,4 @@
+using DevionGames.UIWidgets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,4 +12,8 @@ public abstract class CharacterAnimator : MonoBehaviour
     }
     public abstract void UpdateMoveAnimation(float speed, float dir);
     public abstract void PlayAttack(bool isLeft);
+    public virtual void GetDamaged()
+    {
+        animator.Play("Damage", 0);
+    }
 }

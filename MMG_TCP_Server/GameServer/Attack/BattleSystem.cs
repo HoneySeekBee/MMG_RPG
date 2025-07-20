@@ -30,7 +30,7 @@ namespace GameServer.Attack
             {
                 IHitDetector detector = HitDetectorFactory.Get(attackData.AttackType);
                 var targets = detector.DetectTargets(_room, attacker, pos, rotY, attackData);
-                Console.WriteLine("[BattleSystem]  [HandleAttack] " + attacker.Type);
+                Console.WriteLine($"[BattleSystem]  [HandleAttack] type {attacker.Type}, Range {attackData.Range} Angle {attackData.Angle} : Target Count {targets.Count}");
                 foreach (var target in targets)
                 {
                     target.OnDamaged(attacker, attackData.Damage);
@@ -39,7 +39,7 @@ namespace GameServer.Attack
                     {
                         TargetId = target.objectInfo.Id,
                         Damage = attackData.Damage,
-                        AttackerId = attacker.ObjectId,
+                        AttackerId = attacker.objectInfo.Id,
                         IsMonster = attacker.Type == ObjectType.Monster? true :false,
                     };
                     _room.BroadcastDamage(DamageBroadcast);

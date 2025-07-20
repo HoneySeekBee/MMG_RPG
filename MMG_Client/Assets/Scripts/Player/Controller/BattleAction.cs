@@ -33,7 +33,7 @@ namespace MMG
 
     public class BattleAction : ActionBase<BattleInputData>
     {
-        private PlayerAnimator playerAnimator;
+        private CharacterAnimator playerAnimator;
        
         [SerializeField] private List<SaveKeyWithAttackData> attackDatas; // DB -> Server -> Client로 받아와야함 
 
@@ -45,7 +45,7 @@ namespace MMG
             Debug.Log("[BattleAction] 임시로 여기서 전투모드 설정하기 ");
             GameContextManager.SetContext(GameContext.Battle);
 
-            playerAnimator = GetComponent<PlayerAnimator>();
+            playerAnimator = GetComponent<CharacterAnimator>();
 
         }
         public override void SetAttackData(List<SaveKeyWithAttackData> attackData)
@@ -208,12 +208,13 @@ namespace MMG
             if(battleData.targetType == TargetType.Damaged)
             {
                 Debug.Log($"[BattleAction] DoAction : 데미지입은 애니메이션 하기 ");
+                playerAnimator.GetDamaged();
             }
             else
             {
                 Debug.Log($"[BattleAction] DoAction : 공격하는 애니메이션 하기 ");
+                playerAnimator.PlayAttack(false);
             }
-            playerAnimator.PlayAttack(false);
         }
         private void SpawnArrowProjectile(Vector3 origin, float dirY, AttackData data)
         {
