@@ -50,6 +50,20 @@ public class GameRoom : SceneSingleton<GameRoom>
     {
         if (packet.Damage.IsMonster) // 공격자가 몬스터? 
         {
+
+            RemoteMonster AttackMonster = new();
+            if (Monsters.TryGetValue(packet.Damage.AttackerId, out AttackMonster))
+            {
+                BattleData data = new BattleData()
+                {
+                    targetType = TargetType.Attacker,
+                    TargetId = packet.Damage.AttackerId,
+                    attackTypeId = packet.Damage.AttackId,
+                };
+
+                AttackMonster.AttackHandle(data);
+            }
+
             Debug.Log($"[HandlerBattle] User Damage~ {packet.Damage.TargetId} : {GameRoom.Instance.MyCharacter.RemoteCharaceterData.id} : {GameRoom.Instance.MyCharacter.StatInfo.NowHP}");
             if (Players.TryGetValue(packet.Damage.TargetId, out var remotePlayer))
             {
@@ -65,6 +79,18 @@ public class GameRoom : SceneSingleton<GameRoom>
         }
         else
         {
+            RemotePlayer AttackPlayer = new();
+            if (Players.TryGetValue(packet.Damage.AttackerId, out AttackPlayer))
+            {
+                BattleData data = new BattleData()
+                {
+                    targetType = TargetType.Attacker,
+                    TargetId = packet.Damage.AttackerId,
+                    attackTypeId = packet.Damage.AttackId,
+                };
+
+                AttackPlayer.AttackHandle(data);
+            }
             if (Monsters.TryGetValue(packet.Damage.TargetId, out var remoteMonster))
             {
                 remoteMonster.GetDamage(packet.Damage.Damage);
@@ -75,29 +101,15 @@ public class GameRoom : SceneSingleton<GameRoom>
                     attackTypeId = 0,
                 };
                 remoteMonster.AttackHandle(data);
-                if (GameRoom.Instance.MyCharacter.RemoteCharaceterData.id == packet.Damage.AttackerId)
+                if (GameRoom.Instance.MyCharacter.RemoteCharaceterData.id == packet.Damage.AttackerId && AttackPlayer != null)
                 {
-                    if (Players.TryGetValue(packet.Damage.AttackerId, out var remotePlayer))
-                    {
-                        remotePlayer.InGameUI.ShowMonsterHP(remoteMonster);
-                    }
+                    AttackPlayer.InGameUI.ShowMonsterHP(remoteMonster);
                 }
             }
 
         }
 
 
-        if (Players.TryGetValue(packet.Damage.AttackerId, out var attackPlayer))
-        {
-            BattleData data = new BattleData()
-            {
-                targetType = TargetType.Attacker,
-                TargetId = packet.Damage.AttackerId,
-                attackTypeId = packet.Damage.AttackId,
-            };
-
-            attackPlayer.AttackHandle(data);
-        }
 
     }
     //public void HandleBroadcastLeave(S_BroadcastLeave packet)
@@ -179,6 +191,14 @@ public class GameRoom : SceneSingleton<GameRoom>
             SpawnMonster(monster);
         }
     }
+    public void DeadMonster(S_DeathBroadcast packet)
+    {
+        if (packet.IsMonster)
+        {
+            Monsters[packet.ObjectId].OnDead();
+            Monsters.Remove(packet.ObjectId);
+        }
+    }
     public void SpawnMonster(MonsterStatus status)
     {
         SpawnCharacterManager SpawnManager = SpawnCharacterManager.Instance;
@@ -206,5 +226,13 @@ public class GameRoom : SceneSingleton<GameRoom>
         // [3] 등록 해주기 
         Debug.Log($"[SpwanMonster] ID : {status.ID}, Name : {status.MonsterData.MonsterName}");
         Monsters.Add(status.ID, remoteMonster);
+    }
+    public void PlayerDie(PlayerId packet)
+    {
+        Players[packet.PlayerId_].PlayerDie();
+    }
+    public void PlayerRespawn(S_PlayerRespawn packet)
+    {
+        Players[packet.PlayerId].PlayerRespawn(packet);
     }
 }

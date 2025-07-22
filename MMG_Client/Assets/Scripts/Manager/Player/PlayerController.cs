@@ -27,10 +27,12 @@ public class PlayerController : ControllerBase<PlayerActionType, CharacterEvent>
 {
     [SerializeField] private bool _isLocalPlayer = false;
     public bool isLocalPlayer => _isLocalPlayer;
-
+    public PlayerAnimator animator;
     private void Awake()
     {
         // √ ±‚»≠ (if needed)
+
+        animator = GetComponent<PlayerAnimator>();
     }
 
     private void OnDestroy()
@@ -51,5 +53,10 @@ public class PlayerController : ControllerBase<PlayerActionType, CharacterEvent>
     {
         var action = EventDict[PlayerActionType.battle].action as IActionBase;
         action.SetAttackData(attackData);
+    }
+    public override void Init_Position(Vector3 position, float dirY)
+    {
+        var action = EventDict[PlayerActionType.move].action as IActionBase;
+        action.Init_Position(position, dirY);
     }
 }

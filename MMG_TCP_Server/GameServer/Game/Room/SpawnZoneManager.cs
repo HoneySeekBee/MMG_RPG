@@ -26,6 +26,7 @@ namespace GameServer.Game.Room
         public Vec3 Min;
         public Vec3 Max;
         public List<MonsterSpawnInfo> Monsters;
+        public Dictionary<int, List<int>> SpawnedMonsterDic = new Dictionary<int, List<int>>();
     }
     public class SpawnPointData
     {

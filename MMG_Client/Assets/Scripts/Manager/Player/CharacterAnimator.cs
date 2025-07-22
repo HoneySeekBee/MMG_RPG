@@ -16,4 +16,13 @@ public abstract class CharacterAnimator : MonoBehaviour
     {
         animator.Play("Damage", 0);
     }
+    public virtual void DeadAnimation()
+    {
+        animator.Play("Death", 0);
+    }
+    public virtual void IdleAnimation()
+    {
+        animator.Play("Idle", 0);
+
+    }
 }

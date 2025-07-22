@@ -66,6 +66,8 @@ namespace MMG
 
         protected override void Action(BattleInputData value)
         {
+            if (stopAction)
+                return;
             string clickType = value.isLeftClick ? "좌클릭" : "우클릭";
             string skillName = value.skillType.ToString();
 
@@ -105,9 +107,8 @@ namespace MMG
         }
         private void Nomal_Attack()
         {
-            // 약공격을 한다. 
             playerAnimator.PlayAttack(true);
-
+            // 약공격을 한다. 
             Vector3 pos = transform.position;
             float dirY = transform.eulerAngles.y;
 
@@ -141,9 +142,7 @@ namespace MMG
         }
         private void Critical_Attack()
         {
-            // 약공격을 한다. 
             playerAnimator.PlayAttack(false);
-
             Vector3 pos = transform.position;
             float dirY = transform.eulerAngles.y;
 
@@ -174,8 +173,6 @@ namespace MMG
         }
         private void Skill_Action(AttackInputType SkillType)
         {
-            playerAnimator.PlayAttack(false); // 스킬 애니메이션은 나중에 구현 
-
             Vector3 pos = transform.position;
             float dirY = transform.eulerAngles.y;
 

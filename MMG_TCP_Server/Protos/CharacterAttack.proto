@@ -64,6 +64,13 @@ message WeaponData{
     float range = 4;
     float cooldown = 5;
 }
+
+message S_DeathBroadcast
+{
+    bool IsMonster = 1;
+    int32 objectId = 2;
+}
+
 enum WeaponType {
     Fist = 0;
     

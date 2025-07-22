@@ -29,6 +29,7 @@ namespace GameServer.Core
             Register_Game();
             Register_Move();
             Register_Attack();
+            Register_Respawn();
         }
         private static void Register_Set()
         {
@@ -41,7 +42,10 @@ namespace GameServer.Core
             _asyncHandlers.Add((ushort)PacketType.C_EnterGameRequest, MakeAsyncPacket<C_EnterGameRequest>(PacketHandler.C_EnterGameHandler));
         }
 
-
+        private static void Register_Respawn()
+        {
+            _syncHandlers.Add((ushort)PacketType.C_PlayerReviveRequest, MakePacket<PlayerId>(PacketHandler.C_ReviveRequestHandler));
+        }
         private static void Register_Move()
         {
             _syncHandlers.Add((ushort)PacketType.C_BroadcastMove, MakePacket<C_BroadcastMove>(PacketHandler.C_BroadcastMoveHandler));

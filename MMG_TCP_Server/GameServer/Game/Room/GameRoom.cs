@@ -33,35 +33,34 @@ namespace GameServer.Game.Room
 
         private int _monsterIdCounter = 1;
 
+        public GameRoomObject GameRoomObjectManager;
+        private float countTime = 0;
+
         public GameRoom(int roomId)
         {
             Console.WriteLine($"GameRoom 초기화 {roomId}");
             RoomId = roomId;
             _battleSystem = new BattleSystem(this);
             spawnZoneMgr = new SpawnZoneManager(roomId);
-            MonsterData();
             BlockData();
+            GameRoomObjectManager = new GameRoomObject(this);
+            GameRoomObjectManager.Init_MonsterData(spawnZoneMgr);
         }
         #region Logic
         public async Task Enter(ServerSession session, CharacterInfo _characterInfo)
         {
             int charId = _characterInfo.Id;
-
             if (_players.ContainsKey(charId))
             {
                 Console.WriteLine($"[GameRoom:{RoomId}] 이미 입장된 유저: ");
                 return;
             }
-
             session.Room = this;
-
             Console.WriteLine($"[Enter] {_characterInfo.CharacterName}");
 
             // 유저에게 현재 방 정보 전송
-            CharacterSpawn(session, charId, _characterInfo);
-
-            MonsterSpawn(session);
-
+            GameRoomObjectManager.LocalCharacterSpawn(session, charId, _characterInfo);
+            GameRoomObjectManager.Send_MonsterList(session);
         }
 
         public void Leave(CharacterObject player)
@@ -71,63 +70,6 @@ namespace GameServer.Game.Room
         }
         #endregion
         #region Player
-        private async void CharacterSpawn(ServerSession session, int charId, CharacterInfo _characterInfo)
-        {
-            var api = new API();
-            try
-            {
-                CharacterObject characterObj = await api.GetCharacterStatus(charId, _characterInfo.CharacterName, session.Room);
-
-                if (characterObj == null)
-                {
-                    Console.WriteLine("[Enter] characterObj is null. 생성 실패");
-                    return;
-                }
-
-                Vector3 spawnVec = spawnZoneMgr.GetRandomPlayerSpawnPos(0);
-
-                MoveData moveData = new MoveData();
-
-                moveData.PosX = spawnVec.X;
-                moveData.PosY = spawnVec.Y;
-                moveData.PosZ = spawnVec.Z;
-                moveData.DirY = 0;
-
-                characterObj.moveData = moveData;
-                characterObj.CharacterInfo = _characterInfo;
-                characterObj.Session = session;
-                characterObj.SkillInfo = await SkillDataManager.GetCharacterSkill(charId);
-
-                session.MyPlayer = characterObj;
-                if (_players.ContainsKey(charId))
-                {
-                    Console.WriteLine($"[Enter] 이미 존재하는 charId: {charId}");
-                    return;
-                }
-                _players.Add(charId, characterObj);
-                characterObj.CurrentRoomId = RoomId;
-
-                var response = new S_EnterGameResponse { MapId = RoomId };
-
-                foreach (var p in _players)
-                    response.CharacterList.Add(CreateCharacterList(p.Value, p.Key == charId));
-
-                session.Send(PacketType.S_EnterGameResponse, response);
-
-                // 다른 유저에게 입장 브로드캐스트
-                var broadcastEnter = new S_BroadcastEnter
-                {
-                    EnterCharacter = CreateCharacterList(characterObj, isLocal: false)
-                };
-                BroadcastEnter(broadcastEnter, characterObj);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[Enter] 예외 발생! Message: {ex.Message}");
-                // 필요하다면 ex.StackTrace나 ex.InnerException도 출력 가능
-            }
-        }
-
         public CharacterObject FindPlayerById(int characterId) => _players[characterId];
         public List<CharacterObject> FindPlayersInArea(Vector3 center, float radius)
         {
@@ -144,82 +86,6 @@ namespace GameServer.Game.Room
             }
 
             return result;
-        }
-        #endregion
-
-        #region Monster
-
-        private void MonsterSpawn(ServerSession session)
-        {
-            var monsterListPacket = new S_MonsterList();
-
-            foreach (var monster in _monsters.Values)
-            {
-                var original = monster.Status;
-
-                var status = new MonsterStatus
-                {
-                    ID = monster.objectInfo.Id,
-                    HP = original.HP,
-                    MonsterData = MonsterDataManager.Get(original.ID),
-                    MoveData = monster.MonsterSpawnpoint,
-                };
-
-                monsterListPacket.MonsterDataList.Add(status);
-            }
-
-            session.Send(PacketType.S_MonsterList, monsterListPacket);
-        }
-        private void MonsterData()
-        {
-            foreach (var zone in spawnZoneMgr.GetAllMonsterZones())
-            {
-                foreach (var info in zone.Monsters)
-                {
-                    for (int i = 0; i < info.SpawnCount; i++)
-                    {
-                        Vector3 spawnPos = spawnZoneMgr.GetRandomPosition(zone.Min, zone.Max);
-
-                        MonsterData monsterData = MonsterDataManager.Get(info.MonsterId);
-
-                        MonsterStatus monsterStatus = new MonsterStatus()
-                        {
-                            ID = info.MonsterId,
-                            MonsterData = monsterData,
-                            HP = monsterData.MaxHP,
-                        };
-
-                        int id = GetNextMonsterId();
-
-                        MonsterMoveData _moveData = new MonsterMoveData()
-                        {
-                            MonsterId = info.MonsterId,
-                            MonsterMove = new MoveData()
-                            {
-                                PosX = spawnPos.X,
-                                PosY = spawnPos.Y,
-                                PosZ = spawnPos.Z,
-                                DirY = 0,
-                                Speed = 0,
-                                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                            }
-                        };
-                        monsterStatus.MoveData = _moveData;
-
-
-                        MonsterObject monster = new MonsterObject(id, monsterStatus, _moveData, this);
-
-                        List<Vector3> patrolRoute = spawnZoneMgr.GeneratePatrolPoints(spawnPos, zone.Min, zone.Max, 2f, 5);
-                        monster.SetPatrolRoute(patrolRoute);
-
-                        _monsters.Add(monster.objectInfo.Id, monster);
-                    }
-                }
-            }
-        }
-        public int GetNextMonsterId()
-        {
-            return _monsterIdCounter++;
         }
         #endregion
 
@@ -257,17 +123,6 @@ namespace GameServer.Game.Room
             _projectileManager.AddProjectile(p);
         }
 
-        private CharacterList CreateCharacterList(CharacterObject player, bool isLocal)
-        {
-            return new CharacterList
-            {
-                IsLocal = isLocal,
-                CharacterInfo = player.CharacterInfo,
-                StatInfo = player.objectStatus,
-                MoveInfo = player.moveData,
-                SkillInfo = player.SkillInfo,
-            };
-        }
         public bool HasPlayer(CharacterObject player)
         {
             return _players.ContainsKey(player.CharacterInfo.Id);
@@ -281,6 +136,12 @@ namespace GameServer.Game.Room
             {
                 monster.Update(deltaTime);
             }
+            countTime += deltaTime;
+            if(countTime > 10)
+            {
+                GameRoomObjectManager.MonsterRespawn();
+                countTime = 0;
+            }
         }
 
         public void Update()
@@ -291,27 +152,28 @@ namespace GameServer.Game.Room
         {
             Console.WriteLine($"[Hit] {targetId} hit by {attackerId} using {data.AttackType}");
 
-            FindPlayerById(targetId).OnDamaged(FindPlayerById(attackerId), data.Damage);
-            S_DamageBroadcast Damage = new S_DamageBroadcast()
+            if(FindPlayerById(targetId).OnDamaged(FindPlayerById(attackerId), data.Damage))
             {
-                Damage = new DamageInfo()
+                S_DamageBroadcast Damage = new S_DamageBroadcast()
                 {
-                    AttackerId = attackerId,
-                    TargetId = targetId,
-                    Damage = data.Damage,
+                    Damage = new DamageInfo()
+                    {
+                        AttackerId = attackerId,
+                        TargetId = targetId,
+                        Damage = data.Damage,
 
-                    IsMonster = false
-                }
-            };
-            
-            BroadcastDamage(Damage);
+                        IsMonster = false
+                    }
+                };
+
+                BroadcastDamage(Damage);
+            }
         }
 
         #region Broadcast
 
         private void Broadcast(PacketType packetType, IMessage message, CharacterObject exclude = null)
         {
-
             foreach (var player in _players)
             {
                 if (exclude != null && player.Key == exclude.CharacterInfo.Id) continue;
@@ -349,6 +211,22 @@ namespace GameServer.Game.Room
         public void BroadcastAttackCast(S_CastAttack message)
         {
             Broadcast(PacketType.S_BroadcastCastAttack, message);
+        }
+        public void BroadcastDead(S_DeathBroadcast message)
+        {
+            Broadcast(PacketType.S_BroadcastDead, message);
+        }
+        public void BroadcastRespawnMonster(S_MonsterList message)
+        {
+            Broadcast(PacketType.S_RespawnMonsterList, message);
+        }
+        public void BroadcastPlayerDie(PlayerId message)
+        {
+            Broadcast(PacketType.S_BroadcastPlayerDie, message);
+        }
+        public void BroadcastPlayerRevive(S_PlayerRespawn message)
+        {
+            Broadcast(PacketType.S_BroadcastPlayerRespawn, message);
         }
         #endregion
         private void BlockData()

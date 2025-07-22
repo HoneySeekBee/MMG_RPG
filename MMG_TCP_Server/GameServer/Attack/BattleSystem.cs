@@ -33,16 +33,18 @@ namespace GameServer.Attack
                 Console.WriteLine($"[BattleSystem]  [HandleAttack] type {attacker.Type}, Range {attackData.Range} Angle {attackData.Angle} : Target Count {targets.Count}");
                 foreach (var target in targets)
                 {
-                    target.OnDamaged(attacker, attackData.Damage);
-                    S_DamageBroadcast DamageBroadcast = new S_DamageBroadcast();
-                    DamageBroadcast.Damage = new DamageInfo()
+                    if(target.OnDamaged(attacker, attackData.Damage))
                     {
-                        TargetId = target.objectInfo.Id,
-                        Damage = attackData.Damage,
-                        AttackerId = attacker.objectInfo.Id,
-                        IsMonster = attacker.Type == ObjectType.Monster? true :false,
-                    };
-                    _room.BroadcastDamage(DamageBroadcast);
+                        S_DamageBroadcast DamageBroadcast = new S_DamageBroadcast();
+                        DamageBroadcast.Damage = new DamageInfo()
+                        {
+                            TargetId = target.objectInfo.Id,
+                            Damage = attackData.Damage,
+                            AttackerId = attacker.objectInfo.Id,
+                            IsMonster = attacker.Type == ObjectType.Monster ? true : false,
+                        };
+                        _room.BroadcastDamage(DamageBroadcast);
+                    }
                 }
             }
         }

@@ -44,10 +44,11 @@ namespace AttackPacket {
             "CldlYXBvbkRhdGESJgoEdHlwZRgBIAEoDjIYLkF0dGFja1BhY2tldC5XZWFw",
             "b25UeXBlEiwKCmF0dGFja1R5cGUYAiABKA4yGC5BdHRhY2tQYWNrZXQuQXR0",
             "YWNrVHlwZRIOCgZkYW1hZ2UYAyABKAISDQoFcmFuZ2UYBCABKAISEAoIY29v",
-            "bGRvd24YBSABKAIqNgoKV2VhcG9uVHlwZRIICgRGaXN0EAASCQoFU3dvcmQQ",
-            "ARIHCgNCb3cQZBIKCgVTdGFmZhDIASpGCgpBdHRhY2tUeXBlEgkKBXB1bmNo",
-            "EAASCQoFU2xhc2gQZBIKCgVBcnJvdxDIARIKCgVUaHJvdxDJARIKCgVNYWdp",
-            "YxCsAmIGcHJvdG8z"));
+            "bGRvd24YBSABKAIiNwoQU19EZWF0aEJyb2FkY2FzdBIRCglJc01vbnN0ZXIY",
+            "ASABKAgSEAoIb2JqZWN0SWQYAiABKAUqNgoKV2VhcG9uVHlwZRIICgRGaXN0",
+            "EAASCQoFU3dvcmQQARIHCgNCb3cQZBIKCgVTdGFmZhDIASpGCgpBdHRhY2tU",
+            "eXBlEgkKBXB1bmNoEAASCQoFU2xhc2gQZBIKCgVBcnJvdxDIARIKCgVUaHJv",
+            "dxDJARIKCgVNYWdpYxCsAmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AttackPacket.WeaponType), typeof(global::AttackPacket.AttackType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -59,7 +60,8 @@ namespace AttackPacket {
             new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.S_DamageBroadcast), global::AttackPacket.S_DamageBroadcast.Parser, new[]{ "Damage" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.S_MultiDamageBroadcast), global::AttackPacket.S_MultiDamageBroadcast.Parser, new[]{ "Damages" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.DamageInfo), global::AttackPacket.DamageInfo.Parser, new[]{ "TargetId", "Damage", "AttackerId", "AttackId", "IsCritical", "IsMonster" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.WeaponData), global::AttackPacket.WeaponData.Parser, new[]{ "Type", "AttackType", "Damage", "Range", "Cooldown" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.WeaponData), global::AttackPacket.WeaponData.Parser, new[]{ "Type", "AttackType", "Damage", "Range", "Cooldown" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.S_DeathBroadcast), global::AttackPacket.S_DeathBroadcast.Parser, new[]{ "IsMonster", "ObjectId" }, null, null, null, null)
           }));
     }
     #endregion
@@ -2912,6 +2914,241 @@ namespace AttackPacket {
           }
           case 45: {
             Cooldown = input.ReadFloat();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class S_DeathBroadcast : pb::IMessage<S_DeathBroadcast>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<S_DeathBroadcast> _parser = new pb::MessageParser<S_DeathBroadcast>(() => new S_DeathBroadcast());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<S_DeathBroadcast> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::AttackPacket.CharacterAttackReflection.Descriptor.MessageTypes[9]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S_DeathBroadcast() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S_DeathBroadcast(S_DeathBroadcast other) : this() {
+      isMonster_ = other.isMonster_;
+      objectId_ = other.objectId_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public S_DeathBroadcast Clone() {
+      return new S_DeathBroadcast(this);
+    }
+
+    /// <summary>Field number for the "IsMonster" field.</summary>
+    public const int IsMonsterFieldNumber = 1;
+    private bool isMonster_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool IsMonster {
+      get { return isMonster_; }
+      set {
+        isMonster_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "objectId" field.</summary>
+    public const int ObjectIdFieldNumber = 2;
+    private int objectId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int ObjectId {
+      get { return objectId_; }
+      set {
+        objectId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as S_DeathBroadcast);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(S_DeathBroadcast other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (IsMonster != other.IsMonster) return false;
+      if (ObjectId != other.ObjectId) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (IsMonster != false) hash ^= IsMonster.GetHashCode();
+      if (ObjectId != 0) hash ^= ObjectId.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (IsMonster != false) {
+        output.WriteRawTag(8);
+        output.WriteBool(IsMonster);
+      }
+      if (ObjectId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(ObjectId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (IsMonster != false) {
+        output.WriteRawTag(8);
+        output.WriteBool(IsMonster);
+      }
+      if (ObjectId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(ObjectId);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (IsMonster != false) {
+        size += 1 + 1;
+      }
+      if (ObjectId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ObjectId);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(S_DeathBroadcast other) {
+      if (other == null) {
+        return;
+      }
+      if (other.IsMonster != false) {
+        IsMonster = other.IsMonster;
+      }
+      if (other.ObjectId != 0) {
+        ObjectId = other.ObjectId;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            IsMonster = input.ReadBool();
+            break;
+          }
+          case 16: {
+            ObjectId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            IsMonster = input.ReadBool();
+            break;
+          }
+          case 16: {
+            ObjectId = input.ReadInt32();
             break;
           }
         }

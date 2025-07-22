@@ -35,9 +35,14 @@ namespace GameServer.Data.Monster
             {
                 _cooldowns[key] = Math.Max(0f, _cooldowns[key] - deltaTime);
             }
-            if (monster.Target == null || monster.Target.IsDead)
+            if (monster.Target == null)
             {
                 monster.StateMachine.ChangeState(new PatrolState(), monster);
+                return;
+            }
+            if (monster.IsDead)
+            {
+                monster.StateMachine.ChangeState(new DeadState(), monster);
                 return;
             }
             float attackRange = -1;
@@ -52,13 +57,17 @@ namespace GameServer.Data.Monster
             // 시전 중 
             if (_isCasting)
             {
+                if (monster.CheckDamagedDelay())
+                {
+                    _isCasting = false;
+                    return;
+                }
+
                 _castTimer -= deltaTime;
                 if (_castTimer <= 0f)
                 {
                     // 시전 끝났으니 공격 실행
                     monster.Attack(_currentSkill.Skill); // 여기에 Skill 정보 넘김
-
-
                     _isCasting = false;
                     _isDelaying = true;
                     _delayTimer = _currentSkill.Skill.DelayAfter;

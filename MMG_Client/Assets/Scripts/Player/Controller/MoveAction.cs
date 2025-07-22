@@ -61,6 +61,9 @@ namespace MMG
         #endregion
         protected override void Action(MoveData input)
         {
+            if (stopAction)
+                return;
+
             float vertical = input.Direction.y;    // W/S
             float horizontal = input.Direction.x;  // A/D
 

@@ -11,7 +11,6 @@ namespace GameServer.Data.Monster
         public void Enter(MonsterObject monster)
         {
             Console.WriteLine($"{monster.objectInfo.Name} → Dead 상태 진입");
-            monster.OnDeath();
         }
 
         public void Update(MonsterObject monster, float deltaTime)

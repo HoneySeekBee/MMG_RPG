@@ -15,4 +15,5 @@ public class MonsterAnimator : CharacterAnimator
         string triggerName = isLeft ? "isNormalAttack" : "isCriticalAttack";
         animator.SetTrigger(triggerName);
     }
+
 }

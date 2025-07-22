@@ -84,4 +84,9 @@ public class RemoteMonster : MonoBehaviour
             Debug.Log("»ç¸Á~");
         }
     }
+    public void OnDead()
+    {
+        _controller.monsterAnimator.DeadAnimation();
+        Destroy(this.gameObject, 2);
+    }
 }

@@ -28,20 +28,24 @@ namespace ServerCore
         S_BroadcastMove = 112,
         S_BroadcastEnter = 113,
         S_BroadcastMonstermove = 120,
+       
 
         // 전투 관련
         C_AttackData = 131,
         S_BroadcastAttack = 132, 
-
         C_CastAttack = 133, 
         S_BroadcastCastAttack = 134,
+        S_BroadcastDamage = 135,
+        S_BroadcastDead = 136,
 
-        S_BroadcastDamage = 132,
-        
+        S_BroadcastPlayerDie = 141, 
+        C_PlayerReviveRequest = 142, 
+        S_PlayerReviveResponse = 143, 
+        S_BroadcastPlayerRespawn = 144,
 
         // 몬스터 관련 
         S_MonsterList = 200,
-
+        S_RespawnMonsterList = 201,
 
         S_Error = 901,
     }

@@ -78,4 +78,8 @@ public class NetworkManager : MonoBehaviour
         _session.Send(ServerCore.PacketType.C_AttackData, packet);
     } 
 
+    public void Send_PlayerReviveRequest(PlayerId packet)
+    {
+        _session.Send(PacketType.C_PlayerReviveRequest, packet);
+    }
 }

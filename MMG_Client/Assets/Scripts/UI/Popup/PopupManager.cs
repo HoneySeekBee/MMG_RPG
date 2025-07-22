@@ -32,6 +32,7 @@ namespace MMG.UI
             // 이미 떠 있는 팝업이면 재사용 or 무시
             if (_activePopups.ContainsKey(popupType))
             {
+                _activePopups[popupType].Open();
                 Debug.LogWarning($"{popupType.Name} 팝업이 이미 열려 있습니다.");
                 return;
             }

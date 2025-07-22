@@ -168,6 +168,19 @@ namespace GameServer.Core
         }
         #endregion
 
+        public static void C_ReviveRequestHandler(ServerSession session, PlayerId packet)
+        {
+            Console.WriteLine($"Player {packet.PlayerId_}가 부활요청 왔다. ");
+            session.Room.GameRoomObjectManager.RespawnPlayer(session.MyPlayer);
+
+            S_PlayerRespawn playerRespawn = new S_PlayerRespawn()
+            {
+                PlayerId = session.MyPlayer.objectInfo.Id,
+                MoveData = session.MyPlayer.objectInfo.MoveInfo,
+                StatInfo = session.MyPlayer.objectInfo.StatInfo,
+            };
+            session.Room.BroadcastPlayerRevive(playerRespawn);
+        }
 
         private static void ExitGameRoom(CharacterObject player)
         {

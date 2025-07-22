@@ -44,4 +44,5 @@ public abstract class ControllerBase<TActionType, TEvent> : MonoBehaviour
         }
     }
 
+    public abstract void Init_Position(Vector3 position, float dirY);
 }

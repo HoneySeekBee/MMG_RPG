@@ -25,16 +25,17 @@ public class MonsterEvent : ICharacterEvent<MonsterActionType>
 }
 public class MonsterController : ControllerBase<MonsterActionType, MonsterEvent>
 {
+    public MonsterAnimator monsterAnimator;
     public override void Initialize(bool isLocal = false)
     {
+        monsterAnimator = GetComponent<MonsterAnimator>();
         base.Initialize(false); // 몬스터는 항상 Remote로
 
     }
-    public void Init_Position(Vector3 position, float dirY)
+    public override void Init_Position(Vector3 position, float dirY)
     {
         var action = EventDict[MonsterActionType.move].action as IActionBase;
         action.Init_Position(position, dirY);
-
     }
 
     public void Init_AttackData(List<SaveKeyWithAttackData> attackData)

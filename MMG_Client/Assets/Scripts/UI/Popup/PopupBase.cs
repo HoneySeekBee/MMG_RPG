@@ -15,13 +15,13 @@ namespace MMG.UI
         public virtual void Close()
         {
             GetComponent<Animator>()?.Play("Close");
-            StartCoroutine(DestroyAfterDelay());
+            StartCoroutine(UnShowAfterDelay());
         }
 
-        private IEnumerator DestroyAfterDelay()
+        private IEnumerator UnShowAfterDelay()
         {
             yield return new WaitForSeconds(0.5f);
-            Destroy(gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 }

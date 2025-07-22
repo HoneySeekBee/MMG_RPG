@@ -123,10 +123,12 @@ namespace GameServer.Data.Monster
         #endregion
 
         #region 사망 처리
-        public void OnDeath()
+        public override void OnDeath()
         {
             Console.WriteLine($"[Monster] {objectInfo.Name} 사망");
             // TODO: Drop, Remove 등
+            
+            Room.GameRoomObjectManager.MonsterDeadProcess(objectInfo.Id);
         }
         #endregion
 

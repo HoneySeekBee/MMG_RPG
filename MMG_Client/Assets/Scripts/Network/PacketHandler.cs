@@ -91,7 +91,6 @@ public class PacketHandler : MonoBehaviour
             GameRoom.Instance.HandlerBattle(response);
         });
     }
-
     public static void S_MonsterListHandler(ClientSession session, S_MonsterList response)
     {
         Debug.Log($"[S_MonsterListHandler] Monster 수 {response.MonsterDataList.Count}");
@@ -100,6 +99,30 @@ public class PacketHandler : MonoBehaviour
         {
             GameRoom.Instance.SpwanMonsters(response);
         });
+    }
+
+    public static void S_DeadHandler(ClientSession session, S_DeathBroadcast response)
+    {
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            GameRoom.Instance.DeadMonster(response);
+        });
+    }
+    public static void S_BroadcastPlayerDieHandler(ClientSession session, PlayerId response)
+    {
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            GameRoom.Instance.PlayerDie(response);
+        });
+    }
+    public static void S_BroadcastPlayerReviveHandler(ClientSession session, S_PlayerRespawn response)
+    {
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            Debug.Log("[PacketHandler] 리스폰");
+            GameRoom.Instance.PlayerRespawn(response);
+        });
+
     }
     #endregion
 }

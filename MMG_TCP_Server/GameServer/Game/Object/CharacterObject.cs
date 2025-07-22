@@ -63,8 +63,16 @@ namespace GameServer.Game.Object
                 Timestamp = new DateTimeOffset(dto.lastUpdated).ToUnixTimeSeconds()
             };
 
-
             return new CharacterObject(status, name, dto.characterId, room);
+        }
+        public override void OnDeath()
+        {
+            Console.Write("사망");
+            PlayerId playerId = new PlayerId()
+            {
+                PlayerId_ = objectInfo.Id
+            };
+            Room.BroadcastPlayerDie(playerId);
         }
     }
 }

@@ -16,6 +16,11 @@ namespace GameServer.Data.Monster
 
         public void Update(MonsterObject monster, float deltaTime)
         {
+            if (monster.IsDead)
+            {
+                monster.StateMachine.ChangeState(new DeadState(), monster);
+                return;
+            }
             // 1. 목표 지점까지 거리 확인
             Vector3 targetPos = monster.CurrentPatrolPoint;
             float distance = Vector3.Distance(monster.Position, targetPos);

@@ -38,6 +38,10 @@ public class PacketManager : MonoBehaviour
         _onRecv.Add((ushort)PacketType.S_BroadcastMove, MakePacket<S_BroadcastMove>(PacketHandler.S_BroadcastMovehandler));
         _onRecv.Add((ushort)PacketType.S_BroadcastMonstermove, MakePacket<S_BroadcastMove>(PacketHandler.S_BroadcastMonsterMovehandler));
         _onRecv.Add((ushort)PacketType.S_BroadcastDamage, MakePacket<S_DamageBroadcast>(PacketHandler.S_BroadcastDamageHandler));
+        _onRecv.Add((ushort)PacketType.S_BroadcastDead, MakePacket<S_DeathBroadcast>(PacketHandler.S_DeadHandler));
+        _onRecv.Add((ushort)PacketType.S_RespawnMonsterList, MakePacket<S_MonsterList>(PacketHandler.S_MonsterListHandler));
+        _onRecv.Add((ushort)PacketType.S_BroadcastPlayerDie, MakePacket<PlayerId>(PacketHandler.S_BroadcastPlayerDieHandler));
+        _onRecv.Add((ushort)PacketType.S_BroadcastPlayerRespawn, MakePacket<S_PlayerRespawn>(PacketHandler.S_BroadcastPlayerReviveHandler));
 
     }
     #endregion

@@ -16,7 +16,7 @@ namespace GameServer.Game.Object
         Projectile
     }
     // 캐릭터, 몬스터, 아이템 등을 여기서 관리해야겠다. 
-    public class GameObject
+    public abstract class GameObject
     {
         public ObjectType Type; // 오브젝트의 타입
         public int ObjectId; // 생성자 번호 
@@ -27,6 +27,7 @@ namespace GameServer.Game.Object
         public MoveData moveData = new MoveData(); // PositionInfo
         public Status objectStatus = new Status(); // Statinfo
 
+        private DateTime RecentDamagedTime;
 
         private Vector3 _dir;
         public bool IsDead => objectInfo.StatInfo.NowHP <= 0;
@@ -40,11 +41,11 @@ namespace GameServer.Game.Object
         {
             get
             {
-                _position.X = moveData.PosX; 
+                _position.X = moveData.PosX;
                 _position.Y = moveData.PosY;
                 _position.Z = moveData.PosZ;
                 return _position;
-                    }
+            }
             set
             {
                 _position = value;
@@ -73,11 +74,33 @@ namespace GameServer.Game.Object
         {
             ObjectId = id;
         }
-        public void OnDamaged(GameObject attacker, float damage)
+        public bool CheckDamagedDelay()
         {
+            TimeSpan diff = DateTime.UtcNow - RecentDamagedTime;
+            return (diff.TotalSeconds <= 0.1f);
+        }
+        public abstract void OnDeath();
+        public bool OnDamaged(GameObject attacker, float damage)
+        {
+            if (CheckDamagedDelay())
+            {
+                Console.WriteLine($"[GameObject] OnDamaged {RecentDamagedTime} / {DateTime.UtcNow - RecentDamagedTime} ");
+                return false;
+            }
+            if (IsDead)
+                return false;
+
             Console.WriteLine($"{objectInfo.Name}이 {attacker.objectInfo.Name}으로 부터 공격당함");
             objectInfo.StatInfo.NowHP -= damage;
             Console.WriteLine($"HP : {objectInfo.StatInfo.NowHP}/{objectInfo.StatInfo.MaxHP} | 데미지 {damage}");
+
+            RecentDamagedTime = DateTime.UtcNow;
+            if (IsDead)
+            {
+                OnDeath();
+            }
+
+            return true;
         }
 
     }

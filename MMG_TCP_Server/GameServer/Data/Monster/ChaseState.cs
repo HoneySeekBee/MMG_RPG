@@ -15,12 +15,17 @@ namespace GameServer.Data.Monster
 
         public void Update(MonsterObject monster, float deltaTime)
         {
-            if (monster.Target == null || monster.Target.IsDead)
+            if (monster.Target == null)
             {
                 monster.StateMachine.ChangeState(new PatrolState(), monster);
                 return;
             }
 
+            if (monster.IsDead)
+            {
+                monster.StateMachine.ChangeState(new DeadState(), monster);
+                return;
+            }
             // 이동
             monster.Mover.MoveTo(monster.Target.Position, deltaTime);
 

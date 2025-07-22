@@ -68,6 +68,8 @@ namespace Ricimi
 
         private void RemoveBackground()
         {
+            if (m_background == null)
+                return;
             var image = m_background.GetComponent<Image>();
             if (image != null)
                 image.CrossFadeAlpha(0.0f, 0.2f, false);

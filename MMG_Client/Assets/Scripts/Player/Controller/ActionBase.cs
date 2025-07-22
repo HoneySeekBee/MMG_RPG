@@ -6,7 +6,7 @@ namespace MMG
     public abstract class ActionBase<T> : MonoBehaviour, IActionBase
     {
         protected bool IsLocal;
-
+        protected bool stopAction{ get{ return GameRoom.Instance.MyCharacter.isDead; } }
         public virtual void DoAction(BattleData battleData)
         {
 

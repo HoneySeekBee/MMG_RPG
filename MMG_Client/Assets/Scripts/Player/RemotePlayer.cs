@@ -14,6 +14,7 @@ public class RemotePlayer : MonoBehaviour
     private PlayerController _controller;
     public List<SaveKeyWithAttackData> attackDatas = new List<SaveKeyWithAttackData>();
     public InGamePopup InGameUI;
+    public bool isDead { get{ return StatInfo.NowHP <= 0; } }
 
     public void Init(CharacterList data, PlayerController controller)
     {
@@ -70,6 +71,7 @@ public class RemotePlayer : MonoBehaviour
                 InGameUI = popup;
             });
         }
+        _controller.animator.GetRemotePlayer(this);
     }
     public void MoveTo(Vector3 targetPos, float dirY, float speed)
     {
@@ -86,5 +88,30 @@ public class RemotePlayer : MonoBehaviour
         {
             Debug.Log("사망~");
         }
+    }
+    public void PlayerDie()
+    {
+        // [1] 사망 모션 보여주기 
+        _controller.animator.DeadAnimation();
+        if (_controller.isLocalPlayer)
+        {
+            // 부활 팝업 보여주기 
+
+            PopupManager.Instance.Show<RevivePopup>((popup) =>
+            {
+                popup.Open();
+                popup.SetPlayerId(RemoteCharaceterData.id);
+            });
+        }
+    }
+    public void PlayerRespawn(S_PlayerRespawn packet)
+    {
+        StatInfo = packet.StatInfo;
+        _controller.animator.IdleAnimation();
+
+        Vector3 respawnPosition = new Vector3(packet.MoveData.PosX, packet.MoveData.PosY, packet.MoveData.PosZ);
+        _controller.Init_Position(respawnPosition, packet.MoveData.DirY);
+
+        Debug.Log($"[RemotePlayer] PlayerRespawn : NowHp {packet.StatInfo.NowHP} / {StatInfo.NowHP}");
     }
 }

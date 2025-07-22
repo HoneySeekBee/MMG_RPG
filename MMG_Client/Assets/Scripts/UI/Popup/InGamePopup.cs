@@ -34,6 +34,7 @@ namespace MMG.UI
         private const float SHOW_TIME = 3;
         private Coroutine CoMonsterHPTimer;
 
+        Status myCharStatus => GameRoom.Instance.MyCharacter.StatInfo;
         public void Set(List<SaveKeyWithAttackData> attackDatas)
         {
             SetSkill(attackDatas);
@@ -55,7 +56,7 @@ namespace MMG.UI
         private IEnumerator Open_Status()
         {
             var waitSec = new WaitForSeconds(1f);
-            Status myCharStatus = GameRoom.Instance.MyCharacter.StatInfo;
+         
             while (true)
             {
                 // °»½Å 
@@ -112,6 +113,8 @@ namespace MMG.UI
             while (cnt < 3)
             {
                 cnt += 0.1f;
+                if (CurrentMonster == null)
+                    break;
                 Monster_Text.text = $"[{CurrentMonster.name} {CurrentMonster.HP}/{CurrentMonster.RemoteMonsterData._MaxHP}]";
                 Monster_Animator.SetFloat("BarFill", Mathf.Clamp01(CurrentMonster.HP/ CurrentMonster.RemoteMonsterData._MaxHP));
                 yield return waitSec;

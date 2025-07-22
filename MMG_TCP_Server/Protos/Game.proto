@@ -141,3 +141,13 @@ message CharaceterSkillWithSkillData
 	CharacterSkill characterSkill = 1;
 	Skill skill = 2;
 }
+
+message PlayerId 
+{
+	int32 playerId = 1; 
+}
+message S_PlayerRespawn{
+	int32 playerId = 1; 
+	MoveData moveData = 2;
+	Status StatInfo = 3;
+}
