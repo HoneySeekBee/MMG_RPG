@@ -228,6 +228,10 @@ namespace GameServer.Game.Room
         {
             Broadcast(PacketType.S_BroadcastPlayerRespawn, message);
         }
+        public void BroadcastLevelUp(S_BroadcastLevelUp message)
+        {
+            Broadcast(PacketType.S_BroadcastLevelUp, message);
+        }
         #endregion
         private void BlockData()
         {

@@ -18,6 +18,9 @@ namespace MMG
         public float _ChaseRange;
         public float _AttackRange;
 
+        public float _EXP;
+        public int _Gold;
+
     
         public List<SaveKeyWithAttackData> _AttackData = new List<SaveKeyWithAttackData>();
 
@@ -30,7 +33,9 @@ namespace MMG
                 Name = MonsterName,
                 Speed = _MoveSpeed,
                 ChaseRange = _ChaseRange,
-                AttackRange = _AttackRange
+                AttackRange = _AttackRange,
+                EXP = _EXP,
+                Gold = _Gold,
             };
         }
 
@@ -80,6 +85,8 @@ namespace MMG
         public float Speed;
         public float ChaseRange;
         public float AttackRange;
+        public float EXP;
+        public int Gold;
     }
 
     [System.Serializable]

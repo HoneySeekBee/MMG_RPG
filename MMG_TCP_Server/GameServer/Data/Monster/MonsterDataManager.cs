@@ -41,7 +41,9 @@ namespace GameServer.Data.Monster
                         MaxHP = dto.HP,
                         MoveSpeed = dto.Speed,
                         ChaseRange = dto.ChaseRange,
-                        AttackRange = dto.AttackRange
+                        AttackRange = dto.AttackRange,
+                        Exp = dto.Exp,
+                        Gold = dto.Gold,
                     };
 
                     monsterData.SkillInfo = await SkillDataManager.GetMonsterSkill(dto.MonsterId);
@@ -65,7 +67,8 @@ namespace GameServer.Data.Monster
             public float Speed { get; set; }
             public float ChaseRange { get; set; }
             public float AttackRange { get; set; }
-
+            public float Exp { get; set; }
+            public int Gold { get; set; }
             public List<MonsterSkillDto> Skills { get; set; }
         }
 

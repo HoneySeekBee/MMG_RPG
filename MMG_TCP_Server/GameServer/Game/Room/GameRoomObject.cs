@@ -239,8 +239,10 @@ namespace GameServer.Game.Room
                 var response = new S_EnterGameResponse { MapId = Room.RoomId };
 
                 foreach (var p in Room._players)
-                    response.CharacterList.Add(CreateCharacter(p.Value, p.Key == charId));
+                {
 
+                    response.CharacterList.Add(CreateCharacter(p.Value, p.Key == charId));
+                }
                 session.Send(PacketType.S_EnterGameResponse, response);
 
                 var broadcastEnter = new S_BroadcastEnter

@@ -8,6 +8,8 @@
         public float Speed { get; set; }
         public float ChaseRange { get; set; }
         public float AttackRange { get; set; }
+        public float Exp{ get; set; }
+        public int Gold { get; set; }
 
     }
     public static class MonsterDtoExtensions
@@ -21,7 +23,9 @@
                 HP = dto.HP,
                 Speed = dto.Speed,
                 ChaseRange = dto.ChaseRange,
-                AttackRange = dto.AttackRange
+                AttackRange = dto.AttackRange,
+                Exp = dto.Exp,
+                Gold = dto.Gold,
             };
         }
     }

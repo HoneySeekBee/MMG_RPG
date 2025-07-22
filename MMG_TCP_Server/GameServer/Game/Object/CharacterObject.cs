@@ -8,7 +8,9 @@ using GamePacket;
 using GameServer.Core;
 using GameServer.Data;
 using GameServer.Game.Room;
+using Google.Protobuf.WellKnownTypes;
 using Packet;
+using static GameServer.Data.API;
 
 namespace GameServer.Game.Object
 {
@@ -19,6 +21,9 @@ namespace GameServer.Game.Object
         public CharacterInfo CharacterInfo { get; set; }
         public CharacterSkillInfo SkillInfo = new CharacterSkillInfo();
 
+        private float MaxExp { get { return objectInfo.StatInfo.Level * 10 * (objectInfo.StatInfo.Level / 10 + 1); }}
+        private float MaxHp {get{ return objectInfo.StatInfo.Level * 10; } }
+        private float MaxMp {get{ return objectInfo.StatInfo.Level * 10; } }
         public long LastMoveTimestamp { get { return moveData.Timestamp; } set { moveData.Timestamp = value; } }
         public void UpdateMove(float posX, float posY, float posZ, float dirY)
         {
@@ -55,6 +60,7 @@ namespace GameServer.Game.Object
             {
                 Level = dto.level,
                 Exp = dto.exp,
+                MaxExp = dto.maxExp,
                 Gold = dto.gold,
                 MaxHP = dto.maxHp,
                 NowHP = dto.nowHp,
@@ -73,6 +79,65 @@ namespace GameServer.Game.Object
                 PlayerId_ = objectInfo.Id
             };
             Room.BroadcastPlayerDie(playerId);
+        }
+
+        public void GetReward(float _exp, int _gold)
+        {
+            objectInfo.StatInfo.Exp += _exp;
+            objectInfo.StatInfo.Gold += _gold;
+            if (objectInfo.StatInfo.Exp > objectInfo.StatInfo.MaxExp)
+            {
+                LevelUp();
+                UpdateStatus();
+
+                S_BroadcastLevelUp s_BroadcastLevelUp = new S_BroadcastLevelUp()
+                {
+                    CharacterId = objectInfo.Id,
+                    Status = objectInfo.StatInfo,
+                };
+                Room.BroadcastLevelUp(s_BroadcastLevelUp);
+            }
+            else
+            {
+                Status packet = objectInfo.StatInfo;
+                Session.Send(ServerCore.PacketType.S_UpdateStatus, packet);
+            }
+        }
+        private async void UpdateStatus()
+        {
+            S_BroadcastLevelUp s_BroadcastLevelUp = new S_BroadcastLevelUp()
+            {
+                CharacterId = objectInfo.Id,
+                Status = objectInfo.StatInfo,
+            };
+            Room.BroadcastLevelUp(s_BroadcastLevelUp);
+
+            var api = new API();
+            UpdateCharacterStatusRequest updateStatus = new UpdateCharacterStatusRequest()
+            {
+                CharacterId = objectInfo.Id,
+                CharacterLevel = objectInfo.StatInfo.Level,
+                MaxExp = objectInfo.StatInfo.MaxExp,
+                Exp = objectInfo.StatInfo.Exp,
+                NowHP = objectInfo.StatInfo.NowHP,
+                HP = objectInfo.StatInfo.MaxHP,
+                NowMP = objectInfo.StatInfo.NowMP,
+                MP = objectInfo.StatInfo.MaxMP,
+                Gold = objectInfo.StatInfo.Gold
+            };
+            await api.UpdateCharacterStatus(updateStatus);
+        }
+
+        public void LevelUp()
+        {
+            objectInfo.StatInfo.Exp -= MaxExp;
+            objectInfo.StatInfo.Level++;
+            objectInfo.StatInfo.MaxExp = MaxExp;
+            objectInfo.StatInfo.MaxHP = MaxHp;
+            objectInfo.StatInfo.NowHP = objectInfo.StatInfo.MaxHP;
+            objectInfo.StatInfo.MaxMP = MaxMp;
+            objectInfo.StatInfo.NowMP = objectInfo.StatInfo.MaxMP;
+
         }
     }
 }

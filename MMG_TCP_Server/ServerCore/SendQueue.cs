@@ -31,21 +31,37 @@ namespace ServerCore
         private void RegisterSend(Socket socket)
         {
             ArraySegment<byte> buffer;
-            lock (_lock) 
+            lock (_lock)
             {
                 buffer = _queue.Peek();
             }
-            socket.BeginSend(buffer.Array, buffer.Offset, buffer.Count, SocketFlags.None, SendCallback, socket);
+            try
+            {
+                socket.BeginSend(buffer.Array, buffer.Offset, buffer.Count, SocketFlags.None, SendCallback, socket);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[SendQueue] 소켓이 이미 닫힘: {ex.Message}");
+            }
         }
         private void SendCallback(IAsyncResult ar)
         {
             Socket socket = (Socket)ar.AsyncState;
-            int sent = socket.EndSend(ar);
+            try
+            {
+                int sent = socket.EndSend(ar);
 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[SendQueue] SendCallback에서 소켓이 이미 닫힘: {ex.Message}");
+                return;
+            }
             lock (_lock)
             {
-                _queue.Dequeue(); 
-                if(_queue.Count == 0)
+                _queue.Dequeue();
+                if (_queue.Count == 0)
                 {
                     _isSending = false;
                     return;

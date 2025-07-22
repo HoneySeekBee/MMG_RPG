@@ -42,5 +42,7 @@ message MonsterData
   float chaseRange = 5;
   float attackRange = 6;
   MonsterSkillInfo skillInfo = 7;
+  float Exp = 8;
+  int32 Gold = 9;
 }
 

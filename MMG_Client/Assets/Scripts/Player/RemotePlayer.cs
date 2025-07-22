@@ -30,6 +30,9 @@ public class RemotePlayer : MonoBehaviour
         _controller = controller;
         StatInfo = data.StatInfo;
         transform.position = new Vector3(data.MoveInfo.PosX, data.MoveInfo.PosY, data.MoveInfo.PosZ);
+        Vector3 initPos = new Vector3(data.MoveInfo.PosX, data.MoveInfo.PosY, data.MoveInfo.PosZ);
+        _controller.Init_Position(initPos, data.MoveInfo.DirY);
+
         // ¿ÜÇü ±¸¼º µîµî
         SkillInfo = data.SkillInfo;
         //        public AttackInputType InputType;
@@ -88,6 +91,17 @@ public class RemotePlayer : MonoBehaviour
         {
             Debug.Log("»ç¸Á~");
         }
+    }
+    public void UpdateStatus(Status status)
+    {
+        StatInfo.Gold = status.Gold;
+        StatInfo.Exp = status.Exp;
+        Debug.Log($"º¸»ó È¹µæ {StatInfo.Gold}G / {StatInfo.Exp} ");
+    }
+    public void LevelUp(Status status)
+    {
+        StatInfo = status;
+        Debug.Log("·¹º§¾÷~~ ");
     }
     public void PlayerDie()
     {

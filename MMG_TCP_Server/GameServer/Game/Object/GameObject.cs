@@ -27,10 +27,12 @@ namespace GameServer.Game.Object
         public MoveData moveData = new MoveData(); // PositionInfo
         public Status objectStatus = new Status(); // Statinfo
 
-        private DateTime RecentDamagedTime;
+        protected DateTime RecentDamagedTime;
 
         private Vector3 _dir;
         public bool IsDead => objectInfo.StatInfo.NowHP <= 0;
+        protected Dictionary<int, (float, DateTime)> RecentlyAttacker = new Dictionary<int, (float, DateTime)>();
+
         public Vector3 Dir
         {
             get { _dir.Y = moveData.DirY; return _dir; }
@@ -95,12 +97,51 @@ namespace GameServer.Game.Object
             Console.WriteLine($"HP : {objectInfo.StatInfo.NowHP}/{objectInfo.StatInfo.MaxHP} | 데미지 {damage}");
 
             RecentDamagedTime = DateTime.UtcNow;
+
+            if (RecentlyAttacker.ContainsKey(attacker.objectInfo.Id) == false)
+            {
+                RecentlyAttacker.Add(attacker.objectInfo.Id, (damage, RecentDamagedTime));
+            }
+            else
+            {
+                var record = RecentlyAttacker[attacker.objectInfo.Id];
+                TimeSpan timeSinceLastHit = RecentDamagedTime - record.Item2;
+                if (timeSinceLastHit.TotalSeconds <= 15)
+                {
+                    RecentlyAttacker[attacker.objectInfo.Id] = (record.Item1 + damage, RecentDamagedTime);
+                }
+                else
+                {
+                    RecentlyAttacker[attacker.objectInfo.Id] = (damage, RecentDamagedTime);
+                }
+            }
+
             if (IsDead)
             {
                 OnDeath();
             }
 
             return true;
+        }
+        public List<(int id, float damageRatio)> GetRecentDamageRatiosSorted(DateTime deadTime, float thresholdSeconds = 15f)
+        {
+            // 1. 15초 이내 공격 기록만 필터링
+            var recentAttackers = RecentlyAttacker
+                .Where(x => (deadTime - x.Value.Item2).TotalSeconds <= thresholdSeconds)
+                .ToList();
+
+            // 2. 총 데미지 합
+            float totalDamage = recentAttackers.Sum(x => x.Value.Item1);
+            if (totalDamage <= 0)
+                return new List<(int, float)>(); // 데미지가 없으면 빈 리스트
+
+            // 3. (id, 비율) 리스트로 변환 후 정렬
+            var result = recentAttackers
+                .Select(x => (x.Key, x.Value.Item1 / totalDamage))
+                .OrderByDescending(x => x.Item2) // damageRatio 내림차순 정렬
+                .ToList();
+
+            return result;
         }
 
     }

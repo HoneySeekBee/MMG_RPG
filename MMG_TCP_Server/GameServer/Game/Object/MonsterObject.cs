@@ -44,8 +44,8 @@ namespace GameServer.Data.Monster
                 MaxMP = 0,
                 NowMP = 0,
                 Level = 2,
-                Gold = 0,
-                Exp = 0
+                Gold = status.MonsterData.Gold,
+                Exp = status.MonsterData.Exp,
             };
             MonsterSpawnpoint = monsterMove;
             MoveData _moveData = monsterMove.MonsterMove;
@@ -125,10 +125,36 @@ namespace GameServer.Data.Monster
         #region 사망 처리
         public override void OnDeath()
         {
-            Console.WriteLine($"[Monster] {objectInfo.Name} 사망");
             // TODO: Drop, Remove 등
-            
+            GiveReward();
             Room.GameRoomObjectManager.MonsterDeadProcess(objectInfo.Id);
+        }
+        private void GiveReward()
+        {
+            // 경험치는 막타친 사람에게 50프로 주고 나머지 50프로는 비율에 맞게 가지고 가게 하자. 
+
+            int lastAttackerId = RecentlyAttacker
+    .OrderByDescending(pair => pair.Value.Item2) // DateTime 기준 정렬
+    .First().Key;
+
+            List<(int id, float damageRatio)> FinalDamageList = GetRecentDamageRatiosSorted(RecentDamagedTime, 15);
+
+            int cnt = 0;
+            foreach (var data in FinalDamageList)
+            {
+                cnt++;
+                if(Room._players[data.id] != null)
+                {
+                    float exp = (objectInfo.StatInfo.Exp * 0.5f) * data.damageRatio; 
+                    int rawGold = (int)Math.Ceiling(objectInfo.StatInfo.Gold * data.damageRatio);
+                    int Gold = Math.Max(rawGold, 1);
+                    if(data.id == lastAttackerId)
+                    {
+                        exp += (objectInfo.StatInfo.Exp * 0.5f);
+                    }
+                    Room._players[data.id].GetReward(exp, Gold);
+                }
+            }
         }
         #endregion
 

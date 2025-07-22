@@ -43,6 +43,9 @@ public class PacketManager : MonoBehaviour
         _onRecv.Add((ushort)PacketType.S_BroadcastPlayerDie, MakePacket<PlayerId>(PacketHandler.S_BroadcastPlayerDieHandler));
         _onRecv.Add((ushort)PacketType.S_BroadcastPlayerRespawn, MakePacket<S_PlayerRespawn>(PacketHandler.S_BroadcastPlayerReviveHandler));
 
+        _onRecv.Add((ushort)PacketType.S_UpdateStatus, MakePacket<Status>(PacketHandler.S_StatusUpdate));
+        _onRecv.Add((ushort)PacketType.S_BroadcastLevelUp, MakePacket<S_BroadcastLevelUp>(PacketHandler.S_BroadcastLevelUp));
+
     }
     #endregion
 

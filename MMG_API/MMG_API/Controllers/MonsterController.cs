@@ -28,6 +28,8 @@ namespace MMG_API.Controllers
                 exists.Speed = dto.Speed;
                 exists.ChaseRange = dto.ChaseRange;
                 exists.AttackRange = dto.AttackRange;
+                exists.Exp = dto.Exp;
+                exists.Gold = dto.Gold;
                 _db.Monsters.Update(exists);
             }
             else
@@ -53,6 +55,9 @@ namespace MMG_API.Controllers
                             Speed = m.Speed,
                             ChaseRange = m.ChaseRange,
                             AttackRange = m.AttackRange,
+                            Exp = m.Exp,
+                            Gold = m.Gold,
+
                             Skills = (from ms in _db.MonsterSkills
                                       where ms.MonsterId == m.Id
                                       select new MonsterSkillDto

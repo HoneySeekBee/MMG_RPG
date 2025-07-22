@@ -19,6 +19,8 @@ namespace MMG_API.DTOs
         public float Speed { get; set; }
         public float ChaseRange { get; set; }
         public float AttackRange { get; set; }
+        public float Exp{ get; set; }
+        public int Gold{ get; set; }
 
         public List<MonsterSkillDto> Skills { get; set; } = new();
     }

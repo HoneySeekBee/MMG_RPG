@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Numerics;
 using GameServer.Game.Room;
 using GameServer.Game.Object;
+using System.Text;
 
 namespace GameServer.Data
 {
@@ -45,6 +46,42 @@ namespace GameServer.Data
                 Console.WriteLine($"[API 예외] {ex.Message}");
                 return null;
             }
+        }
+        public async Task<bool> UpdateCharacterStatus(UpdateCharacterStatusRequest request)
+        {
+            string url = MMG_API_URL + "/api/character/status/update";
+            try
+            {
+                string json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync(url, content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"[API 실패] 상태 업데이트 실패: {response.StatusCode}");
+                    return false;
+                }
+
+                Console.WriteLine("[API] 캐릭터 상태 업데이트 성공");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[API 예외] 상태 업데이트 중 오류 발생: {ex.Message}");
+                return false;
+            }
+        }
+        public class UpdateCharacterStatusRequest
+        {
+            public int CharacterId { get; set; }
+            public int? CharacterLevel { get; set; }
+            public float? HP { get; set; }
+            public float? MP { get; set; }
+            public float? NowHP { get; set; }
+            public float? NowMP { get; set; }
+            public float? Exp { get; set; }
+            public float? MaxExp { get; set; }
+            public int? Gold { get; set; }
         }
     }
 }

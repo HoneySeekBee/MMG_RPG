@@ -37,11 +37,12 @@ namespace MonsterPacket {
             "TwoPTW9uc3Rlck1vdmVEYXRhEhEKCU1vbnN0ZXJJZBgBIAEoBRIpCgtNb25z",
             "dGVyTW92ZRgDIAEoCzIULkdhbWVQYWNrZXQuTW92ZURhdGEiRgoNU19Nb25z",
             "dGVyTGlzdBI1Cg9Nb25zdGVyRGF0YUxpc3QYASADKAsyHC5Nb25zdGVyUGFj",
-            "a2V0Lk1vbnN0ZXJTdGF0dXMitAEKC01vbnN0ZXJEYXRhEhEKCW1vbnN0ZXJJ",
+            "a2V0Lk1vbnN0ZXJTdGF0dXMizwEKC01vbnN0ZXJEYXRhEhEKCW1vbnN0ZXJJ",
             "ZBgBIAEoBRITCgttb25zdGVyTmFtZRgCIAEoCRINCgVNYXhIUBgDIAEoAhIR",
             "Cgltb3ZlU3BlZWQYBCABKAISEgoKY2hhc2VSYW5nZRgFIAEoAhITCgthdHRh",
             "Y2tSYW5nZRgGIAEoAhIyCglza2lsbEluZm8YByABKAsyHy5Nb25zdGVyUGFj",
-            "a2V0Lk1vbnN0ZXJTa2lsbEluZm9iBnByb3RvMw=="));
+            "a2V0Lk1vbnN0ZXJTa2lsbEluZm8SCwoDRXhwGAggASgCEgwKBEdvbGQYCSAB",
+            "KAViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::GamePacket.GameReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -51,7 +52,7 @@ namespace MonsterPacket {
             new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterSkill), global::MonsterPacket.MonsterSkill.Parser, new[]{ "MonsterAttack", "Skill" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterMoveData), global::MonsterPacket.MonsterMoveData.Parser, new[]{ "MonsterId", "MonsterMove" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.S_MonsterList), global::MonsterPacket.S_MonsterList.Parser, new[]{ "MonsterDataList" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterData), global::MonsterPacket.MonsterData.Parser, new[]{ "MonsterId", "MonsterName", "MaxHP", "MoveSpeed", "ChaseRange", "AttackRange", "SkillInfo" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::MonsterPacket.MonsterData), global::MonsterPacket.MonsterData.Parser, new[]{ "MonsterId", "MonsterName", "MaxHP", "MoveSpeed", "ChaseRange", "AttackRange", "SkillInfo", "Exp", "Gold" }, null, null, null, null)
           }));
     }
     #endregion
@@ -1570,6 +1571,8 @@ namespace MonsterPacket {
       chaseRange_ = other.chaseRange_;
       attackRange_ = other.attackRange_;
       skillInfo_ = other.skillInfo_ != null ? other.skillInfo_.Clone() : null;
+      exp_ = other.exp_;
+      gold_ = other.gold_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1663,6 +1666,30 @@ namespace MonsterPacket {
       }
     }
 
+    /// <summary>Field number for the "Exp" field.</summary>
+    public const int ExpFieldNumber = 8;
+    private float exp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float Exp {
+      get { return exp_; }
+      set {
+        exp_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "Gold" field.</summary>
+    public const int GoldFieldNumber = 9;
+    private int gold_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Gold {
+      get { return gold_; }
+      set {
+        gold_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -1685,6 +1712,8 @@ namespace MonsterPacket {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(ChaseRange, other.ChaseRange)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(AttackRange, other.AttackRange)) return false;
       if (!object.Equals(SkillInfo, other.SkillInfo)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Exp, other.Exp)) return false;
+      if (Gold != other.Gold) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1699,6 +1728,8 @@ namespace MonsterPacket {
       if (ChaseRange != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(ChaseRange);
       if (AttackRange != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(AttackRange);
       if (skillInfo_ != null) hash ^= SkillInfo.GetHashCode();
+      if (Exp != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Exp);
+      if (Gold != 0) hash ^= Gold.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1745,6 +1776,14 @@ namespace MonsterPacket {
         output.WriteRawTag(58);
         output.WriteMessage(SkillInfo);
       }
+      if (Exp != 0F) {
+        output.WriteRawTag(69);
+        output.WriteFloat(Exp);
+      }
+      if (Gold != 0) {
+        output.WriteRawTag(72);
+        output.WriteInt32(Gold);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1783,6 +1822,14 @@ namespace MonsterPacket {
         output.WriteRawTag(58);
         output.WriteMessage(SkillInfo);
       }
+      if (Exp != 0F) {
+        output.WriteRawTag(69);
+        output.WriteFloat(Exp);
+      }
+      if (Gold != 0) {
+        output.WriteRawTag(72);
+        output.WriteInt32(Gold);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1813,6 +1860,12 @@ namespace MonsterPacket {
       }
       if (skillInfo_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(SkillInfo);
+      }
+      if (Exp != 0F) {
+        size += 1 + 4;
+      }
+      if (Gold != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Gold);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1849,6 +1902,12 @@ namespace MonsterPacket {
           SkillInfo = new global::MonsterPacket.MonsterSkillInfo();
         }
         SkillInfo.MergeFrom(other.SkillInfo);
+      }
+      if (other.Exp != 0F) {
+        Exp = other.Exp;
+      }
+      if (other.Gold != 0) {
+        Gold = other.Gold;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1900,6 +1959,14 @@ namespace MonsterPacket {
             input.ReadMessage(SkillInfo);
             break;
           }
+          case 69: {
+            Exp = input.ReadFloat();
+            break;
+          }
+          case 72: {
+            Gold = input.ReadInt32();
+            break;
+          }
         }
       }
     #endif
@@ -1948,6 +2015,14 @@ namespace MonsterPacket {
               SkillInfo = new global::MonsterPacket.MonsterSkillInfo();
             }
             input.ReadMessage(SkillInfo);
+            break;
+          }
+          case 69: {
+            Exp = input.ReadFloat();
+            break;
+          }
+          case 72: {
+            Gold = input.ReadInt32();
             break;
           }
         }

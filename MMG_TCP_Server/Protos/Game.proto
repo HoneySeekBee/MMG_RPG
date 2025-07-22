@@ -30,6 +30,10 @@ message S_EnterGameResponse {
 	int32 MapId = 1;
 	repeated CharacterList characterList = 2;
 }
+message S_BroadcastLevelUp{
+	int32 CharacterId = 1;
+	Status status = 2;
+}
 
 message CharacterList {
   bool IsLocal = 1; // true: 본인, false: 다른 유저
@@ -102,6 +106,7 @@ message Status{
 	float NowMP = 6;
 	float MaxMP = 7; 
     int64 timestamp = 8;
+	float MaxExp = 9;
 }
 
 message ObjectInfo{
@@ -113,17 +118,17 @@ message ObjectInfo{
 
 message Skill
 {
-	  int32 AttackId = 1;
-      string AttackName = 2;
-      OwnerType OwnerType = 3;
-      AttackPacket.WeaponType WeaponType = 4;
-      AttackPacket.AttackType AttackType = 5;
-      float Range = 6;
-      float Angle = 7;
-      float Damage = 8;
-      float Cooldown = 9;
-      float DelayAfter = 10;
-      float CastTime = 11;
+	int32 AttackId = 1;
+    string AttackName = 2;
+    OwnerType OwnerType = 3;
+    AttackPacket.WeaponType WeaponType = 4;
+    AttackPacket.AttackType AttackType = 5;
+    float Range = 6;
+    float Angle = 7;
+    float Damage = 8;
+    float Cooldown = 9;
+    float DelayAfter = 10;
+    float CastTime = 11;
 }
 message CharacterSkill
 {

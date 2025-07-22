@@ -42,6 +42,8 @@ public class MonsterDataManageWindow : EditorWindow
             newData._MoveSpeed = EditorGUILayout.FloatField("Speed", newData._MoveSpeed);
             newData._ChaseRange = EditorGUILayout.FloatField("Chase Range", newData._ChaseRange);
             newData._AttackRange = EditorGUILayout.FloatField("Attack Range", newData._AttackRange);
+            newData._EXP = EditorGUILayout.FloatField("Exp", newData._EXP);
+            newData._Gold = EditorGUILayout.IntField("Gold", newData._Gold);
 
             GUILayout.Space(10);
             GUILayout.Label("Attack Data", EditorStyles.boldLabel);
@@ -124,7 +126,9 @@ public class MonsterDataManageWindow : EditorWindow
             HP = data._MaxHP,
             Speed = data._MoveSpeed,
             ChaseRange = data._ChaseRange,
-            AttackRange = data._AttackRange
+            AttackRange = data._AttackRange,
+            Exp = data._EXP,
+            Gold = data._Gold,
         };
 
         string monsterJson = JsonConvert.SerializeObject(monsterDto);

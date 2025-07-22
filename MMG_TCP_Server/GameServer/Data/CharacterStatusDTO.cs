@@ -11,6 +11,7 @@ namespace GameServer.Data
         public int characterId { get; set; }
         public int level { get; set; }
         public int exp { get; set; }
+        public int maxExp { get; set; }
         public int gold { get; set; }
         public int maxHp { get; set; }
         public int nowHp { get; set; }

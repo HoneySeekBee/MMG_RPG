@@ -43,6 +43,9 @@ namespace ServerCore
         S_PlayerReviveResponse = 143, 
         S_BroadcastPlayerRespawn = 144,
 
+        S_UpdateStatus = 151,
+        S_BroadcastLevelUp = 152,
+
         // 몬스터 관련 
         S_MonsterList = 200,
         S_RespawnMonsterList = 201,

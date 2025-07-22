@@ -89,6 +89,7 @@ namespace MMG_API.Controllers
                 CharacterId = characterId,
                 CharacterLevel = 1,
                 Exp = 0,
+                MaxExp = 10,
                 Gold = 0,
                 HP = 10,
                 MP = 10,
@@ -128,6 +129,7 @@ namespace MMG_API.Controllers
                 characterId = status.CharacterId,
                 level = status.CharacterLevel,
                 exp = status.Exp,
+                maxExp = status.MaxExp,
                 gold = status.Gold,
                 maxHp = status.HP,
                 nowHp = status.NowHP,
@@ -147,11 +149,13 @@ namespace MMG_API.Controllers
                 return NotFound(new { message = "해당 캐릭터의 상태 정보를 찾을 수 없습니다." });
 
             // 값이 들어온 항목만 업데이트
+            if(request.CharacterLevel.HasValue) status.CharacterLevel = request.CharacterLevel.Value;
             if (request.NowHP.HasValue) status.HP = request.HP.Value;
             if (request.NowMP.HasValue) status.MP = request.MP.Value;
             if (request.NowHP.HasValue) status.NowHP = request.NowHP.Value;
             if (request.NowMP.HasValue) status.NowMP = request.NowMP.Value;
             if (request.Exp.HasValue) status.Exp = request.Exp.Value;
+            if (request.MaxExp.HasValue) status.MaxExp = request.MaxExp.Value;
             if (request.Gold.HasValue) status.Gold = request.Gold.Value;
 
             status.LastUpdateAt = DateTime.UtcNow;

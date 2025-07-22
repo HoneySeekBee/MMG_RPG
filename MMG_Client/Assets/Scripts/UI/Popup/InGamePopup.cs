@@ -63,9 +63,9 @@ namespace MMG.UI
                 HP_Text.text = $"{myCharStatus.NowHP}/{myCharStatus.MaxHP}";
                 MP_Text.text = $"{myCharStatus.NowMP}/{myCharStatus.MaxMP}";
                 Level_Text.text = $"LV.{myCharStatus.Level}";
-                EXP_Text.text = $"{myCharStatus.Exp}/100";
+                EXP_Text.text = $"{myCharStatus.Exp}/{myCharStatus.MaxExp}";
 
-                SetBarProgress((myCharStatus.NowHP / myCharStatus.MaxHP), (myCharStatus.NowMP / myCharStatus.MaxMP), (myCharStatus.Exp / 100));
+                SetBarProgress((myCharStatus.NowHP / myCharStatus.MaxHP), (myCharStatus.NowMP / myCharStatus.MaxMP), (myCharStatus.Exp / myCharStatus.MaxExp));
 
                 yield return waitSec;
             }

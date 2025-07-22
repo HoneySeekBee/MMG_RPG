@@ -119,10 +119,22 @@ public class PacketHandler : MonoBehaviour
     {
         MainThreadDispatcher.RunOnMainThread(() =>
         {
-            Debug.Log("[PacketHandler] ¸®½ºÆù");
             GameRoom.Instance.PlayerRespawn(response);
         });
-
+    }
+    public static void S_StatusUpdate(ClientSession session, Status response)
+    {
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            GameRoom.Instance.MyCharacter.UpdateStatus(response);
+        });
+    }
+    public static void S_BroadcastLevelUp(ClientSession session, S_BroadcastLevelUp response)
+    {
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            GameRoom.Instance.Players[response.CharacterId].LevelUp(response.Status);
+        });
     }
     #endregion
 }

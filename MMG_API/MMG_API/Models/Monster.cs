@@ -11,5 +11,7 @@ namespace MMG_API.Models
         public float Speed { get; set; }
         public float ChaseRange { get; set; }
         public float AttackRange { get; set; }
+        public float Exp{ get; set; }
+        public int Gold { get; set; }
     }
 }
