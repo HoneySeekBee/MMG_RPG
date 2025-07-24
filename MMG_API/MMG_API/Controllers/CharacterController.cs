@@ -31,6 +31,25 @@ namespace MMG_API.Controllers
 
             var characters = await _db.Characters
                 .Where(c => c.UserId == userId)
+                .Join(_db.CharacterStatuses,
+                    character => character.Id,
+                    status => status.CharacterId,
+                    (character, status) => new CharacterSummaryDto
+                    {
+                        Id = character.Id,
+                        UserId = character.UserId,
+                        CharacterName = character.CharacterName,
+                        SlotNumber = character.SlotNumber,
+                        Gender = character.Gender,
+                        Class = character.Class,
+                        AppearanceCode = character.AppearanceCode,
+                        CreatedAt = character.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                        LastPlayedAt = character.LastPlayedAt.ToString(),
+                        LastMapId = character.LastMapId,
+                        LastSpawnPointId = character.LastSpawnPointId,
+                        IsDeleted = character.IsDeleted,
+                        Level = status.CharacterLevel
+                    })
                 .ToListAsync();
 
             return Ok(characters);

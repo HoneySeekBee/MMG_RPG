@@ -37,6 +37,7 @@ public class CharacterData
     public int? LastMapId;
     public int? LastSpawnPointId;
     public bool isDeleted;
+    public int Level;
 }
 [System.Serializable]
 public class CharacterDataListWrapper
@@ -73,7 +74,7 @@ public class CharacterSelectButton : MonoBehaviour
             if (player != null)
             {
                 ThisPlayerInfo = player;
-                Init_Character(ThisPlayerInfo.characterName, ThisPlayerInfo.@class, 1);
+                Init_Character(ThisPlayerInfo.characterName, ThisPlayerInfo.@class, ThisPlayerInfo.Level);
             }
             if (renderTexture != null)
                 rawImage.texture = renderTexture;
