@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static MMG.BattleAction;
 using MMG.UI;
+using AttackPacket;
 
 public class RemotePlayer : MonoBehaviour
 {
@@ -80,17 +81,35 @@ public class RemotePlayer : MonoBehaviour
     {
         _controller.SetMove(targetPos, dirY, speed);
     }
-    public void AttackHandle(BattleData battleData)
+    public void AttackHandle(S_Attack attackData)
     {
-        _controller.SetAttack(battleData);
+        BattleData data = new BattleData()
+        {
+            targetType = TargetType.Attacker,
+            TargetId = -1,
+            attackTypeId = attackData.AttackId,
+        };
+        _controller.SetAttack(data);
     }
-    public void GetDamage(float damage)
+    public void GetDamage(DamageInfo damageInfo)
     {
-        StatInfo.NowHP -= damage;
+        StatInfo.NowHP -= damageInfo.Damage;
         if (StatInfo.NowHP <= 0)
         {
             Debug.Log("»ç¸Á~");
         }
+        else
+        {
+            BattleData data = new BattleData()
+            {
+                targetType = TargetType.Damaged,
+                TargetId = damageInfo.AttackerId,
+                attackTypeId = damageInfo.AttackId,
+            };
+            _controller.SetAttack(data);
+
+        }
+
     }
     public void UpdateStatus(Status status)
     {

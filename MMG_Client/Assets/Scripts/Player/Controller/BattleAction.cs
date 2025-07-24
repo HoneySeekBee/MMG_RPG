@@ -61,9 +61,7 @@ namespace MMG
                     attackDataDic.Add(_attackData.InputType, _attackData.attackData);
                 }
             }
-
         }
-
         protected override void Action(BattleInputData value)
         {
             if (stopAction)
@@ -202,7 +200,9 @@ namespace MMG
         }
         public override void DoAction(BattleData battleData)
         {
-            if(battleData.targetType == TargetType.Damaged)
+            if (stopAction)
+                return;
+            if (battleData.targetType == TargetType.Damaged)
             {
                 Debug.Log($"[BattleAction] DoAction : 데미지입은 애니메이션 하기 ");
                 playerAnimator.GetDamaged();

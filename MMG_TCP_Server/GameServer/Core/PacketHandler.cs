@@ -233,7 +233,7 @@ namespace GameServer.Core
 
             // 4. 공격 타입에 따라 판정 로직 실행
             Vector3 pos = new Vector3(packet.PosX, packet.PosY, packet.PosZ);
-            room.HandleAttack(attacker, pos, packet.DirY, attackData);
+            room.HandleAttack(attacker, pos, packet.DirY, attackData, false);
         }
         #endregion
 

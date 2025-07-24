@@ -1,3 +1,4 @@
+using AttackPacket;
 using MMG;
 using MonsterPacket;
 using System.Collections;
@@ -72,16 +73,33 @@ public class RemoteMonster : MonoBehaviour
     {
         _controller.SetMove(targetPos, dirY, speed);
     }
-    public void AttackHandle(BattleData battleData)
+    public void AttackHandle(S_Attack attackData)
     {
-        _controller.SetAttack(battleData);
+        BattleData data = new BattleData()
+        {
+            targetType = TargetType.Attacker,
+            TargetId = -1,
+            attackTypeId = attackData.AttackId,
+        };
+        _controller.SetAttack(data);
     }
-    public void GetDamage(float damage)
+
+    public void GetDamage(DamageInfo damageInfo)
     {
-        HP -= damage;
+        HP -= damageInfo.Damage;
         if (HP <= 0)
         {
             Debug.Log("»ç¸Á~");
+        }
+        else
+        {
+            BattleData data = new BattleData()
+            {
+                targetType = TargetType.Damaged,
+                TargetId = damageInfo.AttackerId,
+                attackTypeId = damageInfo.AttackId,
+            };
+            _controller.SetAttack(data);
         }
     }
     public void OnDead()

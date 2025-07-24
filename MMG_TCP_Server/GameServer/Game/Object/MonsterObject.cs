@@ -106,7 +106,7 @@ namespace GameServer.Data.Monster
         }
         public void Attack(Skill skill)
         {
-            Room.HandleAttack(this, this.Position, this.moveData.DirY, skill);
+            Room.HandleAttack(this, this.Position, this.moveData.DirY, skill, true);
         }
         public void AttackCast(bool isMonster, int CasterId, int Attackid, float CastTime)
         {

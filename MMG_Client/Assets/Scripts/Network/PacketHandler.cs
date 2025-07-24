@@ -88,7 +88,15 @@ public class PacketHandler : MonoBehaviour
         // TargetId를 찾아서 Damage 애니메이션 
         MainThreadDispatcher.RunOnMainThread(() =>
         {
-            GameRoom.Instance.HandlerBattle(response);
+            GameRoom.Instance.HandlerDamaged(response);
+        });
+    }
+    public static void S_BroadcastAttackHandler(ClientSession session, S_Attack response)
+    {
+        Debug.Log($"[S_BroadcastAttackHandler] {response.AttackerId}가 공격");
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            GameRoom.Instance.HandlerAttack(response);
         });
     }
     public static void S_MonsterListHandler(ClientSession session, S_MonsterList response)

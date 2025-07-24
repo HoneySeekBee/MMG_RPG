@@ -28,6 +28,7 @@ message S_Attack{
     float PosZ = 4; 
     float DirY = 5;
     int32 AttackId = 6;
+    bool IsMonster = 7;
 }
 message C_CastAttack
 {

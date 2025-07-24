@@ -29,32 +29,32 @@ namespace AttackPacket {
             "AhIMCgREaXJZGAUgASgCEhAKCEF0dGFja0lkGAYgASgFEhEKCVRpbWVTdGFt",
             "cBgHIAEoAyJrCgxDX0F0dGFja0RhdGESDAoEUG9zWBgBIAEoAhIMCgRQb3NZ",
             "GAIgASgCEgwKBFBvc1oYAyABKAISDAoERGlyWRgEIAEoAhIQCghBdHRhY2tJ",
-            "ZBgFIAEoBRIRCglUaW1lU3RhbXAYBiABKAMiaAoIU19BdHRhY2sSEgoKQXR0",
+            "ZBgFIAEoBRIRCglUaW1lU3RhbXAYBiABKAMiewoIU19BdHRhY2sSEgoKQXR0",
             "YWNrZXJJZBgBIAEoBRIMCgRQb3NYGAIgASgCEgwKBFBvc1kYAyABKAISDAoE",
-            "UG9zWhgEIAEoAhIMCgREaXJZGAUgASgCEhAKCEF0dGFja0lkGAYgASgFIjgK",
-            "DENfQ2FzdEF0dGFjaxIQCghBdHRhY2tJZBgBIAEoBRIWCg5TdGFydFRpbWVT",
-            "dGFtcBgCIAEoAyJXCgxTX0Nhc3RBdHRhY2sSEQoJSXNNb25zdGVyGAEgASgI",
-            "EhAKCENhc3RlcklkGAIgASgFEhAKCEF0dGFja0lkGAMgASgFEhAKCENhc3RU",
-            "aW1lGAQgASgCIj0KEVNfRGFtYWdlQnJvYWRjYXN0EigKBmRhbWFnZRgBIAEo",
-            "CzIYLkF0dGFja1BhY2tldC5EYW1hZ2VJbmZvIkMKFlNfTXVsdGlEYW1hZ2VC",
-            "cm9hZGNhc3QSKQoHZGFtYWdlcxgBIAMoCzIYLkF0dGFja1BhY2tldC5EYW1h",
-            "Z2VJbmZvInsKCkRhbWFnZUluZm8SEAoIdGFyZ2V0SWQYASABKAUSDgoGZGFt",
-            "YWdlGAIgASgCEhIKCmF0dGFja2VySWQYAyABKAUSEAoIYXR0YWNrSWQYBCAB",
-            "KAUSEgoKaXNDcml0aWNhbBgFIAEoCBIRCglJc01vbnN0ZXIYBiABKAgikwEK",
-            "CldlYXBvbkRhdGESJgoEdHlwZRgBIAEoDjIYLkF0dGFja1BhY2tldC5XZWFw",
-            "b25UeXBlEiwKCmF0dGFja1R5cGUYAiABKA4yGC5BdHRhY2tQYWNrZXQuQXR0",
-            "YWNrVHlwZRIOCgZkYW1hZ2UYAyABKAISDQoFcmFuZ2UYBCABKAISEAoIY29v",
-            "bGRvd24YBSABKAIiNwoQU19EZWF0aEJyb2FkY2FzdBIRCglJc01vbnN0ZXIY",
-            "ASABKAgSEAoIb2JqZWN0SWQYAiABKAUqNgoKV2VhcG9uVHlwZRIICgRGaXN0",
-            "EAASCQoFU3dvcmQQARIHCgNCb3cQZBIKCgVTdGFmZhDIASpGCgpBdHRhY2tU",
-            "eXBlEgkKBXB1bmNoEAASCQoFU2xhc2gQZBIKCgVBcnJvdxDIARIKCgVUaHJv",
-            "dxDJARIKCgVNYWdpYxCsAmIGcHJvdG8z"));
+            "UG9zWhgEIAEoAhIMCgREaXJZGAUgASgCEhAKCEF0dGFja0lkGAYgASgFEhEK",
+            "CUlzTW9uc3RlchgHIAEoCCI4CgxDX0Nhc3RBdHRhY2sSEAoIQXR0YWNrSWQY",
+            "ASABKAUSFgoOU3RhcnRUaW1lU3RhbXAYAiABKAMiVwoMU19DYXN0QXR0YWNr",
+            "EhEKCUlzTW9uc3RlchgBIAEoCBIQCghDYXN0ZXJJZBgCIAEoBRIQCghBdHRh",
+            "Y2tJZBgDIAEoBRIQCghDYXN0VGltZRgEIAEoAiI9ChFTX0RhbWFnZUJyb2Fk",
+            "Y2FzdBIoCgZkYW1hZ2UYASABKAsyGC5BdHRhY2tQYWNrZXQuRGFtYWdlSW5m",
+            "byJDChZTX011bHRpRGFtYWdlQnJvYWRjYXN0EikKB2RhbWFnZXMYASADKAsy",
+            "GC5BdHRhY2tQYWNrZXQuRGFtYWdlSW5mbyJ7CgpEYW1hZ2VJbmZvEhAKCHRh",
+            "cmdldElkGAEgASgFEg4KBmRhbWFnZRgCIAEoAhISCgphdHRhY2tlcklkGAMg",
+            "ASgFEhAKCGF0dGFja0lkGAQgASgFEhIKCmlzQ3JpdGljYWwYBSABKAgSEQoJ",
+            "SXNNb25zdGVyGAYgASgIIpMBCgpXZWFwb25EYXRhEiYKBHR5cGUYASABKA4y",
+            "GC5BdHRhY2tQYWNrZXQuV2VhcG9uVHlwZRIsCgphdHRhY2tUeXBlGAIgASgO",
+            "MhguQXR0YWNrUGFja2V0LkF0dGFja1R5cGUSDgoGZGFtYWdlGAMgASgCEg0K",
+            "BXJhbmdlGAQgASgCEhAKCGNvb2xkb3duGAUgASgCIjcKEFNfRGVhdGhCcm9h",
+            "ZGNhc3QSEQoJSXNNb25zdGVyGAEgASgIEhAKCG9iamVjdElkGAIgASgFKjYK",
+            "CldlYXBvblR5cGUSCAoERmlzdBAAEgkKBVN3b3JkEAESBwoDQm93EGQSCgoF",
+            "U3RhZmYQyAEqRgoKQXR0YWNrVHlwZRIJCgVwdW5jaBAAEgkKBVNsYXNoEGQS",
+            "CgoFQXJyb3cQyAESCgoFVGhyb3cQyQESCgoFTWFnaWMQrAJiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AttackPacket.WeaponType), typeof(global::AttackPacket.AttackType), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.C_Attack), global::AttackPacket.C_Attack.Parser, new[]{ "PosX", "PosY", "PosZ", "DirY", "AttackId", "TimeStamp" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.C_AttackData), global::AttackPacket.C_AttackData.Parser, new[]{ "PosX", "PosY", "PosZ", "DirY", "AttackId", "TimeStamp" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.S_Attack), global::AttackPacket.S_Attack.Parser, new[]{ "AttackerId", "PosX", "PosY", "PosZ", "DirY", "AttackId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.S_Attack), global::AttackPacket.S_Attack.Parser, new[]{ "AttackerId", "PosX", "PosY", "PosZ", "DirY", "AttackId", "IsMonster" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.C_CastAttack), global::AttackPacket.C_CastAttack.Parser, new[]{ "AttackId", "StartTimeStamp" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.S_CastAttack), global::AttackPacket.S_CastAttack.Parser, new[]{ "IsMonster", "CasterId", "AttackId", "CastTime" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AttackPacket.S_DamageBroadcast), global::AttackPacket.S_DamageBroadcast.Parser, new[]{ "Damage" }, null, null, null, null),
@@ -914,6 +914,7 @@ namespace AttackPacket {
       posZ_ = other.posZ_;
       dirY_ = other.dirY_;
       attackId_ = other.attackId_;
+      isMonster_ = other.isMonster_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -995,6 +996,18 @@ namespace AttackPacket {
       }
     }
 
+    /// <summary>Field number for the "IsMonster" field.</summary>
+    public const int IsMonsterFieldNumber = 7;
+    private bool isMonster_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool IsMonster {
+      get { return isMonster_; }
+      set {
+        isMonster_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -1016,6 +1029,7 @@ namespace AttackPacket {
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(PosZ, other.PosZ)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(DirY, other.DirY)) return false;
       if (AttackId != other.AttackId) return false;
+      if (IsMonster != other.IsMonster) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1029,6 +1043,7 @@ namespace AttackPacket {
       if (PosZ != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(PosZ);
       if (DirY != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(DirY);
       if (AttackId != 0) hash ^= AttackId.GetHashCode();
+      if (IsMonster != false) hash ^= IsMonster.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1071,6 +1086,10 @@ namespace AttackPacket {
         output.WriteRawTag(48);
         output.WriteInt32(AttackId);
       }
+      if (IsMonster != false) {
+        output.WriteRawTag(56);
+        output.WriteBool(IsMonster);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1105,6 +1124,10 @@ namespace AttackPacket {
         output.WriteRawTag(48);
         output.WriteInt32(AttackId);
       }
+      if (IsMonster != false) {
+        output.WriteRawTag(56);
+        output.WriteBool(IsMonster);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1132,6 +1155,9 @@ namespace AttackPacket {
       }
       if (AttackId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(AttackId);
+      }
+      if (IsMonster != false) {
+        size += 1 + 1;
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1162,6 +1188,9 @@ namespace AttackPacket {
       }
       if (other.AttackId != 0) {
         AttackId = other.AttackId;
+      }
+      if (other.IsMonster != false) {
+        IsMonster = other.IsMonster;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1206,6 +1235,10 @@ namespace AttackPacket {
             AttackId = input.ReadInt32();
             break;
           }
+          case 56: {
+            IsMonster = input.ReadBool();
+            break;
+          }
         }
       }
     #endif
@@ -1247,6 +1280,10 @@ namespace AttackPacket {
           }
           case 48: {
             AttackId = input.ReadInt32();
+            break;
+          }
+          case 56: {
+            IsMonster = input.ReadBool();
             break;
           }
         }

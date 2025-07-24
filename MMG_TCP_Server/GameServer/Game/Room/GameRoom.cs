@@ -89,17 +89,18 @@ namespace GameServer.Game.Room
         }
         #endregion
 
-        public void HandleAttack(GameObject attacker, Vector3 pos, float rotY, Skill attackData)
+        public void HandleAttack(GameObject attacker, Vector3 pos, float rotY, Skill attackData, bool isMonster)
         {
             // BroadCast 해준다.
             S_Attack s_Attack = new S_Attack()
             {
-                AttackerId = attacker.ObjectId,
+                AttackerId = attacker.objectInfo.Id,
                 PosX = pos.X,
                 PosY = pos.Y,
                 PosZ = pos.Z,
-                DirY = rotY, 
+                DirY = rotY,
                 AttackId = attackData.AttackId,
+                IsMonster = isMonster
             };
             BroadcastAttack(s_Attack, attacker);
             _battleSystem.HandleAttack(attacker, pos, rotY, attackData);
