@@ -112,7 +112,7 @@ public class CharacterSelectButton : MonoBehaviour
         PlayerData.Instance.InitializeFrom(ThisPlayerInfo);
         if (ServerConnector.Instance != null)
         {
-            StartCoroutine(ServerConnector.Instance.ConnectToServer());
+            StartCoroutine(ServerConnector.Instance.ConnectToMainServer());
             PopupManager.Instance.UnShow<CharacterSelectPopup>();
         }
 

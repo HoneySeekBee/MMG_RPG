@@ -9,6 +9,9 @@ namespace MMG.UI
 {
     public class InGamePopup : PopupBase
     {
+        public static InGamePopup Instance;
+
+
         [Header("캐릭터 상태")]
         [SerializeField] private TMP_Text HP_Text;
         [SerializeField] private TMP_Text MP_Text;
@@ -34,7 +37,27 @@ namespace MMG.UI
         private const float SHOW_TIME = 3;
         private Coroutine CoMonsterHPTimer;
 
+        [Header("Chat")]
+        public ChatContentUI ChatContentUI;
+
         Status myCharStatus => GameRoom.Instance.MyCharacter.StatInfo;
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else if (Instance != this)
+            {
+                Destroy(gameObject);
+            }
+        }
+        private void Start()
+        {
+            if (PopupManager.Instance.isConnectChatServer)
+                ShowChatUI();
+        }
         public void Set(List<SaveKeyWithAttackData> attackDatas)
         {
             SetSkill(attackDatas);
@@ -56,7 +79,7 @@ namespace MMG.UI
         private IEnumerator Open_Status()
         {
             var waitSec = new WaitForSeconds(1f);
-         
+
             while (true)
             {
                 // 갱신 
@@ -116,12 +139,16 @@ namespace MMG.UI
                 if (CurrentMonster == null)
                     break;
                 Monster_Text.text = $"[{CurrentMonster.name} {CurrentMonster.HP}/{CurrentMonster.RemoteMonsterData._MaxHP}]";
-                Monster_Animator.SetFloat("BarFill", Mathf.Clamp01(CurrentMonster.HP/ CurrentMonster.RemoteMonsterData._MaxHP));
+                Monster_Animator.SetFloat("BarFill", Mathf.Clamp01(CurrentMonster.HP / CurrentMonster.RemoteMonsterData._MaxHP));
                 yield return waitSec;
             }
             UnShowMonsterHP();
             CoMonsterHPTimer = null;
         }
-
+        public void ShowChatUI()
+        {
+            if (ChatContentUI.gameObject.activeSelf == false)
+                ChatContentUI.gameObject.SetActive(true);
+        }
     }
 }

@@ -15,15 +15,29 @@ public class ChatContentUI : SceneSingleton<ChatContentUI>
     private Queue<GameObject> pool = new Queue<GameObject>();
     private List<GameObject> activeChatLines = new List<GameObject>();
     private DateTime lastChatTime;
-    [SerializeField] private GameObject chatRootUI; 
+    [SerializeField] private GameObject chatRootUI;
+
+    private NetworkManager networkManager
+    {
+        get
+        {
+            if (_networkManager == null)
+            {
+                _networkManager = NetworkManager.Instance;
+            }
+            return _networkManager;
+        }
+    }
+    private NetworkManager _networkManager;
     private void Start()
     {
         scrollRect = GetComponentInChildren<ScrollRect>();
         inputField.onSubmit.AddListener(OnChatSubmit);
+        lastChatTime = DateTime.UtcNow;
     }
     private void Update()
     {
-        DateTime now = DateTime.Now;
+        DateTime now = DateTime.UtcNow;
 
         for (int i = activeChatLines.Count - 1; i >= 0; i--)
         {
@@ -36,7 +50,7 @@ public class ChatContentUI : SceneSingleton<ChatContentUI>
                 Return(go);
             }
         }
-        if ((now - lastChatTime).TotalSeconds >= 5)
+        if ((now - lastChatTime).TotalMinutes >= 1)
         {
             if (chatRootUI.activeSelf)
                 chatRootUI.SetActive(false);
@@ -76,7 +90,7 @@ public class ChatContentUI : SceneSingleton<ChatContentUI>
         chatLineUI.Get_Text(message, time);
 
         activeChatLines.Add(go); // 리스트에 등록
-        lastChatTime = DateTime.Now;   
+        lastChatTime = time;
         chatRootUI.SetActive(true);
 
         Canvas.ForceUpdateCanvases();
@@ -106,7 +120,8 @@ public class ChatContentUI : SceneSingleton<ChatContentUI>
         if (string.IsNullOrWhiteSpace(text))
             return;
 
-        SystemChat(text, DateTime.Now);
+        networkManager.Send_RoomChat(text);
+
         inputField.text = string.Empty;
         inputField.ActivateInputField();
     }

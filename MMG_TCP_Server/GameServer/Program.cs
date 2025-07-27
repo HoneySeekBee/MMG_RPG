@@ -1,4 +1,5 @@
 ﻿using GameServer.Attack;
+using GameServer.ChatServer;
 using GameServer.Core;
 using GameServer.Data;
 using GameServer.Data.Monster;
@@ -12,6 +13,7 @@ namespace GameServer
     public class Program
     {
         public static string URL = "https://localhost:7132";
+
         static void Main(string[] args)
         {
             Init();

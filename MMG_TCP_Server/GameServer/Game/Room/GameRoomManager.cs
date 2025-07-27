@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GamePacket;
+using GameServer.ChatServer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +19,7 @@ namespace GameServer.Game.Room
             var room = new GameRoom(roomId);
             _rooms[roomId] = room;
             Console.WriteLine($"[GameRoomManager] GameRoom #{roomId} 생성");
+            ChatServerManager.CreateRoom(roomId);
             return room;
         }
         public GameRoom GetRoom(int roomId)

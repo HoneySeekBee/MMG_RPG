@@ -48,9 +48,9 @@ namespace GameServer.Core
             Console.WriteLine($"[Send] {numOfBytes} bytes");
         }
 
-        protected override void OnRecvPacketInternal(ArraySegment<byte> buffer)
+        protected override async void OnRecvPacketInternal(ArraySegment<byte> buffer)
         {
-            ServerPacketManager.OnRecvPacket(this, buffer);
+            await ServerPacketManager.OnRecvPacket(this, buffer);
         }
         public void SetLoginStatus(bool status)
         {

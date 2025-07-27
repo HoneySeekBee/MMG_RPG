@@ -15,8 +15,8 @@ namespace MMG.UI
 
         [SerializeField] private Transform popupParent;
 
-
         private Dictionary<Type, PopupBase> _activePopups = new();
+        public bool isConnectChatServer = false;
 
         private void Awake()
         {

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package ChatPacket;
+
+message EnterChatRoom{
+	int32 RoomId = 1;
+	int32 UserId = 2;
+	int32 CharacterId = 3;
+	string nickName = 4;
+}
+
+message C_RoomChat
+{
+	string message = 1;
+}
+message S_BroadcastRoomChat
+{
+	int32 CharacterId = 1;
+	string message = 2; 
+	string nickName = 3;
+    int64 TimeStamp = 4;
+}

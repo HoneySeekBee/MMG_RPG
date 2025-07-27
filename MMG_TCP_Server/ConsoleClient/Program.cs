@@ -27,5 +27,9 @@ namespace ConsoleClient
             IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
             return endPoint;
         }
+        static void ConnectChatServer()
+        {
+
+        }
     }
 }

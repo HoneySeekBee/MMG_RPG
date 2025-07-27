@@ -16,6 +16,7 @@ using Google.Protobuf.WellKnownTypes;
 using AttackPacket;
 using Newtonsoft.Json;
 using System.Net.Http;
+using GameServer.ChatServer;
 
 namespace GameServer.Game.Room
 {
@@ -58,6 +59,7 @@ namespace GameServer.Game.Room
             session.Room = this;
             Console.WriteLine($"[Enter] {_characterInfo.CharacterName}");
 
+
             // 유저에게 현재 방 정보 전송
             GameRoomObjectManager.LocalCharacterSpawn(session, charId, _characterInfo);
             GameRoomObjectManager.Send_MonsterList(session);
@@ -67,6 +69,7 @@ namespace GameServer.Game.Room
         {
             if (_players.Remove(player.CharacterInfo.Id))
                 Console.WriteLine($"[GameRoom:{RoomId}] {player.CharacterInfo.CharacterName} 퇴장");
+
         }
         #endregion
         #region Player

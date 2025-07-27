@@ -51,6 +51,16 @@ namespace ServerCore
         S_RespawnMonsterList = 201,
 
         S_Error = 901,
+
+        // Chat PacketType 관련 
+        C_EnterChatRoom = 1001, 
+        S_EnterChatRoom = 1002, 
+
+        C_RoomChat = 1003, 
+        S_BroadcastRoomChat = 1004, 
+        C_TargetChat = 1005,
+        S_TargetChat = 1006, 
+
     }
     public enum ErrorCode
     {

@@ -26,16 +26,6 @@ public class GameSceneLoader : SceneSingleton<GameSceneLoader>
 
         LoadCharacter();
     }
-    public void SpawnRoomAllCharacter(List<CharacterList> characterList)
-    {
-        var op = Addressables.LoadAssetAsync<GameObject>(characterAddress);
-        foreach (var character in characterList)
-        {
-            // 캐릭터들을 생성시키자. 
-            // 근데 IsLocal이 true인 애는 나의 캐릭터 이다. 
-
-        }
-    }
     private void LoadCharacter()
     {
         var op = Addressables.LoadAssetAsync<GameObject>(characterAddress);

@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using AttackPacket;
+using ChatPacket;
+using MMG.UI;
+using System;
 
 public class PacketHandler : MonoBehaviour
 {
@@ -33,12 +36,13 @@ public class PacketHandler : MonoBehaviour
         {
             Debug.Log("게임에 입장하기  ");
 
-            // [3] 게임씬으로 이동하기 
             MainThreadDispatcher.RunOnMainThread(() =>
             {
-                Debug.Log("OnMainThread");
+                // (!) 채팅 서버에 연결하기 => 이후 게임 접속 
                 int mapNumber = PlayerData.Instance.MyCharaceterData.LastMapId ?? MapManager.DEFAULT_MAP_NUMBER;
-                MapManager.Instance.EnterGameScene(mapNumber);
+                ServerConnector.Instance.ConnctChatServer(
+                    () => MapManager.Instance.EnterGameScene(mapNumber)
+                    );
             });
         }
         else
@@ -50,14 +54,34 @@ public class PacketHandler : MonoBehaviour
     {
         // 리스폰으로 오는것? 
         // 생성해야할 캐릭터 리스트들
-
         MainThreadDispatcher.RunOnMainThread(() =>
         {
+            Debug.Log("ChatServer에 EnterGameRoom 보내기");
             GameRoom.Instance.Init(response.MapId);
             GameRoom.Instance.SpawnCharacters(response.CharacterList.ToList());
+            NetworkManager.Instance.Send_Chat_EnterGame();
         });
     }
-
+    public static void S_Chat_EnterChatRoomHandler(ChatSession session, EnterChatRoom response)
+    {
+        Debug.Log($"[PacketHandler] : S_Chat_EnterChatRoomHandler {response.NickName}  ");
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            // ChatUI 활성화
+            PopupManager.Instance.isConnectChatServer = true;
+            if (InGamePopup.Instance != null)
+                InGamePopup.Instance.ShowChatUI();
+        });
+    }
+    public static void S_Chat_RoomChat(ChatSession session, S_BroadcastRoomChat response)
+    {
+        Debug.Log($"[PacketHandler] : RoomChat {response.NickName} : {response.Message}");
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            DateTime chatTime = DateTimeOffset.FromUnixTimeSeconds(response.TimeStamp).UtcDateTime;
+            InGamePopup.Instance.ChatContentUI.UserChat(response.NickName, response.Message, chatTime);
+        });
+    }
     #region GameRoomBroadcast
     public static void S_BroadcastEnterHandler(ClientSession session, S_BroadcastEnter response)
     {

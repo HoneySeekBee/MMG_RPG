@@ -7,25 +7,21 @@ using Unity.VisualScripting;
 using UnityEngine;
 using AttackPacket;
 using ServerCore;
+using ChatPacket;
 
-public class NetworkManager : MonoBehaviour
+public class NetworkManager : GlobalSingleton<NetworkManager>
 {
-    public static NetworkManager Instance { get; private set; }
     private ClientSession _session;
+    private ChatSession _chatSession;
     public const string MMG_API_URL = "https://localhost:7132";
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
+
     public void GetClientSession(ClientSession mySession)
     {
         _session = mySession;
+    }
+    public void GetClientSession(ChatSession mySession)
+    {
+        _chatSession = mySession;
     }
     public void Send_Login(C_LoginToken packet)
     {
@@ -82,4 +78,28 @@ public class NetworkManager : MonoBehaviour
     {
         _session.Send(PacketType.C_PlayerReviveRequest, packet);
     }
+    #region ChatServer Packet
+    public void Send_Chat_EnterGame()
+    {
+        // 패킷을 만들자. 
+        // 패킷 타입을 만들자. 
+        EnterChatRoom enterChatRoom = new EnterChatRoom()
+        {
+            RoomId = MapManager.Instance.MapNumber,
+            UserId = PlayerData.Instance.MyCharacterInfo().UserId,
+            CharacterId = PlayerData.Instance.MyCharacterInfo().Id,
+            NickName = PlayerData.Instance.MyCharacterInfo().CharacterName,
+        };
+        _chatSession.Send(PacketType.C_EnterChatRoom, enterChatRoom);
+    }
+    public void Send_RoomChat(string chatText)
+    {
+        Debug.Log($"[NetworkManager] : Chat {chatText}");
+        C_RoomChat chat = new C_RoomChat()
+        {
+            Message = chatText
+        };
+        _chatSession.Send(PacketType.C_RoomChat, chat);
+    }
+    #endregion
 }
