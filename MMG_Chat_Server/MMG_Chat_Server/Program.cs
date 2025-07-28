@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Builder;
 using MMG_Chat_Server.Protos;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
+using StackExchange.Redis;
 
 
 namespace MMG_Chat_Server
 {
-    internal class Program
+    public class Program
     {
+        public static Redis _Redis;
         static void Main(string[] args)
         {
             // gRPC용 서버 시작 
@@ -36,6 +38,8 @@ namespace MMG_Chat_Server
         }
         static void StartGrpcServer()
         {
+            InitRedis().GetAwaiter().GetResult();
+
             string localIp = GetLocalIp().ToString();
 
             var builder = WebApplication.CreateBuilder();
@@ -62,6 +66,13 @@ namespace MMG_Chat_Server
 
             Console.WriteLine($"gRPC 서버 시작: http://{localIp}:7779");
             app.Run();
+        }
+        static async Task InitRedis()
+        {
+            var connection = await ConnectionMultiplexer.ConnectAsync("localhost:6379");
+            Console.WriteLine("Redis connected!");
+            _Redis = new Redis(connection.GetDatabase());
+            _Redis.BackupCheck();
         }
     }
 }

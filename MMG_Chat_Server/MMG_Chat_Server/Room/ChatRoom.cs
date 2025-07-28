@@ -54,7 +54,7 @@ namespace MMG_Chat_Server.Room
         public void Broadcast_RoomChat(int _charId, string _message, string _nickName, DateTime dateTime)
         {
             long unixTimeSeconds = new DateTimeOffset(dateTime).ToUnixTimeSeconds();
-            // 여기서 채팅 기록 저장
+            Program._Redis.Save_RoomChat(_charId, _message, _nickName, dateTime, RoomId); // 여기서 채팅 기록 저장
             Console.WriteLine($"[ChatRoom] Broadcast RoomChat {_nickName} : {_message} || Room Player 수 {_players.Count} ");
             S_BroadcastRoomChat roomchat = new S_BroadcastRoomChat()
             {

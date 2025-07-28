@@ -39,7 +39,7 @@ namespace MMG_Chat_Server.Main
         public static void C_RoomChat(ChatSession session, C_RoomChat packet)
         {
             Console.WriteLine($"[C_RoomChat] : {packet.Message} {session.Room.RoomId}");
-            session.Room.Broadcast_RoomChat(session.MyPlayer.UserInfo.CharacterId, packet.Message, session.MyPlayer.UserInfo.NickName, DateTime.Now);
+            session.Room.Broadcast_RoomChat(session.MyPlayer.UserInfo.CharacterId, packet.Message, session.MyPlayer.UserInfo.NickName, DateTime.UtcNow);
         }
         private static void ExitGameRoom(UserData player)
         {
