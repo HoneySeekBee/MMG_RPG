@@ -8,13 +8,19 @@ using UnityEngine;
 using AttackPacket;
 using ServerCore;
 using ChatPacket;
+using Newtonsoft.Json;
+using System.IO;
+using System.Linq;
 
 public class NetworkManager : GlobalSingleton<NetworkManager>
 {
     private ClientSession _session;
     private ChatSession _chatSession;
-    public const string MMG_API_URL = "https://localhost:7132";
+    public static string MMG_API_URL { get { return $"https://localhost:{API_PORT_NUMBER}"; } }
 
+    public static int MAIN_PORT_NUMBER { get { return GetPortNumber("Main"); } }
+    public static int CHAT_PORT_NUMBER { get { return GetPortNumber("Chat"); } }
+    public static int API_PORT_NUMBER { get { return GetPortNumber("API"); } }
     public void GetClientSession(ClientSession mySession)
     {
         _session = mySession;
@@ -72,7 +78,7 @@ public class NetworkManager : GlobalSingleton<NetworkManager>
 
         Debug.Log((ushort)PacketType.C_AttackData);
         _session.Send(ServerCore.PacketType.C_AttackData, packet);
-    } 
+    }
 
     public void Send_PlayerReviveRequest(PlayerId packet)
     {
@@ -102,4 +108,26 @@ public class NetworkManager : GlobalSingleton<NetworkManager>
         _chatSession.Send(PacketType.C_RoomChat, chat);
     }
     #endregion
+    private static int GetPortNumber(string serverName)
+    {
+        string configPath = @"C:\Users\USER\OneDrive\바탕 화면\MMG\MMG_RPG\MMG_RPG\ServerConfig.json";
+
+        var json = File.ReadAllText(configPath);
+        var configs = JsonConvert.DeserializeObject<List<ServerConfig>>(json);
+        var myConfig = configs?.FirstOrDefault(c => c.ServerName == serverName);
+        if (myConfig == null)
+        {
+            Console.WriteLine($"[ERROR] {serverName} 설정을 찾을 수 없습니다.");
+            return 7132;
+        }
+
+        return myConfig.PortNumber;
+    }
+
+    public class ServerConfig
+    {
+        public string ServerName { get; set; }
+        public string ExePath { get; set; }
+        public int PortNumber { get; set; }
+    }
 }

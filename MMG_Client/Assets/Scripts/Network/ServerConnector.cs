@@ -1,8 +1,10 @@
-﻿using Packet;
+﻿using Newtonsoft.Json;
+using Packet;
 using ServerCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -12,8 +14,7 @@ public class ServerConnector : SceneSingleton<ServerConnector>
 {
     public enum ServerType { Main_Server, Chat_Server }
 
-    private const int MAIN_PORT_NUMBER = 7777;
-    private const int CHAT_PORT_NUMBER = 7778;
+ 
     private void Start()
     {
         PacketManager.Register();
@@ -134,7 +135,7 @@ public class ServerConnector : SceneSingleton<ServerConnector>
     {
         if (args.SocketError == SocketError.Success)
         {
-            if(serverType == ServerType.Main_Server)
+            if (serverType == ServerType.Main_Server)
             {
                 ClientSession session = ((Func<ClientSession>)args.UserToken).Invoke();
 
@@ -143,7 +144,7 @@ public class ServerConnector : SceneSingleton<ServerConnector>
                 SessionManager.Register(session);
                 NetworkManager.Instance.GetClientSession(session);
             }
-            else if(serverType == ServerType.Chat_Server)
+            else if (serverType == ServerType.Chat_Server)
             {
                 ChatSession session = ((Func<ChatSession>)args.UserToken).Invoke();
                 session.Start(args.ConnectSocket);
@@ -182,8 +183,9 @@ public class ServerConnector : SceneSingleton<ServerConnector>
             .AddressList
 .FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork);
 
-        int portNumber = type == ServerType.Main_Server ? MAIN_PORT_NUMBER : CHAT_PORT_NUMBER;
+        int portNumber = type == ServerType.Main_Server ? NetworkManager.MAIN_PORT_NUMBER : NetworkManager.CHAT_PORT_NUMBER;
         IPEndPoint endPoin = new IPEndPoint(ipAddr, portNumber);
+        Debug.Log($"PortType : {type.ToString()}, PortNumber {portNumber}");
         Debug.Log($"서버 주소? ipAddr : {ipAddr}");
         return endPoin;
     }

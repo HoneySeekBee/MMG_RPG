@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<string> 
+@{
     string title = "제목입니다.";
     string content = "내용입니다.";
 }
@@ -30,10 +31,10 @@
     }
     12dlfdl12
     @@naver.com
-    @ViewBag.MyNum
+    @Model.Count
 
     <ul>
-        @foreach (var data in ViewBag.MyTest)
+        @foreach (var data in Model)
         {
             <li>@data</li>
         }

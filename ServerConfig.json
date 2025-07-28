@@ -1,0 +1,27 @@
+[
+  {
+    "ServerName": "API",
+    "ExePath": "C:\\Users\\USER\\OneDrive\\���� ȭ��\\MMG\\MMG_RPG\\MMG_RPG\\MMG_API\\MMG_API\\bin\\Debug\\net6.0\\MMG_API.exe",
+    "PortNumber": 5100
+  },
+  {
+    "ServerName": "Main",
+    "ExePath": "C:\\Users\\USER\\OneDrive\\���� ȭ��\\MMG\\MMG_RPG\\MMG_RPG\\MMG_TCP_Server\\GameServer\\bin\\Debug\\net6.0\\GameServer.exe",
+    "PortNumber": 7777
+  },
+  {
+    "ServerName": "Chat",
+    "ExePath": "C:\\Users\\USER\\OneDrive\\���� ȭ��\\MMG\\MMG_RPG\\MMG_RPG\\MMG_Chat_Server\\MMG_Chat_Server\\bin\\Debug\\net8.0\\MMG_Chat_Server.exe",
+    "PortNumber": 8888
+  },
+  {
+    "ServerName": "ChatGrpc",
+    "ExePath": "",
+    "PortNumber": 8889
+  },
+  {
+    "ServerName": "ChatRedis",
+    "ExePath": "",
+    "PortNumber": 6379
+  }
+]

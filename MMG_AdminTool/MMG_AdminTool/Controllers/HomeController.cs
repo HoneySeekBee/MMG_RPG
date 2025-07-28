@@ -4,20 +4,20 @@ namespace MMG_AdminTool.Controllers
 { 
     public class HomeController : Controller
     {
-        public string Index() 
+        public IActionResult Index() 
         {
-            string? userId = Request.Query["user_id"];
-            string? age = Request.Query["age"];
-
-            return "응답입니다. " + userId + " " + age;
+            return View();
         }
 
         public IActionResult Test()
         {
             ViewData["MyMsg"] = "Hello response";
-            ViewBag.MyTest = new List<string> { "abc", "def", "ton" };
-            ViewBag.MyNum = 5;
-            return View();
+            //ViewBag.MyTest = new List<string> { "abc", "def", "ton" };
+            //ViewBag.MyNum = 5;
+
+            var list = new List<string> { "abc", "def", "ton" };
+
+            return View(list);
         }
     }
 }

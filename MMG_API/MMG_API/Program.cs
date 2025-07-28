@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore; // 추가!
 using System.Text;
 using MMG_API.Data;
+using System.Text.Json;
 
 namespace MMG_API
 {
@@ -13,6 +14,10 @@ namespace MMG_API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.WebHost.UseUrls($"https://localhost:{GetPortNumber(args)}");
+
+            Console.WriteLine($"https://localhost:{GetPortNumber(args)} 시작" );
 
             // DbContext 등록 (여기 추가!)
             builder.Services.AddDbContext<MMGDbContext>(options =>
@@ -61,6 +66,28 @@ namespace MMG_API
             app.MapControllers();
 
             app.Run();
+        }
+        private static int GetPortNumber(string[] args)
+        {
+            string serverName = args.Length > 0 ? args[0] : "API";
+            string configPath = @"C:\Users\USER\OneDrive\바탕 화면\MMG\MMG_RPG\MMG_RPG\ServerConfig.json";
+
+            var json = File.ReadAllText(configPath);
+            var configs = JsonSerializer.Deserialize<List<ServerConfig>>(json);
+            var myConfig = configs!.FirstOrDefault(c => c.ServerName == serverName);
+            if (myConfig == null)
+            {
+                Console.WriteLine($"[ERROR] {serverName} 설정을 찾을 수 없습니다.");
+                return 7132;
+            }
+
+            return myConfig.PortNumber;
+        }
+        public class ServerConfig
+        {
+            public string ServerName { get; set; }
+            public string ExePath { get; set; }
+            public int PortNumber { get; set; }
         }
     }
 }

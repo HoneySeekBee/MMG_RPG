@@ -1,0 +1,39 @@
+﻿@model List<MMG_AdminTool.Models.ServerStatusViewModel>
+
+@{
+    ViewData["Title"] = "Server 관리";
+}
+<h1>서버 관리 페이지</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>서버명</th>
+            <th>포트</th>
+            <th>상태</th>
+            <th>접속자 수</th>
+            <th>액션</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.Name</td>
+                <td>@s.Port</td>
+                <td>@s.Status</td>
+                <td>@s.ConnectedClients</td>
+                <td>
+                    <form method="post" asp-action="Start" asp-route-name="@s.Name" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-success">실행</button>
+                    </form>
+                    <form method="post" asp-action="Stop" asp-route-name="@s.Name" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">종료</button>
+                    </form>
+                    <button class="btn btn-sm btn-primary">상세</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

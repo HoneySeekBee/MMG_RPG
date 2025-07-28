@@ -60,9 +60,13 @@ namespace GameServer.Core
                 new AuthenticationHeaderValue("Bearer", session.jwtToken);
 
             HttpResponseMessage res;
+
+
+
             try
             {
-                res = await client.GetAsync($"https://localhost:7132/api/character/{packet.CharacterId}");
+                int API_PortNumber = Program.API_Port;
+                res = await client.GetAsync($"https://localhost:{API_PortNumber}/api/character/{packet.CharacterId}");
             }
             catch (Exception ex)
             {

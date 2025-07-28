@@ -16,7 +16,7 @@ namespace GameServer.ChatServer
             };
 
             var channel = GrpcChannel.ForAddress(
-    "http://192.168.219.70:7779",
+    Program.GRPC_URL,
                 new GrpcChannelOptions
                 {
                     HttpHandler = handler

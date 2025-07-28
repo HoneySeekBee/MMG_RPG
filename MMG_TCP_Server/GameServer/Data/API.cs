@@ -11,14 +11,13 @@ namespace GameServer.Data
     {
         private readonly HttpClient _httpClient;
 
-        public static string MMG_API_URL = "http://localhost:5070";
         public API()
         {
             _httpClient = new HttpClient(); // 여기서 초기화
         }
         public async Task<CharacterObject> GetCharacterStatus(int characterId, string name, GameRoom room)
         {
-            string url = API.MMG_API_URL + $"/api/character/status/{characterId}";
+            string url = Program.URL + $"/api/character/status/{characterId}";
 
             try
             {
@@ -49,7 +48,7 @@ namespace GameServer.Data
         }
         public async Task<bool> UpdateCharacterStatus(UpdateCharacterStatusRequest request)
         {
-            string url = MMG_API_URL + "/api/character/status/update";
+            string url = Program.URL + "/api/character/status/update";
             try
             {
                 string json = JsonConvert.SerializeObject(request);
