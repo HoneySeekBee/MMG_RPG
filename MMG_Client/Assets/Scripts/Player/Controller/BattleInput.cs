@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace MMG
 {
@@ -49,6 +50,9 @@ namespace MMG
                 CurrentSkill = BattleSkill.Skill_4;
             }
             battleInputData.skillType = CurrentSkill;
+
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+                return;
 
             if (keys.TryGetValue("LeftClick", out var LeftClick) && Input.GetKeyDown(LeftClick))
             {

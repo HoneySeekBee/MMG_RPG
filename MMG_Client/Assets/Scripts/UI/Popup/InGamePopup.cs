@@ -58,6 +58,18 @@ namespace MMG.UI
             if (PopupManager.Instance.isConnectChatServer)
                 ShowChatUI();
         }
+        private void Update()
+        {
+            if (PopupManager.Instance.isConnectChatServer)
+            {
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    Debug.Log("[InGamePopup] PressEnter");
+                    ChatContentUI.PressEnter();
+                }
+            }
+
+        }
         public void Set(List<SaveKeyWithAttackData> attackDatas)
         {
             SetSkill(attackDatas);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ChatContentUI : SceneSingleton<ChatContentUI>
@@ -16,7 +17,7 @@ public class ChatContentUI : SceneSingleton<ChatContentUI>
     private List<GameObject> activeChatLines = new List<GameObject>();
     private DateTime lastChatTime;
     [SerializeField] private GameObject chatRootUI;
-
+    public bool isActiveInputField {get{ return inputField.isFocused; } }
     private NetworkManager networkManager
     {
         get
@@ -95,6 +96,31 @@ public class ChatContentUI : SceneSingleton<ChatContentUI>
 
         Canvas.ForceUpdateCanvases();
         scrollRect.verticalNormalizedPosition = 0f;
+    }
+    public void PressEnter()
+    {
+        if(chatRootUI.activeSelf == false)
+        {
+            lastChatTime = DateTime.UtcNow;
+            chatRootUI.SetActive(true);
+        }
+        if (inputField.isFocused)
+        {
+            if (!string.IsNullOrWhiteSpace(inputField.text))
+            {
+                string msg = inputField.text;
+                // 전송 로직
+                OnChatSubmit(msg);
+                // 입력창 초기화
+                inputField.text = string.Empty;
+            }
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+        else
+        {
+            inputField.Select();
+            inputField.ActivateInputField();
+        }
     }
 
     public void UserChat(string nickName, string message, DateTime time)

@@ -30,6 +30,10 @@ namespace MMG
         }
         protected override void CheckInput()
         {
+            if (ChatContentUI.Instance != null && ChatContentUI.Instance.isActiveInputField)
+                return;
+
+
             float x = 0f;
             float y = 0f;
             bool isRunning = false;

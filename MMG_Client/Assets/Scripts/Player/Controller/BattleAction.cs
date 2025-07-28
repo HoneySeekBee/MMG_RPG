@@ -125,11 +125,6 @@ namespace MMG
             AttackGizmoPreview.Instance.Show(pos, dirY, data);
             #endregion
             bool isProjectile = data.AttackType == AttackType.Arrow;
-            Debug.Log($"공격 타입 체크 {data.AttackType} {attackRequest.PosY}");
-            Debug.Log($"[attackRequest] {attackRequest.PosX}, {attackRequest.PosY}, {attackRequest.PosZ}");
-
-            Debug.Log($"[attackRequest] {pos.x}, {pos.y}, {pos.z}");
-
             if (isProjectile)
             {
                 Debug.Log("화살 공격");
