@@ -1,86 +1,133 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MMG_AdminTool.Models;
+using MMG_AdminTool.Services;
+using System.Text.Json;
 
 namespace MMG_AdminTool.Controllers
 {
     public class ServerController : Controller
     {
+        private readonly RedisConnectionManager _redisManager; 
+        
+        public ServerController(RedisConnectionManager redisManager)
+        {
+            _redisManager = redisManager;
+        }
         [HttpPost]
         public IActionResult Start(string name)
         {
-            string exePath = name switch
+            // JSON 경로 읽기
+            string configPath = @"C:\Users\USER\OneDrive\바탕 화면\MMG\MMG_RPG\MMG_RPG\ServerConfig.json";
+            var json = System.IO.File.ReadAllText(configPath);
+            var configs = JsonSerializer.Deserialize<List<ServerConfig>>(json)!;
+
+            // 실행할 서버 찾기
+            var cfg = configs.FirstOrDefault(c =>
+                c.ServerName.Equals(name, StringComparison.OrdinalIgnoreCase));
+
+            if (cfg == null || string.IsNullOrEmpty(cfg.ExePath))
+                return RedirectToAction("Index");
+
+            // exe 실행
+            var psi = new System.Diagnostics.ProcessStartInfo
             {
-                "API" => @"C:\Users\USER\OneDrive\바탕 화면\MMG\MMG_RPG\MMG_RPG\MMG_API\MMG_API\bin\Debug\net6.0\MMG_API.exe",
-                "Main" => @"C:\Users\USER\OneDrive\바탕 화면\MMG\MMG_RPG\MMG_RPG\MMG_TCP_Server\GameServer\bin\Debug\net6.0\GameServer.exe",
-                "Chat" => @"C:\Users\USER\OneDrive\바탕 화면\MMG\MMG_RPG\MMG_RPG\MMG_Chat_Server\MMG_Chat_Server\bin\Debug\net8.0\MMG_Chat_Server.exe",
-                _ => ""
+                FileName = cfg.ExePath,
+                WorkingDirectory = Path.GetDirectoryName(cfg.ExePath)!,
+                UseShellExecute = true,
+                Arguments = name // 서버 이름을 실행 인자로 전달
             };
 
-            if (!string.IsNullOrEmpty(exePath))
-            {
-                var psi = new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = exePath,
-                    WorkingDirectory = Path.GetDirectoryName(exePath)!,
-                    UseShellExecute = true
-                };
-
-                System.Diagnostics.Process.Start(psi);
-            }
+            Console.WriteLine($"[Start] {name} 실행: {cfg.ExePath}");
+            System.Diagnostics.Process.Start(psi);
 
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public IActionResult Stop(string name)
         {
-            string processName = name switch
-            {
-                "Main" => "GameServer",
-                "Chat" => "MMG_Chat_Server",
-                "API" => "MMG_API",
-                _ => ""
-            };
+            string configPath = @"C:\Users\USER\OneDrive\바탕 화면\MMG\MMG_RPG\MMG_RPG\ServerConfig.json";
+            var json = System.IO.File.ReadAllText(configPath);
+            var configs = JsonSerializer.Deserialize<List<ServerConfig>>(json)!;
 
-            if (!string.IsNullOrEmpty(processName))
+            var cfg = configs.FirstOrDefault(c => c.ServerName == name);
+            if (cfg == null || string.IsNullOrEmpty(cfg.ExePath))
+                return RedirectToAction("Index");
+
+            string processName = Path.GetFileNameWithoutExtension(cfg.ExePath);
+            var processes = System.Diagnostics.Process.GetProcessesByName(processName);
+            foreach (var p in processes)
             {
-                var processes = System.Diagnostics.Process.GetProcessesByName(processName);
-                foreach (var p in processes)
+                try
+                {
                     p.Kill();
+                }
+                catch (Exception ex)
+                {
+                    // 권한 문제나 이미 종료된 경우는 무시
+                    Console.WriteLine($"[Stop] {p.ProcessName} 종료 실패: {ex.Message}");
+                }
             }
-
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public IActionResult GetLogs(string name)
+        {
+            var db = _redisManager.GetDatabase(); // RedisConnectionManager 사용
+            if (db == null)
+                return Json(new { error = "Redis not connected" });
+
+            string redisKey = $"{name}:RequestLogs";
+            var values = db.ListRange(redisKey, -100, -1);
+
+            var logs = values
+                .Select(x => JsonSerializer.Deserialize<ApiLog>(x!)!)
+                .Reverse()
+                .ToList();
+
+            return Json(logs);
+        }
+
+        public class ApiLog
+        {
+            public string Path { get; set; }
+            public string Method { get; set; }
+            public string Ip { get; set; }
+            public DateTime Time { get; set; }
+        }
+
         private bool IsProcessRunning(string processName)
         {
             return System.Diagnostics.Process.GetProcessesByName(processName).Any();
         }
         public IActionResult Index()
         {
-            var servers = new List<ServerStatusViewModel>
-    {
-        new ServerStatusViewModel
-        {
-            Name = "API",
-            Port = 5000, // 실제 API 서버 포트로 맞춰 줘
-            Status = IsProcessRunning("MMG_API") ? "Alive" : "Dead",
-            ConnectedClients = 0
-        },
-        new ServerStatusViewModel
-        {
-            Name = "Main",
-            Port = 7777,
-            Status = IsProcessRunning("GameServer") ? "Alive" : "Dead",
-            ConnectedClients = 0
-        },
-        new ServerStatusViewModel
-        {
-            Name = "Chat",
-            Port = 8888,
-            Status = IsProcessRunning("MMG_Chat_Server") ? "Alive" : "Dead",
-            ConnectedClients = 0
-        }
-    };
+            string configPath = @"C:\Users\USER\OneDrive\바탕 화면\MMG\MMG_RPG\MMG_RPG\ServerConfig.json";
+            var json = System.IO.File.ReadAllText(configPath);
+            var configs = JsonSerializer.Deserialize<List<ServerConfig>>(json)!;
 
+            var servers = new List<ServerStatusViewModel>();
+
+            foreach (var cfg in configs)
+            {
+                string processName = cfg.ServerName switch
+                {
+                    "API" => "MMG_API",
+                    "Main" => "GameServer",
+                    "Chat" => "MMG_Chat_Server",
+                    "Redis" => "redis-server",
+                    _ => ""
+                };
+
+                servers.Add(new ServerStatusViewModel
+                {
+                    Name = cfg.ServerName,
+                    Port = cfg.PortNumber,
+                    Status = string.IsNullOrEmpty(processName) ? "Unknown" :
+                             (IsProcessRunning(processName) ? "Alive" : "Dead"),
+                    ConnectedClients = 0 // Redis 연동하면 여기서 실제값
+                });
+            }
             return View(servers);
         }
     }

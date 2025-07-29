@@ -72,7 +72,7 @@ namespace MMG_Chat_Server
         }
         static async Task InitRedis()
         {
-            var connection = await ConnectionMultiplexer.ConnectAsync($"localhost:{GetPortNumber("ChatRedis")}");
+            var connection = await ConnectionMultiplexer.ConnectAsync($"localhost:{GetPortNumber("Redis")}");
             Console.WriteLine("Redis connected!");
             _Redis = new Redis(connection.GetDatabase());
             _Redis.BackupCheck();

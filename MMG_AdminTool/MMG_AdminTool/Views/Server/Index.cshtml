@@ -18,6 +18,7 @@
     <tbody>
         @foreach (var s in Model)
         {
+            bool unknown = s.Status == "Unknown";
             <tr>
                 <td>@s.Name</td>
                 <td>@s.Port</td>
@@ -25,15 +26,87 @@
                 <td>@s.ConnectedClients</td>
                 <td>
                     <form method="post" asp-action="Start" asp-route-name="@s.Name" style="display:inline;">
-                        <button type="submit" class="btn btn-sm btn-success">실행</button>
+                        <button type="submit" class="btn btn-sm btn-success"@(unknown ? "disabled" : "")>실행</button>
                     </form>
                     <form method="post" asp-action="Stop" asp-route-name="@s.Name" style="display:inline;">
-                        <button type="submit" class="btn btn-sm btn-danger">종료</button>
+                        <button type="submit" class="btn btn-sm btn-danger" @(unknown ? "disabled" : "")>종료</button>
                     </form>
-                    <button class="btn btn-sm btn-primary">상세</button>
+                    <button class="btn btn-sm btn-primary" onclick="openLogModal('@s.Name')">상세</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
+<!-- 로그 모달 -->
+<div class="modal fade" id="logModal" tabindex="-1" aria-labelledby="logModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logModalLabel">서버 로그</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+            </div>
+            <div class="modal-body" style="max-height:500px; overflow-y:auto;">
+                <table class="table table-sm table-striped" id="logTable">
+                    <thead>
+                        <tr>
+                            <th>시간</th>
+                            <th>Method</th>
+                            <th>Path</th>
+                            <th>IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- JS로 채워짐 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        let logInterval = null;
+        let currentServer = null;
+
+        function openLogModal(serverName) {
+            currentServer = serverName;
+            loadLogs(); // 첫 로드
+            var modal = new bootstrap.Modal(document.getElementById('logModal'));
+            modal.show();
+
+            // 3초마다 새 로그 갱신
+            logInterval = setInterval(loadLogs, 3000);
+
+            // 모달 닫힐 때 interval 정리
+            document.getElementById('logModal').addEventListener('hidden.bs.modal', () => {
+                clearInterval(logInterval);
+                logInterval = null;
+            }, { once: true });
+        }
+
+        function loadLogs() {
+            if (!currentServer) return;
+            fetch(`/Server/GetLogs?name=${currentServer}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                        return;
+                    }
+                    const tbody = document.querySelector('#logTable tbody');
+                    tbody.innerHTML = '';
+                    data.forEach(log => {
+                        const row = `<tr>
+                            <td>${new Date(log.time).toLocaleString()}</td>
+                            <td>${log.method}</td>
+                            <td>${log.path}</td>
+                            <td>${log.ip}</td>
+                        </tr>`;
+                        tbody.innerHTML += row;
+                    });
+                });
+        }
+    </script>
+}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

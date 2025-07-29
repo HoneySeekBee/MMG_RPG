@@ -16,7 +16,6 @@ namespace MMG_API.Controllers
         private readonly MMGDbContext _db; 
         private readonly IJwtTokenService _jwtService;
 
-
         public AuthController(MMGDbContext db, IJwtTokenService jwtService)
         {
             _db = db;

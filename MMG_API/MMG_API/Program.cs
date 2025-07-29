@@ -6,19 +6,26 @@ using Microsoft.EntityFrameworkCore; // 추가!
 using System.Text;
 using MMG_API.Data;
 using System.Text.Json;
+using StackExchange.Redis;
+using Microsoft.EntityFrameworkCore.Storage;
+using System.Diagnostics;
 
 namespace MMG_API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        private const string ServerName = "API";
+        private static StackExchange.Redis.IDatabase RedisDb;
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.WebHost.UseUrls($"https://localhost:{GetPortNumber(args)}");
+            int apiPort = GetPortNumber(ServerName);
+            builder.WebHost.UseUrls($"https://localhost:{apiPort}");
 
-            Console.WriteLine($"https://localhost:{GetPortNumber(args)} 시작" );
-
+            Console.WriteLine($"https://localhost:{apiPort} 시작" );
+            RedisDb = Connect_Redis();
+            await SaveInitData_Redis(apiPort);
             // DbContext 등록 (여기 추가!)
             builder.Services.AddDbContext<MMGDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -49,6 +56,8 @@ namespace MMG_API
                 };
             });
 
+            builder.Services.AddSingleton(RedisDb);
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -57,7 +66,6 @@ namespace MMG_API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseHttpsRedirection();
 
             app.UseAuthentication(); // 인증 추가
@@ -65,11 +73,57 @@ namespace MMG_API
 
             app.MapControllers();
 
+            End_API_Redis(app); 
+            app.UseMiddleware<RequestLoggingMiddleware>();
+
             app.Run();
         }
-        private static int GetPortNumber(string[] args)
+        private static StackExchange.Redis.IDatabase Connect_Redis()
         {
-            string serverName = args.Length > 0 ? args[0] : "API";
+            try
+            {
+                var redis = ConnectionMultiplexer.Connect($"localhost:{GetPortNumber("Redis")}");
+                return redis.GetDatabase();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Redis 연결 실패] {ex.Message}");
+                return null!;
+            }
+        }
+        private static async Task SaveInitData_Redis(int apiPort)
+        {
+            var status = new
+            {
+                Pid = Process.GetCurrentProcess().Id,
+                Ip = "127.0.0.1",
+                Port = apiPort,
+                Status = "Alive",
+                StartTime = DateTime.UtcNow,
+                ConnectedClients = 0
+            };
+
+            await RedisDb.StringSetAsync($"ServerStatus:{ServerName}",
+                JsonSerializer.Serialize(status));
+        }
+        private static void End_API_Redis(WebApplication app)
+        {
+            app.Lifetime.ApplicationStopping.Register(() =>
+            {
+                try
+                {
+                    RedisDb.KeyDelete($"ServerStatus:{ServerName}");
+                    RedisDb.KeyDelete("API:RequestLogs");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[Redis Key 삭제 실패] {ex.Message}");
+                }
+            });
+        }
+
+        private static int GetPortNumber(string serverName)
+        {
             string configPath = @"C:\Users\USER\OneDrive\바탕 화면\MMG\MMG_RPG\MMG_RPG\ServerConfig.json";
 
             var json = File.ReadAllText(configPath);
