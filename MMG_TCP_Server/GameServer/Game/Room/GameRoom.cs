@@ -17,6 +17,7 @@ using AttackPacket;
 using Newtonsoft.Json;
 using System.Net.Http;
 using GameServer.ChatServer;
+using GameServer.Services;
 
 namespace GameServer.Game.Room
 {
@@ -59,6 +60,7 @@ namespace GameServer.Game.Room
             session.Room = this;
             Console.WriteLine($"[Enter] {_characterInfo.CharacterName}");
 
+            ServerStatusReporter.ReportEvent($"Client[{_characterInfo.Id}] Enter GameRoom[{RoomId}]");
 
             // 유저에게 현재 방 정보 전송
             GameRoomObjectManager.LocalCharacterSpawn(session, charId, _characterInfo);

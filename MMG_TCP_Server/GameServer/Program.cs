@@ -4,6 +4,8 @@ using GameServer.Core;
 using GameServer.Data;
 using GameServer.Data.Monster;
 using GameServer.Game.Room;
+using GameServer.Services;
+using Google.Protobuf.WellKnownTypes;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
@@ -34,9 +36,19 @@ namespace GameServer
                 }
                 return chatGRPC_Port;
             } }
-        private static int chatGRPC_Port = -1;
+        private static int chatGRPC_Port = -1; 
+        public static RedisConnectionManager Redis { get; private set; }
         static void Main(string[] args)
         {
+            int redisPort = GetPortNumber("Redis");
+            Redis = new  RedisConnectionManager($"localhost:{redisPort}");
+            ServerStatusReporter.ReportAlive(GetPortNumber("Main"));
+
+            AppDomain.CurrentDomain.ProcessExit += (s, e) =>
+            {
+                ServerStatusReporter.ReportShutdown();
+            };
+
             Init();
 
             Task.Run(() =>

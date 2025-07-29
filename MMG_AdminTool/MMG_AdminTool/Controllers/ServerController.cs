@@ -71,7 +71,7 @@ namespace MMG_AdminTool.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public IActionResult GetLogs(string name)
+        public IActionResult GetAPILog(string name)
         {
             var db = _redisManager.GetDatabase(); // RedisConnectionManager 사용
             if (db == null)
@@ -86,6 +86,62 @@ namespace MMG_AdminTool.Controllers
                 .ToList();
 
             return Json(logs);
+        }
+        [HttpGet]
+        public IActionResult GetMainLog(string name)
+        {
+            var db = _redisManager.GetDatabase(); // RedisConnectionManager 사용
+            if (db == null)
+                return Json(new { error = "Redis not connected" });
+
+            string redisKey = $"{name}:RequestLogs";
+            var values = db.ListRange(redisKey, -100, -1);
+
+            var logs = values
+                .Select(x => JsonSerializer.Deserialize<MainLog>(x!)!)
+                .Reverse()
+                .ToList();
+
+            return Json(logs);
+        }
+        [HttpGet]
+        public IActionResult GetChatLogs(int roomId, string date)
+        {
+            var db = _redisManager.GetDatabase();
+            if (db == null)
+                return Json(new { error = "Redis not connected" });
+
+            string key = $"chat:{date}:room:{roomId}";
+            var values = db.ListRange(key, 0, -1);
+
+            var logs = values
+                .Select(x =>
+                {
+                    var parts = x.ToString().Split('|', 4);
+                    return new ChatLog
+                    {
+                        Time = DateTime.Parse(parts[0]),
+                        CharId = int.Parse(parts[1]),
+                        Nickname = parts[2],
+                        Message = parts[3]
+                    };
+                })
+                .ToList();
+
+            return Json(logs);
+        }
+
+        public class ChatLog
+        {
+            public DateTime Time { get; set; }
+            public int CharId { get; set; }
+            public string Nickname { get; set; }
+            public string Message { get; set; }
+        }
+        public class MainLog
+        {
+            public DateTime Time{ get; set; }
+            public string Message { get; set; }
         }
 
         public class ApiLog

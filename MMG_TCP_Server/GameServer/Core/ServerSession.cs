@@ -1,5 +1,6 @@
 ﻿using GameServer.Game.Object;
 using GameServer.Game.Room;
+using GameServer.Services;
 using ServerCore;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace GameServer.Core
         public override void OnConnected(EndPoint endPoint)
         {
             Console.WriteLine($"[Connected] {endPoint}");
+            ServerStatusReporter.ReportEvent($"Client 연결 Session번호 {SessionId}");
             SessionManager.Add(SessionId, this);
         }
 

@@ -93,21 +93,38 @@ namespace MMG_API
         }
         private static async Task SaveInitData_Redis(int apiPort)
         {
-            var status = new
+            RedisDb.KeyDelete($"ServerStatus:{ServerName}");
+            RedisDb.KeyDelete("API:RequestLogs");
+
+            // 요청 정보
+            var log = new
             {
-                Pid = Process.GetCurrentProcess().Id,
+                Path = Process.GetCurrentProcess().Id.ToString(),
+                Method = "Alive",
                 Ip = "127.0.0.1",
-                Port = apiPort,
-                Status = "Alive",
-                StartTime = DateTime.UtcNow,
-                ConnectedClients = 0
+                Time = DateTime.UtcNow
             };
 
-            await RedisDb.StringSetAsync($"ServerStatus:{ServerName}",
-                JsonSerializer.Serialize(status));
+            // Redis 리스트에 푸시
+            Console.WriteLine($"[Invoe] : {log.Path}, {log.Ip}, {log.Time} ");
+            await RedisDb.ListRightPushAsync("API:RequestLogs", JsonSerializer.Serialize(log));
+
         }
         private static void End_API_Redis(WebApplication app)
         {
+            AppDomain.CurrentDomain.ProcessExit += (s, e) =>
+            {
+                try
+                {
+                    RedisDb.KeyDelete($"ServerStatus:{ServerName}");
+                    RedisDb.KeyDelete("API:RequestLogs");
+                    Console.WriteLine("[Redis] Keys deleted on ProcessExit");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[Redis Key 삭제 실패] {ex.Message}");
+                }
+            };
             app.Lifetime.ApplicationStopping.Register(() =>
             {
                 try
