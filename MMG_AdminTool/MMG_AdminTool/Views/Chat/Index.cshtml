@@ -2,3 +2,25 @@
     ViewData["Title"] = "Chat 관리";
 }
 <h1>채팅 관리 페이지</h1>
+
+@if(TempData["Result"] != null)
+{
+    <div class="alert alret-success">@TempData["Result"]</div>
+}
+
+<form method="post" asp-action="Send" class="p-3 border rounded">
+    <div class="mb-3">
+        <label for="type" class="form-label">메세지 타입</label>
+        <select name="type" id="type" class="form-select">
+            <option value="System">시스템 메시지</option>
+            <option value="Admin">운영자 메시지</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="message" class="from-label">메시지 내용</label>
+        <textarea name="message" id="message" rows="3" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">전송</button>
+</form>

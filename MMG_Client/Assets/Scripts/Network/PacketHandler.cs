@@ -82,6 +82,27 @@ public class PacketHandler : MonoBehaviour
             InGamePopup.Instance.ChatContentUI.UserChat(response.NickName, response.Message, chatTime);
         });
     }
+    public static void S_Chat_SystemChat(ChatSession session, S_BroadcastRoomChat response)
+    {
+        Debug.Log($"[PacketHandler] : SystemChat {response.NickName} : {response.Message}");
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            DateTime chatTime = DateTimeOffset.FromUnixTimeSeconds(response.TimeStamp).UtcDateTime;
+            InGamePopup.Instance.ChatContentUI.SystemChat(response.Message, chatTime);
+        });
+
+    }
+    public static void S_Chat_AdminChat(ChatSession session, S_BroadcastRoomChat response)
+    {
+        Debug.Log($"[PacketHandler] : AdminChat {response.NickName} : {response.Message}");
+        MainThreadDispatcher.RunOnMainThread(() =>
+        {
+            DateTime chatTime = DateTimeOffset.FromUnixTimeSeconds(response.TimeStamp).UtcDateTime;
+            InGamePopup.Instance.ChatContentUI.AdminChat(response.Message, chatTime);
+        });
+
+
+    }
     #region GameRoomBroadcast
     public static void S_BroadcastEnterHandler(ClientSession session, S_BroadcastEnter response)
     {

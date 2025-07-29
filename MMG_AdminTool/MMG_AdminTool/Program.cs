@@ -14,8 +14,11 @@ namespace MMG_AdminTool
 
             int redisPortNumber = GetPortNumber("Redis");
             builder.Services.AddSingleton(new RedisConnectionManager($"localhost:{redisPortNumber}"));
+            int gRPCPortNumber = GetPortNumber("ChatGrpc");
+            string grpcUrl = $"http://localhost:{gRPCPortNumber}";
+            builder.Services.AddSingleton(new GrpcChatClient(grpcUrl));
 
-            var app = builder.Build();
+                var app = builder.Build();
             
             app.MapControllerRoute(
                 name:"default",

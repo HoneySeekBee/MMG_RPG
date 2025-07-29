@@ -47,7 +47,14 @@ namespace MMG_Chat_Server
             int gRPC_PortNumber = GetPortNumber("ChatGrpc");
             builder.WebHost.ConfigureKestrel(options =>
             {
+                // 기존: 내부 IP에 바인딩 (예: 192.168.x.x)
                 options.Listen(IPAddress.Parse(localIp), gRPC_PortNumber, listenOptions =>
+                {
+                    listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
+                });
+
+                // 추가: localhost(127.0.0.1)에도 바인딩
+                options.Listen(IPAddress.Loopback, gRPC_PortNumber, listenOptions =>
                 {
                     listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
                 });

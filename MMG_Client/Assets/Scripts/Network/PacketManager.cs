@@ -56,6 +56,8 @@ public class PacketManager : MonoBehaviour
     {
         _onRecv.Add((ushort)PacketType.S_EnterChatRoom, MakePacket<ChatSession, EnterChatRoom>(PacketHandler.S_Chat_EnterChatRoomHandler));
         _onRecv.Add((ushort)PacketType.S_BroadcastRoomChat, MakePacket<ChatSession, S_BroadcastRoomChat>(PacketHandler.S_Chat_RoomChat));
+        _onRecv.Add((ushort)PacketType.S_SystemChat, MakePacket<ChatSession, S_BroadcastRoomChat>(PacketHandler.S_Chat_SystemChat));
+        _onRecv.Add((ushort)PacketType.S_AdminChat, MakePacket<ChatSession, S_BroadcastRoomChat>(PacketHandler.S_Chat_AdminChat));
         
     }
     #endregion

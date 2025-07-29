@@ -60,6 +60,8 @@ namespace ServerCore
         S_BroadcastRoomChat = 1004, 
         C_TargetChat = 1005,
         S_TargetChat = 1006, 
+        S_SystemChat = 1007,
+        S_AdminChat = 1008,
 
     }
     public enum ErrorCode

@@ -65,5 +65,19 @@ namespace MMG_Chat_Server.Room
             };
             Broadcast(PacketType.S_BroadcastRoomChat, roomchat);
         }
+
+        public void Broadcast_Chat(PacketType packetType, string chat)
+        {
+            long unixTimeSeconds = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            S_BroadcastRoomChat roomChat = new S_BroadcastRoomChat()
+            {
+                CharacterId = 1,
+                Message = chat,
+                NickName = packetType.ToString(),
+                TimeStamp = unixTimeSeconds,
+            };
+
+            Broadcast(packetType, roomChat);
+        }
     }
 }

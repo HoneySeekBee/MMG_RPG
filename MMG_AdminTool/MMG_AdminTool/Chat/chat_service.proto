@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcChat";
+
+service ChatSync{
+	rpc TestHello (TestHelloRequest) returns (TestHelloReply);
+	rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);
+	rpc AdminChat (ChatRequest) returns (ChatResponse);
+
+}
+
+message CreateRoomRequest{
+	int32 roomId = 1;
+}
+message CreateRoomResponse{
+	int32 roomId = 1;
+}
+
+
+message TestHelloRequest{
+	string message = 1;
+}
+
+message TestHelloReply{
+	string reply = 1;
+}
+
+message ChatRequest
+{
+	string type = 1;
+	string message = 2; 
+}
+message ChatResponse
+{
+	string type = 1;
+	string message = 2; 
+}

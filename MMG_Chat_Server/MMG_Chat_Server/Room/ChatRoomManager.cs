@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,6 +87,14 @@ namespace MMG_Chat_Server.Room
                 room = CreateRoom(mapId);
             }
             return room;
+        }
+        public void SendChat(string type, string message)
+        {
+            PacketType packetType = type == "System" ? PacketType.S_SystemChat : PacketType.S_AdminChat;
+            foreach(var room in _rooms.Values)
+            {
+                room.Broadcast_Chat(packetType, message);
+            }
         }
     }
 }

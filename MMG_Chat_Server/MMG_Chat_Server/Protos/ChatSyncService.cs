@@ -27,6 +27,16 @@ namespace MMG_Chat_Server.Protos
                 RoomId = request.RoomId,
             });
         }
+        public override Task<ChatResponse> AdminChat(ChatRequest request, ServerCallContext context)
+        {
+            ChatRoomManager.Instance.SendChat(request.Type, request.Message);
+            Console.WriteLine($"[AdminChat] : {request.Message}");
+            return Task.FromResult(new ChatResponse
+            {
+                Type = request.Type,
+                Message = request.Message,
+            });
+        }
 
     }
 }
