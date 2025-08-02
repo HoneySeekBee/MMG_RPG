@@ -1,0 +1,48 @@
+﻿syntax = "proto3";
+
+package ItemPacket;
+
+import "Game.proto";
+
+enum ItemType {
+	EQUIP = 0;
+	USEABLE = 1;
+	ETC = 2;
+}
+enum UseableEffectType {
+	INSTANT = 0;
+	BUFF = 1;
+}
+
+message ItemInfo{
+	int32 item_id = 1;
+	string name = 2;
+	string description = 3;
+	ItemType type = 4;
+	int32 item_icon_id = 5;
+	int32 item_model_id = 6;
+}
+
+message StatModifier
+{
+	repeated StatData stat_modifiers = 1;
+}
+message StatData
+{
+	GamePacket.PhysicalType physical_type = 1;
+	int32 add_physical_value = 2;
+}
+
+message ItemRequirement
+{
+	int32 required_level = 1;
+	repeated StatData required_status = 2;
+	repeated GamePacket.ClassType allow_jobs = 3;
+}
+
+message UseableEffect
+{
+	UseableEffectType effect_type = 1;
+	repeated StatData status = 2;
+	float duration = 3; 
+}

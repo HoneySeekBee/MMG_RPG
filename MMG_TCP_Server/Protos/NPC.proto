@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+
+package NPCPacket;
+
+
+enum NPCType
+{
+	NORMAL = 0;
+	QUEST_GIVER = 1;
+	SHOP = 2;
+	EVENT_TRIGGER = 3;
+}
+message NpcInfo {
+	int32 npc_id = 1;
+	NPCType type = 2;
+	string dialog_key = 3;
+}

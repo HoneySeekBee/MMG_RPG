@@ -77,10 +77,11 @@ namespace GamePacket {
             "SGF2ZRAAEgoKBktuaWdodBABEgoKBkFyY2hlchACEggKBE1hZ2UQAyphCglJ",
             "bnB1dFR5cGUSCAoETm9uZRAAEgoKBk5vcm1hbBABEgoKBlN0cm9uZxACEgsK",
             "B1NraWxsXzEQAxILCgdTa2lsbF8yEAQSCwoHU2tpbGxfMxAFEgsKB1NraWxs",
-            "XzQQBmIGcHJvdG8z"));
+            "XzQQBioyCgxQaHlzaWNhbFR5cGUSBwoDU1RSEAASBwoDSU5UEAESBwoDREVD",
+            "EAISBwoDTFVLEANiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AttackPacket.CharacterAttackReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GamePacket.OwnerType), typeof(global::GamePacket.ClassType), typeof(global::GamePacket.InputType), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GamePacket.OwnerType), typeof(global::GamePacket.ClassType), typeof(global::GamePacket.InputType), typeof(global::GamePacket.PhysicalType), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.C_SelectedCharacter), global::GamePacket.C_SelectedCharacter.Parser, new[]{ "CharacterInfo" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.S_SelectedCharacter), global::GamePacket.S_SelectedCharacter.Parser, new[]{ "Result" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::GamePacket.CharacterInfo), global::GamePacket.CharacterInfo.Parser, new[]{ "Id", "UserId", "Gender", "CharacterName", "Class", "AppearanceCode" }, null, null, null, null),
@@ -127,6 +128,13 @@ namespace GamePacket {
     [pbr::OriginalName("Skill_2")] Skill2 = 4,
     [pbr::OriginalName("Skill_3")] Skill3 = 5,
     [pbr::OriginalName("Skill_4")] Skill4 = 6,
+  }
+
+  public enum PhysicalType {
+    [pbr::OriginalName("STR")] Str = 0,
+    [pbr::OriginalName("INT")] Int = 1,
+    [pbr::OriginalName("DEC")] Dec = 2,
+    [pbr::OriginalName("LUK")] Luk = 3,
   }
 
   #endregion

@@ -156,3 +156,10 @@ message S_PlayerRespawn{
 	MoveData moveData = 2;
 	Status StatInfo = 3;
 }
+
+enum PhysicalType{
+	STR = 0;
+	INT = 1;
+	DEC = 2;
+	LUK = 3;
+}

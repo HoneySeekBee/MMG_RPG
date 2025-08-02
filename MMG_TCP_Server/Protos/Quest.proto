@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package QuestPacket;
+
+enum QuestType{
+	REQUIRED = 0;
+	SELECTED = 1;
+}
+enum QuestTriggerType
+{
+	AUTO = 0;
+	NPC = 1;
+	EVENT = 2;
+}
+
+message QuestInfo
+{
+	string title = 1;
+	string content = 2;
+	int32 icon_code = 3;
+	QuestType type = 4;
+	int32 sort_order = 5; 
+}
+
+message QuestCondition
+{
+	int32 min_level = 1;
+	repeated int32 prev_quest_id = 2;
+}
+
+message QuestAllow
+{
+	QuestTriggerType type = 1; 
+	int32 npc_id = 2;
+}
+
+enum QuestGoalType
+{
+	HUNT_MONSTER = 0;
+	GET_ITEM = 1; 
+}
+
+message QuestHuntMonsterGoalData
+{
+	int32 monster_id = 1;
+	int32 count = 2;
+	QuestGoalType goal_type = 3;
+}
+
+message QuestGetItemGoalData
+{
+	int32 item_id = 1;
+	int32 count =2;
+	QuestGoalType goal_type = 3;
+}
+message QuestEnd
+{
+	QuestTriggerType type = 1;
+	int32 npc_id = 2;
+}
+
+message QuestReward
+{
+	repeated RewardItem reward_items = 1;
+	int32 exp = 2;
+}
+message RewardItem
+{
+	int32 item_id = 1;
+	int32 count = 2; 
+}
+enum QuestProgressStatus{
+	NOT_STARTED = 0;
+	IN_PROGRESS = 1;
+	COMPLETED = 2;
+	REWARDED = 3;
+}
