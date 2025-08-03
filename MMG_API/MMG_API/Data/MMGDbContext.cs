@@ -14,6 +14,7 @@ namespace MMG_API.Data
         public DbSet<CharacterSkill> CharacterSkills { get; set; } // 여기에 추가해줘야 DB랑 연결됨
         public DbSet<Monster> Monsters { get; set; } // 여기에 추가해줘야 DB랑 연결됨
         public DbSet<MonsterSkill> MonsterSkills { get; set; } // 여기에 추가해줘야 DB랑 연결됨
+        public DbSet<ItemEntity> Items { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +25,7 @@ namespace MMG_API.Data
             modelBuilder.Entity<CharacterSkill>().ToTable("CharacterSkill"); // 정확히 DB 테이블명
             modelBuilder.Entity<Monster>().ToTable("Monster"); // 정확히 DB 테이블명
             modelBuilder.Entity<MonsterSkill>().ToTable("MonsterSkill"); // 정확히 DB 테이블명
+            modelBuilder.Entity<ItemEntity>().ToTable("ItemData").HasKey(i => i.ItemId);  // 정확히 DB 테이블명
 
             modelBuilder.Entity<MonsterSkill>()
                 .HasKey(ms => new { ms.MonsterId, ms.SkillId }); // 복합 키 지정

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.FileProviders;
 using MMG_AdminTool.Models;
 using MMG_AdminTool.Services;
 using System.Text.Json;
@@ -11,6 +12,11 @@ namespace MMG_AdminTool
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews(); // 컨트롤러와 뷰에 대한 지원 
+            int ApiPortNumber = GetPortNumber("API");
+            builder.Services.AddHttpClient("API", client =>
+            {
+                client.BaseAddress = new Uri($"https://localhost:{ApiPortNumber}"); // 실제 API 서버 주소
+            });
 
             int redisPortNumber = GetPortNumber("Redis");
             builder.Services.AddSingleton(new RedisConnectionManager($"localhost:{redisPortNumber}"));
@@ -18,13 +24,19 @@ namespace MMG_AdminTool
             string grpcUrl = $"http://localhost:{gRPCPortNumber}";
             builder.Services.AddSingleton(new GrpcChatClient(grpcUrl));
 
-                var app = builder.Build();
-            
+            var app = builder.Build();
+
             app.MapControllerRoute(
-                name:"default",
+                name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}"
                 );
 
+            var spritePath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Sprite");
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(spritePath),
+                RequestPath = "/sprites"  // URL 경로 prefix
+            });
 
             app.Run();
         }

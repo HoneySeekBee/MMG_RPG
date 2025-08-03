@@ -1,0 +1,281 @@
+﻿@model MMG_AdminTool.Models.ItemViewModel
+
+<h2>Create Item</h2>
+
+<form asp-action="Create" method="post">
+    <div class="from-group">
+        <label asp-for="Name" class="control-label">아이템 이름</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">아이템 설명</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Type" class="control-label">아이템 타입</label>
+        <select asp-for="Type" class="form-control">
+            <option value="0">Equip</option>
+            <option value="1">Useable</option>
+            <option value="2">ETC</option>
+        </select>
+        <span asp-validation-for="Type" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>아이콘 이미지 선택</label>
+
+        <!-- 높이 제한 + 스크롤 -->
+        <div style="max-height:500px; overflow-y:auto; display:flex; flex-wrap:wrap;">
+            @foreach (var file in (List<string>)ViewBag.SpriteFiles)
+            {
+                <div style="width:33.33%; text-align:center; padding:10px;">
+                    <label style="display:block; cursor:pointer;">
+                        <input type="radio" name="SelectedIcon" value="@file" style="margin-bottom:5px;" />
+                        <br />
+                        <img src="/sprites/@file"
+                             style="width:64px; height:64px; object-fit:contain; border:1px solid #ccc; border-radius:4px;" />
+                        <div style="font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            @file
+                        </div>
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RequiredLevel" class="control-label">사용 가능 레벨</label>
+        <input asp-for="RequiredLevel" type="number" class="form-control" />
+        <span asp-validation-for="RequiredLevel" class="text-danger"></span>
+    </div>
+
+    <textarea asp-for="JsonRequiredStats" id="JsonRequiredStats" hidden></textarea>
+
+    <div id="requiredStatsGroup" style="display:none; margin-top:20px;">
+        <label class="control-label">착용 조건</label>
+
+        <label>착용 가능 직업</label>
+        <div>
+            <label><input type="checkbox" class="class-checkbox" value="0" /> 초보자</label>
+            <label><input type="checkbox" class="class-checkbox" value="1" /> 전사</label>
+            <label><input type="checkbox" class="class-checkbox" value="2" /> 궁수</label>
+            <label><input type="checkbox" class="class-checkbox" value="3" /> 마법사</label>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <label>STR</label>
+                <input type="number" class="form-control reqstat-input" data-stat="STR" />
+            </div>
+            <div class="col-4">
+                <label>INT</label>
+                <input type="number" class="form-control reqstat-input" data-stat="INT" />
+            </div>
+            <div class="col-4">
+                <label>DEX</label>
+                <input type="number" class="form-control reqstat-input" data-stat="DEX" />
+            </div>
+            <div class="col-4">
+                <label>LUK</label>
+                <input type="number" class="form-control reqstat-input" data-stat="LUK" />
+            </div>
+            <div class="col-4">
+                <label>HP</label>
+                <input type="number" class="form-control reqstat-input" data-stat="HP" />
+            </div>
+            <div class="col-4">
+                <label>MP</label>
+                <input type="number" class="form-control reqstat-input" data-stat="MP" />
+            </div>
+        </div>
+        <hr />
+    </div>
+
+    <hr />
+
+    <textarea asp-for="JsonStatModifiers" id="JsonStatModifiers" hidden></textarea>
+    <div id="statModifiersGroup" class="form-group" style="display:none;">
+        <label class="control-label">스탯 보정</label>
+
+        <div class="row">
+            <div class="col-4">
+                <label>STR</label>
+                <input type="number" class="form-control stat-input" data-stat="STR" />
+            </div>
+            <div class="col-4">
+                <label>INT</label>
+                <input type="number" class="form-control stat-input" data-stat="INT" />
+            </div><div class="col-4">
+                <label>DEX</label>
+                <input type="number" class="form-control stat-input" data-stat="DEX" />
+            </div>
+            <div class="col-4">
+                <label>LUK</label>
+                <input type="number" class="form-control stat-input" data-stat="LUK" />
+            </div>
+            <div class="col-4">
+                <label>HP</label>
+                <input type="number" class="form-control stat-input" data-stat="HP" />
+            </div>
+            <div class="col-4">
+                <label>MP</label>
+                <input type="number" class="form-control stat-input" data-stat="MP" />
+            </div>
+        </div>
+    </div>
+
+    <textarea asp-for="JsonUseableEffect" id="JsonUseableEffect" hidden></textarea>
+
+    <div id="useableEffectGroup" style="display:none; margin-top:20px;">
+        <label class="control-label">사용 효과 (Useable Effect)</label>
+
+        <!-- Effect Type -->
+        <div class="form-group">
+            <label>효과 타입</label>
+            <select id="EffectType" class="form-control">
+                <option value="0">회복</option>
+                <option value="1">버프</option>
+            </select>
+        </div>
+
+        <!-- 능력치 -->
+        <div class="row">
+            <div class="col-4">
+                <label>STR</label>
+                <input type="number" class="form-control useable-input" data-stat="STR" />
+            </div>
+            <div class="col-4">
+                <label>INT</label>
+                <input type="number" class="form-control useable-input" data-stat="INT" />
+            </div>
+            <div class="col-4">
+                <label>DEX</label>
+                <input type="number" class="form-control useable-input" data-stat="DEX" />
+            </div>
+            <div class="col-4">
+                <label>LUK</label>
+                <input type="number" class="form-control useable-input" data-stat="LUK" />
+            </div>
+            <div class="col-4">
+                <label>HP</label>
+                <input type="number" class="form-control useable-input" data-stat="HP" />
+            </div>
+            <div class="col-4">
+                <label>MP</label>
+                <input type="number" class="form-control useable-input" data-stat="MP" />
+            </div>
+        </div>
+
+        <!-- Duration -->
+        <div class="form-group" style="margin-top: 15px;">
+            <label>지속 시간 (초)</label>
+            <input type="number" id="EffectDuration" class="form-control" />
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">저장</button>
+        <a asp-action="Index" class="btn btn-secondary">취소</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        function toggleStatModifiers() {
+            const typeSelect = document.getElementById("Type");
+            const statModifiersGroup = document.getElementById("statModifiersGroup");
+            statModifiersGroup.style.display = (typeSelect.value === "0") ? "block" : "none";
+        }
+
+        function toggleRequiredStats() {
+            const typeSelect = document.getElementById("Type");
+            const requiredStatsGroup = document.getElementById("requiredStatsGroup");
+            // Equip(0) 또는 Useable(1)일 때만 보이게
+            requiredStatsGroup.style.display = (typeSelect.value === "0" || typeSelect.value === "1") ? "block" : "none";
+        }
+
+        function toggleUseableEffect() {
+            const typeSelect = document.getElementById("Type");
+            const useableEffectGroup = document.getElementById("useableEffectGroup");
+            // Useable(1)일 때만 보이게
+            useableEffectGroup.style.display = (typeSelect.value === "1") ? "block" : "none";
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            const typeSelect = document.getElementById("Type");
+
+            // Type 변경 시 UI 토글
+            typeSelect.addEventListener("change", () => {
+                toggleStatModifiers();
+                toggleRequiredStats();
+                toggleUseableEffect();
+            });
+
+            // 페이지 처음 로드 시 토글 실행
+            toggleStatModifiers();
+            toggleRequiredStats();
+            toggleUseableEffect();
+
+            // 폼 전송 직전 JSON 변환
+            const form = document.querySelector("form");
+            form.addEventListener("submit", function () {
+                // -------- JsonStatModifiers --------
+                const inputs = document.querySelectorAll(".stat-input");
+                const statData = {};
+                inputs.forEach(input => {
+                    const stat = input.dataset.stat;
+                    const value = parseInt(input.value);
+                    if (!isNaN(value)) {
+                        statData[stat] = value;
+                    }
+                });
+                document.getElementById("JsonStatModifiers").value = JSON.stringify(statData);
+
+                // -------- JsonRequiredStats --------
+                const reqInputs = document.querySelectorAll(".reqstat-input");
+                const reqData = {};
+                reqInputs.forEach(input => {
+                    const stat = input.dataset.stat;
+                    const value = parseInt(input.value);
+                    if (!isNaN(value)) {
+                        reqData[stat] = value;
+                    }
+                });
+
+                const classes = [];
+                document.querySelectorAll(".class-checkbox:checked").forEach(cb => {
+                    classes.push(parseInt(cb.value));
+                });
+                reqData["ClassTypes"] = classes;
+                document.getElementById("JsonRequiredStats").value = JSON.stringify(reqData);
+
+                // -------- JsonUseableEffect --------
+                if (typeSelect.value === "1") {
+                    const useableInputs = document.querySelectorAll(".useable-input");
+                    const useableData = {};
+
+                    useableInputs.forEach(input => {
+                        const stat = input.dataset.stat;
+                        const value = parseInt(input.value);
+                        if (!isNaN(value)) {
+                            useableData[stat] = value;
+                        }
+                    });
+
+                    const effectType = parseInt(document.getElementById("EffectType").value);
+                    const duration = parseInt(document.getElementById("EffectDuration").value);
+
+                    useableData["EffectType"] = effectType;
+                    if (!isNaN(duration)) {
+                        useableData["Duration"] = duration;
+                    }
+
+                    document.getElementById("JsonUseableEffect").value = JSON.stringify(useableData);
+                }
+            });
+        });
+    </script>
+}
