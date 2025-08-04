@@ -1,0 +1,121 @@
+﻿@model MMG_AdminTool.Models.ShopItemEditViewModel
+@using System.Text.Json
+@{
+    ViewData["Title"] = "상점 아이템 관리";
+}
+
+<h2>@Model.TemplateName - 상점 아이템 관리</h2>
+
+<form asp-action="ManageItems" method="post">
+    <input type="hidden" asp-for="TemplateId" />
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th style="width: 20%;">아이템 타입</th>
+                <th style="width: 40%;">아이템 이름</th>
+                <th style="width: 15%;">수량</th>
+                <th style="width: 15%;">가격</th>
+                <th style="width: 10%;">삭제</th>
+            </tr>
+        </thead>
+        <tbody id="shop-items-body">
+            @for (int i = 0; i < Model.CurrentShopItems.Count; i++)
+            {
+                var entry = Model.CurrentShopItems[i];
+                var itemInfo = Model.AvailableItems.FirstOrDefault(i => i.ItemId == entry.ItemId);
+                var itemType = itemInfo?.Type ?? -1; // 없으면 -1
+
+                <tr>
+                    <td>
+                        <select class="form-control type-select" data-index="@i"
+                                onchange="updateItemOptions(@i)">
+                            <option value="">--선택--</option>
+                            <option value="0" selected="@(itemType == 0)">장비</option>
+                            <option value="1" selected="@(itemType == 1)">소비</option>
+                            <option value="2" selected="@(itemType == 2)">기타</option>
+
+                        </select>
+                    </td>
+                    <td>
+                        <select name="CurrentShopItems[@i].ItemId" class="form-control item-select" data-index="@i">
+                            @foreach (var item in Model.AvailableItems)
+                            {
+                                <option value="@item.ItemId" selected="@(item.ItemId == entry.ItemId)">
+                                    [@item.Type] @item.Name - @item.Description
+                                </option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" name="CurrentShopItems[@i].Count" value="@entry.Count" class="form-control" />
+                    </td>
+                    <td>
+                        <input type="number" name="CurrentShopItems[@i].Price" value="@entry.Price" class="form-control" />
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-info" onclick="addRow()">+ 아이템 추가</button>
+    <button type="submit" class="btn btn-primary">저장</button>
+    <a asp-action="Index" class="btn btn-secondary">취소</a>
+</form>
+
+@section Scripts {
+    <script>
+        const allItems = @Html.Raw(JsonSerializer.Serialize(Model.AvailableItems));
+
+        function filterItemsByType(typeValue) {
+            return allItems.filter(item => (item.type ?? item.Type) === parseInt(typeValue));
+        }
+
+        function updateItemOptions(index) {
+            const typeSelect = document.querySelector(`.type-select[data-index="${index}"]`);
+            const itemSelect = document.querySelector(`.item-select[data-index="${index}"]`);
+            const typeValue = typeSelect.value;
+
+            const filtered = allItems.filter(item => item.Type === parseInt(typeValue));
+            itemSelect.innerHTML = "";
+            filtered.forEach(item => {
+                const option = document.createElement("option");
+                option.value = item.ItemId;  // 대문자
+                option.textContent = `[${item.Type}] ${item.Name} - ${item.Description}`;  // 대문자
+                itemSelect.appendChild(option);
+            });
+        }
+
+        function addRow() {
+            const table = document.getElementById("shop-items-body");
+            const index = table.rows.length;
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                        <td>
+                            <select class="form-control type-select" data-index="${index}" onchange="updateItemOptions(${index})">
+                                <option value="">--선택--</option>
+                                <option value="0">장비</option>
+                                <option value="1">소비</option>
+                                <option value="2">기타</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="CurrentShopItems[${index}].ItemId" class="form-control item-select" data-index="${index}"></select>
+                        </td>
+                        <td><input type="number" name="CurrentShopItems[${index}].Count" value="1" class="form-control" /></td>
+                        <td><input type="number" name="CurrentShopItems[${index}].Price" value="0" class="form-control" /></td>
+                        <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">X</button></td>
+                    `;
+            table.appendChild(row);
+        }
+
+        function removeRow(button) {
+            const row = button.closest("tr");
+            row.remove();
+        }
+    </script>
+}
