@@ -162,4 +162,6 @@ enum PhysicalType{
 	INT = 1;
 	DEC = 2;
 	LUK = 3;
+	HP = 4;
+	MP = 5;
 }

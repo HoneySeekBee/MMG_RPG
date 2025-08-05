@@ -1,5 +1,4 @@
 ﻿using GameServer.Attack;
-using GameServer.Data;
 using Newtonsoft.Json;
 using Packet;
 using ServerCore;
@@ -10,6 +9,7 @@ using GamePacket;
 using GameServer.Game.Object;
 using AttackPacket;
 using GameServer.Util;
+using GameServer.Data.DataManager;
 
 namespace GameServer.Core
 {

@@ -8,13 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.Data
+namespace GameServer.Data.DataManager
 {
     public class SkillDataManager
     {
         public static Dictionary<int, Skill> SkillDataDictionary = new Dictionary<int, Skill>();
-        private readonly HttpClient _httpClient = new HttpClient(); 
- 
+
         public static async Task LoadAttackData()
         {
             await LoadAllSkillsAsync(Program.URL + "/api/skill/all");
@@ -66,18 +65,20 @@ namespace GameServer.Data
             var json = await res.Content.ReadAsStringAsync();
             var CharacterSkill = JsonConvert.DeserializeObject<List<CharacterSkill>>(json);
             // characterid를 바탕으로 API를 통해 CharacterSkill에 대한 정보를 받아온다. 
-            List<CharaceterSkillWithSkillData> SkillData=  new List<CharaceterSkillWithSkillData>();
+            List<CharaceterSkillWithSkillData> SkillData = new List<CharaceterSkillWithSkillData>();
             foreach (var data in CharacterSkill)
             {
-                SkillData.Add(new CharaceterSkillWithSkillData(){
-                    CharacterSkill = data, 
-                    Skill = GetSkill(data.SkillId) });
+                SkillData.Add(new CharaceterSkillWithSkillData()
+                {
+                    CharacterSkill = data,
+                    Skill = GetSkill(data.SkillId)
+                });
             }
             // 이 받아온 CharacterSkill에서 SkillId들을 받는다. 
             CharacterSkillInfo result = new CharacterSkillInfo();
 
             result.SkillInfo.AddRange(SkillData);
-            
+
             return result;
         }
         public static async Task<MonsterSkillInfo> GetMonsterSkill(int monsterId)
@@ -89,7 +90,7 @@ namespace GameServer.Data
 
             List<MonsterSkill> SkillList = new List<MonsterSkill>();
 
-            foreach(var data in MonsterAttack)
+            foreach (var data in MonsterAttack)
             {
                 SkillList.Add(new MonsterSkill()
                 {
@@ -103,7 +104,7 @@ namespace GameServer.Data
             result.SkillInfo.AddRange(SkillList);
 
             return result;
-        } 
+        }
 
         // SkillDto 내부 정의 (API용)
         private class SkillDto

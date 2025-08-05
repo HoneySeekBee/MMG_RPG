@@ -1,10 +1,9 @@
-﻿using GameServer.Data.Monster;
-using GameServer.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameServer.Data.DataManager;
 
 namespace GameServer.Core
 {
@@ -21,6 +20,7 @@ namespace GameServer.Core
         {
             await SkillDataManager.LoadAttackData();
             await MonsterDataManager.LoadData();
+            await ItemDataManager.LoadItemDataManager();
         }
     }
 }

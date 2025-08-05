@@ -1,0 +1,203 @@
+﻿@using MMG_AdminTool.Models.Enums
+@model MMG_AdminTool.Models.ItemViewModel
+
+<h2>Edit Item</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="ItemId" />
+
+    <div class="form-group">
+        <label asp-for="Name">아이템 이름</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description">아이템 설명</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Type">아이템 타입</label>
+        <select asp-for="Type" class="form-control" id="Type">
+            <option value="0">Equip</option>
+            <option value="1">Useable</option>
+            <option value="2">ETC</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RequiredLevel">사용 가능 레벨</label>
+        <input asp-for="RequiredLevel" type="number" class="form-control" />
+    </div>
+
+    <textarea asp-for="JsonStatModifiers" id="JsonStatModifiers" name="JsonStatModifiers" hidden></textarea>
+    <textarea asp-for="JsonRequiredStats" id="JsonRequiredStats" name="JsonRequiredStats" hidden></textarea>
+    <textarea asp-for="JsonUseableEffect" id="JsonUseableEffect" name="JsonUseableEffect" hidden></textarea>
+
+    <div id="requiredStatsGroup" style="margin-top:20px;">
+        <label>착용 조건</label>
+        <div>
+            <label><input type="checkbox" class="class-checkbox" value="0" /> 초보자</label>
+            <label><input type="checkbox" class="class-checkbox" value="1" /> 전사</label>
+            <label><input type="checkbox" class="class-checkbox" value="2" /> 궁수</label>
+            <label><input type="checkbox" class="class-checkbox" value="3" /> 마법사</label>
+        </div>
+        <div class="row">
+            @foreach (var stat in Enum.GetValues(typeof(StatusType)).Cast<StatusType>())
+            {
+                <div class="col-4">
+                    <label>@stat</label>
+                    <input type="number" class="form-control reqstat-input" data-stat="@stat.ToString()" />
+                </div>
+            }
+        </div>
+    </div>
+
+    <div id="statModifiersGroup" style="margin-top:20px;">
+        <label>스탯 보정</label>
+        <div class="row">
+            @foreach (var stat in Enum.GetValues(typeof(StatusType)).Cast<StatusType>())
+            {
+                <div class="col-4">
+                    <label>@stat</label>
+                    <input type="number" class="form-control stat-input" data-stat="@stat.ToString()" />
+                </div>
+            }
+        </div>
+    </div>
+
+    <div id="useableEffectGroup" style="margin-top:20px;">
+        <label>사용 효과</label>
+
+        <select id="EffectType" class="form-control">
+            <option value="0">회복</option>
+            <option value="1">버프</option>
+        </select>
+
+        <div class="row mt-2">
+            <div class="col-4"><label>STR</label><input type="number" class="form-control useable-input" data-stat="STR" /></div>
+            <div class="col-4"><label>INT</label><input type="number" class="form-control useable-input" data-stat="INT" /></div>
+            <div class="col-4"><label>DEX</label><input type="number" class="form-control useable-input" data-stat="DEX" /></div>
+            <div class="col-4"><label>LUK</label><input type="number" class="form-control useable-input" data-stat="LUK" /></div>
+            <div class="col-4"><label>HP</label><input type="number" class="form-control useable-input" data-stat="HP" /></div>
+            <div class="col-4"><label>MP</label><input type="number" class="form-control useable-input" data-stat="MP" /></div>
+        </div>
+
+        <div class="form-group mt-2">
+            <label>지속 시간 (초)</label>
+            <input type="number" id="EffectDuration" class="form-control" />
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">저장</button>
+        <a asp-action="Index" class="btn btn-secondary">취소</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        const statusTypeMap = {
+            STR: 0,
+            INT: 1,
+            DEX: 2,
+            LUK: 3,
+            HP: 4,
+            MP: 5
+        };
+
+        function toggleStatModifiers() {
+            const typeSelect = document.getElementById("Type");
+            document.getElementById("statModifiersGroup").style.display = (typeSelect.value === "0") ? "block" : "none";
+        }
+
+        function toggleRequiredStats() {
+            const typeSelect = document.getElementById("Type");
+            document.getElementById("requiredStatsGroup").style.display = (typeSelect.value === "0" || typeSelect.value === "1") ? "block" : "none";
+        }
+
+        function toggleUseableEffect() {
+            const typeSelect = document.getElementById("Type");
+            document.getElementById("useableEffectGroup").style.display = (typeSelect.value === "1") ? "block" : "none";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const typeSelect = document.getElementById("Type");
+            typeSelect.addEventListener("change", () => {
+                toggleStatModifiers();
+                toggleRequiredStats();
+                toggleUseableEffect();
+            });
+
+            toggleStatModifiers();
+            toggleRequiredStats();
+            toggleUseableEffect();
+
+            // [!] 수정 모드 초기화
+            const model = @Html.Raw(Json.Serialize(Model));
+            initializeFormFromModel(model);
+
+            // submit 직전 json 변환
+            const form = document.querySelector("form");
+            form.addEventListener("submit", function (e) {
+                // [1] JsonStatModifiers
+                const inputs = document.querySelectorAll(".stat-input");
+                const statDataArray = [];
+                inputs.forEach(input => {
+                    const stat = input.dataset.stat;
+                    const value = parseInt(input.value);
+                    if (!isNaN(value)) {
+                        statDataArray.push({ physical_type: statusTypeMap[stat], add_physical_value: value });
+                    }
+                });
+                document.getElementById("JsonStatModifiers").value = JSON.stringify(statDataArray);
+
+                // [2] JsonRequiredStats
+                const reqInputs = document.querySelectorAll(".reqstat-input");
+                const reqStatArray = [];
+                reqInputs.forEach(input => {
+                    const stat = input.dataset.stat;
+                    const value = parseInt(input.value);
+                    if (!isNaN(value)) {
+                        reqStatArray.push({ physical_type: statusTypeMap[stat], add_physical_value: value });
+                    }
+                });
+                const classes = [];
+                document.querySelectorAll(".class-checkbox:checked").forEach(cb => {
+                    classes.push(parseInt(cb.value));
+                });
+                const reqObj = { required_status: reqStatArray, classTypes: classes };
+                document.getElementById("JsonRequiredStats").value = JSON.stringify(reqObj);
+
+                // [3] JsonUseableEffect
+                if (typeSelect.value === "1") {
+                    const useableInputs = document.querySelectorAll(".useable-input");
+                    const useableStats = [];
+                    useableInputs.forEach(input => {
+                        const stat = input.dataset.stat;
+                        const value = parseInt(input.value);
+                        if (!isNaN(value)) {
+                            useableStats.push({ physical_type: statusTypeMap[stat], add_physical_value: value });
+                        }
+                    });
+
+                    const effectType = parseInt(document.getElementById("EffectType").value);
+                    const duration = parseFloat(document.getElementById("EffectDuration").value);
+                    const useableObj = {
+                        effect_type: effectType,
+                        status: useableStats,
+                        duration: isNaN(duration) ? 0 : duration
+                    };
+                    document.getElementById("JsonUseableEffect").value = JSON.stringify(useableObj);
+                }
+            });
+        });
+
+        function initializeFormFromModel(model) {
+            // RequiredStats, StatModifiers, UseableEffect 초기화 로직 여기에 추가
+            // 필요하면 model.JsonStatModifiers, model.JsonRequiredStats, model.JsonUseableEffect 파싱해서 input에 값 채워줘야 함
+            console.log("초기화할 모델: ", model);
+            // (필요 시 여기서 input.value에 직접 넣는 로직 추가)
+        }
+    </script>
+}

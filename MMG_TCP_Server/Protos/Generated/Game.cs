@@ -77,8 +77,8 @@ namespace GamePacket {
             "SGF2ZRAAEgoKBktuaWdodBABEgoKBkFyY2hlchACEggKBE1hZ2UQAyphCglJ",
             "bnB1dFR5cGUSCAoETm9uZRAAEgoKBk5vcm1hbBABEgoKBlN0cm9uZxACEgsK",
             "B1NraWxsXzEQAxILCgdTa2lsbF8yEAQSCwoHU2tpbGxfMxAFEgsKB1NraWxs",
-            "XzQQBioyCgxQaHlzaWNhbFR5cGUSBwoDU1RSEAASBwoDSU5UEAESBwoDREVD",
-            "EAISBwoDTFVLEANiBnByb3RvMw=="));
+            "XzQQBipCCgxQaHlzaWNhbFR5cGUSBwoDU1RSEAASBwoDSU5UEAESBwoDREVD",
+            "EAISBwoDTFVLEAMSBgoCSFAQBBIGCgJNUBAFYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AttackPacket.CharacterAttackReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GamePacket.OwnerType), typeof(global::GamePacket.ClassType), typeof(global::GamePacket.InputType), typeof(global::GamePacket.PhysicalType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -135,6 +135,8 @@ namespace GamePacket {
     [pbr::OriginalName("INT")] Int = 1,
     [pbr::OriginalName("DEC")] Dec = 2,
     [pbr::OriginalName("LUK")] Luk = 3,
+    [pbr::OriginalName("HP")] Hp = 4,
+    [pbr::OriginalName("MP")] Mp = 5,
   }
 
   #endregion

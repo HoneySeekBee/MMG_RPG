@@ -2,6 +2,7 @@
 using GamePacket;
 using GameServer.Core;
 using GameServer.Data;
+using GameServer.Data.DataManager;
 using GameServer.Data.Monster;
 using GameServer.Game.Object;
 using Google.Protobuf.WellKnownTypes;

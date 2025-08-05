@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.Data.Monster
+namespace GameServer.Data.DataManager
 {
     public class MonsterDataManager
     {
@@ -34,7 +34,7 @@ namespace GameServer.Data.Monster
 
                 foreach (var dto in monsters)
                 {
-                    var monsterData = new MonsterPacket.MonsterData
+                    var monsterData = new MonsterData
                     {
                         MonsterId = dto.MonsterId,
                         MonsterName = dto.Name ?? "",

@@ -10,9 +10,9 @@ namespace GameServer.Game.Item
 {
     public class ItemData
     {
-        public ItemInfo Info;
-        public ItemRequirement Requirement;
-        public StatModifier EquipStatBonus;
+        public ItemInfo Info { get; set; } = new ItemInfo();
+        public ItemRequirement Requirement { get; set; } = new ItemRequirement();
+        public StatModifier EquipStatBonus { get; set; } = new StatModifier();
         public UseableEffect UseableEffect; 
 
         //public bool CanEquip(Player, Item)

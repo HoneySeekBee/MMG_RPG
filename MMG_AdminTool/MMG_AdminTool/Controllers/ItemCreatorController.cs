@@ -99,7 +99,10 @@ namespace MMG_AdminTool.Controllers
                 JsonRequiredStats = NormalizeJson(model.JsonRequiredStats),
                 JsonUseableEffect = NormalizeJson(model.JsonUseableEffect)
             };
-
+            Console.WriteLine("Create Test : ");
+            Console.WriteLine(model.JsonStatModifiers);
+            Console.WriteLine(model.JsonRequiredStats);
+            Console.WriteLine(model.JsonUseableEffect);
             // 1. API 호출
             var response = await _httpClient.PostAsJsonAsync("/api/items", dto);
 

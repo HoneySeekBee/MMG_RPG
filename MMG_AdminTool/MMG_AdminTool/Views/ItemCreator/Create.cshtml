@@ -1,4 +1,5 @@
-﻿@model MMG_AdminTool.Models.ItemViewModel
+﻿@using MMG_AdminTool.Models.Enums
+@model MMG_AdminTool.Models.ItemViewModel
 
 <h2>Create Item</h2>
 
@@ -52,8 +53,7 @@
         <input asp-for="RequiredLevel" type="number" class="form-control" />
         <span asp-validation-for="RequiredLevel" class="text-danger"></span>
     </div>
-
-    <textarea asp-for="JsonRequiredStats" id="JsonRequiredStats" hidden></textarea>
+    <textarea asp-for="JsonStatModifiers" id="JsonStatModifiers" name="JsonStatModifiers" hidden></textarea>
 
     <div id="requiredStatsGroup" style="display:none; margin-top:20px;">
         <label class="control-label">착용 조건</label>
@@ -65,70 +65,34 @@
             <label><input type="checkbox" class="class-checkbox" value="2" /> 궁수</label>
             <label><input type="checkbox" class="class-checkbox" value="3" /> 마법사</label>
         </div>
-
         <div class="row">
-            <div class="col-4">
-                <label>STR</label>
-                <input type="number" class="form-control reqstat-input" data-stat="STR" />
-            </div>
-            <div class="col-4">
-                <label>INT</label>
-                <input type="number" class="form-control reqstat-input" data-stat="INT" />
-            </div>
-            <div class="col-4">
-                <label>DEX</label>
-                <input type="number" class="form-control reqstat-input" data-stat="DEX" />
-            </div>
-            <div class="col-4">
-                <label>LUK</label>
-                <input type="number" class="form-control reqstat-input" data-stat="LUK" />
-            </div>
-            <div class="col-4">
-                <label>HP</label>
-                <input type="number" class="form-control reqstat-input" data-stat="HP" />
-            </div>
-            <div class="col-4">
-                <label>MP</label>
-                <input type="number" class="form-control reqstat-input" data-stat="MP" />
-            </div>
+            @foreach (var stat in Enum.GetValues(typeof(StatusType)).Cast<StatusType>())
+            {
+                <div class="col-4">
+                    <label>@stat</label>
+                    <input type="number" class="form-control reqstat-input" data-stat="@stat.ToString()" />
+                </div>
+            }
         </div>
         <hr />
     </div>
 
     <hr />
-
-    <textarea asp-for="JsonStatModifiers" id="JsonStatModifiers" hidden></textarea>
+    
+    <textarea asp-for="JsonRequiredStats" id="JsonRequiredStats" name="JsonRequiredStats" hidden></textarea>
     <div id="statModifiersGroup" class="form-group" style="display:none;">
         <label class="control-label">스탯 보정</label>
-
         <div class="row">
-            <div class="col-4">
-                <label>STR</label>
-                <input type="number" class="form-control stat-input" data-stat="STR" />
-            </div>
-            <div class="col-4">
-                <label>INT</label>
-                <input type="number" class="form-control stat-input" data-stat="INT" />
-            </div><div class="col-4">
-                <label>DEX</label>
-                <input type="number" class="form-control stat-input" data-stat="DEX" />
-            </div>
-            <div class="col-4">
-                <label>LUK</label>
-                <input type="number" class="form-control stat-input" data-stat="LUK" />
-            </div>
-            <div class="col-4">
-                <label>HP</label>
-                <input type="number" class="form-control stat-input" data-stat="HP" />
-            </div>
-            <div class="col-4">
-                <label>MP</label>
-                <input type="number" class="form-control stat-input" data-stat="MP" />
-            </div>
+            @foreach (var stat in Enum.GetValues(typeof(StatusType)).Cast<StatusType>())
+            {
+                <div class="col-4">
+                    <label>@stat</label>
+                    <input type="number" class="form-control stat-input" data-stat="@stat.ToString()" />
+                </div>
+            }
         </div>
     </div>
-
-    <textarea asp-for="JsonUseableEffect" id="JsonUseableEffect" hidden></textarea>
+    <textarea asp-for="JsonUseableEffect" id="JsonUseableEffect" name="JsonUseableEffect" hidden></textarea>
 
     <div id="useableEffectGroup" style="display:none; margin-top:20px;">
         <label class="control-label">사용 효과 (Useable Effect)</label>
@@ -182,9 +146,17 @@
         <a asp-action="Index" class="btn btn-secondary">취소</a>
     </div>
 </form>
-
 @section Scripts {
     <script>
+        const statusTypeMap = {
+            STR: 0,
+            INT: 1,
+            DEX: 2,
+            LUK: 3,
+            HP: 4,
+            MP: 5
+        };
+
         function toggleStatModifiers() {
             const typeSelect = document.getElementById("Type");
             const statModifiersGroup = document.getElementById("statModifiersGroup");
@@ -194,87 +166,98 @@
         function toggleRequiredStats() {
             const typeSelect = document.getElementById("Type");
             const requiredStatsGroup = document.getElementById("requiredStatsGroup");
-            // Equip(0) 또는 Useable(1)일 때만 보이게
             requiredStatsGroup.style.display = (typeSelect.value === "0" || typeSelect.value === "1") ? "block" : "none";
         }
 
         function toggleUseableEffect() {
             const typeSelect = document.getElementById("Type");
             const useableEffectGroup = document.getElementById("useableEffectGroup");
-            // Useable(1)일 때만 보이게
             useableEffectGroup.style.display = (typeSelect.value === "1") ? "block" : "none";
         }
+
         document.addEventListener("DOMContentLoaded", function () {
             const typeSelect = document.getElementById("Type");
 
-            // Type 변경 시 UI 토글
             typeSelect.addEventListener("change", () => {
                 toggleStatModifiers();
                 toggleRequiredStats();
                 toggleUseableEffect();
             });
 
-            // 페이지 처음 로드 시 토글 실행
             toggleStatModifiers();
             toggleRequiredStats();
             toggleUseableEffect();
 
-            // 폼 전송 직전 JSON 변환
             const form = document.querySelector("form");
-            form.addEventListener("submit", function () {
-                // -------- JsonStatModifiers --------
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
                 const inputs = document.querySelectorAll(".stat-input");
-                const statData = {};
+                const statDataArray = [];
                 inputs.forEach(input => {
                     const stat = input.dataset.stat;
                     const value = parseInt(input.value);
                     if (!isNaN(value)) {
-                        statData[stat] = value;
+                        statDataArray.push({
+                            physical_type: statusTypeMap[stat],
+                            add_physical_value: value
+                        });
                     }
                 });
-                document.getElementById("JsonStatModifiers").value = JSON.stringify(statData);
+                document.getElementById("JsonStatModifiers").value = 
+    statDataArray.length > 0 ? JSON.stringify(statDataArray) : null;
+                console.log("JsonStatModifiers", document.getElementById("JsonStatModifiers").value);
 
-                // -------- JsonRequiredStats --------
                 const reqInputs = document.querySelectorAll(".reqstat-input");
-                const reqData = {};
+                const reqStatArray = [];
                 reqInputs.forEach(input => {
                     const stat = input.dataset.stat;
                     const value = parseInt(input.value);
                     if (!isNaN(value)) {
-                        reqData[stat] = value;
+                        reqStatArray.push({
+                            physical_type: statusTypeMap[stat],
+                            add_physical_value: value
+                        });
                     }
                 });
-
                 const classes = [];
                 document.querySelectorAll(".class-checkbox:checked").forEach(cb => {
                     classes.push(parseInt(cb.value));
                 });
-                reqData["ClassTypes"] = classes;
-                document.getElementById("JsonRequiredStats").value = JSON.stringify(reqData);
 
-                // -------- JsonUseableEffect --------
+                const reqField = (reqStatArray.length === 0 && classes.length === 0)
+    ? null
+    : JSON.stringify(reqObj);
+    
+document.getElementById("JsonRequiredStats").value = reqField;
+
                 if (typeSelect.value === "1") {
                     const useableInputs = document.querySelectorAll(".useable-input");
-                    const useableData = {};
-
+                    const useableStats = [];
                     useableInputs.forEach(input => {
                         const stat = input.dataset.stat;
                         const value = parseInt(input.value);
                         if (!isNaN(value)) {
-                            useableData[stat] = value;
+                            useableStats.push({
+                                physical_type: statusTypeMap[stat],
+                                add_physical_value: value
+                            });
                         }
                     });
 
                     const effectType = parseInt(document.getElementById("EffectType").value);
-                    const duration = parseInt(document.getElementById("EffectDuration").value);
+                    const duration = parseFloat(document.getElementById("EffectDuration").value);
 
-                    useableData["EffectType"] = effectType;
-                    if (!isNaN(duration)) {
-                        useableData["Duration"] = duration;
-                    }
+                    const useableObj = {
+                        effect_type: effectType,
+                        status: useableStats,
+                        duration: isNaN(duration) ? 0 : duration
+                    };
 
-                    document.getElementById("JsonUseableEffect").value = JSON.stringify(useableData);
+                    document.getElementById("JsonUseableEffect").value = JSON.stringify(useableObj);
                 }
+
+                form.submit();
             });
         });
     </script>
