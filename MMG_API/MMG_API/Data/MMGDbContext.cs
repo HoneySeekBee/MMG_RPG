@@ -18,6 +18,9 @@ namespace MMG_API.Data
         public DbSet<NpcTemplateEntity> NpcTemplates { get; set; }
         public DbSet<NpcSpawnEntity> NpcSpawns { get; set; }
         public DbSet<NpcQuestLinkEntity> NpcQuestLinks { get; set; }
+        public DbSet<QuestEntity> Quests { get; set; }
+        public DbSet<QuestGoalEntity> QuestGoals { get; set; }
+        public DbSet<QuestRewardEntity> QuestRewards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +35,9 @@ namespace MMG_API.Data
             modelBuilder.Entity<NpcTemplateEntity>().ToTable("NpcTemplate").HasKey(t => t.TemplateId);  // 정확히 DB 테이블명
             modelBuilder.Entity<NpcSpawnEntity>().ToTable("NpcSpawn").HasKey(s => s.SpawnId);  // 정확히 DB 테이블명
             modelBuilder.Entity<NpcQuestLinkEntity>().ToTable("NpcQuestLinkTable").HasKey(l => new { l.NpcTemplateId, l.QuestId });  // 정확히 DB 테이블명
+            modelBuilder.Entity<QuestEntity>().ToTable("Quest");  // 정확히 DB 테이블명
+            modelBuilder.Entity<QuestGoalEntity>().ToTable("QuestGoal");  // 정확히 DB 테이블명
+            modelBuilder.Entity<QuestRewardEntity>().ToTable("QuestReward");  // 정확히 DB 테이블명
 
             modelBuilder.Entity<MonsterSkill>()
                 .HasKey(ms => new { ms.MonsterId, ms.SkillId }); // 복합 키 지정

@@ -1,0 +1,310 @@
+﻿@using MMG_AdminTool.Models.Enums
+@model MMG_AdminTool.Models.QuestViewModel
+
+@{
+    ViewData["Title"] = "Create Quest";
+}
+
+<h2>Create New Quest</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group mt-2">
+        <label asp-for="Title" class="control-label">Title</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-2">
+        <label asp-for="Description" class="control-label">Description</label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-2">
+        <label asp-for="IconCode" class="control-label">Icon Code</label>
+        <input asp-for="IconCode" class="form-control" />
+        <span asp-validation-for="IconCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Type" class="control-label"></label>
+        <select asp-for="Type" class="form-control" asp-items="Html.GetEnumSelectList<QuestType>()"></select>
+    </div>
+    <div class="form-group mt-2">
+        <label asp-for="SortOrder" class="control-label">Sort Order</label>
+        <input asp-for="SortOrder" class="form-control" />
+        <span asp-validation-for="SortOrder" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MinLevel" class="control-label"></label>
+        <input asp-for="MinLevel" class="form-control"
+               type="number" min="1" max="200"
+               onchange="validateMinLevel(this)" />
+        <span asp-validation-for="MinLevel" class="text-danger"></span>
+    </div>
+
+    <h5>선행 퀘스트</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Quest Id</th>
+                <th>Title</th>
+                <th>Min Level</th>
+            </tr>
+        </thead>
+        <tbody id="selected-prev-quests">
+            @foreach (var quest in Model.SelectedPrevQuests)
+            {
+                    <tr>
+                        <td>@quest.QuestId</td>
+                        <td>@quest.Title</td>
+                        <td>@quest.MinLevel</td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary" onclick="openPrevQuestSelector()">+ 선행 퀘스트 추가</button>
+
+    <div class="form-group mt-2">
+        <label asp-for="StartTriggerType" class="control-label">Start Trigger</label>
+        <select asp-for="StartTriggerType" class="form-control"
+        asp-items="Html.GetEnumSelectList<QuestTriggerType>()"
+            onchange="toggleTriggerNpcField('StartTriggerType', 'start-npc-id-container')"></select>
+    </div>
+
+    <div id="start-npc-id-container" class="form-group mt-2" style="display:none;">
+        <label class="control-label">Start NPC</label>
+        <div class="input-group">
+            <input id="StartNpcId" name="StartNpcId" class="form-control" readonly />
+            <button type="button" class="btn btn-secondary" onclick="openNpcSelector('StartNpcId')">선택</button>
+            </div>
+    </div>
+
+    <div class ="form-group mt-2">
+        <label asp-for="EndTriggerType" class="control-label">End Trigger</label>
+        <select asp-for="EndTriggerType" class="form-control"
+        asp-items="Html.GetEnumSelectList<QuestTriggerType>()"
+            onchange="toggleTriggerNpcField('EndTriggerType', 'end-npc-id-container')">
+        </select>
+    </div>
+
+    <div id="end-npc-id-container" class="form-group mt-2" style="display:none;">
+    <label class="control-label">End NPC</label>
+    <div class="input-group">
+        <input id="EndNpcId" name="EndNpcId" class="form-control" readonly />
+        <button type="button" class="btn btn-secondary" onclick="openNpcSelector('EndNpcId')">선택</button>
+    </div>
+</div>
+
+    <button type="submit" class="btn btn-success mt-3">Save</button>
+    <a asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
+
+    <input type="hidden" name="PrevQuestIds" id="PrevQuestIds" />
+</form>
+@section Scripts {
+        <script>
+            function validateMinLevel(input) {
+                let value = parseInt(input.value);
+                if (isNaN(value) || value < 1) {
+                    input.value = 1;
+                } else if (value > 200) {
+                    input.value = 200;
+                }
+            }
+
+            function openPrevQuestSelector() {
+                const modal = document.getElementById("prevQuestModal");
+                if (modal) modal.style.display = "block";
+            }
+
+            function applyPrevQuests() {
+                const checkedBoxes = document.querySelectorAll('#prevQuestModal input[type="checkbox"]:checked');
+                const selectedIds = [];
+                const selectedTableBody = document.getElementById("selected-prev-quests");
+
+                // 테이블 초기화
+                selectedTableBody.innerHTML = "";
+
+                checkedBoxes.forEach(checkbox => {
+                    const questId = checkbox.value;
+                    selectedIds.push(questId);
+
+                    const row = checkbox.closest("tr");
+                    const title = row.children[2].innerText;
+                    const minLevel = row.children[3].innerText;
+
+                    selectedTableBody.innerHTML += `
+                            <tr>
+                                <td>${questId}</td>
+                                <td>${title}</td>
+                                <td>${minLevel}</td>
+                            </tr>
+                        `;
+                });
+
+                // 숨겨진 input에 ID 문자열 넣기
+                document.getElementById("PrevQuestIds").value = selectedIds.join(',');
+
+                // 모달 닫기
+                const modal = document.getElementById("prevQuestModal");
+                if (modal) modal.style.display = "none";
+            }
+                function toggleTriggerNpcField(triggerName, containerId){
+                const triggerValue = parseInt(document.querySelector('[name="StartTriggerType"]').value);
+                const container = document.getElementById(containerId);
+
+                if(triggerValue == 1){
+                    container.style.display = "block";
+                }
+                else{
+                    container.style.display = "none";
+                }
+            }
+
+            // ESC나 외부 클릭 시 모달 닫기
+            window.addEventListener('keydown', function (e) {
+                if (e.key === "Escape") {
+                    const modal = document.getElementById("prevQuestModal");
+                    if (modal) modal.style.display = "none";
+                }
+            });
+
+            window.addEventListener('click', function (e) {
+                const modal = document.getElementById("prevQuestModal");
+                if (modal && e.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+
+            function initializeNpcTriggerVisibility(){
+                toggleTriggerNpcField("StartTriggerType", "start-npc-id-container");
+                toggleTriggerNpcField("EndTriggerType", "end-npc-id-container");
+            }
+        window.addEventListener("DOMContentLoaded", initializeNpcTriggerVisibility);
+        </script>
+}
+<div id="prevQuestModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header"><h5>선행 퀘스트 선택</h5></div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>선택</th>
+                            <th>Quest Id</th>
+                            <th>Title</th>
+                            <th>Min Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var quest in Model.AllQuests)
+                        {
+                                <tr>
+                                    <td><input type="checkbox" value="@quest.QuestId" /></td>
+                                    <td>@quest.QuestId</td>
+                                    <td>@quest.Title</td>
+                                    <td>@quest.MinLevel</td>
+                                </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="applyPrevQuests()">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- StartNpcId는 ReadOnly로 표시 -->
+<div id="start-npc-id-container" class="form-group mt-2" style="display:none;">
+    <label asp-for="StartNpcId" class="control-label">Start NPC Id (선택창으로 입력)</label>
+    <div class="input-group">
+        <input asp-for="StartNpcId" class="form-control" readonly />
+        <button type="button" class="btn btn-secondary" onclick="openNpcSelector('StartNpcId')">NPC 선택</button>
+    </div>
+</div>
+
+<!-- 모달창 -->
+<div id="npcModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h5>NPC 선택</h5></div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>선택</th>
+                            <th>NPC ID</th>
+                            <th>이름</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var npc in Model.AllNpcs)
+                        {
+                                <tr>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-primary"
+                                        onclick="selectNpc(@npc.NpcId, '@npc.Name')">
+                                        선택
+                                        </button>
+                                    </td>
+                                    <td>@npc.NpcId</td>
+                                    <td>@npc.Name</td>
+                                </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentTargetNpcInputId = null;
+
+    function openNpcSelector(inputId) {
+        currentTargetNpcInputId = inputId;
+        const modal = document.getElementById("npcModal");
+        if (modal) modal.style.display = "block";
+    }
+    function selectNpc(npcId, npcName) {
+    const input = document.getElementById(currentTargetNpcInputId);
+    if (input) input.value = npcId;
+
+    // 이름 보여주기 (있으면)
+    const nameDisplay = document.getElementById(currentTargetNpcInputId + "_name");
+    if (nameDisplay) nameDisplay.innerText = npcName;
+
+    // 모달 닫기
+    const modal = document.getElementById("npcModal");
+    if (modal) modal.style.display = "none";
+}
+
+    // ESC / 외부 클릭으로 닫기
+    window.addEventListener("click", function (e) {
+        const modal = document.getElementById("npcModal");
+        if (modal && e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+</script>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-dialog {
+        margin-top: 10%;
+    }
+</style>

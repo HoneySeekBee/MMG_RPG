@@ -1,0 +1,261 @@
+﻿@using MMG_AdminTool.Models.Enums
+@model MMG_AdminTool.Models.QuestViewModel
+
+@{
+    ViewData["Title"] = "Edit Quest";
+}
+
+<h2>Edit Quest</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="QuestId" />
+
+    <div class="form-group mt-2">
+        <label asp-for="Title" class="control-label">Title</label>
+        <input asp-for="Title" class="form-control" />
+    </div>
+
+    <div class="form-group mt-2">
+        <label asp-for="Description" class="control-label">Description</label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="form-group mt-2">
+        <label asp-for="IconCode" class="control-label">Icon Code</label>
+        <input asp-for="IconCode" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Type" class="control-label"></label>
+        <select asp-for="Type" class="form-control" asp-items="Html.GetEnumSelectList<QuestType>()"></select>
+    </div>
+
+    <div class="form-group mt-2">
+        <label asp-for="SortOrder" class="control-label">Sort Order</label>
+        <input asp-for="SortOrder" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MinLevel" class="control-label"></label>
+        <input asp-for="MinLevel" class="form-control" type="number" min="1" max="200" onchange="validateMinLevel(this)" />
+    </div>
+
+    <h5>선행 퀘스트</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Quest Id</th>
+                <th>Title</th>
+                <th>Min Level</th>
+            </tr>
+        </thead>
+        <tbody id="selected-prev-quests">
+            @foreach (var quest in Model.SelectedPrevQuests)
+            {
+                <tr>
+                    <td>@quest.QuestId</td>
+                    <td>@quest.Title</td>
+                    <td>@quest.MinLevel</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary" onclick="openPrevQuestSelector()">+ 선행 퀘스트 추가</button>
+    <input type="hidden" name="PrevQuestIds" id="PrevQuestIds" value="@Model.PrevQuestIds" />
+
+    <div class="form-group mt-2">
+        <label asp-for="StartTriggerType" class="control-label">Start Trigger</label>
+        <select asp-for="StartTriggerType" class="form-control" asp-items="Html.GetEnumSelectList<QuestTriggerType>()" onchange="toggleTriggerNpcField('StartTriggerType', 'start-npc-id-container')"></select>
+    </div>
+
+    <div id="start-npc-id-container" class="form-group mt-2" style="display:none;">
+        <label class="control-label">Start NPC</label>
+        <div class="input-group">
+            <input id="StartNpcId" name="StartNpcId" class="form-control" value="@Model.StartNpcId" readonly />
+            <button type="button" class="btn btn-secondary" onclick="openNpcSelector('StartNpcId')">선택</button>
+        </div>
+    </div>
+
+    <div class="form-group mt-2">
+        <label asp-for="EndTriggerType" class="control-label">End Trigger</label>
+        <select asp-for="EndTriggerType" class="form-control" asp-items="Html.GetEnumSelectList<QuestTriggerType>()" onchange="toggleTriggerNpcField('EndTriggerType', 'end-npc-id-container')"></select>
+    </div>
+
+    <div id="end-npc-id-container" class="form-group mt-2" style="display:none;">
+        <label class="control-label">End NPC</label>
+        <div class="input-group">
+            <input id="EndNpcId" name="EndNpcId" class="form-control" value="@Model.EndNpcId" readonly />
+            <button type="button" class="btn btn-secondary" onclick="openNpcSelector('EndNpcId')">선택</button>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Update</button>
+    <a asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
+</form>
+
+<div id="prevQuestModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header"><h5>선행 퀘스트 선택</h5></div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>선택</th>
+                            <th>Quest Id</th>
+                            <th>Title</th>
+                            <th>Min Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var quest in Model.AllQuests)
+                        {
+                            <tr>
+                                <td><input type="checkbox" value="@quest.QuestId" /></td>
+                                <td>@quest.QuestId</td>
+                                <td>@quest.Title</td>
+                                <td>@quest.MinLevel</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="applyPrevQuests()">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="npcModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h5>NPC 선택</h5></div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>선택</th>
+                            <th>NPC ID</th>
+                            <th>이름</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var npc in Model.AllNpcs)
+                        {
+                            <tr>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="selectNpc(@npc.NpcId)">선택</button>
+                                </td>
+                                <td>@npc.NpcId</td>
+                                <td>@npc.Name</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let currentTargetNpcInputId = null;
+
+        function openNpcSelector(inputId) {
+            currentTargetNpcInputId = inputId;
+            document.getElementById("npcModal").style.display = "block";
+        }
+
+        function selectNpc(npcId) {
+            const input = document.getElementById(currentTargetNpcInputId);
+            if (input) input.value = npcId;
+            document.getElementById("npcModal").style.display = "none";
+        }
+
+        function openPrevQuestSelector() {
+            const modal = document.getElementById("prevQuestModal");
+            if (modal) modal.style.display = "block";
+        }
+
+        function applyPrevQuests() {
+            const checkedBoxes = document.querySelectorAll('#prevQuestModal input[type="checkbox"]:checked');
+            const selectedIds = [];
+            const selectedTableBody = document.getElementById("selected-prev-quests");
+            selectedTableBody.innerHTML = "";
+            checkedBoxes.forEach(checkbox => {
+                const questId = checkbox.value;
+                selectedIds.push(questId);
+                const row = checkbox.closest("tr");
+                const title = row.children[2].innerText;
+                const minLevel = row.children[3].innerText;
+                selectedTableBody.innerHTML += `
+                            <tr>
+                                <td>${questId}</td>
+                                <td>${title}</td>
+                                <td>${minLevel}</td>
+                            </tr>`;
+            });
+            document.getElementById("PrevQuestIds").value = selectedIds.join(',');
+            document.getElementById("prevQuestModal").style.display = "none";
+        }
+
+        function toggleTriggerNpcField(triggerName, containerId) {
+            const value = parseInt(document.querySelector(`[name="${triggerName}"]`).value);
+            const container = document.getElementById(containerId);
+            container.style.display = (value === 1) ? "block" : "none";
+        }
+
+        function validateMinLevel(input) {
+            let value = parseInt(input.value);
+            if (isNaN(value) || value < 1) input.value = 1;
+            else if (value > 200) input.value = 200;
+        }
+
+        function initializeNpcTriggerVisibility() {
+            toggleTriggerNpcField("StartTriggerType", "start-npc-id-container");
+            toggleTriggerNpcField("EndTriggerType", "end-npc-id-container");
+
+            const currentIds = document.getElementById("PrevQuestIds").value.split(',').map(id => id.trim());
+            const checkboxes = document.querySelectorAll('#prevQuestModal input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                if (currentIds.includes(cb.value)) {
+                    cb.checked = true;
+                }
+            });
+        }
+
+        window.addEventListener("DOMContentLoaded", initializeNpcTriggerVisibility);
+        window.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
+                document.getElementById("prevQuestModal").style.display = "none";
+                document.getElementById("npcModal").style.display = "none";
+            }
+        });
+        window.addEventListener("click", function (e) {
+            const prevModal = document.getElementById("prevQuestModal");
+            const npcModal = document.getElementById("npcModal");
+            if (prevModal && e.target === prevModal) prevModal.style.display = "none";
+            if (npcModal && e.target === npcModal) npcModal.style.display = "none";
+        });
+    </script>
+}
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-dialog {
+        margin-top: 10%;
+    }
+</style>

@@ -1,0 +1,39 @@
+﻿@model List<MMG_AdminTool.Models.QuestViewModel>
+
+@{
+    ViewData["Title"] = "퀘스트 목록";
+}
+<h2>퀘스트 목록</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Create New Quest</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>QuestId</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var quest in Model)
+        {
+            <tr>
+                <td>@quest.QuestId</td>
+                <td>@quest.Title</td>
+                <td>@quest.Description</td>
+                <td>@quest.Type</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@quest.QuestId" class="btn btn-warning btn-sm">Edit</a>
+                    <form asp-action="Delete" asp-route-id="@quest.QuestId" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('삭제하시겠습니까?');">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
