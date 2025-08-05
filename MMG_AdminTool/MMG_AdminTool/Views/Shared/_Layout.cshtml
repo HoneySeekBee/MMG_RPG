@@ -13,23 +13,66 @@
         header { background:#333; color:white; padding:10px; }
         nav a { color:white; margin-right:20px; text-decoration:none; }
         nav a:hover { text-decoration:underline; }
-        main { padding:20px; }
+
+        main {
+            padding: 20px;
+        }
+
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0; /* 살짝 아래로 내려가는 거 방지 */
+        }
+
+        .dropdown-menu {
+            background-color: white;
+        }
     </style>
 </head>
-@RenderSection("Scripts", required: false)
 <body>
     <header>
         <h2 class="mb-3">MMG Admin Tool</h2>
         <nav>
             <ul class="nav nav-pills">
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Server" asp-action="Index">서버 관리</a>
+                <!-- 서버 관리 -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        서버 관리
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" asp-controller="Server" asp-action="Index">서버 관리</a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Chat" asp-action="Index">운영자 채팅</a>
+
+                <!-- 운영자 채팅 -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        운영자 채팅
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" asp-controller="Chat" asp-action="Index">운영자 채팅</a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="ChatLog" asp-action="Index">채팅 로그</a>
+
+                <!-- 게임 데이터 -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        게임 데이터
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" asp-controller="ItemCreator" asp-action="Index">아이템</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" asp-controller="NpcCreator" asp-action="Index">NPC</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" asp-controller="QuestCreator" asp-action="Index">퀘스트</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
@@ -38,5 +81,9 @@
     <main>
         @RenderBody()
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("Scripts", required: false)
+
 </body>
+
 </html>
