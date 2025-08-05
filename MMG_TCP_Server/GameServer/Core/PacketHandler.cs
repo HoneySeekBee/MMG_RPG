@@ -9,6 +9,7 @@ using GameServer.Game.Room;
 using GamePacket;
 using GameServer.Game.Object;
 using AttackPacket;
+using GameServer.Util;
 
 namespace GameServer.Core
 {
@@ -65,7 +66,7 @@ namespace GameServer.Core
 
             try
             {
-                int API_PortNumber = Program.API_Port;
+                int API_PortNumber = PortUtil.GetPort("API");
                 res = await client.GetAsync($"https://localhost:{API_PortNumber}/api/character/{packet.CharacterId}");
             }
             catch (Exception ex)
