@@ -40,6 +40,7 @@ namespace MMG_API.Controllers.Quest
 
             return Ok(result);
         }
+        
         // [2] 단일 조회
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)

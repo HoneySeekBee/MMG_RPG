@@ -24,14 +24,23 @@ namespace NPCPacket {
     static NPCReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CglOUEMucHJvdG8SCU5QQ1BhY2tldCJPCgdOcGNJbmZvEg4KBm5wY19pZBgB",
-            "IAEoBRIgCgR0eXBlGAIgASgOMhIuTlBDUGFja2V0Lk5QQ1R5cGUSEgoKZGlh",
-            "bG9nX2tleRgDIAEoCSpDCgdOUENUeXBlEgoKBk5PUk1BTBAAEg8KC1FVRVNU",
-            "X0dJVkVSEAESCAoEU0hPUBACEhEKDUVWRU5UX1RSSUdHRVIQA2IGcHJvdG8z"));
+            "CglOUEMucHJvdG8SCU5QQ1BhY2tldCJvCgdOcGNJbmZvEg4KBm5wY19pZBgB",
+            "IAEoBRIMCgRuYW1lGAIgASgJEiAKBHR5cGUYAyABKA4yEi5OUENQYWNrZXQu",
+            "TlBDVHlwZRISCgpkaWFsb2dfa2V5GAQgASgJEhAKCHNob3BJdGVtGAUgASgJ",
+            "IkwKEE5wY1F1ZXN0TGlua0RhdGESFQoNTnBjVGVtcGxhdGVJZBgBIAEoBRIP",
+            "CgdRdWVzdElkGAIgASgFEhAKCExpbmtUeXBlGAMgASgFInoKDE5wY1NwYXdu",
+            "RGF0YRIPCgdTcGF3bklkGAEgASgFEhIKClRlbXBsYXRlSWQYAiABKAUSDQoF",
+            "TWFwSWQYAyABKAUSDAoEUG9zWBgEIAEoBRIMCgRQb3NZGAUgASgFEgwKBFBv",
+            "c1oYBiABKAUSDAoERGlyWRgHIAEoBSpDCgdOUENUeXBlEgoKBk5PUk1BTBAA",
+            "Eg8KC1FVRVNUX0dJVkVSEAESCAoEU0hPUBACEhEKDUVWRU5UX1RSSUdHRVIQ",
+            "AyopChBOcGNRdWVzdExpbmtUeXBlEgkKBUdpdmVyEAASCgoGR2V0dGVyEAFi",
+            "BnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::NPCPacket.NPCType), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::NPCPacket.NpcInfo), global::NPCPacket.NpcInfo.Parser, new[]{ "NpcId", "Type", "DialogKey" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::NPCPacket.NPCType), typeof(global::NPCPacket.NpcQuestLinkType), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::NPCPacket.NpcInfo), global::NPCPacket.NpcInfo.Parser, new[]{ "NpcId", "Name", "Type", "DialogKey", "ShopItem" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NPCPacket.NpcQuestLinkData), global::NPCPacket.NpcQuestLinkData.Parser, new[]{ "NpcTemplateId", "QuestId", "LinkType" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::NPCPacket.NpcSpawnData), global::NPCPacket.NpcSpawnData.Parser, new[]{ "SpawnId", "TemplateId", "MapId", "PosX", "PosY", "PosZ", "DirY" }, null, null, null, null)
           }));
     }
     #endregion
@@ -43,6 +52,11 @@ namespace NPCPacket {
     [pbr::OriginalName("QUEST_GIVER")] QuestGiver = 1,
     [pbr::OriginalName("SHOP")] Shop = 2,
     [pbr::OriginalName("EVENT_TRIGGER")] EventTrigger = 3,
+  }
+
+  public enum NpcQuestLinkType {
+    [pbr::OriginalName("Giver")] Giver = 0,
+    [pbr::OriginalName("Getter")] Getter = 1,
   }
 
   #endregion
@@ -84,8 +98,10 @@ namespace NPCPacket {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public NpcInfo(NpcInfo other) : this() {
       npcId_ = other.npcId_;
+      name_ = other.name_;
       type_ = other.type_;
       dialogKey_ = other.dialogKey_;
+      shopItem_ = other.shopItem_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -107,8 +123,20 @@ namespace NPCPacket {
       }
     }
 
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 2;
+    private string name_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "type" field.</summary>
-    public const int TypeFieldNumber = 2;
+    public const int TypeFieldNumber = 3;
     private global::NPCPacket.NPCType type_ = global::NPCPacket.NPCType.Normal;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -120,7 +148,7 @@ namespace NPCPacket {
     }
 
     /// <summary>Field number for the "dialog_key" field.</summary>
-    public const int DialogKeyFieldNumber = 3;
+    public const int DialogKeyFieldNumber = 4;
     private string dialogKey_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -128,6 +156,18 @@ namespace NPCPacket {
       get { return dialogKey_; }
       set {
         dialogKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "shopItem" field.</summary>
+    public const int ShopItemFieldNumber = 5;
+    private string shopItem_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string ShopItem {
+      get { return shopItem_; }
+      set {
+        shopItem_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -147,8 +187,10 @@ namespace NPCPacket {
         return true;
       }
       if (NpcId != other.NpcId) return false;
+      if (Name != other.Name) return false;
       if (Type != other.Type) return false;
       if (DialogKey != other.DialogKey) return false;
+      if (ShopItem != other.ShopItem) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -157,8 +199,10 @@ namespace NPCPacket {
     public override int GetHashCode() {
       int hash = 1;
       if (NpcId != 0) hash ^= NpcId.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Type != global::NPCPacket.NPCType.Normal) hash ^= Type.GetHashCode();
       if (DialogKey.Length != 0) hash ^= DialogKey.GetHashCode();
+      if (ShopItem.Length != 0) hash ^= ShopItem.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -181,13 +225,21 @@ namespace NPCPacket {
         output.WriteRawTag(8);
         output.WriteInt32(NpcId);
       }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
       if (Type != global::NPCPacket.NPCType.Normal) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(24);
         output.WriteEnum((int) Type);
       }
       if (DialogKey.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteString(DialogKey);
+      }
+      if (ShopItem.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(ShopItem);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -203,13 +255,21 @@ namespace NPCPacket {
         output.WriteRawTag(8);
         output.WriteInt32(NpcId);
       }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
       if (Type != global::NPCPacket.NPCType.Normal) {
-        output.WriteRawTag(16);
+        output.WriteRawTag(24);
         output.WriteEnum((int) Type);
       }
       if (DialogKey.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteString(DialogKey);
+      }
+      if (ShopItem.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(ShopItem);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -224,11 +284,17 @@ namespace NPCPacket {
       if (NpcId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(NpcId);
       }
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
       if (Type != global::NPCPacket.NPCType.Normal) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
       if (DialogKey.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(DialogKey);
+      }
+      if (ShopItem.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ShopItem);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -245,11 +311,17 @@ namespace NPCPacket {
       if (other.NpcId != 0) {
         NpcId = other.NpcId;
       }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
       if (other.Type != global::NPCPacket.NPCType.Normal) {
         Type = other.Type;
       }
       if (other.DialogKey.Length != 0) {
         DialogKey = other.DialogKey;
+      }
+      if (other.ShopItem.Length != 0) {
+        ShopItem = other.ShopItem;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -274,12 +346,20 @@ namespace NPCPacket {
             NpcId = input.ReadInt32();
             break;
           }
-          case 16: {
+          case 18: {
+            Name = input.ReadString();
+            break;
+          }
+          case 24: {
             Type = (global::NPCPacket.NPCType) input.ReadEnum();
             break;
           }
-          case 26: {
+          case 34: {
             DialogKey = input.ReadString();
+            break;
+          }
+          case 42: {
+            ShopItem = input.ReadString();
             break;
           }
         }
@@ -305,12 +385,712 @@ namespace NPCPacket {
             NpcId = input.ReadInt32();
             break;
           }
-          case 16: {
+          case 18: {
+            Name = input.ReadString();
+            break;
+          }
+          case 24: {
             Type = (global::NPCPacket.NPCType) input.ReadEnum();
             break;
           }
-          case 26: {
+          case 34: {
             DialogKey = input.ReadString();
+            break;
+          }
+          case 42: {
+            ShopItem = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class NpcQuestLinkData : pb::IMessage<NpcQuestLinkData>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<NpcQuestLinkData> _parser = new pb::MessageParser<NpcQuestLinkData>(() => new NpcQuestLinkData());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<NpcQuestLinkData> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::NPCPacket.NPCReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public NpcQuestLinkData() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public NpcQuestLinkData(NpcQuestLinkData other) : this() {
+      npcTemplateId_ = other.npcTemplateId_;
+      questId_ = other.questId_;
+      linkType_ = other.linkType_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public NpcQuestLinkData Clone() {
+      return new NpcQuestLinkData(this);
+    }
+
+    /// <summary>Field number for the "NpcTemplateId" field.</summary>
+    public const int NpcTemplateIdFieldNumber = 1;
+    private int npcTemplateId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int NpcTemplateId {
+      get { return npcTemplateId_; }
+      set {
+        npcTemplateId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "QuestId" field.</summary>
+    public const int QuestIdFieldNumber = 2;
+    private int questId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int QuestId {
+      get { return questId_; }
+      set {
+        questId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "LinkType" field.</summary>
+    public const int LinkTypeFieldNumber = 3;
+    private int linkType_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int LinkType {
+      get { return linkType_; }
+      set {
+        linkType_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as NpcQuestLinkData);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(NpcQuestLinkData other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (NpcTemplateId != other.NpcTemplateId) return false;
+      if (QuestId != other.QuestId) return false;
+      if (LinkType != other.LinkType) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (NpcTemplateId != 0) hash ^= NpcTemplateId.GetHashCode();
+      if (QuestId != 0) hash ^= QuestId.GetHashCode();
+      if (LinkType != 0) hash ^= LinkType.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (NpcTemplateId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(NpcTemplateId);
+      }
+      if (QuestId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(QuestId);
+      }
+      if (LinkType != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(LinkType);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (NpcTemplateId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(NpcTemplateId);
+      }
+      if (QuestId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(QuestId);
+      }
+      if (LinkType != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(LinkType);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (NpcTemplateId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(NpcTemplateId);
+      }
+      if (QuestId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(QuestId);
+      }
+      if (LinkType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(LinkType);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(NpcQuestLinkData other) {
+      if (other == null) {
+        return;
+      }
+      if (other.NpcTemplateId != 0) {
+        NpcTemplateId = other.NpcTemplateId;
+      }
+      if (other.QuestId != 0) {
+        QuestId = other.QuestId;
+      }
+      if (other.LinkType != 0) {
+        LinkType = other.LinkType;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            NpcTemplateId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            QuestId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            LinkType = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            NpcTemplateId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            QuestId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            LinkType = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class NpcSpawnData : pb::IMessage<NpcSpawnData>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<NpcSpawnData> _parser = new pb::MessageParser<NpcSpawnData>(() => new NpcSpawnData());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<NpcSpawnData> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::NPCPacket.NPCReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public NpcSpawnData() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public NpcSpawnData(NpcSpawnData other) : this() {
+      spawnId_ = other.spawnId_;
+      templateId_ = other.templateId_;
+      mapId_ = other.mapId_;
+      posX_ = other.posX_;
+      posY_ = other.posY_;
+      posZ_ = other.posZ_;
+      dirY_ = other.dirY_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public NpcSpawnData Clone() {
+      return new NpcSpawnData(this);
+    }
+
+    /// <summary>Field number for the "SpawnId" field.</summary>
+    public const int SpawnIdFieldNumber = 1;
+    private int spawnId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int SpawnId {
+      get { return spawnId_; }
+      set {
+        spawnId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "TemplateId" field.</summary>
+    public const int TemplateIdFieldNumber = 2;
+    private int templateId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int TemplateId {
+      get { return templateId_; }
+      set {
+        templateId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "MapId" field.</summary>
+    public const int MapIdFieldNumber = 3;
+    private int mapId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int MapId {
+      get { return mapId_; }
+      set {
+        mapId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "PosX" field.</summary>
+    public const int PosXFieldNumber = 4;
+    private int posX_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int PosX {
+      get { return posX_; }
+      set {
+        posX_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "PosY" field.</summary>
+    public const int PosYFieldNumber = 5;
+    private int posY_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int PosY {
+      get { return posY_; }
+      set {
+        posY_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "PosZ" field.</summary>
+    public const int PosZFieldNumber = 6;
+    private int posZ_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int PosZ {
+      get { return posZ_; }
+      set {
+        posZ_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "DirY" field.</summary>
+    public const int DirYFieldNumber = 7;
+    private int dirY_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int DirY {
+      get { return dirY_; }
+      set {
+        dirY_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as NpcSpawnData);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(NpcSpawnData other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (SpawnId != other.SpawnId) return false;
+      if (TemplateId != other.TemplateId) return false;
+      if (MapId != other.MapId) return false;
+      if (PosX != other.PosX) return false;
+      if (PosY != other.PosY) return false;
+      if (PosZ != other.PosZ) return false;
+      if (DirY != other.DirY) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (SpawnId != 0) hash ^= SpawnId.GetHashCode();
+      if (TemplateId != 0) hash ^= TemplateId.GetHashCode();
+      if (MapId != 0) hash ^= MapId.GetHashCode();
+      if (PosX != 0) hash ^= PosX.GetHashCode();
+      if (PosY != 0) hash ^= PosY.GetHashCode();
+      if (PosZ != 0) hash ^= PosZ.GetHashCode();
+      if (DirY != 0) hash ^= DirY.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (SpawnId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(SpawnId);
+      }
+      if (TemplateId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(TemplateId);
+      }
+      if (MapId != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(MapId);
+      }
+      if (PosX != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(PosX);
+      }
+      if (PosY != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(PosY);
+      }
+      if (PosZ != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(PosZ);
+      }
+      if (DirY != 0) {
+        output.WriteRawTag(56);
+        output.WriteInt32(DirY);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (SpawnId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(SpawnId);
+      }
+      if (TemplateId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(TemplateId);
+      }
+      if (MapId != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(MapId);
+      }
+      if (PosX != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(PosX);
+      }
+      if (PosY != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(PosY);
+      }
+      if (PosZ != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(PosZ);
+      }
+      if (DirY != 0) {
+        output.WriteRawTag(56);
+        output.WriteInt32(DirY);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (SpawnId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SpawnId);
+      }
+      if (TemplateId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TemplateId);
+      }
+      if (MapId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MapId);
+      }
+      if (PosX != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PosX);
+      }
+      if (PosY != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PosY);
+      }
+      if (PosZ != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PosZ);
+      }
+      if (DirY != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DirY);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(NpcSpawnData other) {
+      if (other == null) {
+        return;
+      }
+      if (other.SpawnId != 0) {
+        SpawnId = other.SpawnId;
+      }
+      if (other.TemplateId != 0) {
+        TemplateId = other.TemplateId;
+      }
+      if (other.MapId != 0) {
+        MapId = other.MapId;
+      }
+      if (other.PosX != 0) {
+        PosX = other.PosX;
+      }
+      if (other.PosY != 0) {
+        PosY = other.PosY;
+      }
+      if (other.PosZ != 0) {
+        PosZ = other.PosZ;
+      }
+      if (other.DirY != 0) {
+        DirY = other.DirY;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            SpawnId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            TemplateId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            MapId = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            PosX = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            PosY = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            PosZ = input.ReadInt32();
+            break;
+          }
+          case 56: {
+            DirY = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            SpawnId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            TemplateId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            MapId = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            PosX = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            PosY = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            PosZ = input.ReadInt32();
+            break;
+          }
+          case 56: {
+            DirY = input.ReadInt32();
             break;
           }
         }

@@ -12,14 +12,22 @@ namespace MMG_API.Controllers.NPC
         public NpcQuestLinkController(MMGDbContext db)
         {
             _db = db;
-        }     // [1] 전체 조회
+        }     
+        // [1] 전체 조회
         [HttpGet]
         public IActionResult GetAll()
         {
             var links = _db.NpcQuestLinks.ToList();
             return Ok(links);
         }
-
+        [HttpGet("quest/{questId}")]
+        public IActionResult GetByQuestId(int questId)
+        {
+            var links = _db.NpcQuestLinks
+                           .Where(l => l.QuestId == questId)
+                           .ToList();
+            return Ok(links);
+        }
         // [2] 특정 NPC 템플릿에 해당하는 링크 조회
         [HttpGet("npc/{npcTemplateId}")]
         public IActionResult GetByNpcTemplate(int npcTemplateId)

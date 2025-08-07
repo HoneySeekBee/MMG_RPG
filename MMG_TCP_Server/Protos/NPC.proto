@@ -12,6 +12,29 @@ enum NPCType
 }
 message NpcInfo {
 	int32 npc_id = 1;
-	NPCType type = 2;
-	string dialog_key = 3;
+	string name = 2; 
+	NPCType type = 3;
+	string dialog_key = 4;
+	string shopItem = 5;
+}
+message NpcQuestLinkData
+{
+	int32 NpcTemplateId = 1; 
+	int32 QuestId = 2;
+	int32 LinkType = 3; 
+}
+message NpcSpawnData
+{
+	int32 SpawnId = 1; 
+	int32 TemplateId = 2;
+	int32 MapId = 3;
+	int32 PosX = 4;
+	int32 PosY = 5;
+	int32 PosZ = 6;
+	int32 DirY = 7;
+}
+enum NpcQuestLinkType
+{
+	Giver = 0;
+	Getter = 1; 
 }

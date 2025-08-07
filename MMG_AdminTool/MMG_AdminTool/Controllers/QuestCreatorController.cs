@@ -102,6 +102,34 @@ namespace MMG_AdminTool.Controllers
                 ModelState.AddModelError("", "퀘스트 생성 실패");
                 return View(model);
             }
+            
+            var createdQuest = await response.Content.ReadFromJsonAsync<QuestViewModel>();
+            if (createdQuest == null)
+            {
+                ModelState.AddModelError("", "퀘스트 생성 후 ID 확인 실패");
+                return View(model);
+            }
+            int questId = createdQuest.QuestId;
+            if (model.StartNpcId.HasValue)
+            {
+                var startLink = new
+                {
+                    NpcTemplateId = model.StartNpcId.Value,
+                    QuestId = questId,
+                    LinkType = 0
+                };
+                await _httpClient.PostAsJsonAsync("/api/NpcQuestLink", startLink);
+            }
+            if (model.EndNpcId.HasValue)
+            {
+                var endLink = new
+                {
+                    NpcTemplateId = model.EndNpcId.Value,
+                    QuestId = questId,
+                    LinkType = 1
+                };
+                await _httpClient.PostAsJsonAsync("/api/NpcQuestLink", endLink);
+            }
 
             return RedirectToAction("Index");
         }
@@ -194,6 +222,45 @@ namespace MMG_AdminTool.Controllers
             {
                 ModelState.AddModelError("", "퀘스트 수정 실패");
                 return View(model);
+            }
+
+            // QuestLink 데이터 조회 
+            var existingLinks = await _httpClient.GetFromJsonAsync<List<NpcQuestLinkEntity>>($"/api/NpcQuestLink/quest/{model.QuestId}");
+
+            var oldStart = existingLinks.FirstOrDefault(x => x.LinkType == 0);
+            var oldEnd = existingLinks.FirstOrDefault(x => x.LinkType == 1);
+
+            // Start 링크 
+            if (oldStart != null && oldStart.NpcTemplateId != model.StartNpcId)
+            {
+                // 기존 링크 삭제
+                await _httpClient.DeleteAsync($"/api/NpcQuestLink/{oldStart.NpcTemplateId}/{model.QuestId}");
+            }
+            if (model.StartNpcId.HasValue && (oldStart == null || oldStart.NpcTemplateId != model.StartNpcId.Value))
+            {
+                // 새 링크 추가
+                var startLink = new
+                {
+                    NpcTemplateId = model.StartNpcId.Value,
+                    QuestId = model.QuestId,
+                    LinkType = 0
+                };
+                await _httpClient.PostAsJsonAsync("/api/NpcQuestLink", startLink);
+            }
+            // End 링크 
+            if (oldEnd != null && oldEnd.NpcTemplateId != model.EndNpcId)
+            {
+                await _httpClient.DeleteAsync($"/api/NpcQuestLink/{oldEnd.NpcTemplateId}/{model.QuestId}");
+            }
+            if (model.EndNpcId.HasValue && (oldEnd == null || oldEnd.NpcTemplateId != model.EndNpcId.Value))
+            {
+                var endLink = new
+                {
+                    NpcTemplateId = model.EndNpcId.Value,
+                    QuestId = model.QuestId,
+                    LinkType = 1
+                };
+                await _httpClient.PostAsJsonAsync("/api/NpcQuestLink", endLink);
             }
 
             return RedirectToAction("Index");
