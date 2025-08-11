@@ -39,6 +39,25 @@ namespace MMG_AdminTool.Controllers
             }
             var npcs = await npcResponse.Content.ReadFromJsonAsync<List<NpcTemplateViewModel>>();
 
+            // [3] Item 목록 요청 
+            var itemResponse = await _httpClient.GetAsync("/api/items");
+            if (!itemResponse.IsSuccessStatusCode)
+            {
+                return View(new QuestViewModel());
+            }
+            var items = await itemResponse.Content.ReadFromJsonAsync<List<ItemViewModel>>();
+            Console.Write($"[QuestCreator] - item count {items.Count}");
+
+            // [4] Monster 가지고 오기
+            var monsterResponse = await _httpClient.GetAsync("/api/monster/all");
+            if (!monsterResponse.IsSuccessStatusCode)
+            {
+                return View(new QuestViewModel());
+            }
+            var monsters = await monsterResponse.Content.ReadFromJsonAsync<List<MonsterModel>>();
+            Console.Write($"[QuestCreator] - monsters count {monsters.Count}");
+
+
             var vm = new QuestViewModel
             {
                 SelectedPrevQuests = new(), // null 방지
@@ -53,6 +72,19 @@ namespace MMG_AdminTool.Controllers
                 {
                     NpcId = q.TemplateId,
                     Name = q.Name,
+                }).ToList(),
+
+                AllItems = items.Select(item => new ItemSummary
+                {
+                    ItemId = item.ItemId,
+                    Name = item.Name,
+                }).ToList(),
+
+                AllMonsters = monsters
+                .Select(monster => new MonsterSummary
+                {
+                    MonsterId = monster.Id,
+                    Name = monster.Name,
                 }).ToList()
             };
 
@@ -96,42 +128,84 @@ namespace MMG_AdminTool.Controllers
                 model.EndNpcId
             };
 
-            var response = await _httpClient.PostAsJsonAsync("/api/quest", apiModel);
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                ModelState.AddModelError("", "퀘스트 생성 실패");
-                return View(model);
-            }
-            
-            var createdQuest = await response.Content.ReadFromJsonAsync<QuestViewModel>();
-            if (createdQuest == null)
-            {
-                ModelState.AddModelError("", "퀘스트 생성 후 ID 확인 실패");
-                return View(model);
-            }
-            int questId = createdQuest.QuestId;
-            if (model.StartNpcId.HasValue)
-            {
-                var startLink = new
+                var response = await _httpClient.PostAsJsonAsync("/api/quest", apiModel);
+                if (!response.IsSuccessStatusCode)
                 {
-                    NpcTemplateId = model.StartNpcId.Value,
-                    QuestId = questId,
-                    LinkType = 0
-                };
-                await _httpClient.PostAsJsonAsync("/api/NpcQuestLink", startLink);
-            }
-            if (model.EndNpcId.HasValue)
-            {
-                var endLink = new
-                {
-                    NpcTemplateId = model.EndNpcId.Value,
-                    QuestId = questId,
-                    LinkType = 1
-                };
-                await _httpClient.PostAsJsonAsync("/api/NpcQuestLink", endLink);
-            }
+                    ModelState.AddModelError("", "퀘스트 생성 실패");
+                    return View(model);
+                }
 
-            return RedirectToAction("Index");
+                var createdQuest = await response.Content.ReadFromJsonAsync<QuestViewModel>();
+                if (createdQuest == null)
+                {
+                    ModelState.AddModelError("", "퀘스트 생성 후 ID 확인 실패");
+                    return View(model);
+                }
+
+                int questId = createdQuest.QuestId;
+                if (model.StartNpcId.HasValue)
+                {
+                    var startLink = new
+                    {
+                        NpcTemplateId = model.StartNpcId.Value,
+                        QuestId = questId,
+                        LinkType = 0
+                    };
+                    await _httpClient.PostAsJsonAsync("/api/NpcQuestLink", startLink);
+                }
+                if (model.EndNpcId.HasValue)
+                {
+                    var endLink = new
+                    {
+                        NpcTemplateId = model.EndNpcId.Value,
+                        QuestId = questId,
+                        LinkType = 1
+                    };
+                    await _httpClient.PostAsJsonAsync("/api/NpcQuestLink", endLink);
+                }
+                // 퀘스트 목표들 생성하기 
+                if (model.QuestGoals != null && model.QuestGoals.Count > 0)
+                {
+                    var payloads = model.QuestGoals.Select((g, i) => new QuestGoalDto
+                    {
+                        QuestId = questId,
+                        GoalIndex = i,
+                        GoalType = g.GoalType,
+                        TargetId = g.TargetId,
+                        Count = g.Count
+                    })
+                .OrderBy(x => x.GoalIndex).ToList();
+
+                    Console.WriteLine($"[Create] PUT /api/questGoal/{questId}/goals");
+                    Console.WriteLine("[Create] payload count = " + payloads.Count);
+                    Console.WriteLine(JsonConvert.SerializeObject(payloads));
+
+                    var goalsRes = await _httpClient.PutAsJsonAsync($"/api/questGoal/{questId}/goals", payloads);
+                    var goalsBody = await goalsRes.Content.ReadAsStringAsync(); // 디버그용
+
+                    Console.WriteLine($"[Create] => {(int)goalsRes.StatusCode} {goalsRes.StatusCode}");
+                    Console.WriteLine($"[Create] body => {goalsBody}");
+
+                    if (!goalsRes.IsSuccessStatusCode)
+                    {
+                        ModelState.AddModelError("", $"퀘스트 목표 저장 실패: {goalsRes.StatusCode} / {goalsBody}");
+                        return View(model);
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+            catch (HttpRequestException ex)
+            {
+                ModelState.AddModelError("", $"API 호출 예외(Http): {ex.Message}");
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"예외: {ex.Message}");
+                return View(model);
+            }
         }
 
         // [4] 퀘스트 수정 - GET
@@ -155,6 +229,12 @@ namespace MMG_AdminTool.Controllers
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Select(int.Parse)
                 .ToList() ?? new();
+
+            // [4] Items 가지고 오기
+            var allItems = await _httpClient.GetFromJsonAsync<List<ItemViewModel>>("/api/items");
+
+            // [5] Monster 가지고 오기
+            var allMonsters = await _httpClient.GetFromJsonAsync<List<MonsterModel>>("/api/monster/all");
 
             quest.SelectedPrevQuests = allQuests
                 .Where(q => prevQuestIds.Contains(q.QuestId))
@@ -180,6 +260,34 @@ namespace MMG_AdminTool.Controllers
                     Name = npc.Name
                 }).ToList();
 
+            quest.AllItems = allItems
+                .Select(item => new ItemSummary
+                {
+                    ItemId = item.ItemId,
+                    Name = item.Name,
+                }).ToList();
+
+            quest.AllMonsters = allMonsters
+                .Select(monster => new MonsterSummary
+                {
+                    MonsterId = monster.Id,
+                    Name = monster.Name,
+                }).ToList();
+            // [6] 퀘스트 목표 데이터 가져오기
+            var goalsRes = await _httpClient.GetAsync($"/api/questGoal/{quest.QuestId}");
+            var goalsBody = await goalsRes.Content.ReadAsStringAsync();
+            Console.WriteLine($"[Edit GET] GET /api/questGoal/{quest.QuestId} -> {(int)goalsRes.StatusCode}");
+            Console.WriteLine($"[Edit GET] Body: {goalsBody}");
+
+            List<QuestGoalDto> questGoals = new();
+            if (goalsRes.IsSuccessStatusCode)
+            {
+                questGoals = System.Text.Json.JsonSerializer.Deserialize<List<QuestGoalDto>>(
+                    goalsBody,
+                    new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                ) ?? new List<QuestGoalDto>();
+            }
+            quest.QuestGoals = questGoals;
             return View(quest);
         }
 
@@ -221,6 +329,18 @@ namespace MMG_AdminTool.Controllers
             if (!response.IsSuccessStatusCode)
             {
                 ModelState.AddModelError("", "퀘스트 수정 실패");
+                return View(model);
+            }
+            Console.WriteLine($"[Edit] PUT /api/questGoal/{model.QuestId}/goals");
+            Console.WriteLine(JsonConvert.SerializeObject(model.QuestGoals));
+            var goalsRes = await _httpClient.PutAsJsonAsync(
+    $"/api/questGoal/{model.QuestId}/goals",
+    model.QuestGoals
+);
+            var goalsBody = await goalsRes.Content.ReadAsStringAsync();
+            if (!goalsRes.IsSuccessStatusCode)
+            {
+                ModelState.AddModelError("", $"퀘스트 목표 저장 실패: {goalsRes.StatusCode} / {goalsBody}");
                 return View(model);
             }
 

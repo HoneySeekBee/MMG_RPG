@@ -1,0 +1,45 @@
+﻿@{
+    string sizeClass = Model.Size switch
+    {
+        MMG_AdminTool.Models.ModalSize.Sm => "modal-sm",
+        MMG_AdminTool.Models.ModalSize.Lg => "modal-lg",
+        MMG_AdminTool.Models.ModalSize.Xl => "modal-xl",
+        _ => "" // Md
+    };
+}
+
+<div class="modal fade" id="@Model.Id" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog @sizeClass">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Model.Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+            </div>
+            <div class="modal-body">
+                @if (!string.IsNullOrEmpty(Model.BodyHtml))
+                {
+                    @Html.Raw(Model.BodyHtml)
+                }
+                else if (!string.IsNullOrEmpty(Model.BodyPartialView))
+                {
+                    <partial name="@(Model.BodyPartialView)" model="Model.BodyModel" />
+                }
+                else
+                {
+                    <div class="text-muted">내용이 없습니다.</div>
+                }
+            </div>
+            <div class="modal-footer">
+                @foreach (var btn in Model.Buttons)
+                {
+                    <button type="button"
+                            id="@btn.Id"
+                            class="@btn.CssClass"
+                    @(btn.DismissOnClick ? "data-bs-dismiss=\"modal\"" : null)>
+                        @btn.Text
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

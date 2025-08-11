@@ -36,7 +36,17 @@ namespace MMG_API.Data
             modelBuilder.Entity<NpcSpawnEntity>().ToTable("NpcSpawn").HasKey(s => s.SpawnId);  // 정확히 DB 테이블명
             modelBuilder.Entity<NpcQuestLinkEntity>().ToTable("NpcQuestLinkTable").HasKey(l => new { l.NpcTemplateId, l.QuestId });  // 정확히 DB 테이블명
             modelBuilder.Entity<QuestEntity>().ToTable("Quest");  // 정확히 DB 테이블명
-            modelBuilder.Entity<QuestGoalEntity>().ToTable("QuestGoal");  // 정확히 DB 테이블명
+            modelBuilder.Entity<QuestGoalEntity>(e =>
+            {
+                e.ToTable("QuestGoal"); // 정확한 DB 테이블 이름
+
+                // 복합 키 설정
+                e.HasKey(x => new { x.QuestId, x.GoalIndex });
+
+                // GoalIndex는 우리가 직접 값 지정 (DB 자동 생성 X)
+                e.Property(x => x.QuestId).ValueGeneratedNever();
+                e.Property(x => x.GoalIndex).ValueGeneratedNever();
+            });
             modelBuilder.Entity<QuestRewardEntity>().ToTable("QuestReward");  // 정확히 DB 테이블명
 
             modelBuilder.Entity<MonsterSkill>()

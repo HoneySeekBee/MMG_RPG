@@ -7,7 +7,7 @@ namespace MMG_API.Models
     public class QuestGoalEntity
     {
         [Key]
-        public int QuestGoalId { get; set; } // PK
+        public int GoalIndex { get; set; } // PK
 
         public int QuestId { get; set; }
 

@@ -1,0 +1,21 @@
+﻿@using MMG_AdminTool.Models
+@model IEnumerable<MMG_AdminTool.Controllers.QuestCreatorController.NpcSummaryViewModel>
+@* NpcId/Name 속성 *@
+<table class="table">
+  <thead>
+    <tr><th>선택</th><th>NPC ID</th><th>이름</th></tr>
+  </thead>
+  <tbody>
+  @foreach (var npc in Model)
+  {
+    <tr>
+      <td>
+        <button type="button" class="btn btn-sm btn-primary"
+                onclick="selectNpcFromModal(@npc.NpcId, '@npc.Name')">선택</button>
+      </td>
+      <td>@npc.NpcId</td>
+      <td>@npc.Name</td>
+    </tr>
+  }
+  </tbody>
+</table>

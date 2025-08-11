@@ -1,0 +1,19 @@
+﻿@using MMG_AdminTool.Models
+@model IEnumerable<QuestSummaryViewModel> 
+
+<table class="table">
+  <thead>
+    <tr><th>선택</th><th>Quest Id</th><th>Title</th><th>Min Level</th></tr>
+  </thead>
+  <tbody>
+  @foreach (var q in Model)
+  {
+    <tr>
+      <td><input type="checkbox" value="@q.QuestId" /></td>
+      <td>@q.QuestId</td>
+      <td>@q.Title</td>
+      <td>@q.MinLevel</td>
+    </tr>
+  }
+  </tbody>
+</table>

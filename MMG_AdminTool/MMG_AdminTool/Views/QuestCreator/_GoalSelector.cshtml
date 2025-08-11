@@ -1,0 +1,77 @@
+﻿@using MMG_AdminTool.Models
+@using MMG_AdminTool.Models.Enums
+@model GoalSelectorViewModel
+
+<div class="mb-3">
+    <label class="form-label">Goal Type</label>
+    <select id="goal-type" class="form-select">
+        <option value="@((int)QuestGoalType.HuntMonster)">Hunt Monster</option>
+        <option value="@((int)QuestGoalType.GetItem)">Get Item</option>
+    </select>
+</div>
+
+<!-- Monster 리스트 -->
+<div id="goal-monster-block">
+    <div class="mb-2 fw-semibold">Monster 목록 (하나 선택)</div>
+    <div class="table-responsive" style="max-height:320px;overflow:auto;">
+        <table class="table table-sm align-middle">
+            <thead><tr><th>선택</th><th>ID</th><th>이름</th></tr></thead>
+            <tbody>
+                @foreach (var m in Model.Monsters)
+                {
+                    <tr>
+                        <td>
+                            <input type="radio" name="goal-target" value="@m.MonsterId" data-name="@m.Name" />
+                        </td>
+                        <td>@m.MonsterId</td>
+                        <td>@m.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Item 리스트 -->
+<div id="goal-item-block" style="display:none;">
+    <div class="mb-2 fw-semibold">Item 목록 (하나 선택)</div>
+    <div class="table-responsive" style="max-height:320px;overflow:auto;">
+        <table class="table table-sm align-middle">
+            <thead><tr><th>선택</th><th>ID</th><th>이름</th></tr></thead>
+            <tbody>
+                @foreach (var it in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            <input type="radio" name="goal-target" value="@it.ItemId" data-name="@it.Name" />
+                        </td>
+                        <td>@it.ItemId</td>
+                        <td>@it.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Count</label>
+    <input id="goal-count" type="number" class="form-control" value="1" min="1" />
+</div>
+
+<script>
+    (function () {
+        const modalBody = document.querySelector('#goalModal .modal-body'); // 안전
+        const typeSel = modalBody.querySelector('#goal-type');
+        const monBlock = modalBody.querySelector('#goal-monster-block');
+        const itemBlock = modalBody.querySelector('#goal-item-block');
+
+        function syncBlocks() {
+            const t = parseInt(typeSel.value);
+            if (t === 0) { monBlock.style.display = 'block'; itemBlock.style.display = 'none'; }
+            else { monBlock.style.display = 'none'; itemBlock.style.display = 'block'; }
+        }
+        typeSel.addEventListener('change', syncBlocks);
+        syncBlocks();
+    })();
+</script>

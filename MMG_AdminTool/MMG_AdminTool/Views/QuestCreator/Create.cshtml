@@ -1,4 +1,5 @@
-﻿@using MMG_AdminTool.Models.Enums
+﻿@using MMG_AdminTool.Models
+@using MMG_AdminTool.Models.Enums
 @model MMG_AdminTool.Models.QuestViewModel
 
 @{
@@ -6,6 +7,8 @@
 }
 
 <h2>Create New Quest</h2>
+
+<div asp-validation-summary="All" class="text-danger"></div>
 
 <form asp-action="Create" method="post">
     <div class="form-group mt-2">
@@ -63,8 +66,28 @@
             }
         </tbody>
     </table>
+    <button type="button" class="btn btn-primary" onclick="showModal('prevQuestModal')">+ 선행 퀘스트 추가</button>
 
-    <button type="button" class="btn btn-primary" onclick="openPrevQuestSelector()">+ 선행 퀘스트 추가</button>
+    <h5>퀘스트 목표</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>QuestGoalType</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody id="selected-goal-quests">
+            @foreach(var quest in Model.QuestGoals)
+            {
+                <tr>
+                    <td>@quest.GoalType</td>
+                    <td>@quest.TargetId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary" onclick="showModal('goalModal')">+ 퀘스트 목표 추가</button>
 
     <div class="form-group mt-2">
         <label asp-for="StartTriggerType" class="control-label">Start Trigger</label>
@@ -102,121 +125,9 @@
 
     <input type="hidden" name="PrevQuestIds" id="PrevQuestIds" />
 </form>
-@section Scripts {
-        <script>
-            function validateMinLevel(input) {
-                let value = parseInt(input.value);
-                if (isNaN(value) || value < 1) {
-                    input.value = 1;
-                } else if (value > 200) {
-                    input.value = 200;
-                }
-            }
 
-            function openPrevQuestSelector() {
-                const modal = document.getElementById("prevQuestModal");
-                if (modal) modal.style.display = "block";
-            }
 
-            function applyPrevQuests() {
-                const checkedBoxes = document.querySelectorAll('#prevQuestModal input[type="checkbox"]:checked');
-                const selectedIds = [];
-                const selectedTableBody = document.getElementById("selected-prev-quests");
 
-                // 테이블 초기화
-                selectedTableBody.innerHTML = "";
-
-                checkedBoxes.forEach(checkbox => {
-                    const questId = checkbox.value;
-                    selectedIds.push(questId);
-
-                    const row = checkbox.closest("tr");
-                    const title = row.children[2].innerText;
-                    const minLevel = row.children[3].innerText;
-
-                    selectedTableBody.innerHTML += `
-                            <tr>
-                                <td>${questId}</td>
-                                <td>${title}</td>
-                                <td>${minLevel}</td>
-                            </tr>
-                        `;
-                });
-
-                // 숨겨진 input에 ID 문자열 넣기
-                document.getElementById("PrevQuestIds").value = selectedIds.join(',');
-
-                // 모달 닫기
-                const modal = document.getElementById("prevQuestModal");
-                if (modal) modal.style.display = "none";
-            }
-                function toggleTriggerNpcField(triggerName, containerId){
-                const triggerValue = parseInt(document.querySelector('[name="StartTriggerType"]').value);
-                const container = document.getElementById(containerId);
-
-                if(triggerValue == 1){
-                    container.style.display = "block";
-                }
-                else{
-                    container.style.display = "none";
-                }
-            }
-
-            // ESC나 외부 클릭 시 모달 닫기
-            window.addEventListener('keydown', function (e) {
-                if (e.key === "Escape") {
-                    const modal = document.getElementById("prevQuestModal");
-                    if (modal) modal.style.display = "none";
-                }
-            });
-
-            window.addEventListener('click', function (e) {
-                const modal = document.getElementById("prevQuestModal");
-                if (modal && e.target === modal) {
-                    modal.style.display = "none";
-                }
-            });
-
-            function initializeNpcTriggerVisibility(){
-                toggleTriggerNpcField("StartTriggerType", "start-npc-id-container");
-                toggleTriggerNpcField("EndTriggerType", "end-npc-id-container");
-            }
-        window.addEventListener("DOMContentLoaded", initializeNpcTriggerVisibility);
-        </script>
-}
-<div id="prevQuestModal" class="modal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header"><h5>선행 퀘스트 선택</h5></div>
-            <div class="modal-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>선택</th>
-                            <th>Quest Id</th>
-                            <th>Title</th>
-                            <th>Min Level</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var quest in Model.AllQuests)
-                        {
-                                <tr>
-                                    <td><input type="checkbox" value="@quest.QuestId" /></td>
-                                    <td>@quest.QuestId</td>
-                                    <td>@quest.Title</td>
-                                    <td>@quest.MinLevel</td>
-                                </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="applyPrevQuests()">확인</button>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- StartNpcId는 ReadOnly로 표시 -->
 <div id="start-npc-id-container" class="form-group mt-2" style="display:none;">
     <label asp-for="StartNpcId" class="control-label">Start NPC Id (선택창으로 입력)</label>
@@ -225,86 +136,198 @@
         <button type="button" class="btn btn-secondary" onclick="openNpcSelector('StartNpcId')">NPC 선택</button>
     </div>
 </div>
-
-<!-- 모달창 -->
-<div id="npcModal" class="modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header"><h5>NPC 선택</h5></div>
-            <div class="modal-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>선택</th>
-                            <th>NPC ID</th>
-                            <th>이름</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var npc in Model.AllNpcs)
-                        {
-                                <tr>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-primary"
-                                        onclick="selectNpc(@npc.NpcId, '@npc.Name')">
-                                        선택
-                                        </button>
-                                    </td>
-                                    <td>@npc.NpcId</td>
-                                    <td>@npc.Name</td>
-                                </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
+@section Scripts {
 <script>
-    let currentTargetNpcInputId = null;
-
-    function openNpcSelector(inputId) {
-        currentTargetNpcInputId = inputId;
-        const modal = document.getElementById("npcModal");
-        if (modal) modal.style.display = "block";
-    }
-    function selectNpc(npcId, npcName) {
-    const input = document.getElementById(currentTargetNpcInputId);
-    if (input) input.value = npcId;
-
-    // 이름 보여주기 (있으면)
-    const nameDisplay = document.getElementById(currentTargetNpcInputId + "_name");
-    if (nameDisplay) nameDisplay.innerText = npcName;
-
-    // 모달 닫기
-    const modal = document.getElementById("npcModal");
-    if (modal) modal.style.display = "none";
+// ===================== 공용 유틸 =====================
+function showModal(id){
+  const el = document.getElementById(id);
+  new bootstrap.Modal(el).show();
+}
+function hideModal(id){
+  const inst = bootstrap.Modal.getInstance(document.getElementById(id));
+  if (inst) inst.hide();
 }
 
-    // ESC / 외부 클릭으로 닫기
-    window.addEventListener("click", function (e) {
-        const modal = document.getElementById("npcModal");
-        if (modal && e.target === modal) {
-            modal.style.display = "none";
-        }
+// 숫자 입력 보정 (MinLevel)
+function validateMinLevel(input) {
+  let value = parseInt(input.value);
+  if (isNaN(value) || value < 1) input.value = 1;
+  else if (value > 200) input.value = 200;
+}
+
+// 트리거 선택 시 NPC 입력창 토글 (전달한 이름 기준으로 읽기)
+function toggleTriggerNpcField(triggerName, containerId){
+  const select = document.querySelector(`[name="${triggerName}"]`);
+  const val = parseInt(select?.value ?? '-1');
+  document.getElementById(containerId).style.display = (val === 1 ? 'block' : 'none');
+}
+
+// 초기 표시 상태 세팅
+window.addEventListener('DOMContentLoaded', () => {
+  toggleTriggerNpcField('StartTriggerType','start-npc-id-container');
+  toggleTriggerNpcField('EndTriggerType','end-npc-id-container');
+});
+
+// ===================== 선행 퀘스트 모달 =====================
+// ModalOptions.Buttons에서 Id="btn-apply-prev-quests" 로 설정되어 있음
+document.addEventListener('click', function(e){
+  if (e.target && e.target.id === 'btn-apply-prev-quests'){
+    const body = document.querySelector('#prevQuestModal .modal-body');
+    const checked = body.querySelectorAll('input[type="checkbox"]:checked');
+
+    const ids = [];
+    const tbody = document.getElementById('selected-prev-quests');
+    tbody.innerHTML = '';
+
+    checked.forEach(cb => {
+      const row = cb.closest('tr');
+      const questId  = cb.value;
+      const title    = row.children[2].innerText;
+      const minLevel = row.children[3].innerText;
+
+      ids.push(questId);
+      tbody.insertAdjacentHTML('beforeend',
+        `<tr><td>${questId}</td><td>${title}</td><td>${minLevel}</td></tr>`);
     });
+
+    // 숨은 필드에 저장
+    document.getElementById('PrevQuestIds').value = ids.join(',');
+    hideModal('prevQuestModal');
+  }
+});
+
+// ===================== NPC 선택 모달 =====================
+let currentTargetNpcInputId = null;
+
+// 폼에서 "선택" 버튼이 이 함수를 부름 (StartNpcId/EndNpcId 전달)
+function openNpcSelector(inputId){
+  currentTargetNpcInputId = inputId;
+  showModal('npcModal');
+}
+
+// _NpcSelector.cshtml의 각 행 버튼에서 이 함수를 호출하게 해주세요.
+function selectNpcFromModal(npcId, npcName){
+  const input = document.getElementById(currentTargetNpcInputId);
+  if (input) input.value = npcId;
+
+  // 이름 표시 영역이 있으면 함께 업데이트 (선택 사항)
+  const nameLabel = document.getElementById(currentTargetNpcInputId + '_name');
+  if (nameLabel) nameLabel.innerText = npcName;
+
+  hideModal('npcModal');
+}
+
+// =================== 퀘스트 목표 선택 모달 ================================
+const goals = window.goals || [];
+window.goals = goals;
+   function renderGoals(){
+  const tbody = document.getElementById('selected-goal-quests');
+  tbody.innerHTML = '';
+   goals.forEach((g, i) => {
+    const typeName = (g.goalType === 0 ? 'HuntMonster' : 'GetItem');
+        const nameOrId = g.targetName; // 이름 우선
+
+    tbody.insertAdjacentHTML('beforeend', `
+      <tr>
+        <td>${typeName}</td>
+        <td>${nameOrId} x ${g.count}</td>
+        <td class="text-end">
+          <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeGoal(${i})">삭제</button>
+        </td>
+      </tr>
+    `);
+  });
+
+      syncGoalHiddenInputs();
+    }
+
+    function removeGoal(i){
+      goals.splice(i,1);
+      renderGoals();
+    }
+
+    function syncGoalHiddenInputs(){
+      // 서버로 전송하려면 메인 form 안 어딘가에 컨테이너 필요
+      let box = document.getElementById('goalHiddenBox');
+      if (!box){
+        box = document.createElement('div');
+        box.id = 'goalHiddenBox';
+        document.querySelector('form').appendChild(box);
+      }
+      box.innerHTML = '';
+      goals.forEach((g,i)=>{
+        box.insertAdjacentHTML('beforeend', `
+          <input type="hidden" name="QuestGoals[${i}].GoalType" value="${g.goalType}">
+          <input type="hidden" name="QuestGoals[${i}].TargetId" value="${g.targetId}">
+          <input type="hidden" name="QuestGoals[${i}].Count" value="${g.count}">
+        `);
+      });
+    }
+
+    // “추가” 버튼 (ModalOptions에서 Id="btn-add-goal")
+        document.addEventListener('click', function(e){
+      if (e.target && e.target.id === 'btn-add-goal'){
+        const body   = document.querySelector('#goalModal .modal-body');
+        const type   = parseInt(body.querySelector('#goal-type').value);
+        const count  = parseInt(body.querySelector('#goal-count').value) || 1;
+        const selected = body.querySelector('input[name="goal-target"]:checked');
+        if (!selected){ alert('대상을 선택하세요.'); return; }
+
+        const targetId   = parseInt(selected.value);
+        const targetName = selected.dataset.name || '';
+
+        goals.push({ goalType: type, targetId, targetName, count });
+        renderGoals();
+        hideModal('goalModal');
+      }
+    });
+
+    // 초기 1회 렌더
+    renderGoals();
 </script>
+}
 
-<style>
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0,0,0,0.4);
-    }
 
-    .modal-dialog {
-        margin-top: 10%;
-    }
-</style>
+@{
+    var prevQuestModal = new ModalOptions {
+        Id = "prevQuestModal",
+        Title = "선행 퀘스트 선택",
+        Size = ModalSize.Lg,
+        BodyPartialView = "_PrevQuestSelector",
+        BodyModel = Model.AllQuests,
+        Buttons = new List<ModalButton> {
+            new ModalButton { Text="닫기", CssClass="btn btn-secondary", DismissOnClick=true },
+            new ModalButton { Text="확인", CssClass="btn btn-primary", Id="btn-apply-prev-quests" }
+        }
+            };
+    var npcModal = new ModalOptions
+            {
+                Id = "npcModal",
+                Title = "NPC 선택",
+                Size = ModalSize.Md,
+                BodyPartialView = "_NpcSelector",
+                BodyModel = Model.AllNpcs,
+                Buttons = new List<ModalButton>
+        {
+            new ModalButton { Text = "닫기", CssClass = "btn btn-secondary", DismissOnClick = true }
+        }
+            };
+
+    var goalModal = new ModalOptions {
+        Id = "goalModal",
+        Title = "퀘스트 목표 추가",
+        Size = ModalSize.Xl, // 목록이 길면 넓게
+        BodyPartialView = "_GoalSelector",
+        BodyModel = new GoalSelectorViewModel {
+            Monsters = Model.AllMonsters, // 컨트롤러에서 채워 넣은 리스트
+            Items    = Model.AllItems
+        },
+        Buttons = new List<ModalButton> {
+            new ModalButton { Text="닫기", CssClass="btn btn-secondary", DismissOnClick=true },
+            new ModalButton { Text="추가", CssClass="btn btn-primary", Id="btn-add-goal" }
+        }
+    };
+}
+<partial name="Modal" model="prevQuestModal" />
+<partial name="Modal" model="npcModal" />
+<partial name="Modal" model="goalModal" />
