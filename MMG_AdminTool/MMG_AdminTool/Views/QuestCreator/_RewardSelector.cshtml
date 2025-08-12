@@ -1,0 +1,30 @@
+﻿@using MMG_AdminTool.Models
+@model RewardItemViewModel
+
+<div id="reward-item-block">
+    <div class="mb-2 fw-semibold">Item 목록 (하나 선택)</div>
+    <div class="table-responsive" style="max-height:320px;overflow:auto;">
+        <table class="table table-sm align-middle">
+            <thead>
+                <tr><th>선택</th><th>ID</th><th>이름</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            <input type="radio" name="reward-target" value="@item.ItemId" data-name="@item.Name" />
+                        </td>
+                        <td>@item.ItemId</td>
+                        <td>@item.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Count</label>
+    <input id="reward-count" type="number" class="form-control" value="1" min="1" />
+</div>

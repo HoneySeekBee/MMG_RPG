@@ -4,13 +4,31 @@
 
 @{
     ViewData["Title"] = "Edit Quest";
+
+    // PrevQuestIds는 서버(Edit GET)에서 SelectedPrevQuests를 채워왔다는 전제
+    var prevIds = Model.SelectedPrevQuests?.Select(x => x.QuestId).ToList() ?? new List<int>();
+    var prevIdsJson = System.Text.Json.JsonSerializer.Serialize(prevIds);
+
+    var initialGoalsJson = System.Text.Json.JsonSerializer.Serialize(
+        (Model.QuestGoals ?? new List<QuestGoalDto>()).Select(g => new
+        {
+            goalType = (int)g.GoalType,
+            targetId = g.TargetId,
+            count = g.Count,
+            goalIndex = g.GoalIndex
+        }));
+
+    // Rewards가 ViewModel에 있다면 주입해서 사용 (없으면 빈 배열)
+    var initialRewardsJson = System.Text.Json.JsonSerializer.Serialize(
+        (Model.Rewards ?? new List<RewardItemDto>()).Select(r => new { itemId = r.ItemId, count = r.Count }));
 }
 
 <h2>Edit Quest</h2>
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" asp-route-questId="@Model.QuestId" method="post">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="QuestId" />
 
     <div class="form-group mt-2">
@@ -55,7 +73,7 @@
             <tr><th>Quest Id</th><th>Title</th><th>Min Level</th></tr>
         </thead>
         <tbody id="selected-prev-quests">
-            @foreach (var q in Model.SelectedPrevQuests)
+            @foreach (var q in Model.SelectedPrevQuests ?? new List<QuestSummaryViewModel>())
             {
                 <tr>
                     <td>@q.QuestId</td>
@@ -66,16 +84,12 @@
         </tbody>
     </table>
     <button type="button" class="btn btn-primary" onclick="showModal('prevQuestModal')">+ 선행 퀘스트 추가</button>
-    <input type="hidden" name="PrevQuestIds" id="PrevQuestIds" value="@(Model.PrevQuestIds != null ? string.Join(",", Model.PrevQuestIds) : "")" />
+    <input type="hidden" name="PrevQuestIds" id="PrevQuestIds" value='@Html.Raw(prevIdsJson)' />
 
     <h5 class="mt-4">퀘스트 목표</h5>
     <table class="table">
-        <thead>
-            <tr><th>QuestGoalType</th><th>Description</th><th></th></tr>
-        </thead>
-        <tbody id="selected-goal-quests">
-            @* JS에서 렌더링 (아래 Scripts에서 window.goals 초기화) *@
-        </tbody>
+        <thead><tr><th>QuestGoalType</th><th>Description</th><th></th></tr></thead>
+        <tbody id="selected-goal-quests"></tbody>
     </table>
     <button type="button" class="btn btn-primary" onclick="showModal('goalModal')">+ 퀘스트 목표 추가</button>
 
@@ -109,6 +123,21 @@
             <input id="EndNpcId" name="EndNpcId" class="form-control" value="@Model.EndNpcId" readonly />
             <button type="button" class="btn btn-secondary" onclick="openNpcSelector('EndNpcId')">선택</button>
         </div>
+    </div>
+
+    <div class="form-group mt-4">
+        <label asp-for="EXP" class="control-label">EXP</label>
+        <input asp-for="EXP" class="form-control" />
+        <span asp-validation-for="EXP" class="text-danger"></span>
+    </div>
+
+    <div>
+        <h5 class="mt-4">퀘스트 보상</h5>
+        <table class="table">
+            <thead><tr><th>Item</th><th>Count</th><th></th></tr></thead>
+            <tbody id="selected-reward-items"></tbody>
+        </table>
+        <button type="button" class="btn btn-primary" onclick="showModal('rewardModal')">+ 퀘스트 보상 추가</button>
     </div>
 
     <button type="submit" class="btn btn-success mt-4">Update</button>
@@ -147,139 +176,192 @@
                 Title = "퀘스트 목표 추가",
                 Size = ModalSize.Xl,
                 BodyPartialView = "_GoalSelector",
-                BodyModel = new GoalSelectorViewModel
-                {
-                    Monsters = Model.AllMonsters,
-                    Items = Model.AllItems
-                },
+                BodyModel = new GoalSelectorViewModel { Monsters = Model.AllMonsters, Items = Model.AllItems },
                 Buttons = new List<ModalButton> {
             new ModalButton { Text="닫기", CssClass="btn btn-secondary", DismissOnClick=true },
             new ModalButton { Text="추가", CssClass="btn btn-primary", Id="btn-add-goal" }
         }
             };
+
+    var rewardModal = new ModalOptions
+            {
+                Id = "rewardModal",
+                Title = "퀘스트 보상 추가",
+                Size = ModalSize.Xl,
+                BodyPartialView = "_RewardSelector",
+                BodyModel = new RewardItemViewModel { Items = Model.AllItems },
+                Buttons = new List<ModalButton> {
+            new ModalButton { Text="닫기", CssClass="btn btn-secondary", DismissOnClick=true },
+            new ModalButton { Text="추가", CssClass="btn btn-primary", Id="btn-add-reward" }
+        }
+            };
+
 }
+
 <partial name="Modal" model="prevQuestModal" />
 <partial name="Modal" model="npcModal" />
 <partial name="Modal" model="goalModal" />
-
+<partial name="Modal" model="rewardModal" />
 @section Scripts {
     <script>
-        /******** 공용 유틸 ********/
-        function showModal(id) { const el = document.getElementById(id); new bootstrap.Modal(el).show(); }
-        function hideModal(id) { const inst = bootstrap.Modal.getInstance(document.getElementById(id)); if (inst) inst.hide(); }
-        function validateMinLevel(input) { let v = parseInt(input.value); if (isNaN(v) || v < 1) input.value = 1; else if (v > 200) input.value = 200; }
-        function toggleTriggerNpcField(triggerName, containerId) {
-            const select = document.querySelector(`[name="${triggerName}"]`);
-            const val = parseInt(select?.value ?? '-1');
-            document.getElementById(containerId).style.display = (val === 1 ? 'block' : 'none');
+        // ===== 공용 유틸 =====
+        function showModal(id){ const el=document.getElementById(id); new bootstrap.Modal(el).show(); }
+        function hideModal(id){ const inst=bootstrap.Modal.getInstance(document.getElementById(id)); if(inst) inst.hide(); }
+        function validateMinLevel(input){ let v=parseInt(input.value); if(isNaN(v)||v<1) input.value=1; else if(v>200) input.value=200; }
+        function toggleTriggerNpcField(triggerName, containerId){
+          const select=document.querySelector(`[name="${triggerName}"]`);
+          const val=parseInt(select?.value ?? '-1');
+          document.getElementById(containerId).style.display=(val===1?'block':'none');
         }
 
-        /******** NPC 모달 ********/
-        let currentTargetNpcInputId = null;
-        function openNpcSelector(inputId) { currentTargetNpcInputId = inputId; showModal('npcModal'); }
-        function selectNpcFromModal(npcId, npcName) {
-            const input = document.getElementById(currentTargetNpcInputId);
-            if (input) input.value = npcId;
-            const nameLabel = document.getElementById(currentTargetNpcInputId + '_name');
-            if (nameLabel) nameLabel.innerText = npcName;
-            hideModal('npcModal');
+        // ===== NPC 모달 =====
+        let currentTargetNpcInputId=null;
+        function openNpcSelector(inputId){ currentTargetNpcInputId=inputId; showModal('npcModal'); }
+        function selectNpcFromModal(npcId, npcName){
+          const input=document.getElementById(currentTargetNpcInputId);
+          if(input) input.value=npcId;
+          const nameLabel=document.getElementById(currentTargetNpcInputId + '_name');
+          if(nameLabel) nameLabel.innerText=npcName;
+          hideModal('npcModal');
         }
 
-        /******** 선행 퀘스트 모달 ********/
-        document.addEventListener('click', function (e) {
-            if (e.target && e.target.id === 'btn-apply-prev-quests') {
-                const body = document.querySelector('#prevQuestModal .modal-body');
-                const checked = body.querySelectorAll('input[type="checkbox"]:checked');
-                const ids = [];
-                const tbody = document.getElementById('selected-prev-quests');
-                tbody.innerHTML = '';
-                checked.forEach(cb => {
-                    const row = cb.closest('tr');
-                    const questId = cb.value;
-                    const title = row.children[2].innerText;
-                    const minLv = row.children[3].innerText;
-                    ids.push(questId);
-                    tbody.insertAdjacentHTML('beforeend', `<tr><td>${questId}</td><td>${title}</td><td>${minLv}</td></tr>`);
-                });
-                document.getElementById('PrevQuestIds').value = ids.join(',');
-                hideModal('prevQuestModal');
-            }
+        // ===== 선행 퀘스트 =====
+        document.addEventListener('click', e=>{
+          if(e.target && e.target.id==='btn-apply-prev-quests'){
+            const body=document.querySelector('#prevQuestModal .modal-body');
+            const checked=body.querySelectorAll('input[type="checkbox"]:checked');
+            const ids=[]; const tbody=document.getElementById('selected-prev-quests');
+            tbody.innerHTML='';
+            checked.forEach(cb=>{
+              const row=cb.closest('tr');
+              const questId=parseInt(cb.value);
+              const title=row.children[2].innerText;
+              const minLv=row.children[3].innerText;
+              ids.push(questId);
+              tbody.insertAdjacentHTML('beforeend', `<tr><td>${questId}</td><td>${title}</td><td>${minLv}</td></tr>`);
+            });
+            document.getElementById('PrevQuestIds').value = JSON.stringify(ids);
+            hideModal('prevQuestModal');
+          }
         });
 
-        /******** 퀘스트 목표(Goals) ********/
-        const goals = window.goals || [];
+        // ===== Goals =====
+        const goals   = window.goals   || [];
+        const rewards = window.rewards || []; // ← 한 번만 선언
         window.goals = goals;
+        window.rewards = rewards;
 
-        function renderGoals() {
-            const tbody = document.getElementById('selected-goal-quests');
-            tbody.innerHTML = '';
-            goals.forEach((g, i) => {
-                const typeName = (g.goalType === 0 ? 'HuntMonster' : 'GetItem');
-                const nameOrId = g.targetName || g.targetId;
-                tbody.insertAdjacentHTML('beforeend', `
+        function renderGoals(){
+          const tbody=document.getElementById('selected-goal-quests');
+          tbody.innerHTML='';
+          goals.forEach((g,i)=>{
+            const typeName=(g.goalType===0?'HuntMonster':'GetItem');
+            const nameOrId=g.targetName || g.targetId;
+            tbody.insertAdjacentHTML('beforeend', `
               <tr>
                 <td>${typeName}</td>
                 <td>${nameOrId} x ${g.count}</td>
                 <td class="text-end">
                   <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeGoal(${i})">삭제</button>
                 </td>
-              </tr>
-            `);
-            });
-            syncGoalHiddenInputs();
+              </tr>`);
+          });
+          syncGoalHiddenInputs();
         }
-        function removeGoal(i) { goals.splice(i, 1); renderGoals(); }
-        function syncGoalHiddenInputs() {
-            let box = document.getElementById('goalHiddenBox');
-            if (!box) { box = document.createElement('div'); box.id = 'goalHiddenBox'; document.querySelector('form').appendChild(box); }
-            box.innerHTML = '';
-            goals.forEach((g, i) => {
-                const idx = (g.goalIndex ?? i); // 기존 인덱스 있으면 유지
-                box.insertAdjacentHTML('beforeend', `
+        function removeGoal(i){ goals.splice(i,1); renderGoals(); }
+        function syncGoalHiddenInputs(){
+          let box=document.getElementById('goalHiddenBox');
+          if(!box){ box=document.createElement('div'); box.id='goalHiddenBox'; document.querySelector('form').appendChild(box); }
+          box.innerHTML='';
+          goals.forEach((g,i)=>{
+            const idx=(g.goalIndex ?? i);
+            box.insertAdjacentHTML('beforeend', `
               <input type="hidden" name="QuestGoals[${i}].GoalType"  value="${g.goalType}">
               <input type="hidden" name="QuestGoals[${i}].TargetId"  value="${g.targetId}">
               <input type="hidden" name="QuestGoals[${i}].Count"     value="${g.count}">
               <input type="hidden" name="QuestGoals[${i}].GoalIndex" value="${idx}">
             `);
-            });
+          });
         }
-
-        // Goal 추가 버튼
-        document.addEventListener('click', function (e) {
-            if (e.target && e.target.id === 'btn-add-goal') {
-                const body = document.querySelector('#goalModal .modal-body');
-                const type = parseInt(body.querySelector('#goal-type').value);
-                const count = parseInt(body.querySelector('#goal-count').value) || 1;
-                const selected = body.querySelector('input[name="goal-target"]:checked');
-                if (!selected) { alert('대상을 선택하세요.'); return; }
-                const targetId = parseInt(selected.value);
-                const targetName = selected.dataset.name || '';
-                goals.push({ goalType: type, targetId, targetName, count });
-                renderGoals();
-                hideModal('goalModal');
-            }
+        document.addEventListener('click', e=>{
+          if(e.target && e.target.id==='btn-add-goal'){
+            const body=document.querySelector('#goalModal .modal-body');
+            const type=parseInt(body.querySelector('#goal-type').value);
+            const count=parseInt(body.querySelector('#goal-count').value)||1;
+            const selected=body.querySelector('input[name="goal-target"]:checked');
+            if(!selected){ alert('대상을 선택하세요.'); return; }
+            const targetId=parseInt(selected.value);
+            const targetName=selected.dataset.name || '';
+            goals.push({ goalType:type, targetId, targetName, count });
+            renderGoals(); hideModal('goalModal');
+          }
         });
 
-        /******** 초기화 (Edit 핵심) ********/
-        window.addEventListener('DOMContentLoaded', () => {
-            // Trigger NPC 표시 토글
-            toggleTriggerNpcField('StartTriggerType', 'start-npc-id-container');
-            toggleTriggerNpcField('EndTriggerType', 'end-npc-id-container');
+        // ===== Rewards =====
+        function renderRewards(){
+          const tbody=document.getElementById('selected-reward-items');
+          if(!tbody) return;
+          tbody.innerHTML='';
+          rewards.forEach((r,i)=>{
+            const name=r.itemName || r.itemId;
+            tbody.insertAdjacentHTML('beforeend', `
+              <tr>
+                <td>${name}</td>
+                <td>${r.count}</td>
+                <td class="text-end">
+                  <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeReward(${i})">삭제</button>
+                </td>
+              </tr>`);
+          });
+          syncRewardHiddenInputs();
+        }
+        function removeReward(i){ rewards.splice(i,1); renderRewards(); }
+        function syncRewardHiddenInputs(){
+          let box=document.getElementById('rewardHiddenBox');
+          if(!box){ box=document.createElement('div'); box.id='rewardHiddenBox'; document.querySelector('form').appendChild(box); }
+          box.innerHTML='';
+          rewards.forEach((r,i)=>{
+            box.insertAdjacentHTML('beforeend', `
+              <input type="hidden" name="Rewards[${i}].ItemId" value="${r.itemId}">
+              <input type="hidden" name="Rewards[${i}].Count"  value="${r.count}">
+            `);
+          });
+        }
 
-            // 기존 목표 -> JS 배열로 주입 (이름/인덱스 포함)
-            const initialGoals = @Html.Raw(
-            Newtonsoft.Json.JsonConvert.SerializeObject(
-            (Model.QuestGoals ?? new List<QuestGoalDto>()).Select(g => new
-            {
-                goalType = (int)g.GoalType,
-                targetId = g.TargetId,
-                count = g.Count,
-                goalIndex = g.GoalIndex     // 기존 인덱스 유지
-            })
-            )
-            );
-            goals.splice(0, goals.length, ...initialGoals);
-            renderGoals();
+        // 모달 “추가” 버튼(id=btn-add-reward) 클릭 → rewards에 push
+        document.addEventListener('click', function(e){
+          if (e.target && e.target.id === 'btn-add-reward'){
+            const body = document.querySelector('#rewardModal .modal-body');
+            if (!body){ console.warn('[reward] modal body not found'); return; }
+
+            const selected = body.querySelector('input[name="reward-target"]:checked');
+            if (!selected){ alert('보상 아이템을 선택하세요.'); return; }
+
+            const itemId   = parseInt(selected.value);
+            const itemName = selected.dataset.name || '';
+            const countEl  = body.querySelector('#reward-count');
+            const count    = parseInt(countEl?.value || '1');
+
+            if (!Number.isFinite(itemId) || itemId <= 0){ alert('잘못된 아이템입니다.'); return; }
+            if (!Number.isFinite(count)  || count  <= 0){ alert('개수는 1 이상이어야 합니다.'); return; }
+
+            rewards.push({ itemId, itemName, count });
+            renderRewards();
+            hideModal('rewardModal');
+          }
+        });
+
+        // ===== 초기화 =====
+        window.addEventListener('DOMContentLoaded', ()=>{
+          toggleTriggerNpcField('StartTriggerType','start-npc-id-container');
+          toggleTriggerNpcField('EndTriggerType','end-npc-id-container');
+
+          // 서버에서 주입한 초기 데이터(JSON 문자열 변수여야 함)
+          goals.splice(0, goals.length,   ...(@Html.Raw(initialGoalsJson)));
+          rewards.splice(0, rewards.length,...(@Html.Raw(initialRewardsJson)));
+
+          renderGoals();
+          renderRewards();
         });
     </script>
 }

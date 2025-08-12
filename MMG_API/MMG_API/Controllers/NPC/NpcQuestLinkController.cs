@@ -49,22 +49,23 @@ namespace MMG_API.Controllers.NPC
             if (exists)
                 return Conflict("이미 존재하는 링크입니다.");
 
+            Console.WriteLine($"QuestLink Create : {link.NpcTemplateId} / {link.LinkType} / {link.QuestId}");
             _db.NpcQuestLinks.Add(link);
             _db.SaveChanges();
             return Ok(link);
         }
 
         // [4] 수정 (LinkType만 수정 가능)
-        [HttpPut("{npcTemplateId}/{questId}")]
-        public IActionResult Update(int npcTemplateId, int questId, [FromBody] NpcQuestLinkEntity updated)
+        [HttpPut("{questId}/{linkType}")]
+        public IActionResult Update(int questId, int linkType, [FromBody] NpcQuestLinkEntity updated)
         {
             var link = _db.NpcQuestLinks
-                .FirstOrDefault(l => l.NpcTemplateId == npcTemplateId && l.QuestId == questId);
+                .FirstOrDefault(l => l.QuestId == questId && l.LinkType == linkType);
 
             if (link == null)
                 return NotFound();
 
-            link.LinkType = updated.LinkType;
+            link.NpcTemplateId = updated.NpcTemplateId;
             _db.SaveChanges();
             return Ok(link);
         }

@@ -26,9 +26,10 @@ namespace MMG_AdminTool.Models
         public List<MonsterSummary> AllMonsters { get; set; } = new();
         public string? PrevQuestIds { get; set; }
 
+        public int EXP { get; set; }
+        public List<RewardItemDto> Rewards { get; set; } = new();
         // 여기에 퀘스트 목표를 넣자.
         public List<QuestGoalDto> QuestGoals { get; set; } = new();
-        
         public int StartTriggerType { get; set; }
         public int? StartNpcId { get; set; }
         public int EndTriggerType { get; set; }
@@ -47,6 +48,21 @@ namespace MMG_AdminTool.Models
         public int QuestId { get; set; }
         public string Title { get; set; }
         public int MinLevel { get; set; }
+    }
+    public class QuestRewardDto
+    {
+        public int QuestId{ get; set; }
+        public int Exp{ get; set; }
+        public string JsonReward { get; set; }
+    }
+    public class RewardItemDto
+    {
+        public int ItemId{ get; set; }
+        public int Count{ get; set; }
+    }
+    public class RewardItemViewModel
+    {
+        public IEnumerable<ItemSummary> Items { get; set; } = Enumerable.Empty<ItemSummary>();
     }
     public class GoalSelectorViewModel
     {

@@ -16,7 +16,8 @@ namespace MMG_API.Controllers.Quest
             _db = db;
         }
 
-        // [1] 전체 목록 조회
+        // [1] Read 
+        // (1) 전체 목록 조회 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -37,11 +38,9 @@ namespace MMG_API.Controllers.Quest
                 EndTriggerType = q.EndTriggerType,
                 EndNpcId = q.EndNpcId
             }).ToList();
-
             return Ok(result);
         }
-        
-        // [2] 단일 조회
+        // (2) 단일 조회
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {

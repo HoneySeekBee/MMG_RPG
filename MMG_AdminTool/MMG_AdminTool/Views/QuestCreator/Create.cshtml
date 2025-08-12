@@ -88,6 +88,29 @@
     </table>
 
     <button type="button" class="btn btn-primary" onclick="showModal('goalModal')">+ 퀘스트 목표 추가</button>
+    
+    <div class="form-group mt-2">
+        <label asp-for="EXP" class="control-label">EXP</label>
+        <input asp-for="EXP" class="form-control" />
+        <span asp-validation-for="EXP" class="text-danger"></span>
+    </div>
+
+   <h5>퀘스트 보상</h5>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ItemName</th>
+      <th>Count</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="selected-reward-items">
+  </tbody>
+</table>
+
+<button type="button" class="btn btn-primary" onclick="showModal('rewardModal')">
+  + 퀘스트 보상 추가
+</button>
 
     <div class="form-group mt-2">
         <label asp-for="StartTriggerType" class="control-label">Start Trigger</label>
@@ -284,6 +307,72 @@ window.goals = goals;
 
     // 초기 1회 렌더
     renderGoals();
+
+    // 보상 추가 버튼
+document.addEventListener('click', function(e){
+  if (e.target && e.target.id === 'btn-add-reward'){
+    const body = document.querySelector('#rewardModal .modal-body');
+    const selected = body?.querySelector('input[name="reward-target"]:checked');
+    if (!selected){
+      alert('보상 아이템을 선택하세요.');
+      return;
+    }
+    const itemId = parseInt(selected.value);
+    const itemName = selected.dataset.name || '';
+    const count = parseInt(body.querySelector('#reward-count')?.value || '1');
+    if (!Number.isFinite(itemId) || itemId <= 0){ alert('잘못된 아이템입니다.'); return; }
+    if (!Number.isFinite(count) || count <= 0){ alert('개수는 1 이상이어야 합니다.'); return; }
+
+    rewards.push({ itemId, itemName, count });
+    renderRewards();
+    hideModal('rewardModal');
+  }
+});
+window.addEventListener('DOMContentLoaded', renderRewards);
+
+
+    // ===== 보상 상태 =====
+const rewards = window.rewards || [];
+window.rewards = rewards;
+
+// 보상 테이블 렌더
+function renderRewards(){
+  const tbody = document.getElementById('selected-reward-items');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  rewards.forEach((r, i) => {
+    const name = r.itemName || r.itemId;
+    tbody.insertAdjacentHTML('beforeend', `
+      <tr>
+        <td>${name}</td>
+        <td>${r.count}</td>
+        <td class="text-end">
+          <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeReward(${i})">삭제</button>
+        </td>
+      </tr>
+    `);
+  });
+  syncRewardHiddenInputs();
+}
+function removeReward(idx){
+  rewards.splice(idx, 1);
+  renderRewards();
+}
+function syncRewardHiddenInputs(){
+  let box = document.getElementById('rewardHiddenBox');
+  if (!box){
+    box = document.createElement('div');
+    box.id = 'rewardHiddenBox';
+    document.querySelector('form')?.appendChild(box);
+  }
+  box.innerHTML = '';
+  rewards.forEach((r, i) => {
+    box.insertAdjacentHTML('beforeend', `
+      <input type="hidden" name="Rewards[${i}].ItemId" value="${r.itemId}">
+      <input type="hidden" name="Rewards[${i}].Count"  value="${r.count}">
+    `);
+  });
+}
 </script>
 }
 
@@ -327,7 +416,24 @@ window.goals = goals;
             new ModalButton { Text="추가", CssClass="btn btn-primary", Id="btn-add-goal" }
         }
     };
+
+    var rewardModal = new ModalOptions {
+        Id = "rewardModal",
+        Title = "퀘스트 보상 추가",
+        Size = ModalSize.Xl,
+        BodyPartialView = "_RewardSelector",
+        BodyModel = new RewardItemViewModel
+        {
+            Items = Model.AllItems
+        },
+        Buttons = new List<ModalButton>
+        {
+            new ModalButton { Text="닫기", CssClass="btn btn-secondary", DismissOnClick=true },
+            new ModalButton { Text="추가", CssClass="btn btn-primary", Id="btn-add-reward" }
+        }
+            };
 }
 <partial name="Modal" model="prevQuestModal" />
 <partial name="Modal" model="npcModal" />
 <partial name="Modal" model="goalModal" />
+<partial name="Modal" model="rewardModal" />

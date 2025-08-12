@@ -17,64 +17,63 @@ namespace MMG_API.Controllers.Quest
             _db = db;
         }
 
-        // [1] 특정 퀘스트의 보상 목록 조회
-        [HttpGet("byQuest/{questId}")]
-        public async Task<IActionResult> GetRewardsByQuest(int questId)
+        // [1] Read :
+        // (1) 전체 퀘스트 보상 조회
+        [HttpGet]
+        public IActionResult GetAllQuestRewards()
         {
-            var rewards = await _db.QuestRewards
-                                   .Where(r => r.QuestId == questId)
-                                   .ToListAsync();
+            var rewards = _db.QuestRewards.AsNoTracking().ToList();
             return Ok(rewards);
         }
-        // [2] 단일 보상 조회
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        // (2) 특정 퀘스트 보상 조회  
+        [HttpGet("{questId}")]
+        public async Task<IActionResult> GetRewardsByQuest(int questId)
         {
-            var reward = await _db.QuestRewards.FindAsync(id);
+            var reward = await _db.QuestRewards.AsNoTracking().SingleOrDefaultAsync(r => r.QuestId == questId);
+
             if (reward == null)
                 return NotFound();
 
             return Ok(reward);
         }
-        // [3] 생성
+
+        // [2] Create 
         [HttpPost]
         public async Task<IActionResult> Create(QuestRewardDto dto)
         {
             var reward = new QuestRewardEntity
             {
                 QuestId = dto.QuestId,
-                RewardType = dto.RewardType,
-                ItemId = dto.ItemId,
-                Count = dto.Count,
-                Exp = dto.Exp
+                Exp = dto.Exp,
+                JsonReward = dto.JsonReward,
             };
 
             _db.QuestRewards.Add(reward);
             await _db.SaveChangesAsync();
             return Ok(reward);
         }
-        // [4] 수정
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, QuestRewardDto dto)
+        // [3] Update
+        [HttpPut("{questId}")]
+        public async Task<IActionResult> Update(int questId, QuestRewardDto dto)
         {
-            var reward = await _db.QuestRewards.FindAsync(id);
+            var reward = await _db.QuestRewards
+                          .SingleOrDefaultAsync(r => r.QuestId == questId);
             if (reward == null)
                 return NotFound();
 
-            reward.QuestId = dto.QuestId;
-            reward.RewardType = dto.RewardType;
-            reward.ItemId = dto.ItemId;
-            reward.Count = dto.Count;
             reward.Exp = dto.Exp;
+            reward.JsonReward = dto.JsonReward;
 
             await _db.SaveChangesAsync();
-            return Ok(reward);
+
+            return NoContent();
         }
         // [5] 삭제
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{questId}")]
+        public async Task<IActionResult> Delete(int questId)
         {
-            var reward = await _db.QuestRewards.FindAsync(id);
+            var reward = await _db.QuestRewards
+                          .SingleOrDefaultAsync(r => r.QuestId == questId);
             if (reward == null)
                 return NotFound();
 
