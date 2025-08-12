@@ -1,12 +1,12 @@
 ﻿using GamePacket;
 using GameServer.Game.Quest;
-using Newtonsoft.Json;
 using NPCPacket;
 using QuestPacket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace GameServer.Data.DataManager
@@ -17,6 +17,8 @@ namespace GameServer.Data.DataManager
         public static async Task LoadQuestData()
         {
             await LoadAllQuestAsync();
+            await LoadQuestGoalAsync();
+            await LoadQuestRewardAsync();
         }
         public static async Task LoadAllQuestAsync()
         {
@@ -25,7 +27,9 @@ namespace GameServer.Data.DataManager
                 using var http = new HttpClient();
                 var res = await http.GetAsync(Program.URL + "/api/quest");
                 var json = await res.Content.ReadAsStringAsync();
-                var questDtos = JsonConvert.DeserializeObject<List<QuestDto>>(json);
+                var questDtos = JsonSerializer.Deserialize<List<QuestDto>>(json,
+           new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+           ?? new List<QuestDto>();
 
                 QuestDataDictionary.Clear();
                 foreach (var dto in questDtos)
@@ -72,11 +76,11 @@ namespace GameServer.Data.DataManager
                     QuestDataDictionary[dto.QuestId] = quest;
                 }
 
-                Console.WriteLine($"[SkillDataManager] {QuestDataDictionary.Count}개 로드됨");
+                Console.WriteLine($"[LoadAllQuestAsync] {QuestDataDictionary.Count}개 로드됨");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[SkillDataManager] 예외 발생: {ex.Message}");
+                Console.WriteLine($"[LoadAllQuestAsync] 예외 발생: {ex.Message}");
             }
         }
         public static async Task LoadQuestGoalAsync()
@@ -87,49 +91,116 @@ namespace GameServer.Data.DataManager
                 using var http = new HttpClient();
                 var res = await http.GetAsync(Program.URL + "/api/QuestGoal");
                 var json = await res.Content.ReadAsStringAsync();
-                var QuestGoalDtos = JsonConvert.DeserializeObject<List<QuestGoalDto>>(json);
+                var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var questGoalDtos = JsonSerializer.Deserialize<List<QuestGoalDto>>(json, opts) ?? new List<QuestGoalDto>();
 
-                foreach (var data in QuestGoalDtos)
+                foreach (var data in questGoalDtos)
                 {
                     if (QuestDataDictionary.ContainsKey(data.QuestId))
                     {
                         if(data.GoalType == 0)
                         {
-
+                            QuesthuntMonsterGoal HuntMonster = new QuesthuntMonsterGoal()
+                            {
+                                Data = new QuestHuntMonsterGoalData()
+                                {
+                                    MonsterId = data.TargetId,
+                                    Count = data.Count
+                                }
+                            };
+                            QuestDataDictionary[data.QuestId].QuestGoals.Add(HuntMonster);
                         }
-
-                        //NpcQuestLinkData QuestLink = new NpcQuestLinkData()
-                        //{
-                        //    NpcTemplateId = data.NpcTemplateId,
-                        //    QuestId = data.QuestId,
-                        //    LinkType = data.LinkType,
-                        //};
-
-                        //if (data.LinkType == 0)
-                        //{
-                        //    _npcDataDic[data.NpcTemplateId].StartQuestDataInfo.Add(QuestLink);
-                        //}
-                        //else if (data.LinkType == 1)
-                        //{
-                        //    _npcDataDic[data.NpcTemplateId].EndQuestDataInfo.Add(QuestLink);
-                        //}
+                        else
+                        {
+                            QuestGetItemGoal GetItem = new QuestGetItemGoal()
+                            {
+                                Data = new QuestGetItemGoalData()
+                                {
+                                    ItemId = data.TargetId,
+                                    Count = data.Count
+                                }
+                            };
+                            QuestDataDictionary[data.QuestId].QuestGoals.Add(GetItem);
+                        }
                         cnt++;
                     }
                     else
                     {
-                        Console.WriteLine($"[Error] [LoadAllNpcQuestLink] 중 NPC {data.NpcTemplateId}가 존재하지 않음 ");
+                        Console.WriteLine($"[Error] [LoadQuestGoalAsync] 중 quest {data.QuestId}가 존재하지 않음 ");
                     }
                 }
-                Console.WriteLine($"[NPCQuestLink] {cnt}개 업데이트 완료 ");
+                Console.WriteLine($"[LoadQuestGoalAsync] {cnt}개 업데이트 완료 ");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[NPCQuestLink] 예외 발생: {ex.Message}");
+                Console.WriteLine($"[LoadQuestGoalAsync] 예외 발생: {ex.Message}");
+            }
+        }
+        public static async Task LoadQuestRewardAsync()
+        {
+            try
+            {
+                int cnt = 0;
+                using var http = new HttpClient();
+                var res = await http.GetAsync(Program.URL + "/api/QuestReward");
+                var json = await res.Content.ReadAsStringAsync();
+
+                var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var QuestRewardsDtos = JsonSerializer.Deserialize<List<QuestRewardDto>>(json, opts) ?? new List<QuestRewardDto>();
+
+                foreach (var data in QuestRewardsDtos)
+                {
+                    if (QuestDataDictionary.ContainsKey(data.QuestId))
+                    {
+                        List<RewardItem> rewardList = new();
+                        if (!string.IsNullOrWhiteSpace(data.JsonReward))
+                        {
+                            try
+                            {
+                                rewardList = JsonSerializer.Deserialize<List<RewardItem>>(
+                                    data.JsonReward,
+                                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                                ) ?? new();
+                            }
+                            catch (JsonException ex)
+                            {
+                                Console.WriteLine($"[QuestReward] JSON parse error: {ex.Message}");
+                            }
+                        }
+                        var protoRewardItems = rewardList.Select(r => new RewardItem
+                        {
+                            ItemId = r.ItemId,
+                            Count = r.Count
+                        }).ToList();
+                        QuestDataDictionary[data.QuestId].QuestReward = new QuestReward()
+                        {
+                            RewardItems = { protoRewardItems },
+                            Exp = data.Exp,
+                        };
+                        cnt++;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"[LoadQuestRewardAsync] {data.QuestId}가 포함되지 않음");
+                    }
+                }
+                Console.WriteLine($"[LoadQuestRewardAsync] {cnt}개 업데이트 완료 ");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[LoadQuestRewardAsync] 예외 발생: {ex.Message}");
             }
         }
     }
+    public class QuestRewardDto
+    {
+        public int QuestId { get; set; }
+        public int Exp { get; set; }
+        public string JsonReward { get; set; }
+    }
     public class QuestGoalDto
     {
+        public int GoalIndex { get; set; }
         public int QuestId { get; set; }
         public int GoalType { get; set; }
         public int TargetId { get; set; }

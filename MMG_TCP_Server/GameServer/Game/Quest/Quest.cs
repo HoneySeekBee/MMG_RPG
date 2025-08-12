@@ -15,5 +15,6 @@ namespace GameServer.Game.Quest
         public List<IQuestGoal> QuestGoals = new();
         public QuestEnd QuestEnd;
         public QuestReward QuestReward;
+
     }
 }

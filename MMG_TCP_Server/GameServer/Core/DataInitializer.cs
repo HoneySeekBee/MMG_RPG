@@ -22,6 +22,7 @@ namespace GameServer.Core
             await MonsterDataManager.LoadData();
             await ItemDataManager.LoadItemDataManager();
             await NPCDataManager.LoadNpcData();
+            await QuestDataManager.LoadQuestData();
         }
     }
 }

@@ -16,6 +16,15 @@ namespace MMG_API.Controllers.Quest
             _db = db;
         }
 
+        // [1] Read 
+        // (1) 전체 QuestGoal 조회 
+        [HttpGet]
+        public async Task<IActionResult> GetAllQuestGoal()
+        {
+            var goals = await _db.QuestGoals.ToListAsync();
+            return Ok(goals);
+        }
+
         // [1] 특정 QuestId에 해당하는 모든 Goal 조회
         [HttpGet("byQuest/{questId}")]
         public async Task<IActionResult> GetGoalsByQuest(int questId)
