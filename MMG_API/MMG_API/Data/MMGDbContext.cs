@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MMG_API.Controllers.Quest;
 using MMG_API.Models;
 
 namespace MMG_API.Data
@@ -21,6 +22,7 @@ namespace MMG_API.Data
         public DbSet<QuestEntity> Quests { get; set; }
         public DbSet<QuestGoalEntity> QuestGoals { get; set; }
         public DbSet<QuestRewardEntity> QuestRewards { get; set; }
+        public DbSet<UserQuestEntity> UserQuest { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -53,6 +55,49 @@ namespace MMG_API.Data
                 .HasKey(ms => new { ms.MonsterId, ms.SkillId }); // 복합 키 지정
             modelBuilder.Entity<CharacterSkill>()
                 .HasKey(ms => new { ms.CharacterId, ms.SkillId }); // 복합 키 지정
+
+            ModelCreateing_UserQuest(modelBuilder);
+        }
+        private void ModelCreateing_UserQuest(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserQuestEntity>(b =>
+            {
+                b.ToTable("UserQuest", "dbo");
+
+                // 1) 복합 PK
+                b.HasKey(x => new { x.CharacterId, x.QuestId });
+
+                // 2) 컬럼 매핑
+                b.Property(x => x.Status)
+                    .HasColumnType("tinyint"); // byte 매핑
+
+                b.Property(x => x.Progress)
+                    .HasColumnName("Progress")
+                    .HasColumnType("nvarchar(max)");
+
+                // 3) 시간 타입 (DateTimeOffset ↔ datetimeoffset)
+                b.Property(x => x.StartedAt)
+                    .HasColumnType("datetimeoffset(7)")
+                    .HasDefaultValueSql("SYSUTCDATETIME()"); // INSERT 시 기본값
+
+                b.Property(x => x.CompletedAt)
+                    .HasColumnType("datetimeoffset(7)");
+
+                b.Property(x => x.UpdatedAt)
+                    .HasColumnType("datetimeoffset(7)")
+                    .HasDefaultValueSql("SYSUTCDATETIME()"); // INSERT 시 기본값
+
+                // 4) CHECK 제약 (1=ACTIVE,2=COMPLETED,3=FAILED,4=ABANDONED)
+                b.HasCheckConstraint("CK_UserQuest_Status", "[Status] IN (1,2,3,4)");
+
+                // (선택) JSON 유효성
+                b.HasCheckConstraint("CK_UserQuest_ProgressJson",
+                    "[Progress] IS NULL OR ISJSON([Progress]) = 1");
+
+                // 5) 조회용 인덱스
+                b.HasIndex(x => new { x.CharacterId, x.Status })
+                 .HasDatabaseName("IX_UserQuest_CharStatus");
+            });
         }
     }
 }
