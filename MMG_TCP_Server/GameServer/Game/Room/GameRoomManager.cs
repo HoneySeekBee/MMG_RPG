@@ -48,14 +48,36 @@ namespace GameServer.Game.Room
                 room.Update();
             }
         }
+        private double _questFlushAcc;
+        private int _isFlushing = 0;
         public void Update(float deltaTime)
         {
             foreach (var room in _rooms.Values)
             {
                 room.Update(deltaTime);
             }
-        }
+            _questFlushAcc += deltaTime;
+            while (_questFlushAcc >= 60.0)
+            {
+                _questFlushAcc -= 60.0;
+                _ = FlushDirtyPlayersOnceAsync();
+            }
 
+        }
+        private async Task FlushDirtyPlayersOnceAsync()
+        {
+            if (Interlocked.CompareExchange(ref _isFlushing, 1, 0) != 0) return;
+
+            try
+            {
+                var tasks = _rooms.Values.Select(r => r.FlushDirtyQuestsAsync());
+                await Task.WhenAll(tasks);
+            }
+            finally
+            {
+                Volatile.Write(ref _isFlushing, 0);
+            }
+        }
         public GameRoom GetOrCreateRoom(int mapId)
         {
             if (!_rooms.TryGetValue(mapId, out var room))

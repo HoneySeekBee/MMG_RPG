@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 using GamePacket;
 using GameServer.Core;
 using GameServer.Data;
+using GameServer.Data.DataManager;
+using GameServer.Game.Quest;
 using GameServer.Game.Room;
 using Google.Protobuf.WellKnownTypes;
 using Packet;
+using QuestPacket;
 using static GameServer.Data.API;
 
 namespace GameServer.Game.Object
@@ -17,6 +20,7 @@ namespace GameServer.Game.Object
     public class CharacterObject : GameObject
     {
         public ServerSession Session { get; set; }
+        public CharacterQuest MyQuest { get; set; }
         public int? CurrentRoomId { get; set; }
         public CharacterInfo CharacterInfo { get; set; }
         public CharacterSkillInfo SkillInfo = new CharacterSkillInfo();
@@ -25,6 +29,7 @@ namespace GameServer.Game.Object
         private float MaxHp {get{ return objectInfo.StatInfo.Level * 10; } }
         private float MaxMp {get{ return objectInfo.StatInfo.Level * 10; } }
         public long LastMoveTimestamp { get { return moveData.Timestamp; } set { moveData.Timestamp = value; } }
+
         public void UpdateMove(float posX, float posY, float posZ, float dirY)
         {
             moveData.PosX = posX;
@@ -53,6 +58,11 @@ namespace GameServer.Game.Object
             objectInfo.MoveInfo = moveData;
             Room = _room;
         }
+        public async Task GetCharacterQuest()
+        {
+            MyQuest = new CharacterQuest(this);
+            await MyQuest.InitAsync();
+        }
         public static CharacterObject ConvertToRuntimeStatus(CharacterStatusDTO dto, string name, GameRoom room)
         {
             // 여기서는 Status만 해주면 될것같다. 
@@ -71,6 +81,8 @@ namespace GameServer.Game.Object
 
             return new CharacterObject(status, name, dto.characterId, room);
         }
+
+
         public override void OnDeath()
         {
             Console.Write("사망");

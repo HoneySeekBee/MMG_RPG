@@ -42,9 +42,9 @@ namespace QuestPacket {
             "Eg0KBWNvdW50GAIgASgFKicKCVF1ZXN0VHlwZRIMCghSRVFVSVJFRBAAEgwK",
             "CFNFTEVDVEVEEAEqMAoQUXVlc3RUcmlnZ2VyVHlwZRIICgRBVVRPEAASBwoD",
             "TlBDEAESCQoFRVZFTlQQAiovCg1RdWVzdEdvYWxUeXBlEhAKDEhVTlRfTU9O",
-            "U1RFUhAAEgwKCEdFVF9JVEVNEAEqVAoTUXVlc3RQcm9ncmVzc1N0YXR1cxIP",
-            "CgtOT1RfU1RBUlRFRBAAEg8KC0lOX1BST0dSRVNTEAESDQoJQ09NUExFVEVE",
-            "EAISDAoIUkVXQVJERUQQA2IGcHJvdG8z"));
+            "U1RFUhAAEgwKCEdFVF9JVEVNEAEqVQoTUXVlc3RQcm9ncmVzc1N0YXR1cxII",
+            "CgROT05FEAASCgoGQUNUSVZFEAESDQoJQ09NUExFVEVEEAISCgoGRkFJTEVE",
+            "EAMSDQoJQUJBTkRPTkVEEARiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::QuestPacket.QuestType), typeof(global::QuestPacket.QuestTriggerType), typeof(global::QuestPacket.QuestGoalType), typeof(global::QuestPacket.QuestProgressStatus), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -79,10 +79,11 @@ namespace QuestPacket {
   }
 
   public enum QuestProgressStatus {
-    [pbr::OriginalName("NOT_STARTED")] NotStarted = 0,
-    [pbr::OriginalName("IN_PROGRESS")] InProgress = 1,
+    [pbr::OriginalName("NONE")] None = 0,
+    [pbr::OriginalName("ACTIVE")] Active = 1,
     [pbr::OriginalName("COMPLETED")] Completed = 2,
-    [pbr::OriginalName("REWARDED")] Rewarded = 3,
+    [pbr::OriginalName("FAILED")] Failed = 3,
+    [pbr::OriginalName("ABANDONED")] Abandoned = 4,
   }
 
   #endregion

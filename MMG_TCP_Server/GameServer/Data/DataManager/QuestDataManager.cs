@@ -36,6 +36,7 @@ namespace GameServer.Data.DataManager
                 {
                     Quest quest = new Quest()
                     {
+                        QuestId = dto.QuestId,
                         Info = new QuestInfo()
                         {
                             Title = dto.Title,
@@ -98,7 +99,7 @@ namespace GameServer.Data.DataManager
                 {
                     if (QuestDataDictionary.ContainsKey(data.QuestId))
                     {
-                        if(data.GoalType == 0)
+                        if (data.GoalType == 0)
                         {
                             QuesthuntMonsterGoal HuntMonster = new QuesthuntMonsterGoal()
                             {
@@ -190,6 +191,19 @@ namespace GameServer.Data.DataManager
             {
                 Console.WriteLine($"[LoadQuestRewardAsync] 예외 발생: {ex.Message}");
             }
+        }
+
+    
+        public static List<Quest> GetQuest_byCondition(int myLevel, ISet<int> completedQuests)
+        {
+            var completedSet = new HashSet<int>(completedQuests);
+
+            return QuestDataDictionary.Values
+                .Where(q =>
+                q.QuestCondition.MinLevel <= myLevel &&
+                (q.QuestCondition.PrevQuestId == null ||
+                q.QuestCondition.PrevQuestId.All(pid => completedSet.Contains(pid))))
+                .ToList();
         }
     }
     public class QuestRewardDto

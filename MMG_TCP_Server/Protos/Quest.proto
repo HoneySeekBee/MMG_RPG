@@ -70,8 +70,9 @@ message RewardItem
 	int32 count = 2; 
 }
 enum QuestProgressStatus{
-	NOT_STARTED = 0;
-	IN_PROGRESS = 1;
-	COMPLETED = 2;
-	REWARDED = 3;
+	NONE = 0;
+    ACTIVE = 1;
+    COMPLETED = 2;
+    FAILED = 3;
+    ABANDONED = 4;
 }

@@ -17,7 +17,7 @@ namespace GameServer.Game.Quest
         public PlayerQuestState(int questId)
         {
             QuestId = questId;
-            Status = QuestProgressStatus.NotStarted;
+            Status = QuestProgressStatus.None;
         }
         public void AddProgress(int goalIndex, int amount)
         {
